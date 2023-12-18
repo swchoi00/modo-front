@@ -1,38 +1,29 @@
 .App {
-  text-align: center;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  /* padding-top: 100px; */
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  background-color: antiquewhite;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+*{
+  font-family: 'Noto Sans KR', sans-serif;
 }
 
-@media (prefers-reduced-motion: no-preference) {
+@media (max-width: 600px) {
+  .App {
+    overflow-x: scroll; /* 스크롤 항상 보이도록 설정 */
+    padding: 0; /* 왼쪽과 오른쪽 패딩 제거 */
+  }
+}
+
+
+/* @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+} */

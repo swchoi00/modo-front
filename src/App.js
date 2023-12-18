@@ -3,6 +3,8 @@ import './App.css';
 import axiosInstance from './axiosInstance';
 import axios from 'axios';
 import React from 'react';
+import Header from './MainComponent/Header';
+import { Route, Routes } from 'react-router-dom';
 
 function App() {
 
@@ -20,7 +22,17 @@ function App() {
 
   return (
     <div className="App">
-      <h1>{message}</h1>
+      <Header/>
+
+      <div className='AppBody'>
+        <Routes>
+          <Route/>
+        </Routes>
+
+      </div>
+      {/* <h1>{message}</h1> */}
+      <div className="dd">안녕하세요안녕하세요안녕하세요</div>
+      
     </div>
   );
 }

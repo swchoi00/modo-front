@@ -1,0 +1,250 @@
+/* .HeaderContainer{
+  display: flex;
+  background-color: white;
+} */
+
+
+#HeaderDesktop, #HeaderMobile{
+  /* border: 1px solid salmon; */
+  background-color: white;
+  display: flex;
+  /* flex-direction: column; */
+  /* width: 70%; */
+  height: 4.5rem;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.nav-searchBar, .header-logo, .nav-menu, .nav-joinLogin{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-aTag{
+  text-decoration: none;
+  margin: 0 0.7rem 0 0.7rem;
+  height: 2.3rem;
+  display: block;
+  text-align: center; /* 텍스트 세로 가운데 정렬 */
+  line-height: 2.25rem;
+  color: rgb(46, 46, 46);
+}
+
+
+.header-logo{
+  width: 5rem;
+  margin-right: 2rem;
+  /* padding: 0.08rem; */
+  /* border: 1px solid salmon; */
+}
+
+.nav-menu{
+  /* border: 1px solid salmon; */
+  margin-right: 2.6rem;
+}
+
+
+
+.nav-searchBar{
+  /* border: 1px solid salmon; */
+  border-radius: 5px;
+  background-color: rgb(240, 240, 240);
+  height: 2.3rem;
+  margin: 0 3rem 0 1.5rem;
+  /* width: 18rem; */
+}
+
+.nav-search-input{
+  background-color: transparent;
+  border: none;
+  width: 15rem;
+  margin-left: 0.5rem;
+}
+
+.nav-search-input:focus{
+  outline: none;
+}
+
+.nav-searchBar span{
+  margin: 0 0.8rem 0 0.35rem;
+}
+
+.nav-searchBar i {
+  color: #9c9c9c;
+}
+
+ .nav-joinLogin{
+  /* border: 1px solid salmon; */
+} 
+
+
+.nav-loginBtn{
+  text-decoration: none;
+  height: 2.3rem;
+  display: block;
+  text-align: center; /* 텍스트 세로 가운데 정렬 */
+  line-height: 2.25rem;
+  background-color: #6a60a9;
+  color: white;
+  border-radius: 5px;
+  width: 4.8rem;
+  margin-left: 0.6rem;
+}
+
+.nav-loginBtn:hover{
+  background-image: linear-gradient(to bottom right,#6a60a9,#c59df1);
+}
+
+
+
+/* ===========모바일 헤더========== */
+
+
+.headerMoblie-logo{
+  /* border: 1px solid salmon; */
+  width: 90%;
+  padding-left: 15%;
+}
+
+.headerMoblie-logo img{
+  width: 5rem;
+}
+
+.headerMoblieBtn{
+    /* border: 1px solid salmon; */
+    width: 15%;
+    text-align: center;
+    cursor: pointer;
+}
+
+.headerMoblieBtn i {
+  color: #575757;
+}
+
+
+/* 모바일 사이드 메뉴 설정 */
+.headerSide-menu {
+  position: fixed;
+  width: 80%;
+  height: 100%;
+  background-color: rgb(255, 255, 255);
+  border: 1px solid salmon;
+  right: -80%;
+  transition: all 300ms;
+  z-index: 1;
+  top: 3.8rem;
+  /* ↑하단에 있는 @media screen and (max-width: 780px){ 안에 #HeaderMobile 값과 일치해야함 */
+  padding: 40px 20px 20px 20px;
+  box-sizing: border-box;
+  overflow: scroll;
+}
+
+.headerSide-menu-open {
+  right: 0;
+}
+
+
+/* 모바일 사이드메뉴 안쪽 설정 */
+.headerSide-menu-inner1{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.headerSide-menu-inner1 h5{
+  font-weight: 600;
+  color: #575757;
+  margin: 2rem 0 2rem 0;
+}
+
+.headerSide-menu-inner1 button{
+  background-color: #7E57C2;
+  color: white;
+  width: 13rem;
+  height: 2.7rem;
+  border: none;
+  border-radius: 7px;
+  letter-spacing : 2px; /*자간 조정*/
+  margin-bottom: 1.7rem;
+}
+
+.headerSide-menu-inner1 p {
+  font-size: small;
+  color: #575757;
+}
+
+.headerSide-menu-inner1 a{
+  display: inline-block;
+  color: #7E57C2;
+  font-weight: 500;
+}
+
+.headerSide-menu hr{
+  color: #575757 ;
+  width: 85%;
+  text-align: center;
+  margin: 2.6rem 7.5%;
+}
+
+.headerSide-menu-inner2{
+  border: 1px solid salmon;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.headerSide-menu-inner2 a{
+  display: inline-block;
+  font-size: 1.3rem;
+  color: #575757;
+  text-decoration: none;
+  margin-bottom: 1rem;
+}
+
+.sideMenu-search{
+  color: #575757;
+}
+
+
+
+
+
+
+
+
+/* 기본 사이즈보다 줄어들면 메뉴바 마진 줄임 (태블릿) */
+@media screen and (max-width: 940px){
+	.header-logo, .nav-menu, .nav-searchBar{
+    margin: 0;
+  }
+  .nav-aTag, .nav-loginBtn{
+    margin: 0 0.5rem 0 0.5rem;
+  }
+}
+
+/* 가로 길이가 780되기 전가지는  미니바 안보임*/
+@media screen and (min-width: 780px){
+	#HeaderMobile{
+    display: none;
+  }
+}
+
+
+/* 780만큼 줄어들면 미니바로 전환 */
+@media screen and (max-width: 780px){
+  #HeaderDesktop{
+    display: none;
+  }
+  #HeaderMobile{
+    height:  3.8rem;
+  }
+}
+
+
+
+
