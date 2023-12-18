@@ -30,6 +30,8 @@
   text-align: center; /* 텍스트 세로 가운데 정렬 */
   line-height: 2.25rem;
   color: rgb(46, 46, 46);
+  font-size: large;
+  font-weight: 400;
 }
 
 
@@ -71,9 +73,9 @@
   margin: 0 0.8rem 0 0.35rem;
 }
 
-.nav-searchBar i {
+/* .nav-searchBar i {
   color: #9c9c9c;
-}
+} */
 
  .nav-joinLogin{
   /* border: 1px solid salmon; */
@@ -89,8 +91,9 @@
   background-color: #6a60a9;
   color: white;
   border-radius: 5px;
-  width: 4.8rem;
+  width: 5rem;
   margin-left: 0.6rem;
+  font-size: large;
 }
 
 .nav-loginBtn:hover{
@@ -198,6 +201,11 @@
   align-items: center;
 }
 
+.headerSide-menu-inner2 a:hover{
+  color: #6a60a9;
+  font-weight: 700;
+}
+
 .headerSide-menu-inner2 a{
   display: inline-block;
   font-size: 1.3rem;
@@ -206,9 +214,7 @@
   margin-bottom: 1rem;
 }
 
-.sideMenu-search{
-  color: #575757;
-}
+
 
 
 

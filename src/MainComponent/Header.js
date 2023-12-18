@@ -1,8 +1,12 @@
 
 import './Header.css';
 import modoLogo from '../modo-logo.svg';
-import { Button } from 'react-bootstrap';
 import { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { faSearch } from '@fortawesome/free-solid-svg-icons'; 
+import { faXmark } from '@fortawesome/free-solid-svg-icons'; 
+import { Link } from 'react-router-dom';
 
 const Header = () =>{
 
@@ -23,21 +27,21 @@ const Header = () =>{
         </div>
 
         <div className='nav-menu'>
-          <a className='nav-aTag' href=''>소모임</a>
-          <a className='nav-aTag' href=''>멘토링</a>
-          <a className='nav-aTag' href=''>커뮤니티</a>
-          <a className='nav-aTag' href=''>FAQ</a>
+          <Link className='nav-aTag' to = {"/"}>소모임</Link>
+          <Link className='nav-aTag' to = {"/"}>멘토링</Link>
+          <Link className='nav-aTag' to = {"/"}>커뮤니티</Link>
+          <Link className='nav-aTag' to = {"/"}>FAQ</Link>
         </div>
 
         <div className='nav-searchBar'>        
           <input className='nav-search-input' placeholder='관심사 검색하기'/>
-          <span><i className="fa-solid fa-magnifying-glass"></i></span>    
+          <span><FontAwesomeIcon icon={faSearch} style={{color:'#9c9c9c'}}/></span>    
           
         </div>
 
         <div className='nav-joinLogin'>
-          <a className='nav-joinBtn nav-aTag' href=''>회원가입</a>
-          <a className='nav-loginBtn' href=''>로그인</a>
+          <Link className='nav-aTag' to = {"/"}>회원가입</Link>
+          <Link className='nav-loginBtn' to = {"/"}>로그인</Link>
         </div>
       </div>
 
@@ -52,9 +56,9 @@ const Header = () =>{
         {/* 모바일 메뉴 버튼 모양 */}
         <div className="headerMoblieBtn" onClick={handleMenuOpen}>
           {isMenuOpen ? (
-            <i className="fa-solid fa-xmark fa-xl" />
-          ) : (
-            <i className="fa-solid fa-bars fa-xl" />
+            <FontAwesomeIcon icon={faXmark} style={{color:'#575757', fontSize: 'x-large'}}/>
+            ) : (
+            <FontAwesomeIcon icon={faBars} style={{color:'#575757', fontSize: 'x-large'}}/>
           )}
         </div>
 
@@ -69,11 +73,11 @@ const Header = () =>{
           <hr/>
 
           <div className='headerSide-menu-inner2'>
-            <a><i className="fa-solid fa-magnifying-glass sideMenu-search"></i></a>
-            <a className='' href=''>소모임</a>
-            <a className='' href=''>멘토링</a>
-            <a className='' href=''>커뮤니티</a>
-            <a className='' href=''>FAQ</a>
+            <Link to = {"/"}><FontAwesomeIcon icon={faSearch} style={{color:'#575757', fontSize: 'x-large'}}/></Link>
+            <Link to = {"/"}>소모임</Link>
+            <Link to = {"/"}>멘토링</Link>
+            <Link to = {"/"}>커뮤니티</Link>
+            <Link to = {"/"}>FAQ</Link>
           </div>
         </div>
       
