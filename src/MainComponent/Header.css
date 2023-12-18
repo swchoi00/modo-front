@@ -124,13 +124,13 @@
 }
 
 
-/* 모바일 사이드 메뉴 설정 */
+/* [버거 버튼] 모바일 사이드 메뉴 설정 */
 .headerSide-menu {
   position: fixed;
   width: 80%;
   height: 100%;
   background-color: rgb(255, 255, 255);
-  border: 1px solid salmon;
+  /* border: 1px solid salmon; */
   right: -80%;
   transition: all 300ms;
   z-index: 1;
@@ -191,7 +191,7 @@
 }
 
 .headerSide-menu-inner2{
-  border: 1px solid salmon;
+  /* border: 1px solid salmon; */
   display: flex;
   flex-direction: column;
   justify-content: center;

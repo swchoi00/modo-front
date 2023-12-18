@@ -59,29 +59,26 @@ const Header = () =>{
         </div>
 
         {/* 모바일 사이드바 */}
-      <div className={`headerSide-menu ${isMenuOpen ? 'headerSide-menu-open' : ''}`}>
-        <div className='headerSide-menu-inner1'>
-            <h5>로그인 후 이용해주세요 :-)</h5>
-            <button>로그인</button>
-            <p>아직 회원이 아니라면? <a className='' href=''>회원가입 하러가기</a></p>
+        <div className={`headerSide-menu ${isMenuOpen ? 'headerSide-menu-open' : ''}`}>
+          <div className='headerSide-menu-inner1'>
+              <h5>로그인 후 이용해주세요 :-)</h5>
+              <button>로그인</button>
+              <p>아직 회원이 아니라면? <a className='' href=''>회원가입 하러가기</a></p>
+          </div>
+
+          <hr/>
+
+          <div className='headerSide-menu-inner2'>
+            <a><i className="fa-solid fa-magnifying-glass sideMenu-search"></i></a>
+            <a className='' href=''>소모임</a>
+            <a className='' href=''>멘토링</a>
+            <a className='' href=''>커뮤니티</a>
+            <a className='' href=''>FAQ</a>
+          </div>
         </div>
-
-        <hr/>
-
-        <div className='headerSide-menu-inner2'>
-          <a><i className="fa-solid fa-magnifying-glass"></i></a>
-          <a className='' href=''>소모임</a>
-          <a className='' href=''>멘토링</a>
-          <a className='' href=''>커뮤니티</a>
-          <a className='' href=''>FAQ</a>
-        </div>
+      
       </div>
-
         
-        
-
-        
-      </div>
     </div>
   );
 }
