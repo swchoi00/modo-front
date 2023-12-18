@@ -5,6 +5,7 @@ import axios from 'axios';
 import React from 'react';
 import Header from './MainComponent/Header';
 import { Route, Routes } from 'react-router-dom';
+import Footer from './MainComponent/Footer';
 
 function App() {
 
@@ -24,15 +25,16 @@ function App() {
     <div className="App">
       <Header/>
 
-      <div className='AppBody'>
+      <div className='App-Body'>
         <Routes>
           <Route/>
         </Routes>
 
       </div>
       {/* <h1>{message}</h1> */}
-      <div className="dd">안녕하세요안녕하세요안녕하세요</div>
+      {/* <div className="dd">안녕하세요안녕하세요안녕하세요</div> */}
       
+      <Footer/>
     </div>
   );
 }
