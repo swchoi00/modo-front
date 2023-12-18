@@ -3,6 +3,7 @@ import './App.css';
 import axiosInstance from './axiosInstance';
 import axios from 'axios';
 import React from 'react';
+import Header from './header/Header';
 
 function App() {
 
@@ -20,7 +21,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>{message}</h1>
+      <Header></Header>
     </div>
   );
 }
