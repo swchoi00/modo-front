@@ -1,0 +1,82 @@
+.Review-container {
+  text-align: center;
+  width: 100%;
+  /* height: 400px; */
+  margin: 0 0 3rem 0;
+}
+
+.review-text{
+  color:  rgb(73, 73, 73);
+  font-weight: bolder;
+  font-size: large;
+  margin: 5rem 0 0.5rem 0;
+}
+
+
+/* 리뷰 개별 박스 */
+.review-boxinner2{
+  /* border: 1px solid salmon; */
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  border-radius: 14px;
+  /* box-shadow: 0 0 8px 0 rgba(148, 148, 148, 0.158); */
+  background-color: white;
+  margin: 70px 10px 70px 0;
+}
+
+.review-boxinner-head{
+  /* border: 1px solid salmon; */
+  display: flex;
+  text-align: center;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.review-boxinner-head img{
+  width: 2.4rem;
+}
+
+.review-boxinner-title{
+  font-size: 11px;
+  font-weight: 600;
+  margin-left: 0.5rem;
+}
+
+.review-boxinner-content{
+  /* border: 1px solid salmon; */
+  text-align: left;
+  font-size: 9.5px;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+}
+
+.review-boxinner-foot{
+  /* border: 1px solid salmon; */
+  display: flex;
+  justify-content: right;
+  /* position: relative; */
+}
+
+.review-boxinner-id{
+  /* border: 1px solid salmon; */
+  font-size: 8px;
+  font-weight: 300;
+  margin-right: 0.5rem;
+}
+
+.review-boxinner-star{
+  color: #FFD05B;
+  font-size: 8px;
+  font-weight: 300;
+}
+
+
+
+
+/* 캐러셀 센터일때 효과 */
+.slick-center .review-boxinner2   {
+  transform: scale(1.5); 
+  border-radius: 14px;
+  box-shadow: 0 0 8px 0 rgba(0,0,0,.141);
+}

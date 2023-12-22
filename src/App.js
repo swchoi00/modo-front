@@ -3,9 +3,10 @@ import './App.css';
 import axiosInstance from './axiosInstance';
 import axios from 'axios';
 import React from 'react';
-import Header from './MainComponent/Header';
+import Header from './Home/Header';
 import { Route, Routes } from 'react-router-dom';
-import Footer from './MainComponent/Footer';
+import Footer from './Home/Footer';
+import Main from './Home/Main';
 
 function App() {
 
@@ -27,6 +28,7 @@ function App() {
 
       <div className='App-Body'>
         <Routes>
+          <Route path ='/'element={<Main />}/> 
           <Route/>
         </Routes>
 

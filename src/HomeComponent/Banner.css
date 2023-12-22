@@ -1,0 +1,57 @@
+.banner-container {
+  position: relative;
+  /* z-index: 50; */
+  /* width: 950px; */
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem 0 2.5rem 0;
+}
+
+.banner-carousel{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.banner-carousel-item{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+
+
+.banner-num {
+  position: absolute;
+  text-align: center;
+  bottom: 10px;
+
+  font-size: small;
+  width: 3rem;
+  padding: 0.1rem 0 0.2rem 0;
+  background-color: rgba(184, 184, 184, 0.367);
+  border-radius: 15px;
+  color: white;
+}
+
+
+.carousel-indicators button{
+  display: none;
+}
+
+
+
+.carousel-control-prev{
+  position: absolute;
+  transform: translateX(-25%);
+}
+
+.carousel-control-next {
+  position: absolute;
+  transform: translateX(25%);
+}
+

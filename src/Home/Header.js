@@ -23,7 +23,7 @@ const Header = () =>{
     <div className="HeaderContainer">
       <div id='HeaderDesktop'>
         <div className="header-logo"> 
-          <img className="nav-logo" src={modoLogo} alt="홈화면으로 가기"/>
+          <img className="nav-logo" src={modoLogo} alt="홈화면으로 가기" />
         </div>
 
         <div className='nav-menu'>

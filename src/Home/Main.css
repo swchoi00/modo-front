@@ -1,0 +1,46 @@
+.main-container{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 950px;
+  /* border: 1px solid salmon; */
+  text-align: center;
+}
+
+
+/* ✅ service-key-point */
+.main-service-key-point{
+  background-color: #56477D;
+  width: calc(100vw - 18px); /* *오른쪽으로 좀 튀어나와서 전체 너비에서 18px 제외한 값을 가로로 지정 */
+  /* height: 1410px; */
+  margin: 0;
+  margin-top: 65px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-motivation-img {
+  width: 950px;
+}
+
+
+
+/* ✅ 모임 및 멘토링 등록 */
+.main-registration-box{
+  /* border: 1px solid salmon; */
+  display: flex;
+  margin: 2rem 0 5rem ;
+}
+
+.main-registration-moin, .main-registration-mentoring{
+  /* border: 1px solid salmon; */
+  display: flex;
+  justify-content: center;
+}
+
+.main-registration-moinBtn, .main-registration-mentoringBtn{
+  width: 90%;
+  cursor: pointer;
+}
