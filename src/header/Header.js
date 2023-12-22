@@ -3,7 +3,8 @@ import './Header.css';
 import logo from'./modo-logo.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
-import { faSearch } from '@fortawesome/free-solid-svg-icons'; 
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 
 
@@ -36,8 +37,8 @@ function Header() {
             {/* <FontAwesomeIcon icon={faSearch} className='search_icon'></FontAwesomeIcon> */}
 
             <ul className={`navbar_right ${rightActive ? 'active' : ''}`}>
-                <li><Link to>회원가입</Link></li>
-                <li className='navbar_login'><Link to>로그인</Link></li>
+                <li><Link to = {"/signUp"}>회원가입</Link></li>
+                <li className='navbar_login'><Link to = {"/login"}>로그인</Link></li>
             </ul>
 
             <div className='navbar_toggleBtn' onClick={toggleHandler}>
