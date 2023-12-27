@@ -7,6 +7,7 @@ import Header from './Home/Header';
 import { Route, Routes } from 'react-router-dom';
 import Footer from './Home/Footer';
 import Main from './Home/Main';
+import MoblieTabBar from './Home/MoblieTabBar';
 
 function App() {
 
@@ -37,6 +38,7 @@ function App() {
       {/* <div className="dd">안녕하세요안녕하세요안녕하세요</div> */}
       
       <Footer/>
+      <MoblieTabBar/>
     </div>
   );
 }

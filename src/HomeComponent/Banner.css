@@ -1,4 +1,5 @@
 .banner-container {
+  /* border: 1px solid salmon; */
   position: relative;
   /* z-index: 50; */
   /* width: 950px; */
@@ -55,3 +56,28 @@
   transform: translateX(25%);
 }
 
+
+
+
+
+@media screen and (max-width: 940px){
+	.banner-container{
+    width: 780px;
+  }
+}
+
+@media screen and (max-width: 780px){
+  .banner-container{
+    margin-top: 0;
+  }
+}
+
+
+@media screen and (max-width: 750px){
+	.banner-container{
+    /* 어느정도 작아지면 화면 가로폭에 맞게 꽉채우기(자동 반응형됨) */
+    width: 100vw; 
+    /* height: 260px; */
+    /* object-fit: cover; */
+  }
+}

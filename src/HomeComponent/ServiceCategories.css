@@ -3,6 +3,10 @@
   flex-direction: column;
   text-align: center;
   width: 100%;
+  /* overflow: visible; 
+  가로 스크롤이 나타나도록 설정
+  min-width: 0;     
+  가로 스크롤을 할 수 있도록 설정 */
 }
 
 .categories-title {
@@ -47,3 +51,46 @@
   margin-top: 0.8rem;
 }
 
+
+
+
+
+@media screen and (max-width: 970px){
+	.ServiceCategories-container{
+    width: 780px;
+  }
+  .categories-title{
+    margin: 1.9rem 0 1.2rem 0.7rem;
+  }
+}
+
+
+/* 화면이 780되기 전까지는 카테고리 더보기 버튼 안보임 */
+@media screen and (min-width: 781px){
+  .categories-innerBox2{
+    display: none;
+  }
+}
+
+
+@media screen and (max-width: 780px){
+  .ServiceCategories-container{
+    width: 100vw;
+    padding: 0 0.5rem;
+  }
+  .cate-img{
+    width:72%;
+    height: 72%;
+  }
+  .categories-box{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 1rem; /* 열 사이의 간격 */
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 3rem;
+  }
+  .categories-title{
+    margin: 1.9rem 0 1.2rem 0.8rem;
+  }
+}

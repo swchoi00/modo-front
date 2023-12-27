@@ -1,27 +1,29 @@
 .HeaderContainer{
+  /* border: 1px solid salmon; */
+  border-bottom: 1px solid rgba(0,0,0,.08);
   display: flex;
   justify-content: center;
   text-align: center;
-  /* border: 1px solid salmon; */
   background-color: white;
-  /* width: 100%; */
-  /* ⭐스크롤바를 가리는거 때문에 0.15% 뺌 */
-  width: calc(100% - 0.15%);
+  width: 100%;
   height: 4.5rem;
-  position: fixed;
-  top: 0px; 
-  z-index: 10;
+  position: sticky;
+  top: 0; 
+  z-index: 5;
 }
 
 
 #HeaderDesktop, #HeaderMobile{
-  border: 1px solid salmon;
+  /* border: 1px solid salmon; */
   background-color: white;
   display: flex;
   height: 4.5rem;
   align-items: center;
   justify-content: center;
+}
 
+#HeaderDesktop{
+  border-bottom: 1px solid rgba(0,0,0,.08);
 }
 
 #HeaderMobile{
@@ -88,9 +90,9 @@
   color: #9c9c9c;
 } */
 
- .nav-joinLogin{
-  /* border: 1px solid salmon; */
-} 
+ /* .nav-joinLogin{
+  border: 1px solid salmon;
+}  */
 
 
 .nav-loginBtn{
@@ -236,7 +238,7 @@
 
 
 /* 기본 사이즈보다 줄어들면 메뉴바 마진 줄임 (태블릿) */
-@media screen and (max-width: 940px){
+@media screen and (max-width: 970px){
 	.header-logo, .nav-menu, .nav-searchBar{
     margin: 0;
   }
@@ -245,8 +247,9 @@
   }
 }
 
+
 /* 가로 길이가 780되기 전가지는  미니바 안보임*/
-@media screen and (min-width: 780px){
+@media screen and (min-width: 781px){
 	#HeaderMobile{
     display: none;
   }

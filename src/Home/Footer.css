@@ -1,45 +1,6 @@
-/* .footer-container{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  width: 100%;
-  border-top: 1px solid rgb(221, 221, 221);
-  background-color: #43465610;
-}
-
-.footer-top{
-  width: 70%;
-  display: flex;
-  margin-top: 20px;
-  font-weight: 700;
-  font-size: 20px;
-  color: white;
-}
-
-.footer-logo{
-  width: 90px;
-  
-}
-
-.ect-info{
-  width: 70%;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  font-size: 11px;
-  margin-top: 10px;
-  color: gray;
-}
-
-.ect-info div {
-  margin: 8px 0 15px 0;
-  color: gray;
-  font-size: 10px;
-} */
-
 .footer-container{
   display: flex;
+  text-align: center;
   align-items: center;
   justify-content: center;
   flex-direction: column;
@@ -48,79 +9,89 @@
   background-color: white;
 }
 
+.footer-container2{
+  /* border: 1px solid salmon;  */
+  width: 950px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1.2rem 0;
+}
+
 .footer-box {
-  width: 65%;
   /* border: 1px solid salmon;  */
-  display: flex;
-  margin: 30px 0 15px;
-}
-
-.footer-info {
-  /* border: 1px solid salmon; */
-  padding-left: 3%;
-  width: 35%; 
-  display: flex;
-  flex-direction: column;
-}
-
-.footer-info-app {
-  display: flex;
   width: 100%;
-  margin-top: 10px;
-}
-
-.footer-nav {
-  /* border: 1px solid salmon;  */
-  width: 65%;
-  display: flex;
-  justify-content: center;
-  padding-top: 3px;
-}
-
-.footer-info-text {
-  display: flex;
-  flex-direction: column;
-}
-
-.footer-info-text-inner1 {
-  font-size: 20px;
-  font-weight: 900;
-  color: #6A60A9;
-}
-
-.footer-info-text-inner2 {
-  font-size: 13px;
-}
-
-.footer-info-app-inner {
-  width: 120px;
-  background-color: #6A60A9;
-  color: white;
-  border-radius: 30px;
-  padding: 8px 5px;
-  font-size: 12px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin: 5px 15px 0 0 ;
+  justify-content: space-between;
 }
 
-.footer-nav-inner{
-  flex: 1;
-  list-style-type: none;
+.footer-logoBox{
+  display: flex;
 }
 
-#footer-nav-title {
-  /* font-size: 13px; */
-  font-weight: bold;
-  margin-bottom: 10px;
+.footer-logo{
+  background-image: url(../modo-logo.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 4.5rem;
 }
 
-.footer-nav-inner li {
-  /* font-weight: l; */
-  font-size: 14px;
-  margin-bottom: 5px;
-  color:  #575757;
+.footer-logo-title{
+  font-size: large;
+  font-weight: 700;
+  color: rgb(88, 88, 88);
+  margin-left: 0.7rem;
+}
+
+.footer-navBox{
+  display: flex;
+}
+
+.footer-nav-aTag{
+text-decoration: none;
+margin-left: 2rem; 
+height: 2.3rem;
+display: block;
+text-align: center; /* 텍스트 세로 가운데 정렬 */
+line-height: 2.23rem;
+color: rgb(88, 88, 88);
+font-weight: 500;
+}
+
+
+.footer-box2, .footer-box2-mobile{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  /* margin-top: 1rem; */
+  color: #7e7e7e;
+  font-size: small;
+  font-weight: 500;
+  margin: 1rem 0 1.3rem;
+  word-break: break-all;
+}
+
+
+
+
+.footer-box2 div{
+  margin: 0.4rem 0;
+}
+
+
+.footer-box3{
+  width: 100%;
+  display: flex;
+}
+
+.footer-nav-aTag2{
+  text-decoration: none;
+  color: #aa7eda;
+  font-weight: 700;
+  font-size: smaller;
+  margin-right: 0.8rem;
 }
 
 .ect-info{
@@ -131,10 +102,59 @@
   align-items: center;
   flex-direction: column;
   font-size: 11px;
-  padding-top: 20px;
+  /* padding-top: 20px; */
 }
 
 .ect-info div {
   margin: 8px 0 15px 0;
   color: gray;
+}
+
+
+
+@media screen and (max-width: 970px){
+  .footer-container2{
+    width: 80vw;
+    
+  }
+}
+
+@media screen and (min-width: 781px){
+  .footer-box2-mobile{
+    display: none;
+  }
+}
+
+@media screen and (max-width: 780px){
+  .footer-container2{
+    width: 100vw;
+    padding: 0 1rem;
+  }
+  .footer-box{
+    flex-direction: column;
+  }
+  .footer-navBox{
+    margin-top: 1rem;
+  }
+  .footer-nav-aTag{
+    margin: 0 2.5vw;
+    font-weight: 600;
+  }
+  .footer-box2{
+    display: none;
+  }
+  .footer-box3{
+    justify-content: center;
+  }
+  .footer-nav-aTag2{
+    margin: 0 0.5rem;
+  }
+}
+
+@media screen and (max-width: 370px){
+  .footer-nav-aTag{
+    margin: 0 2.5vw;
+    font-size: 4vw;
+    font-weight: 600;
+  }
 }

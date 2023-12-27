@@ -24,6 +24,10 @@ const ServiceCategories = () =>{
               );
             })
           }
+          <div className='categories-innerBox categories-innerBox2' onClick={() => navigate('/moim')}> {/* → 버튼 눌렀을때 해당 카테고리 상세 페이지 이동은 안됨... */}
+            <img className='cate-img' src={`https://raw.githubusercontent.com/Jella-o312/modo-image/main/categoris/somoim/moim8.svg`}/>
+            <p className='cate-text'>더보기</p>
+          </div>
       </div>
       
 
@@ -33,12 +37,16 @@ const ServiceCategories = () =>{
             mentoring.map ((title,i)=>{
               return(
                 <div className='categories-innerBox' key={i}>
-                  <img className='cate-img' src={`https://raw.githubusercontent.com/Jella-o312/modo-image/main/categoris/mentoring/metoring${i+1}.svg`}/>
+                  <img className='cate-img' src={`https://raw.githubusercontent.com/Jella-o312/modo-image/main/categoris/mentoring/mentoring${i+1}.svg`}/>
                   <p className='cate-text'>{title}</p>
                 </div>
               );
             })
           }
+          <div className='categories-innerBox categories-innerBox2' onClick={() => navigate('/moim')}> {/* → 버튼 눌렀을때 해당 카테고리 상세 페이지 이동은 안됨... */}
+            <img className='cate-img' src={`https://raw.githubusercontent.com/Jella-o312/modo-image/main/categoris/mentoring/mentoring8.svg`}/>
+            <p className='cate-text'>더보기</p>
+          </div>
       </div>
       
       

@@ -1,9 +1,9 @@
 .main-container{
+  /* border: 1px solid salmon; */
+  width: 950px;
   display: flex;
   align-items: center;
   flex-direction: column;
-  width: 950px;
-  /* border: 1px solid salmon; */
   text-align: center;
 }
 
@@ -11,14 +11,13 @@
 /* ✅ service-key-point */
 .main-service-key-point{
   background-color: #56477D;
-  width: calc(100vw - 18px); /* *오른쪽으로 좀 튀어나와서 전체 너비에서 18px 제외한 값을 가로로 지정 */
-  /* height: 1410px; */
-  margin: 0;
-  margin-top: 65px;
-
+  width: calc(100vw - 1.2vw);
+   /* *오른쪽으로 좀 튀어나와서 전체 너비에서 18px 제외한 값을 가로로 지정 */
+  margin: 3.5rem 0 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow-x: hidden;
 }
 
 .main-motivation-img {
@@ -44,3 +43,81 @@
   width: 90%;
   cursor: pointer;
 }
+
+/* ✅ 모바일 버전 메인화면 검색창 */
+.main-mobile-searchBar{
+  width: 90VW;
+  height: 2.7rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 50px;
+  box-shadow: 0 0 8px 0 #d3b7f1c9;
+  /* background-color: rgb(240, 240, 240); */
+  padding: 0 2rem;
+}
+
+.main-mobile-search-input{
+  background-color: transparent;
+  border: none;
+}
+
+.main-mobile-search-input:focus{
+  outline: none;
+}
+
+
+
+
+
+
+
+
+@media screen and (max-width: 970px){
+	.main-container{
+    overflow: hidden;
+  }
+  .main-service-key-point{
+    width: 100%;
+  }
+  .main-registration-box{
+    width: 780px;
+  }
+}
+
+
+@media screen and (min-width: 780px) {
+  .main-mobile-searchBar{
+    display: none;
+  }
+}
+
+
+
+
+@media screen and (max-width: 750px){
+	.main-service-key-point{
+    width: 110%;
+  }
+  .main-registration-box{
+    flex-direction: column; 
+    align-items: center; 
+    width: 100vw;
+    margin-bottom: 0.5rem;
+  }
+  .main-registration-moinBtn, .main-registration-mentoringBtn{
+    width: 90%;
+    margin-bottom: 3rem;
+    cursor: pointer;
+  }
+}
+
+
+
+@media screen and (max-width: 550px){
+  .main-motivation-img{
+    width: 700px;
+  }
+}
+
+

@@ -25,6 +25,7 @@ const Review = () => {
     focusOnSelect: true,
     // speed: 1000
     // arrows:false
+
   };
 
   return (
@@ -35,10 +36,10 @@ const Review = () => {
           //수정 및 재사용이 용이하게 반복문으로 생성 
           //⭐⭐해야함 ->이미지는 깃헙파일 가져오고, 텍스트는 컴포넌트 만들어서 가져오기 
             reviewText.map((num, i)=>(
-              <div className='review-boxinner2'>
+              <div className='review-boxinner2' key={i}> 
 
                 <div className='review-boxinner-head'>
-                  <img src={face}/>
+                  <img src={face} alt=''/>
                   <div className='review-boxinner-title'>소모임 최고!</div>
                 </div>
 
@@ -67,10 +68,10 @@ const Review = () => {
         <Slider {...settings}>
           {
             reviewText.map((num, i)=>(
-              <div className='review-boxinner2'>
+              <div className='review-boxinner2' key={i}>
 
                 <div className='review-boxinner-head'>
-                  <img src={face}/>
+                  <img src={face} alt=''/>
                   <div className='review-boxinner-title'>멘토링 최고!</div>
                 </div>
 
