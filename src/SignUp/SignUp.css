@@ -24,7 +24,7 @@
     border: 1px solid #eee;
     border-radius: 4px;
     padding-left: 10px;
-    font-size: 0.815rem;
+    font-size: 0.725rem;
     width: 55%;
     height: 35px;
 }
@@ -34,7 +34,7 @@
     margin-right: 10%;
     border: 1px solid #eee;
     border-radius: 4px;
-    font-size: 0.815rem;
+    font-size: 0.725rem;
     padding-left: 10px;
     width: 80%;
     height: 35px;
@@ -55,7 +55,30 @@
 .SignUp .listContainer {
     display: flex;
     align-items: center;
+    position: relative;
     margin-bottom: 2rem;
+}
+
+.SignUp .listContainer_pwCheck {
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-bottom: 0.5rem;
+}
+
+.SignUp .pwMsg {
+    width: 80%;
+    margin-left: 11%;
+    margin-top: 0;
+    margin-bottom: 2rem;
+    color: red;
+    text-align: left;
+    font-size: 0.825rem;
+    font-weight: 600;
+}
+
+.SignUp .pwMsg.success {
+    color: #6A60A9;
 }
 
 .SignUp .listContainerLast {
@@ -115,6 +138,18 @@ input[type="checkbox"] + label::before {
     font-weight: 400;
     font-size: 0.875rem;
     cursor: pointer;
+ }
+
+ .SignUp .showPwd {
+    position: absolute;
+    right: 45px; /* 필요에 따라 오른쪽 간격 조절 */
+    background-color: white;
+    color: #6A60A9;
+    font-weight: 550;
+    font-size: 0.875rem;
+    cursor: pointer;
+    border: none;
+    width: 3.125rem;
  }
 
 .SignUp .TermsContainer {
