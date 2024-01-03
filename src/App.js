@@ -11,6 +11,11 @@ import { Route, Routes } from 'react-router-dom';
 function App() {
 
   const [message, setMessage] = useState('');
+
+  const [userInfo, setUserInfo] = useState({
+    username : '',
+    nickname : '',
+  });
   
 
   useEffect(() => {
@@ -28,7 +33,7 @@ function App() {
       <Header></Header>
       <Routes>
         <Route path='/signUp' element={<SignUp />}></Route>
-        <Route path='/login' element={<Login />}></Route>
+        <Route path='/login' element={<Login userInfo={userInfo} setUserInfo={setUserInfo} />}></Route>
       </Routes>
     </div>
   );

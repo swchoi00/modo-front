@@ -155,7 +155,7 @@ function SignUp() {
                         setIsUsernameChk(true);
                     }
                 }).catch((error) => {
-                    alert('오류');
+                    alert(error.response.data);
                 });
         } else {
             alert("아이디 형식을 확인하세요");
