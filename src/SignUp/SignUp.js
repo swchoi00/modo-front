@@ -83,14 +83,20 @@ function SignUp() {
             default:
                 break;
         }
+    
+        // 하나라도 선택된 경우 전체동의 해제
+        setAllChecked(false);
     };
 
 
     const [pwChkMsg, setPwChkMsg] = useState("");
+    const [pwRegexMsg, setPwRegexMsg] = useState("");
+    const [usernameRegexMsg, setUsernameRegexMsg] = useState("");
+    const [nicknameRegexMsg, setNicknameRegexMsg] = useState("");
 
     const checkPasswordMatch = () => {
         const pwMsgElement = document.getElementById("pwMsg");
-    
+
         if (memberData.password !== memberData.pwCheck) {
             setPwChkMsg("비밀번호가 일치하지 않습니다");
             setIsPasswordChk(false);
@@ -111,26 +117,45 @@ function SignUp() {
             ...memberData,
             [id]: value
         });
-    
+
         const pwMsgElement = document.getElementById("pwMsg");
-    
+
         console.log("ID:", id);
         console.log("Value:", value);
         console.log("pwMsgElement:", pwMsgElement);
-    
-        if(pwMsgElement) {
-            if (id === "username" && usernameRegex.test(value)) {
-                setIsUsernameInspected(true);
+
+        if (pwMsgElement) {
+            if (id === "username") {
+                if(usernameRegex.test(value)) {
+                    setIsUsernameInspected(true);
+                    setUsernameRegexMsg("")
+                } else {
+                    setIsUsernameInspected(false);
+                    setUsernameRegexMsg("아이디 형식을 확인해주세요")
+                }
             }
-            
-            if (id === "nickname" && nicknameRegex.test(value)) {
-                setIsNicknameInspected(true);
+
+            if (id === "nickname") {
+                if(nicknameRegex.test(value)) {
+                    setIsNicknameInspected(true);
+                    setNicknameRegexMsg("");
+                } else {
+                    setIsNicknameInspected(false);
+                    setNicknameRegexMsg("닉네임 형식을 확인해주세요")
+                }
             }
-            
+
             if (id === "password") {
-                setIsPasswordInspected(true);
+                if (passwordRegex.test(value)) {
+                    setIsPasswordInspected(true)
+                    setPwRegexMsg("")
+                } else {
+                    setIsPasswordInspected(false);
+                    setPwRegexMsg("영문, 숫자, 특수문자 조합 8자 이상이어야 합니다!")
+                }
+
             }
-            
+
             if (id === "pwCheck" && memberData.password !== value) {
                 setPwChkMsg("비밀번호가 일치하지 않습니다");
                 setIsPasswordChk(false);
@@ -164,43 +189,43 @@ function SignUp() {
     }
 
     const nicknameCheck = () => {
-        if(nicknameRegex.test(memberData.nickname)) {
-            axiosInstance.post('/nicknameCheck', { nickname : memberData.nickname })
-            .then((response) => {
-                if(response.status === 200) {
-                    alert(response.data);
-                    setIsNicknameChk(true);
-                }
-            }).catch((error) => {
-                alert('오류');
-            });
+        if (nicknameRegex.test(memberData.nickname)) {
+            axiosInstance.post('/nicknameCheck', { nickname: memberData.nickname })
+                .then((response) => {
+                    if (response.status === 200) {
+                        alert(response.data);
+                        setIsNicknameChk(true);
+                    }
+                }).catch((error) => {
+                    alert('오류');
+                });
         } else {
             alert("닉네임은 한글, 영어, 숫자를 포함한 8글자까지 가능합니다")
         }
     }
-   
+
     const signUpHandler = (e) => {
         e.preventDefault();
 
         let blankField = true;
 
-        for(let id in memberData) {
-            if(memberData[id] === "") {
+        for (let id in memberData) {
+            if (memberData[id] === "") {
                 blankField = false;
                 break;
             }
         }
-        if(blankField && isUsernameChk && isUsernameInspected && isPasswordChk && isPasswordInspected
+        if (blankField && isUsernameChk && isUsernameInspected && isPasswordChk && isPasswordInspected
             && isNickNameChk && isNicknameInspected && accessTermsChecked && infoTermsChecked && ageCheckChecked) {
-            
+
             alert("모도 회원가입 완료!");
-            
+
             axiosInstance.post('/signup', memberData)
-            .then((response) => {
-                console.log(response.data);
-            }).catch((error) => {
-                console.log(error);
-            })
+                .then((response) => {
+                    console.log(response.data);
+                }).catch((error) => {
+                    console.log(error);
+                })
             navigate('/');
         } else if (!blankField) {
             alert('빈 칸 확인');
@@ -224,7 +249,7 @@ function SignUp() {
             alert('14세 이상 확인')
         }
     }
-    
+
 
     return (
         <div className="SignUp">
@@ -239,6 +264,7 @@ function SignUp() {
                     <input type='text' className='inputText_check' placeholder='사용 할 이메일을 입력해주세요' id="username" onChange={inputChangeHandler}></input>
                     &nbsp;<button className='idCheck' onClick={usernameCheck}>중복확인</button>
                 </div>
+                    <div className='pwMsg' id='usernameRegexMsg'>{memberData.username !== "" && usernameRegexMsg}</div>
 
                 <div className='inputWrapper'>비밀번호</div>
                 <div className='listContainer'>
@@ -247,18 +273,21 @@ function SignUp() {
                         {showPassword ? '숨김' : '표시'}
                     </button>
                 </div>
+                    <div className='pwMsg' id='pwRegexMsg'>{memberData.password !== "" && pwRegexMsg}</div>
+
 
                 <div className='inputWrapper'>비밀번호 확인</div>
                 <div className='listContainer_pwCheck'>
                     <input type={showPassword ? 'text' : 'password'} className='inputText' id="pwCheck" onChange={inputChangeHandler} placeholder='위에 입력한 비밀번호와 똑같이 입력해주세요'></input>
                 </div>
-                    <div className='pwMsg' id='pwMsg'>{memberData.pwCheck !== "" && pwChkMsg}</div>
+                <div className='pwMsg' id='pwMsg'>{memberData.pwCheck !== "" && pwChkMsg}</div>
 
                 <div className='inputWrapper'>닉네임</div>
                 <div className='listContainer'>
-                    <input type='text' className='inputText_check' placeholder='사용 할 닉네임을 입력해주세요' id="nickname" onChange={inputChangeHandler}></input>
+                    <input type='text' className='inputText_check' placeholder='사용 할 닉네임을 입력해주세요' maxLength={8} id="nickname" onChange={inputChangeHandler}></input>
                     &nbsp;<button className='idCheck' onClick={nicknameCheck}>중복확인</button>
                 </div>
+                    <div className='pwMsg' id='nicknameRegexMsg'>{memberData.nickname !== "" && nicknameRegexMsg}</div>
 
                 <div className='listContainerLast'>
                     <div className='inputWrapper'>

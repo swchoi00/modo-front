@@ -1,3 +1,5 @@
+
+
 .SignUp .signUpForm {
     border: 1.5px solid #eee;
     border-radius: 25px;
@@ -17,6 +19,7 @@
 .SignUp .idCheck:hover {
     background-color: #6A60A9;
     color: white;
+    cursor: pointer;
 }
 
 .SignUp .inputText_check {
@@ -29,6 +32,11 @@
     height: 35px;
 }
 
+.SignUp .inputText_check:focus {
+    outline: 1px solid #6A60A9;
+    border-color: #6A60A9;
+}
+
 .SignUp .inputText {
     margin-left: 10%;
     margin-right: 10%;
@@ -38,6 +46,11 @@
     padding-left: 10px;
     width: 80%;
     height: 35px;
+}
+
+.SignUp .inputText:focus {
+    outline: 1px solid #6A60A9;
+    border-color: #6A60A9;
 }
 
 .SignUp .inputWrapper {
@@ -56,7 +69,7 @@
     display: flex;
     align-items: center;
     position: relative;
-    margin-bottom: 2rem;
+    margin-bottom: 0.5rem;
 }
 
 .SignUp .listContainer_pwCheck {
@@ -180,6 +193,7 @@ input[type="checkbox"] + label::before {
     color: white;
     font-weight: 700;
     margin-bottom: 0.625rem;
+    cursor: pointer;
 }
 
 .SignUp .KakaoSignUp {
@@ -201,6 +215,7 @@ input[type="checkbox"] + label::before {
     font-size: 0.9rem;
     font-weight: 1000;
     margin-bottom: 0.625rem;
+    cursor: pointer;
 }
 
 .SignUp img.kakao {
@@ -228,6 +243,7 @@ input[type="checkbox"] + label::before {
     font-size: 0.9rem;
     font-weight: 1000;
     margin-bottom: 0.625rem;
+    cursor: pointer;
 }
 
 .SignUp img.naver {
@@ -253,6 +269,7 @@ input[type="checkbox"] + label::before {
     color: white;
     font-weight: 700;
     margin-bottom: 2rem;
+    cursor: pointer;
 }
 
 .SignUp img.google {

@@ -85,20 +85,29 @@ function Login( {userInfo, setUserInfo} ) {
 
                 <div className='socialLogin'>
                     <div className='naverLogin'>
-                        <button className='naverLoginBtn' onClick={() => { alert('🙏준비중입니다') }}>
+                        <button className='naverLoginBtn' 
+                        onClick={() => {
+                            window.location.href = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${process.env.REACT_APP_NAVER_CLIENT_ID}&state=${process.env.REACT_APP_NAVER_STATE}&redirect_uri=${process.env.REACT_APP_NAVER_REDIRECT_URI}`
+                        }}>
                             <img className='naverLoginImg' src="https://d2v80xjmx68n4w.cloudfront.net/assets/icon/icon_naver.png" alt="sns아이콘" />
                         </button>
                     </div>
 
 
                     <div className='kakaoLogin'>
-                        <button className='kakaoLoginBtn'>
+                        <button className='kakaoLoginBtn'
+                        onClick={() => {
+                            window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_KAKAO_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT_URI}`;
+                        }}>
                             <img className='kakaoLoginImg' src="https://d2v80xjmx68n4w.cloudfront.net/assets/icon/icon_kakao.png" alt="sns아이콘"></img>
                         </button>
                     </div>
 
                     <div className='googleLogin'>
-                        <button className='googleLoginBtn'>
+                        <button className='googleLoginBtn'
+                        onClick={() => {
+                            window.location.href = `https://accounts.google.com/o/oauth2/auth?client_id=${process.env.REACT_APP_GOOGLE_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_GOOGLE_REDIRECT_URI}&response_type=token&scope=openid%20email%20profile`;
+                        }}>
                             <img className='googleLoginImg' src="https://d2v80xjmx68n4w.cloudfront.net/assets/icon/icon_google.png" alt="sns아이콘" />
                         </button>
                     </div>

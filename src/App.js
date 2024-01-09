@@ -7,6 +7,9 @@ import Header from './header/Header';
 import SignUp from './SignUp/SignUp';
 import Login from './Login/Login';
 import { Route, Routes } from 'react-router-dom';
+import KakaoLogin from './Login/KakaoLogin';
+import GoogleLogin from './Login/GoogleLogin';
+import NaverLogin from './Login/NaverLogin';
 
 function App() {
 
@@ -18,22 +21,15 @@ function App() {
   });
   
 
-  useEffect(() => {
-    axios.get('http://localhost:8888/test')
-    .then(response => {
-      console.log(response);
-      setMessage(response.data);
-    }).catch(error => {
-      console.log(error);
-    })
-  }, [])
-
   return (
     <div className="App">
       <Header></Header>
       <Routes>
         <Route path='/signUp' element={<SignUp />}></Route>
         <Route path='/login' element={<Login userInfo={userInfo} setUserInfo={setUserInfo} />}></Route>
+        <Route path='/oauth/kakao' element={<KakaoLogin />}></Route>
+        <Route path='/oauth/google' element={<GoogleLogin />}></Route>
+        <Route path='/oauth/naver' element={<NaverLogin />}></Route>
       </Routes>
     </div>
   );
