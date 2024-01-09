@@ -15,6 +15,9 @@
 .App-Body{
   /* margin-top: 4.5rem; */
   flex: 1;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 *{
@@ -23,9 +26,8 @@
 
 @media (max-width: 1000px) {
   .App {
-    /* 스크롤 항상 보이도록 설정 */
-    /* overflow-x: scroll;  */
-    overflow-x: hidden; 
+
+    /* overflow-x: hidden;  */
     padding: 0; /* 왼쪽과 오른쪽 패딩 제거 */
   }
 }

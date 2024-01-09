@@ -16,7 +16,7 @@
 
     width: 20px;
     height: 20px;
-    padding: 0;
+    padding: 0px;
     -webkit-transform: translate(0, -50%);
     -ms-transform: translate(0, -50%);
     transform: translate(0, -50%);
@@ -66,8 +66,8 @@
 
 .slick-prev
 {
-    left: -10px; /*⭐ 수정함 (원래 -25px)*/
-    top: 150px;/*⭐ 추가함*/
+    left: -14px; /*⭐ 수정함 (원래 -25px)*/
+    top: 130px;/*⭐ 추가함*/
     z-index: 1; /*⭐ 추가함*/
 }
 [dir='rtl'] .slick-prev
@@ -95,7 +95,7 @@
 .slick-next
 {
     right: -8px; /*⭐ 수정함 (원래 -25px)*/
-    top: 150px; /*⭐ 추가함*/
+    top:  130px; /*⭐ 추가함*/
 }
 [dir='rtl'] .slick-next
 {
@@ -207,3 +207,11 @@
     color: black;
 }
 
+
+
+/* @media screen and (max-width: 540px){
+ .slick-next{
+    right: 260px;
+    다른걸 투명으로 하고 버튼 생성해도 될듯
+ }
+} */
