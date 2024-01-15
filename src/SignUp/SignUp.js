@@ -327,15 +327,29 @@ function SignUp() {
                 </div>
 
                 <div className='KakaoSignUp'>
-                    <button className='KakaoSignUpBtn'><img className='kakao' src="https://d2v80xjmx68n4w.cloudfront.net/assets/icon/icon_kakao.png"></img>카카오로 회원가입</button>
+                    <button className='KakaoSignUpBtn'
+                        onClick={() => {
+                            window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_KAKAO_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT_URI}`
+                        }}
+                    ><img className='kakao' src="https://d2v80xjmx68n4w.cloudfront.net/assets/icon/icon_kakao.png"></img>카카오로 회원가입</button>
                 </div>
 
                 <div className='NaverSignUp'>
-                    <button className='NaverSignUpBtn'><img className='naver' src={naver}></img>네이버로 회원가입</button>
+                    <button className='NaverSignUpBtn'
+                        onClick={() => {
+                            window.location.href = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${process.env.REACT_APP_NAVER_CLIENT_ID}&state=${process.env.REACT_APP_NAVER_STATE}&redirect_uri=${process.env.REACT_APP_NAVER_REDIRECT_URI}`
+                        }}> <img className='naver' src={naver}></img>네이버로 회원가입</button>
                 </div>
+                
+        
+
 
                 <div className='GoogleSignUp'>
-                    <button className='GoogleSignUpBtn'><img className='google' src="https://d2v80xjmx68n4w.cloudfront.net/assets/icon/icon_google.png" alt="sns아이콘"></img>구글로 회원가입</button>
+                    <button className='GoogleSignUpBtn'
+                        onClick={() => {
+                            window.location.href = `https://accounts.google.com/o/oauth2/auth?client_id=${process.env.REACT_APP_GOOGLE_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_GOOGLE_REDIRECT_URI}&response_type=token&scope=openid%20email%20profile`;
+                        }}
+                    ><img className='google' src="https://d2v80xjmx68n4w.cloudfront.net/assets/icon/icon_google.png" alt="sns아이콘"></img>구글로 회원가입</button>
                 </div>
 
             </div>
