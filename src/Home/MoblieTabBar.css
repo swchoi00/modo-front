@@ -1,0 +1,52 @@
+.TabBar-container{
+  /* border: 1px solid salmon; */
+  width: 100%;
+  border-top: 1px solid rgba(0,0,0,.08);
+  display: flex;
+  background-color: white;
+  position: sticky;
+  bottom: 0; 
+  z-index: 5;
+  /* overflow: auto; */
+}
+
+.TabBar-box{
+  /* border: 1px solid salmon; */
+  width: 20%;
+  height: 3.8rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgb(184, 184, 184);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.TabBar-box span{
+  /* border: 1px solid salmon; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60%;
+}
+
+.TabBar-img{
+ height: 60%;
+}
+
+.TabBar-title{
+  font-size: 60%;
+  /* margin-top: 0.3rem; */
+}
+
+/* ⭐버튼 선택했을때 2 클래스 네임이 붙게 해야함 */
+.tabBar-active{ 
+  color:#9b6dcc;
+}
+
+
+@media screen and (min-width: 781px){
+	.TabBar-container{
+    display: none;
+  }
+}

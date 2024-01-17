@@ -1,0 +1,160 @@
+.footer-container{
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  border-top: 1px solid rgb(221, 221, 221);
+  background-color: white;
+}
+
+.footer-container2{
+  /* border: 1px solid salmon;  */
+  width: 1050px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1.2rem 0;
+}
+
+.footer-box {
+  /* border: 1px solid salmon;  */
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer-logoBox{
+  display: flex;
+}
+
+.footer-logo{
+  background-image: url(../modo-logo.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 4.5rem;
+}
+
+.footer-logo-title{
+  font-size: large;
+  font-weight: 700;
+  color: rgb(88, 88, 88);
+  margin-left: 0.7rem;
+}
+
+.footer-navBox{
+  display: flex;
+}
+
+.footer-nav-aTag{
+text-decoration: none;
+margin-left: 2rem; 
+height: 2.3rem;
+display: block;
+text-align: center; /* 텍스트 세로 가운데 정렬 */
+line-height: 2.23rem;
+color: rgb(88, 88, 88);
+font-weight: 500;
+}
+
+
+.footer-box2, .footer-box2-mobile{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  /* margin-top: 1rem; */
+  color: #7e7e7e;
+  font-size: small;
+  font-weight: 500;
+  margin: 1rem 0 1.3rem;
+  word-break: break-all;
+}
+
+
+
+
+.footer-box2 div{
+  margin: 0.4rem 0;
+}
+
+
+.footer-box3{
+  width: 100%;
+  display: flex;
+}
+
+.footer-nav-aTag2{
+  text-decoration: none;
+  color: #aa7eda;
+  font-weight: 700;
+  font-size: smaller;
+  margin-right: 0.8rem;
+}
+
+.ect-info{
+  width: 100%;
+  border-top: 1px solid rgb(221, 221, 221);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-size: 11px;
+  /* padding-top: 20px; */
+}
+
+.ect-info div {
+  margin: 8px 0 15px 0;
+  color: gray;
+}
+
+
+
+@media screen and (max-width: 1050px){
+  .footer-container2{
+    width: 100%;
+    padding: 0 2rem;
+  }
+}
+
+@media screen and (min-width: 781px){
+  .footer-box2-mobile{
+    display: none;
+  }
+}
+
+@media screen and (max-width: 780px){
+  .footer-container2{
+    width: 100%;
+    padding: 0 1rem;
+  }
+  .footer-box{
+    flex-direction: column;
+  }
+  .footer-navBox{
+    margin-top: 1rem;
+  }
+  .footer-nav-aTag{
+    margin: 0 2.5vw;
+    font-weight: 600;
+  }
+  .footer-box2{
+    display: none;
+  }
+  .footer-box3{
+    justify-content: center;
+  }
+  .footer-nav-aTag2{
+    margin: 0 0.5rem;
+  }
+}
+
+@media screen and (max-width: 370px){
+  .footer-nav-aTag{
+    margin: 0 2.5vw;
+    font-size: 4vw;
+    font-weight: 600;
+  }
+}

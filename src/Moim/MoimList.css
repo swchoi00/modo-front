@@ -1,0 +1,132 @@
+.moim-list-box{
+  /* border: 1px solid #6A60A9; */
+  width: 1050px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 한줄에 4개 */
+  gap: 2rem; /* 열 사이의 간격 */
+  
+  justify-content: center;
+  align-items: center;
+  margin: 1.5rem 0;
+}
+
+
+
+/* 얘는 각 컨텐츠들을 담는 박스 */
+.moim-content-box {
+  width: 100%;
+  height: 100%;
+  margin-bottom: 10%;
+  /* background-color: #c2bde5; */
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  cursor: pointer;
+}
+
+
+.moim-content-box-img {
+  width: 100%;
+  aspect-ratio: 1.5;
+
+  background-size: cover;
+  /* background-color: #c2bde5; */
+  border-radius: 13px;
+  position: relative;
+  display: flex;
+}
+
+.moim-content-box-categoryBack{
+  width: 100%;
+  height: 40%;
+  border-top-left-radius:15px ;
+  border-top-right-radius:15px ;
+  background: linear-gradient(
+     #0000005e,
+     #00000042 ,
+     #0000002a,
+     #0000001a, 
+     #0000000e,
+     #53535302)
+}
+
+.moim-content-box-categoty {
+  color: white;
+  padding: 0.4rem 0.7rem;
+  position: absolute;
+  text-shadow: 0.5px 0.5px 2px rgba(44, 44, 44, 0.616); 
+}
+
+.moim-content-box-like{
+  /* background-color: #c2bde5; */
+  width: 2rem;
+  height: 2rem;
+  position: absolute;
+  top : 0.2rem;
+  right: 0.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+
+
+
+.moim-content-box-info {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.moim-contnent-box-title {
+  font-size: large;
+  font-weight: bold;
+  padding-top: 0.45rem;
+  color: #494949;
+}
+
+.moim-content-box-info span {
+  padding-top: 0.2rem;
+  color: #494949;
+}
+
+.moim-content-box-info-member {
+  color: #9c9c9c;
+  font-size: small;
+  padding-top: 0.2rem;
+}
+
+
+
+
+
+
+
+
+
+
+@media screen and (max-width: 1060px){
+  .moim-list-box{
+    width: 100%;
+    padding: 0 1.5rem;
+    gap: 1rem;
+  }
+}
+
+@media screen and (max-width: 900px){
+  .moim-list-box{
+    width: 100%;
+    padding: 0 1.5rem;
+    grid-template-columns: repeat(2, 1fr);
+    font-size: inherit;
+  }
+  .moim-contnent-box-title{
+    font-size: 1.1em;
+  }
+
+}
+
+
+
+
