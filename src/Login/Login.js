@@ -3,7 +3,7 @@ import './Login.css';
 import axiosInstance from '../axiosInstance';
 import { useState } from 'react';
 
-function Login( {userInfo, setUserInfo} ) {
+function Login( {userInfo, setUserInfo, setIsAuth} ) {
 
     const navigate = useNavigate();
 
@@ -34,9 +34,11 @@ function Login( {userInfo, setUserInfo} ) {
             
             const jwt = response.headers.authorization;
             alert('로그인 완료!')
-            console.log(response.data);
+            console.log(response.data.member[0]);
             sessionStorage.setItem('jwt', jwt);
-            navigate('/main');
+            setUserInfo(response.data.member[0]);
+            setIsAuth(true);
+            navigate('/');
 
             
         }))

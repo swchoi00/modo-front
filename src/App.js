@@ -40,24 +40,41 @@ function App() {
     setPageNow(location.pathname);  
   }, [location.pathname]);
 
+  
+
   const [userInfo, setUserInfo] = useState({
     username : '',
     nickname : '',
   });
 
+  const [isAuth, setIsAuth] = useState(false); // 로그인 상태 확인
+
+  useEffect(() => {
+    
+    const storedJwt = sessionStorage.getItem('jwt');
+    setIsAuth(storedJwt !== null);
+
+  }, []);
+
+  useEffect(() => {
+    console.log("Auth바뀜 : " + isAuth);
+  }, [isAuth]);
+
+  console.log(userInfo);
+
   return (
     <div className="App">
-      <Header />
+      <Header userInfo={userInfo} isAuth={isAuth} setIsAuth={setIsAuth}/>
 
       <div className='App-Body'>
         <Routes>
           <Route path ='/'element={<Main />}/> 
           <Route path='/moim' element={<Moim/>}/> 
           <Route path='/signUp' element={<SignUp />}></Route>
-          <Route path='/login' element={<Login userInfo={userInfo} setUserInfo={setUserInfo} />}></Route>
-          <Route path='/oauth/kakao' element={<KakaoLogin />}></Route>
-          <Route path='/oauth/google' element={<GoogleLogin />}></Route>
-          <Route path='/oauth/naver' element={<NaverLogin />}></Route>
+          <Route path='/login' element={<Login userInfo={userInfo} setUserInfo={setUserInfo} isAuth={isAuth} setIsAuth={setIsAuth} />}></Route>
+          <Route path='/oauth/kakao' element={<KakaoLogin setUserInfo={setUserInfo} isAuth={isAuth} setIsAuth={setIsAuth} />}></Route>
+          <Route path='/oauth/google' element={<GoogleLogin setUserInfo={setUserInfo} isAuth={isAuth} setIsAuth={setIsAuth} />}></Route>
+          <Route path='/oauth/naver' element={<NaverLogin setUserInfo={setUserInfo} isAuth={isAuth} setIsAuth={setIsAuth} />}></Route>
         </Routes>
       </div>
       

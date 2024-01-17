@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../axiosInstance";
 
-function NaverLogin () {
+function NaverLogin ( {setIsAuth, setUserInfo} ) {
     
     const URL = window.location.href;
     const match = /code=([^&]+)&state=([^&]+)/.exec(URL);
@@ -19,6 +19,8 @@ function NaverLogin () {
             console.log(response.data);
             if(jwt) {
                 sessionStorage.setItem('jwt', jwt);
+                setUserInfo(response.data);
+                setIsAuth(true);
                 navigate('/signUp');
             }
         }).catch(error => {
