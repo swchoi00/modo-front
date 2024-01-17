@@ -11,7 +11,7 @@
 
 .footer-container2{
   /* border: 1px solid salmon;  */
-  width: 950px;
+  width: 1050px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -112,10 +112,10 @@ font-weight: 500;
 
 
 
-@media screen and (max-width: 970px){
+@media screen and (max-width: 1050px){
   .footer-container2{
-    width: 80vw;
-    
+    width: 100%;
+    padding: 0 2rem;
   }
 }
 
@@ -127,7 +127,7 @@ font-weight: 500;
 
 @media screen and (max-width: 780px){
   .footer-container2{
-    width: 100vw;
+    width: 100%;
     padding: 0 1rem;
   }
   .footer-box{

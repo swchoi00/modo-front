@@ -1,6 +1,6 @@
 .main-container{
   /* border: 1px solid salmon; */
-  width: 950px;
+  width: 1050px;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -40,7 +40,7 @@
 }
 
 .main-registration-moinBtn, .main-registration-mentoringBtn{
-  width: 90%;
+  width: 95%;
   cursor: pointer;
 }
 

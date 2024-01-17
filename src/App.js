@@ -1,9 +1,9 @@
 // import { useEffect, useState } from 'react';
 // import axios from 'axios';
 import './App.css';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from './Home/Header';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import Footer from './Home/Footer';
 import Main from './Home/Main';
 import MoblieTabBar from './Home/MoblieTabBar';
@@ -23,20 +23,30 @@ function App() {
   //   })
   // }, [])
 
+  // 모바일 하단 탭바 사용을 위한 현재 웹화면 경로 추적 코드
+  const location = useLocation();
+  const [pageNow, setPageNow] = useState(location.pathname);
+
+  useEffect(() => {
+    setPageNow(location.pathname);  
+  }, [location.pathname]);
+
+
+
   return (
     <div className="App">
-      <Header/>
+      <Header />
 
       <div className='App-Body'>
         <Routes>
           <Route path ='/'element={<Main />}/> 
           <Route path='/moim' element={<Moim/>}/> 
         </Routes>
-
       </div>
       
       <Footer/>
-      <MoblieTabBar/>
+      <MoblieTabBar pageNow={pageNow} />
+
     </div>
   );
 }

@@ -14,9 +14,10 @@ const Header = () =>{
   const[isMenuOpen, setIsMenuOpen]= useState(false); 
 
   // 모바일 버거버튼여부 바꾸는 핸들러
-  const handleMenuOpen = ()=>{
+  const handleMenuOpen = () =>{
     setIsMenuOpen(!isMenuOpen)
   };
+
 
 
   return(
@@ -27,7 +28,7 @@ const Header = () =>{
         </div>
 
         <div className='nav-menu'>
-          <Link className='nav-aTag' to = {"/moim"}>소모임</Link>
+          <Link className='nav-aTag' to = {"/moim"} >소모임</Link>
           <Link className='nav-aTag' to = {"/"}>멘토링</Link>
           <Link className='nav-aTag' to = {"/"}>커뮤니티</Link>
           <Link className='nav-aTag' to = {"/"}>FAQ</Link>

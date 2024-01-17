@@ -1,6 +1,7 @@
 .App {
   width: 100%;
   height: 100vh;
+  /* height: 100%; */
   padding: 0;
   margin: 0;
   /* padding-top: 100px; */
@@ -9,15 +10,17 @@
   flex-direction: column;
   text-align: center;
   align-items: center;
-  overflow: auto; /*헤더를 sticty로 고정했을때 이게 없으면 스크롤 내렸을때 헤더 사라짐*/
+  /* overflow-x: auto;  */
+  /* overflow: auto;  */
+  /*헤더를 sticty로 고정했을때 이게 없으면 스크롤 내렸을때 헤더 사라짐*/
 }
 
 .App-Body{
-  /* margin-top: 4.5rem; */
   flex: 1;
   width: 100%;
   display: flex;
   justify-content: center;
+  font-size: 16px;
 }
 
 *{
@@ -29,6 +32,10 @@
 
     /* overflow-x: hidden;  */
     padding: 0; /* 왼쪽과 오른쪽 패딩 제거 */
+    /* font-size: 13px; */
+  }
+  .App-Body{
+    font-size: 13px;
   }
 }
 

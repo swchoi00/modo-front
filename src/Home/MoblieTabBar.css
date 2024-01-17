@@ -7,6 +7,7 @@
   position: sticky;
   bottom: 0; 
   z-index: 5;
+  /* overflow: auto; */
 }
 
 .TabBar-box{
@@ -17,6 +18,8 @@
   flex-direction: column;
   justify-content: center;
   color: rgb(184, 184, 184);
+  cursor: pointer;
+  text-decoration: none;
 }
 
 .TabBar-box span{
@@ -37,7 +40,7 @@
 }
 
 /* ⭐버튼 선택했을때 2 클래스 네임이 붙게 해야함 */
-.TabBar-img2, .TabBar-title2{ 
+.tabBar-active{ 
   color:#9b6dcc;
 }
 
