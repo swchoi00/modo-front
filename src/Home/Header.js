@@ -41,8 +41,8 @@ const Header = () =>{
         </div>
 
         <div className='nav-joinLogin'>
-          <Link className='nav-aTag' to = {"/"}>회원가입</Link>
-          <Link className='nav-loginBtn' to = {"/"}>로그인</Link>
+          <Link className='nav-aTag' to = {"/signUp"}>회원가입</Link>
+          <Link className='nav-loginBtn' to = {"/login"}>로그인</Link>
         </div>
       </div>
 
