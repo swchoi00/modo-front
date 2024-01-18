@@ -16,6 +16,7 @@ import Login from './Login/Login';
 import KakaoLogin from './Login/KakaoLogin';
 import GoogleLogin from './Login/GoogleLogin';
 import NaverLogin from './Login/NaverLogin';
+import TestAddMoim from './Moim/TestAddMoim';
 
 function App() {
 
@@ -69,7 +70,8 @@ function App() {
       <div className='App-Body'>
         <Routes>
           <Route path ='/'element={<Main />}/> 
-          <Route path='/moim' element={<Moim/>}/> 
+          <Route path='/moim' element={<Moim/>}/>
+          <Route path='/testAddMoim' element={<TestAddMoim userInfo={userInfo} />}></Route>
           <Route path='/signUp' element={<SignUp />}></Route>
           <Route path='/login' element={<Login userInfo={userInfo} setUserInfo={setUserInfo} isAuth={isAuth} setIsAuth={setIsAuth} />}></Route>
           <Route path='/oauth/kakao' element={<KakaoLogin setUserInfo={setUserInfo} isAuth={isAuth} setIsAuth={setIsAuth} />}></Route>

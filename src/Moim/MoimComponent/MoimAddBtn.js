@@ -21,7 +21,7 @@ const MoimAddBtn = ({ scrollTopHandler, isVisible }) =>{
         </div>
       )}
 
-      <Link className='MoimAddBtn-BtnBox' to={'/addMoim'}> 
+      <Link className='MoimAddBtn-BtnBox' to={'/testAddMoim'}> 
         <div className='MoimAddBtn-Btn'>
           <FontAwesomeIcon icon={faPlus}  size='2x' style={{color:'white' }}/>
         </div>

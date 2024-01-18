@@ -50,7 +50,8 @@ const Header = ( {isAuth, setIsAuth, userInfo} ) =>{
           <>
           {/* <Link className='nav-aTag' to = {"/signUp"}>회원가입</Link> */}
           {/* <Link className='nav-loginBtn' to = {"/login"}>로그아웃</Link> */}
-          <button className='nav-nickname'>{userInfo.nickname}님</button>
+          {/* <button className='nav-nickname'>{userInfo.nickname}님</button> */}
+          <Link className='nav-aTag'>{userInfo.nickname}님</Link>
           <button className='nav-logoutBtn' onClick={logoutHandler}>로그아웃</button>
           </>
           :  

@@ -292,7 +292,7 @@ function SignUp() {
                 <div className='listContainerLast'>
                     <div className='inputWrapper'>
                         <input type='checkbox' className='agreeAll' id='agreeAll' checked={allChecked} onChange={handleAllCheck}></input>
-                        <label className='' for='agreeAll'>전체동의</label>
+                        <label className='' htmlFor='agreeAll'>전체동의</label>
                     </div>
                     <div className='afterAgreeAll'></div>
                     <br></br>
@@ -300,7 +300,7 @@ function SignUp() {
                     <div className='TermsContainer'>
                         <div className='inputWrapper'>
                             <input type='checkbox' className='' id='accessTerms' checked={accessTermsChecked} onChange={() => handleSingleCheck('accessTerms')}></input>
-                            <label className='AgreeTerms' for='accessTerms'>(필수) 이용약관 동의</label>
+                            <label className='AgreeTerms' htmlFor='accessTerms'>(필수) 이용약관 동의</label>
                             <button className='showTerms' onClick={() => openModal('accessTerms')}>보기</button>
                         </div>
                     </div>
@@ -308,7 +308,7 @@ function SignUp() {
                     <div className='TermsContainer'>
                         <div className='inputWrapper'>
                             <input type='checkbox' className='' id='infoTerms' checked={infoTermsChecked} onChange={() => handleSingleCheck('infoTerms')} ></input>
-                            <label className='AgreeTerms' for='infoTerms'>(필수) 개인정보 수집 및 이용 동의</label>
+                            <label className='AgreeTerms' htmlFor='infoTerms'>(필수) 개인정보 수집 및 이용 동의</label>
                             <button className='showTerms' onClick={() => openModal('infoTerms')}>보기</button>
                         </div>
                     </div>
@@ -316,7 +316,7 @@ function SignUp() {
                     <div className='TermsContainer'>
                         <div className='inputWrapper'>
                             <input type='checkbox' className='' id='ageCheck' checked={ageCheckChecked} onChange={() => handleSingleCheck('ageCheck')}></input>
-                            <label className='AgreeTerms' for='ageCheck'>(필수) 14세 이상입니다</label>
+                            <label className='AgreeTerms' htmlFor='ageCheck'>(필수) 14세 이상입니다</label>
                         </div>
                     </div>
                 </div>
