@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRotateRight, faSearch } from '@fortawesome/free-solid-svg-icons'; 
 import './Moim.css';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import MoimList from './MoimList';
 import MoimAddBtn from './MoimComponent/MoimAddBtn';
 
@@ -74,34 +74,7 @@ const Moim = () =>{
   }
   
   
-    // 스크롤탑 기능 구현을 위해 useRef를 특정 태그에 사용해 위치를 지정함
-    const scrollTarget = useRef(null);
-  
-    const scrollTopHandler = () => {
-    window.scrollTo({ top: 0});
-    };
-    const scrollableElementRef = useRef(null);
-    const [isVisible, setIsVisible] = useState(false);
-
-    const handleScroll = () => {
-      if (scrollTarget.current) {
-        const scrollPosition = window.scrollY || document.documentElement.scrollTop;
-        // 여기에서 스크롤 위치에 따른 로직을 추가
-        if (scrollPosition > 200) {
-          setIsVisible(true);
-        } else {
-          setIsVisible(false);
-        }
-      }
-    };
-  
-    useEffect(() => {
-      window.addEventListener('scroll', handleScroll);
-      return () => {
-        window.removeEventListener('scroll', handleScroll);
-      };
-    }, []);
-  
+   
 
 
   return(
@@ -120,9 +93,8 @@ const Moim = () =>{
 
       <div className='moim-myMoim' >
         <div className='moim-myMoim-title'>&nbsp;&nbsp;&nbsp;마이 소모임&nbsp;&nbsp;&nbsp;</div>
-        <div className='moim-myMoim-empty' ref={scrollTarget}>아직 참여 중인 모임이 없어요 🥲</div>
-        {/* ⭐⭐참여중인 모임이 있을때는 컴포넌트로 보여주면 좋을듯 (이미 여기 코드가 너무 많음...) 
-            ⭐⭐스크롤탑 버튼 위치때문에 일단 여기에 ref값 지정함
+        <div className='moim-myMoim-empty'>아직 참여 중인 모임이 없어요 🥲</div>
+        {/* ⭐⭐참여중인 모임이 있을때는 컴포넌트로 보여주면 좋을듯 (이미 여기 코드가 너무 많음...)           
         */}
       </div>
 
@@ -188,12 +160,7 @@ const Moim = () =>{
         </div>
 
       <MoimList/>
-      {/* {isVisible && (
-        <button onClick={scrollTopHandler} style={{ position: 'fixed', bottom: '20px', right: '20px' }}>
-          Scroll Top
-        </button>
-      )} */}
-      <MoimAddBtn scrollTopHandler={scrollTopHandler} isVisible={isVisible}/>
+      <MoimAddBtn />
 
 
     </div>

@@ -1,21 +1,19 @@
-// import { useEffect, useState } from 'react';
-// import axios from 'axios';
 import './App.css';
 import React, { useEffect, useState } from 'react';
-// import React from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import Header from './Home/Header';
 import Footer from './Home/Footer';
 import Main from './Home/Main';
 import MoblieTabBar from './Home/MoblieTabBar';
 import Moim from './Moim/Moim';
-import axiosInstance from './axiosInstance';
-import axios from 'axios';
+// import axiosInstance from './axiosInstance';
+// import axios from 'axios';
 import SignUp from './SignUp/SignUp';
 import Login from './Login/Login';
 import KakaoLogin from './Login/KakaoLogin';
 import GoogleLogin from './Login/GoogleLogin';
 import NaverLogin from './Login/NaverLogin';
+import AddMoim from './Moim/MoimComponent/AddMoim';
 
 function App() {
 
@@ -45,6 +43,7 @@ function App() {
     nickname : '',
   });
 
+console.log(userInfo.username);
   return (
     <div className="App">
       <Header />
@@ -53,11 +52,13 @@ function App() {
         <Routes>
           <Route path ='/'element={<Main />}/> 
           <Route path='/moim' element={<Moim/>}/> 
+          <Route path='/addMoim' element={<AddMoim/>}/> 
           <Route path='/signUp' element={<SignUp />}></Route>
           <Route path='/login' element={<Login userInfo={userInfo} setUserInfo={setUserInfo} />}></Route>
           <Route path='/oauth/kakao' element={<KakaoLogin />}></Route>
           <Route path='/oauth/google' element={<GoogleLogin />}></Route>
           <Route path='/oauth/naver' element={<NaverLogin />}></Route>
+          
         </Routes>
       </div>
       

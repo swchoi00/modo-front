@@ -34,8 +34,9 @@ function Login( {userInfo, setUserInfo} ) {
             
             const jwt = response.headers.authorization;
             alert('로그인 완료!')
-            console.log(response.data);
+            // console.log(response.data);
             sessionStorage.setItem('jwt', jwt);
+            console.log(response.data);
             navigate('/main');
 
             
