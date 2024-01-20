@@ -17,7 +17,7 @@ function GoogleLogin ( {setUserInfo, isAuth, setIsAuth}) {
 
             if(jwt) {
                 sessionStorage.setItem('jwt', jwt);
-                setUserInfo(response.data);
+                setUserInfo(response.data.member[0]);
                 setIsAuth(true);
                 navigate('/')
               

@@ -6,9 +6,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { faSearch } from '@fortawesome/free-solid-svg-icons'; 
 import { faXmark } from '@fortawesome/free-solid-svg-icons'; 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Header = ( {isAuth, setIsAuth, userInfo} ) =>{
+
+  const navigate = useNavigate();
 
   //모바일 버거버튼 여부
   const[isMenuOpen, setIsMenuOpen]= useState(false); 
@@ -21,6 +23,7 @@ const Header = ( {isAuth, setIsAuth, userInfo} ) =>{
   const logoutHandler = () => {
     sessionStorage.removeItem('jwt');
     setIsAuth(false);
+    navigate('/');
   }
 
 
@@ -48,10 +51,7 @@ const Header = ( {isAuth, setIsAuth, userInfo} ) =>{
 
           {isAuth ? 
           <>
-          {/* <Link className='nav-aTag' to = {"/signUp"}>회원가입</Link> */}
-          {/* <Link className='nav-loginBtn' to = {"/login"}>로그아웃</Link> */}
-          {/* <button className='nav-nickname'>{userInfo.nickname}님</button> */}
-          <Link className='nav-aTag'>{userInfo.nickname}님</Link>
+          <Link className='nav-aTag' to={"/myPage"}>{userInfo.nickname}님</Link>
           <button className='nav-logoutBtn' onClick={logoutHandler}>로그아웃</button>
           </>
           :  

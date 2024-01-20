@@ -16,9 +16,9 @@ function KakaoLogin( {setUserInfo, setIsAuth} ) {
         console.log(response.data.member[0]);
         if (jwt) {
           sessionStorage.setItem('jwt', jwt);
-          setUserInfo(response.data);
+          setUserInfo(response.data.member[0]);
           setIsAuth(true);
-          navigate('/signUp');
+          navigate('/');
         }
 
       }).catch(error => {
