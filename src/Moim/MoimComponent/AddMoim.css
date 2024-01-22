@@ -5,6 +5,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  overflow-x: hidden;
 }
 
 .AddMoim-title{
@@ -119,4 +120,16 @@
   background-color: #eaebee;
   border: 1px solid #eaebee;
   color: #404040;
+}
+
+
+
+
+
+
+
+@media screen and (max-width: 390px){
+  .AddMoim-contentBox{
+    width: 100%;
+  }
 }

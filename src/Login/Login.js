@@ -37,7 +37,7 @@ function Login( {userInfo, setUserInfo} ) {
             // console.log(response.data);
             sessionStorage.setItem('jwt', jwt);
             console.log(response.data);
-            navigate('/main');
+            navigate('/moim');
 
             
         }))
