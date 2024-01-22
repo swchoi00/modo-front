@@ -14,7 +14,6 @@ import KakaoLogin from './Login/KakaoLogin';
 import GoogleLogin from './Login/GoogleLogin';
 import NaverLogin from './Login/NaverLogin';
 import AddMoim from './Moim/MoimComponent/AddMoim';
-import TestAddMoim from './Moim/TestAddMoim';
 import MyPage from './MyPage/MyPage';
 
 function App() {
@@ -48,7 +47,7 @@ function App() {
     console.log("Auth바뀜 : " + isAuth);
   }, [isAuth]);
 
-  console.log(userInfo);
+  // console.log(userInfo);
 
 
 
@@ -59,9 +58,8 @@ function App() {
       <div className='App-Body'>
         <Routes>
           <Route path ='/'element={<Main />}/> 
-          <Route path='/moim' element={<Moim/>}/>
-          <Route path='/addMoim' element={<AddMoim/>}/> 
-          <Route path='/testAddMoim' element={<TestAddMoim userInfo={userInfo} />}></Route>
+          <Route path='/moim' element={<Moim isAuth={isAuth}/>}/>
+          <Route path='/addMoim' element={<AddMoim userInfo={userInfo}/>}/> 
           <Route path='/signUp' element={<SignUp />}></Route>
           <Route path='/login' element={<Login userInfo={userInfo} setUserInfo={setUserInfo} isAuth={isAuth} setIsAuth={setIsAuth} />}></Route>
           <Route path='/myPage' element={<MyPage userInfo={userInfo} setUserInfo={setUserInfo}></MyPage>}></Route>

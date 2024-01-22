@@ -201,6 +201,7 @@
 
 /* 모바일 사이드메뉴 안쪽 설정 */
 .headerSide-menu-inner1{
+  /* border: 1px solid salmon; */
   display: flex;
   flex-direction: column;
   justify-content: center;

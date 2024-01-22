@@ -1,8 +1,6 @@
 import './MoimList.css';
 import { moimContent } from './moim-content';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBookmark as full_bookMart} from '@fortawesome/free-solid-svg-icons'; 
-import { faBookmark as line_bookMart} from '@fortawesome/free-regular-svg-icons';
 import { faHeart as fullHeart} from '@fortawesome/free-regular-svg-icons';
 import { faHeart as lineHeart} from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';

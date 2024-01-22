@@ -1,17 +1,18 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './MoimAddBtn.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faChevronUp} from '@fortawesome/free-solid-svg-icons'; 
 import { useEffect, useState } from 'react';
 
-const MoimAddBtn = () =>{
+const MoimAddBtn = ({isAuth}) =>{
+
+  const navigate = useNavigate();
 
   const [moimScrollVisible, setMoimScrollVisible] = useState(false);
   
   const MoimScrollHandler = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
-
 
  useEffect(() => {
   const handleScroll = () => {
@@ -33,6 +34,17 @@ const MoimAddBtn = () =>{
 }, []);
 
 
+// 로그인 여부에 따라 + 버튼 눌렀을때 이동하는 페이지가 다르게 하는 핸들러
+  const handleMoimAddBtnClick = () => {
+    if (isAuth) {
+      // 인증된 경우 페이지 이동
+      navigate('/addMoim');
+    } else {
+      // 비인증된 경우 알림 표시 및 로그인 페이지로 이동
+      alert('로그인 후 이용해주세요.');
+      navigate('/login');
+    }
+  };
 
 
   return(
@@ -43,11 +55,11 @@ const MoimAddBtn = () =>{
         </div>
       )}
 
-      <Link className='MoimAddBtn-BtnBox' to={'/testAddMoim'}> 
+      <div className='MoimAddBtn-BtnBox' onClick={handleMoimAddBtnClick}>
         <div className='MoimAddBtn-Btn'>
-          <FontAwesomeIcon icon={faPlus}  size='2x' style={{color:'white' }}/>
+          <FontAwesomeIcon icon={faPlus} size='2x' style={{ color: 'white' }} />
         </div>
-      </Link>
+      </div>
     </div>
   );
 }

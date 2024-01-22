@@ -53,7 +53,7 @@
     bottom: 4.5rem;
     right: 0.8rem;
   }
-  .MoimAddBtn-Btn{
+  .MoimAddBtn-Btn, .MoimScrollBtn-Btn{
     width: 3.5rem;
     height: 3.5rem;
   }

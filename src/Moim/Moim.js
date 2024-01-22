@@ -7,7 +7,7 @@ import MoimAddBtn from './MoimComponent/MoimAddBtn';
 
 
 
-const Moim = () =>{
+const Moim = ({isAuth}) =>{
 
   const moimShowType = ['전체보기', '카테고리'];
   const [moimShowTypeBtn, setMoimShowTypeBtn] = useState('전체보기');
@@ -160,7 +160,7 @@ const Moim = () =>{
         </div>
 
       <MoimList/>
-      <MoimAddBtn />
+      <MoimAddBtn isAuth={isAuth}/>
 
 
     </div>
