@@ -18,6 +18,7 @@ import GoogleLogin from './Login/GoogleLogin';
 import NaverLogin from './Login/NaverLogin';
 import TestAddMoim from './Moim/TestAddMoim';
 import MyPage from './MyPage/MyPage';
+import Faq from './Home/FAQ/Faq';
 
 function App() {
 
@@ -71,8 +72,9 @@ function App() {
       <div className='App-Body'>
         <Routes>
           <Route path ='/'element={<Main />}/> 
+          <Route path ='/faq' element={<Faq />}/>
           <Route path='/moim' element={<Moim/>}/>
-          <Route path='/testAddMoim' element={<TestAddMoim userInfo={userInfo} />}></Route>
+          <Route path='/testAddMoim' element={<TestAddMoim userInfo={userInfo} />}></Route>  {/* 나중에 바꿔야함 */}
           <Route path='/signUp' element={<SignUp />}></Route>
           <Route path='/login' element={<Login userInfo={userInfo} setUserInfo={setUserInfo} isAuth={isAuth} setIsAuth={setIsAuth} />}></Route>
           <Route path='/myPage' element={<MyPage userInfo={userInfo} setUserInfo={setUserInfo}></MyPage>}></Route>
