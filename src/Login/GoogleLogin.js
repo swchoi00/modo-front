@@ -1,7 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../axiosInstance";
+import { useEffect } from "react";
 
-function GoogleLogin () {
+function GoogleLogin ( {setUserInfo, isAuth, setIsAuth}) {
 
     const URL = window.location.href;
     const match = /access_token=([^&]+)/.exec(URL);
@@ -16,7 +17,10 @@ function GoogleLogin () {
 
             if(jwt) {
                 sessionStorage.setItem('jwt', jwt);
+                setUserInfo(response.data.member[0]);
+                setIsAuth(true);
                 navigate('/')
+              
             }
         }).catch(error => {
             alert('로그인 실패')
