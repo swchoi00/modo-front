@@ -97,7 +97,7 @@ const Header = ( {isAuth, setIsAuth, userInfo} ) =>{
             <Link to = {"/moim"}>소모임</Link>
             <Link to = {"/"}>멘토링</Link>
             <Link to = {"/"}>커뮤니티</Link>
-            <Link to = {"/"}>FAQ</Link>
+            <Link to = {"/faq"}>FAQ</Link>
           </div>
         </div>
       
