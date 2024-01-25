@@ -8,9 +8,8 @@ import { useState } from 'react';
 import PaginationComponent from '../../Pagination/PaginationComponent';
 import Search from './Search';
 
-function Faq() {
+function Faq( {currentPage, setCurrentPage} ) {
     const [questionsList, setQuestionsList] = useState(Questions);
-    const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
 
     const categories = ['all', '소모임', '멘토링', '계정관련'];
@@ -40,7 +39,10 @@ function Faq() {
                             >
                                 <button
                                     className={`faq-btn ${selectedCategory === category ? 'clicked' : ''}`}
-                                    onClick={() => setSelectedCategory(category)}
+                                    onClick={() => {
+                                        setSelectedCategory(category);
+                                        setCurrentPage(1); // 현재 페이지를 1로 설정
+                                    }}
                                 >
                                     {category === 'all' ? '전체' : category}
                                 </button>
@@ -61,7 +63,7 @@ function Faq() {
                     currentPage={currentPage}
                     itemsPerPage={itemsPerPage}
                     path={"/"}
-                    ad={"/questions"}
+                    ad={"/faqDetails"}
                     selectedCategory={selectedCategory}
                     />
 
@@ -77,7 +79,7 @@ function Faq() {
                 </div>
             </div>
 
-
+                                
 
         </div>
     )

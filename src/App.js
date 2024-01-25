@@ -19,6 +19,8 @@ import NaverLogin from './Login/NaverLogin';
 import TestAddMoim from './Moim/TestAddMoim';
 import MyPage from './MyPage/MyPage';
 import Faq from './Home/FAQ/Faq';
+import Notice from './Home/FAQ/Notice';
+import FaqDetails from './Home/FAQ/FaqDetails';
 
 function App() {
 
@@ -63,7 +65,7 @@ function App() {
     console.log("Auth바뀜 : " + isAuth);
   }, [isAuth]);
 
-  console.log(userInfo);
+  const [currentPage, setCurrentPage] = useState(1);
 
   return (
     <div className="App">
@@ -72,7 +74,9 @@ function App() {
       <div className='App-Body'>
         <Routes>
           <Route path ='/'element={<Main />}/> 
-          <Route path ='/faq' element={<Faq />}/>
+          <Route path ='/faq' element={<Faq currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
+          <Route path ='/faqDetails/:id' element={<FaqDetails currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
+          <Route path ='/notice' element={<Notice />}/>
           <Route path='/moim' element={<Moim/>}/>
           <Route path='/testAddMoim' element={<TestAddMoim userInfo={userInfo} />}></Route>  {/* 나중에 바꿔야함 */}
           <Route path='/signUp' element={<SignUp />}></Route>
