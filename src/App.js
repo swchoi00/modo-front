@@ -15,6 +15,7 @@ import GoogleLogin from './Login/GoogleLogin';
 import NaverLogin from './Login/NaverLogin';
 import AddMoim from './Moim/MoimComponent/AddMoim';
 import MyPage from './MyPage/MyPage';
+import MoimDetail from './Moim/MoimDetail';
 
 function App() {
 
@@ -60,6 +61,8 @@ function App() {
           <Route path ='/'element={<Main />}/> 
           <Route path='/moim' element={<Moim isAuth={isAuth}/>}/>
           <Route path='/addMoim' element={<AddMoim userInfo={userInfo}/>}/> 
+          <Route path='/moimDetail' element={<MoimDetail />}/>
+
           <Route path='/signUp' element={<SignUp />}></Route>
           <Route path='/login' element={<Login userInfo={userInfo} setUserInfo={setUserInfo} isAuth={isAuth} setIsAuth={setIsAuth} />}></Route>
           <Route path='/myPage' element={<MyPage userInfo={userInfo} setUserInfo={setUserInfo}></MyPage>}></Route>

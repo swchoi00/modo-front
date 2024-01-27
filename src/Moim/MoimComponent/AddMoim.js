@@ -10,23 +10,23 @@ const AddMoim = ({ userInfo }) =>{
   // 생성 모임 정보 담아두는 스테이트
   const [addMoimInfo, setAddMoimInfo] = useState({
       leadername : userInfo.username,
-      moimName: '',
-      moimCategory : '',
-      moimLocation : '',  
-      moimShortInfo : ''
+      moimname: '',
+      category : '',
+      location : '',  
+      introduction : ''
   })
 
   
   // 시, 구 를 합쳐야 하기 때문에 임시로 값을 저장하는 스테이트
-  const [moimlocation, setMoimLocation] = useState({
+  const [location, setlocation] = useState({
     City : '',
     Town : ''
   })
 
   // 주소가 제대로 구까지 입력됐는지 확인 및 모임 이름 사용가능한지 확인
   const [isRegexs, setIsRegexs] = useState({
-    RMoimLocation : '',
-    RMoimName : ''
+    Rlocation : '',
+    Rmoimname : ''
   });
 
   const moim = ['공모전', '디자인', '이직·취업', '운동', '글쓰기', '한잔', '기타'];
@@ -40,19 +40,19 @@ const AddMoim = ({ userInfo }) =>{
   let eValue = e.target.value; // 해당 타겟 값 뽑아옴
   
   if(eDataset === 'Town'){ // 지역 정보에서 도(town)를 바꾼 경우만 다르게 저장 (시City)
-    setMoimLocation({...moimlocation, Town : eValue}) // 임시 town에 저장
-    setAddMoimInfo({...addMoimInfo, moimLocation : moimlocation.City + '/' +  eValue})  // 시/도 형식으로 저장
+    setlocation({...location, Town : eValue}) // 임시 town에 저장
+    setAddMoimInfo({...addMoimInfo, location : location.City + '/' +  eValue})  // 시/도 형식으로 저장
     
     // 임시정규식 결과 객체에 담을때 town location으로 담기고 city는 정규식 처리 안함
     if(eValue !== '' && eValue !== 'none' && eValue !== null){
-      setIsRegexs({...isRegexs, RMoimLocation : true}) // 
+      setIsRegexs({...isRegexs, Rlocation : true}) // 
     }else{
-      setIsRegexs({...isRegexs, RMoimLocation : false}) 
+      setIsRegexs({...isRegexs, Rlocation : false}) 
     }
   
   }else if(eDataset === 'City'){
-    setMoimLocation({ City: eValue, Town: '' }); // 임시 지역 객체에 city 값 바뀌면 Town값 초기화 User정보에 넣는건 town이 바뀔때만 저장함
-    setIsRegexs({...isRegexs, RMoimLocation : false});  
+    setlocation({ City: eValue, Town: '' }); // 임시 지역 객체에 city 값 바뀌면 Town값 초기화 User정보에 넣는건 town이 바뀔때만 저장함
+    setIsRegexs({...isRegexs, Rlocation : false});  
   }
 }
 
@@ -70,8 +70,8 @@ const addMoimCateHandler = (title, value)=>{
 }
 
 // 모임이름 중복 확인하는 핸들러
-const moimNameCheckHandler = () => {
-  axiosInstance.post('/moimnameCheck',{ moimname: addMoimInfo.moimName })
+const moimnameCheckHandler = () => {
+  axiosInstance.post('/moimnameCheck',{ moimname: addMoimInfo.moimname })
       .then((response => {
           alert(response.data);
       }
@@ -106,10 +106,10 @@ console.log(addMoimInfo);
           <div className='AddMoim-content-inner'>
             <input type='text' 
                   placeholder='모임 이름을 입력해주세요 :)'
-                  data-field= 'moimName'
+                  data-field= 'moimname'
                   onChange={addMoimHandler}
             />
-            <button className='AddMoim-content-check' onClick={moimNameCheckHandler}>중복확인</button>
+            <button className='AddMoim-content-check' onClick={moimnameCheckHandler}>중복확인</button>
           </div>
         </div>
 
@@ -132,7 +132,7 @@ console.log(addMoimInfo);
               <select id='ejoin-location1' data-field="Town" onChange={locationHandler}>
                 <option value="none">구/군 선택</option>  
                   {// ↓ 다른 컴포넌트에서 가져옴
-                    MoimAdressTown.find(town=> town.id === moimlocation.City)?.town.map((town)=>{ // selectedCity(선택한 시) 값에 따라 JoinAddressTown 있는 군·구목록을 가져옴
+                    MoimAdressTown.find(town=> town.id === location.City)?.town.map((town)=>{ // selectedCity(선택한 시) 값에 따라 JoinAddressTown 있는 군·구목록을 가져옴
                       return(
                         <option value={town} key={town}>{town}</option>
                         );
@@ -151,14 +151,14 @@ console.log(addMoimInfo);
             moim.map ((title,i)=>{
               return(
                 <div className='AddMoim-content-category' key={i} 
-                     onClick={()=>addMoimCateHandler('moimCategory', title)}
+                     onClick={()=>addMoimCateHandler('category', title)}
                 > 
-                { addMoimInfo.moimCategory === title ?
+                { addMoimInfo.category === title ?
                   <img src={`https://raw.githubusercontent.com/Jella-o312/modo-image/main/categoris/somoim/moim${i+1}.svg`} alt=""/>
                   :
                   <img src={`https://raw.githubusercontent.com/Jella-o312/modo-image/main/categoris/somoimBefore/cateBefore${i+1}.svg`} style={{opacity:0.5}} alt=""/>
                 }
-                  <span className={addMoimInfo.moimCategory === title? 'AddMoim-category-check': ''}>{title}</span>
+                  <span className={addMoimInfo.category === title? 'AddMoim-category-check': ''}>{title}</span>
                 </div>
               );
             })
@@ -171,7 +171,7 @@ console.log(addMoimInfo);
           <div className='AddMoim-content-inner'>
             <input type='text' 
                   placeholder='모임에 대해 간단하게 설명해주세요!'
-                  data-field= 'moimShortInfo'
+                  data-field= 'introduction'
                   onChange={addMoimHandler}
             />
           </div>
