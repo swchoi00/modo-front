@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import axiosInstance from "../../axiosInstance";
 import Notices from "../FAQ/mockData/Notices";
 
-function Notice ( {currentPage, setCurrentPage} ) {
+function Notice ( {userInfo, currentPage, setCurrentPage} ) {
 
     const itemsPerPage = 10;
     const [isNoticeLoading, setIsNoticeLoading] = useState(true);
@@ -34,6 +34,8 @@ function Notice ( {currentPage, setCurrentPage} ) {
         })
     }
 
+    console.log(userInfo);
+
     return (
         <div className="FAQ-container">
             <Sidebar></Sidebar>
@@ -59,15 +61,19 @@ function Notice ( {currentPage, setCurrentPage} ) {
                     ad={"/noticeDetails"}
                     />
                 </div>
-{/* 
+
+                {userInfo.role === "admin" && (
+                    <button style={{marginTop : "1rem"}} >글 작성</button>
+                )}
+
                 <div className='pagination'>
                     <PaginationComponent
                         currentPage={currentPage}
                         itemsPerPage={itemsPerPage}
-                        totalItems={filteredData.length}
+                        totalItems={noticeList.length}
                         onPageChange={(page) => setCurrentPage(page)}
                     />
-                </div> */}
+                </div>
             </div>
 
 

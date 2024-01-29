@@ -84,7 +84,7 @@ function App() {
           <Route path ='/faq' element={<Faq currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
           <Route path ='/faqDetails/:id' element={<FaqDetails currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
 
-          <Route path ='/notice' element={<Notice currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
+          <Route path ='/notice' element={<Notice userInfo={userInfo} currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
           <Route path ='/noticeDetails/:id' element={<NoticeDetails notice={notice} currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
 
           <Route path='/moim' element={<Moim/>}/>
