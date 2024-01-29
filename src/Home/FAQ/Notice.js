@@ -2,12 +2,37 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PaginationComponent from '../../Pagination/PaginationComponent';
 import Sidebar from "./Sidebar";
 import Search from './Search';
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axiosInstance from "../../axiosInstance";
+import Notices from "../FAQ/mockData/Notices";
 
-function Notice () {
+function Notice ( {currentPage, setCurrentPage} ) {
 
-    const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
+    const [isNoticeLoading, setIsNoticeLoading] = useState(true);
+    const [noticeList, setNoticeList] = useState([]);
+
+    useEffect(() => {
+        if(isNoticeLoading) {
+            getNoticeList();
+        }
+    }, [isNoticeLoading]);
+    
+    const getNoticeList = () => {
+        axiosInstance.get("/notice")
+        .then((response) => {
+            setNoticeList([
+                ...Notices,
+                ...response.data
+            ]);
+
+            setIsNoticeLoading(false);
+        })
+        .catch((error) => {
+            console.log(error);
+            setIsNoticeLoading(false);
+        })
+    }
 
     return (
         <div className="FAQ-container">
@@ -24,16 +49,16 @@ function Notice () {
                     </div> */}
                 </div>
 
-                {/* <div className='Search'>
+                <div className='Search'>
                     <Search
+                    data={noticeList}
                     setCurrentPage={setCurrentPage}
                     currentPage={currentPage}
                     itemsPerPage={itemsPerPage}
                     path={"/"}
-                    ad={"/questions"}
+                    ad={"/noticeDetails"}
                     />
-
-                </div> */}
+                </div>
 {/* 
                 <div className='pagination'>
                     <PaginationComponent

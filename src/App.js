@@ -21,6 +21,7 @@ import MyPage from './MyPage/MyPage';
 import Faq from './Home/FAQ/Faq';
 import Notice from './Home/FAQ/Notice';
 import FaqDetails from './Home/FAQ/FaqDetails';
+import NoticeDetails from './Home/FAQ/NoticeDetails';
 
 function App() {
 
@@ -52,6 +53,12 @@ function App() {
     nickname : '',
   });
 
+  const [notice, setNotice] = useState({
+    title : '',
+    content : '',
+    member : userInfo.username
+  })
+
   const [isAuth, setIsAuth] = useState(false); // 로그인 상태 확인
 
   useEffect(() => {
@@ -76,7 +83,10 @@ function App() {
           <Route path ='/'element={<Main />}/> 
           <Route path ='/faq' element={<Faq currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
           <Route path ='/faqDetails/:id' element={<FaqDetails currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
-          <Route path ='/notice' element={<Notice />}/>
+
+          <Route path ='/notice' element={<Notice currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
+          <Route path ='/noticeDetails/:id' element={<NoticeDetails notice={notice} currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
+
           <Route path='/moim' element={<Moim/>}/>
           <Route path='/testAddMoim' element={<TestAddMoim userInfo={userInfo} />}></Route>  {/* 나중에 바꿔야함 */}
           <Route path='/signUp' element={<SignUp />}></Route>
