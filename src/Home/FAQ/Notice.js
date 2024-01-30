@@ -51,7 +51,7 @@ function Notice ( {userInfo, currentPage, setCurrentPage} ) {
                     </div> */}
                 </div>
 
-                <div className='Search'>
+                <div className='search-result-container'>
                     <Search
                     data={noticeList}
                     setCurrentPage={setCurrentPage}
@@ -66,7 +66,7 @@ function Notice ( {userInfo, currentPage, setCurrentPage} ) {
                     <button style={{marginTop : "1rem"}} >글 작성</button>
                 )}
 
-                <div className='pagination'>
+                <div className='pagination-container'>
                     <PaginationComponent
                         currentPage={currentPage}
                         itemsPerPage={itemsPerPage}

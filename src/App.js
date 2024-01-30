@@ -22,6 +22,7 @@ import Faq from './Home/FAQ/Faq';
 import Notice from './Home/FAQ/Notice';
 import FaqDetails from './Home/FAQ/FaqDetails';
 import NoticeDetails from './Home/FAQ/NoticeDetails';
+import InquiryForm from './Home/FAQ/InquiryForm/InquiryForm';
 
 function App() {
 
@@ -81,11 +82,14 @@ function App() {
       <div className='App-Body'>
         <Routes>
           <Route path ='/'element={<Main />}/> 
+
           <Route path ='/faq' element={<Faq currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
           <Route path ='/faqDetails/:id' element={<FaqDetails currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
 
           <Route path ='/notice' element={<Notice userInfo={userInfo} currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
           <Route path ='/noticeDetails/:id' element={<NoticeDetails notice={notice} currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
+
+          <Route path='/inquiryForm' element={<InquiryForm userInfo={userInfo} currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
 
           <Route path='/moim' element={<Moim/>}/>
           <Route path='/testAddMoim' element={<TestAddMoim userInfo={userInfo} />}></Route>  {/* 나중에 바꿔야함 */}

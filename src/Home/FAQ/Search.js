@@ -7,7 +7,7 @@ function Search({ data, currentPage, itemsPerPage, path, ad, selectedCategory })
     console.log(currentPage);
 
     return (
-        <div className="search-container">
+        <div className="search-results">
 
             <table className="faq-table">
                 <tbody className="faq-tbody">

@@ -56,7 +56,7 @@ function Faq( {currentPage, setCurrentPage} ) {
                     </div>
                 </div>
 
-                <div className='Search'>
+                <div className='search-result-container'>
                     <Search
                     data={filteredData}
                     setCurrentPage={setCurrentPage}
@@ -69,7 +69,7 @@ function Faq( {currentPage, setCurrentPage} ) {
 
                 </div>
 
-                <div className='pagination'>
+                <div className='pagination-container'>
                     <PaginationComponent
                         currentPage={currentPage}
                         itemsPerPage={itemsPerPage}

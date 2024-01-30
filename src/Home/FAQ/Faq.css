@@ -8,7 +8,6 @@
 
 .right-FAQ-container {
     width: 60%;
-    
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -33,7 +32,6 @@
     border-radius: 5px;
     background-color: rgb(240, 240, 240);
 }
-
 
 
 .search-input {
@@ -83,12 +81,23 @@
 }
 
 
-.pagination {
+/* Search 컴포넌트 감싸는 div */
+.search-result-container {
+    position: relative;
+    flex-grow: 1;
+}
+
+.pagination-container {
+    
+    position: sticky;
+    bottom: 0;
+    background-color: white;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 1rem;
+    margin-top: auto; /* 추가: margin-top을 auto로 설정하여 flex item을 아래로 밀어냅니다. */
+    z-index: 1;
 }
 
 /* .right-FAQ-container {
