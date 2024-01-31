@@ -23,6 +23,7 @@ import Notice from './Home/FAQ/Notice';
 import FaqDetails from './Home/FAQ/FaqDetails';
 import NoticeDetails from './Home/FAQ/NoticeDetails';
 import InquiryForm from './Home/FAQ/InquiryForm/InquiryForm';
+import InquiryForm_write from './Home/FAQ/InquiryForm/InquiryForm_write';
 
 function App() {
 
@@ -90,6 +91,7 @@ function App() {
           <Route path ='/noticeDetails/:id' element={<NoticeDetails notice={notice} currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
 
           <Route path='/inquiryForm' element={<InquiryForm userInfo={userInfo} currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
+          <Route path='/inquiryForm_write' element={<InquiryForm_write userInfo={userInfo} />}/>
 
           <Route path='/moim' element={<Moim/>}/>
           <Route path='/testAddMoim' element={<TestAddMoim userInfo={userInfo} />}></Route>  {/* 나중에 바꿔야함 */}
