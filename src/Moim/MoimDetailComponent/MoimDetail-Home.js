@@ -4,7 +4,8 @@ import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import face from '../../HomeComponent/ReviewComponent/face.svg';
 import leaderIcon from '../../Img/moimDetail_leaderIcon.svg';
 import managerIcon from '../../Img/moimDetail_managerIcon.svg';
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Button, Modal, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { useState } from 'react';
 
 const MoimDetailHome = () =>{
 
@@ -79,10 +80,19 @@ const imsiMemberData = [
   },
   {
     memberRole : 'member',
-    nickname : 'Jella',
+    nickname : '상운',
     profileText : '안녕하세요'
   }
 ];
+
+const [isMoreMember, setIsMoreMember] = useState(false);
+const [memberKickOut, setMemberKickOut] = useState(false);
+const [memberKickOutName, setMemberKickOutName] = useState('');
+const memberKickOutHandler = (name)=>{
+  setMemberKickOut(true);
+  setMemberKickOutName(name);
+}
+
 
   return(
     <div className="moimDetail-moimContent-home">
@@ -168,7 +178,7 @@ const imsiMemberData = [
 
       <span className='moimDatail-line'>&nbsp;</span>{/*⭐ 컨텐츠 나누는 중간 줄 ⭐*/}
       
-      {/*⭐ 모임일정 ⭐*/}
+      {/*⭐ 공지사항 ⭐*/}
       <div className='moimDetail-moimContent-home-boardBox'>
         <div className="moimDetail-moimContent-home-header">
           <h6>꼭 읽어주세요!</h6>
@@ -216,13 +226,81 @@ const imsiMemberData = [
           {/* 멤버가 4명 이상인 경우 멤버 더 보기 버튼 활성화 (hover 시 tooltip버튼 활성화) */}
           {imsiMemberData.length > 4 && (
             <OverlayTrigger placement="top" overlay={<Tooltip>멤버 더 보기</Tooltip>}>
-              <div className='moimDetail-moimContent-home-member-content2'>
+              <div className='moimDetail-moimContent-home-member-content2' onClick={() => setIsMoreMember(true)}>
                 <div>+</div>
               </div>
             </OverlayTrigger>
           )}
         </div>
       </div>
+
+
+      <Modal
+        // size="lg"
+        show={isMoreMember}
+        onHide={() => setIsMoreMember(false)}
+        aria-labelledby="example-modal-sizes-title-lg"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="example-modal-sizes-title-lg">
+            모임멤버
+          </Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+          <div className='moimDetail-moimContent-home-member-content-modalBox'>
+          {
+            imsiMemberData.map((data,i)=>(
+              <div className='moimDetail-moimContent-home-member-content-modal' key={i}>
+                  <div className='moimDetail-moimContent-home-member-content-img-modal'>
+                    {data.memberRole === 'leader' && <img className='moimDetail-moimLeaderIcon' src={leaderIcon} alt=''/>}
+                    {data.memberRole === 'manager' && <img className='moimDetail-moimManagerIcon' src={managerIcon} alt=''/>}
+                    <img className='moimDetail-moimMember-img' src={face} alt=''/>
+                  </div>
+                  <div className='moimDetail-moimContent-home-member-content-text'>
+                    <div>{data.nickname}</div>
+                    <span>{data.profileText}</span>
+                  </div>
+                  
+                  {
+                    data.memberRole!== 'leader' &&
+                    <div className='moimDetail-moimContent-home-member-modal-setting'>
+                      {/* <button>{data.memberRole==='manager'? '★ 매니저 해제' : '★ 매니저 지정'}</button> */}
+                      <Button className={`moimDetail-moimContent-home-member-modal-settingBtn 
+                              ${data.memberRole==='manager' && 'member-modal-managerBtn'}`}
+                              size='sm'>{data.memberRole==='manager'? '★ 매니저 해제' : '★ 매니저 지정'}</Button>
+                      <Button size='sm'variant="outline-secondary" onClick={()=>memberKickOutHandler(data.nickname)}>모임퇴장</Button>
+                    </div>
+                  }
+                </div>
+            ))
+          }
+          
+          </div>
+        </Modal.Body>
+      </Modal>
+
+      <Modal
+        show={memberKickOut}
+        size="sm"
+        onHide={() => setMemberKickOut(false)}
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Body>
+          <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding:'0.5rem 0'}}>
+            <span><strong>{memberKickOutName}</strong> 님을 퇴장시키겠습니까?</span>
+            {/* <br/> */}
+            <span style={{fontSize: '12.5px', color: 'red', margin:'0.8rem 0 1.4rem'}}>해당 멤버는 다시 모임에 들어올 수 없어요</span>
+            <div>
+              <Button size='sm' variant="outline-secondary" style={{width: '5rem'}} onClick={()=>setMemberKickOut(false)}>취소</Button>
+              <Button size='sm' variant='danger' style={{width: '5rem', marginLeft: '0.7rem'}}>퇴장</Button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
+
+
 
     </div>
   )
