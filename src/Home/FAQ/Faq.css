@@ -8,6 +8,7 @@
 
 .right-FAQ-container {
     width: 60%;
+    height: 36rem;
     padding: 20px;
     display: flex;
     flex-direction: column;

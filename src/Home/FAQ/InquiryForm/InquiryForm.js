@@ -21,7 +21,10 @@ function InquiryForm( {userInfo, currentPage, setCurrentPage} ) {
     }, [isInquiryFormLoading]);
 
     const getInquiryFormList = () => {
-        axiosInstance.get("/inquiryForm")
+
+        let encodedUsername = encodeURIComponent(userInfo.username);
+
+        axiosInstance.get(`/myInquiryForm/${encodedUsername}`)
         .then((response) => {
             setInquiryFormList(response.data);
             setIsInquiryFormLoading(false);
@@ -30,6 +33,8 @@ function InquiryForm( {userInfo, currentPage, setCurrentPage} ) {
             setIsInquiryFormLoading(false);
         })     
     }
+
+    console.log(InquiryFormList);
 
     const writeInquiryForm = () => {
         navigate('/inquiryForm_write')
