@@ -1,11 +1,17 @@
 import { useState } from "react";
 import Calendar from "react-calendar";
 import './MoimDetail-BoardComponent.css';
-// import 'react-calendar/dist/Calendar.css';
 import './Calendar.css';
 import moment from 'moment';
 import 'moment/locale/ko';  // 요일 한글로 구하려면 필요
-import { Modal } from "react-bootstrap";
+// import { Form, Modal } from "react-bootstrap";
+// import ReactDatePicker from "react-datepicker";
+// import { ko } from 'date-fns/locale'; // datePicker (일정추가 input) 한글패치
+// import './react-datepicker.css';
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
+// import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import MoimDetailBoardComponentModal from "./MoimDetail-BoardComponent-Modal";
 
 const MoimDetailBoardComponent = ()=>{
   //⭐임시⭐
@@ -75,28 +81,30 @@ const MoimDetailBoardComponent = ()=>{
       maxMamber : 25,
       moimType : '정기'
     }
-    // ,
-    // {
-    //   id : 2,
-    //   title : '🏆연말 배드민턴 대회🏆',
-    //   startDate: '12/23',
-    //   endDate : '12/24',
-    //   startDay : '(토)',
-    //   endDay : '(일)',
-    //   dDay : 12,
-    //   startTime : '14:00',
-    //   endTime : '12:00',
-    //   place : '계양구 구민체육관 2관',
-    //   price : '입장료 30,000원',
-    //   joinMember : 29,
-    //   maxMamber : 40,
-    //  moimType : '비정기'
-    // }
+    ,
+    {
+      id : 2,
+      title : '🏆연말 배드민턴 대회🏆',
+      startDate: '12/23',
+      endDate : '12/24',
+      startDay : '(토)',
+      endDay : '(일)',
+      dDay : 12,
+      startTime : '14:00',
+      endTime : '12:00',
+      place : '계양구 구민체육관 2관',
+      price : '입장료 30,000원',
+      joinMember : 29,
+      maxMamber : 40,
+     moimType : '비정기'
+    }
     ];
 
-    const [addScheduleModal, setAddScheduleModal] = useState(false);
 
-    console.log(imsiScheduleData.length);
+// 일정 추가 버튼 눌렀을때 모달 작동시키는 스테이트
+const [addScheduleModal, setAddScheduleModal] = useState(false);
+
+
   return(
     <div className="moimDetail-calendar-container">
     <div className="moimDetail-calendarBox">
@@ -114,6 +122,7 @@ const MoimDetailBoardComponent = ()=>{
       </div>  
     </div>
 
+    {/* 달력 옆 모임 일정 박스 */}
     <div className="moimDetail-calendar-scheduleBox">
       {
         imsiScheduleData.map((data, i)=>(
@@ -156,57 +165,18 @@ const MoimDetailBoardComponent = ()=>{
           <span>+</span>모임 일정 추가하기
         </div>
       }
+      
+                    
     </div>
 
+    {/* 모임 일정 추가하는 모달 */}
+    <MoimDetailBoardComponentModal 
+      addScheduleModal={addScheduleModal} 
+      setAddScheduleModal={setAddScheduleModal} 
+      Ckdate={date} 
+      moment={moment}
+    />
 
-    <Modal
-        show={addScheduleModal}
-        size="lg"
-        onHide={() => setAddScheduleModal(false)}
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Header closeButton>
-          <Modal.Title id="example-modal-sizes-title-lg">
-          <span style={{color: '#9087d3'}}>{moment(date).format("M월 D일 (ddd)", 'ko')}</span> 모임 일정 추가하기
-          </Modal.Title>
-        </Modal.Header>
- 
-        <Modal.Body>
-          <div className="moimDetail-calendar-scheduleAdd-infoBox" style={{height: '30rem'}}>
-            <div className="moimDetail-calendar-scheduleAdd-info">
-              <span>일정 제목</span>
-              <input></input>
-            </div>
-            <div className="moimDetail-calendar-scheduleAdd-info">
-              <span>날짜</span>
-              <input></input>
-            </div>
-            <div className="moimDetail-calendar-scheduleAdd-info">
-              <span>시간 </span>
-              <input></input>
-            </div>
-            <div className="moimDetail-calendar-scheduleAdd-info">
-              <span>위치 </span>
-              <input></input>
-            </div>
-            <div className="moimDetail-calendar-scheduleAdd-info">
-              <span>비용 </span>
-              <input></input>
-            </div>
-            <div className="moimDetail-calendar-scheduleAdd-info">
-              <span>기타사항 </span>
-              <input></input>
-            </div>
-            <div className="moimDetail-calendar-scheduleAdd-info">
-              <span>참여자 수 </span>
-              <input></input>
-            </div>
-          </div>
-          <button>일정 추가</button>
-        </Modal.Body>
-      </Modal>
-    
     
     
  </div>
@@ -214,4 +184,3 @@ const MoimDetailBoardComponent = ()=>{
 }
 
 export default MoimDetailBoardComponent;
-
