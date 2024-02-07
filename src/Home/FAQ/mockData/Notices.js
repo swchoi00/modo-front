@@ -1,6 +1,6 @@
 let Notices = [
     {
-        no : "공지1",
+        id : "공지1",
         member : {username : 'admin', nickname : '관리자'},
         createDate : "2023-01-27",
         title : "첫번째 공지사항 입니다",
@@ -15,7 +15,7 @@ let Notices = [
         `
     },
     {
-        no : "공지2",
+        id : "공지2",
         member : {username : 'admin', nickname : '관리자'},
         createDate : "2023-01-27",
         title : "두번째 공지사항 입니다",

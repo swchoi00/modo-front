@@ -17,7 +17,7 @@ function NoticeDetails( {notice, state} ) {
     useEffect(() => {
         if(id.startsWith('공지')) {
             const noticeId = parseInt(id.replace('공지', ''), 10);
-            const mockData = Notices.find(item => item.no === `공지${noticeId}`);
+            const mockData = Notices.find(item => item.id === `공지${noticeId}`);
 
             if (mockData) {
                 setDetail(mockData);
@@ -26,7 +26,7 @@ function NoticeDetails( {notice, state} ) {
                 setIsLoading(false);
             }
         } else {
-            axiosInstance.get(`/noticeDetails/${no}`)
+            axiosInstance.get(`/noticeDetails/${id}`)
             .then((response) => {
                 setDetail(response.data);
                 setIsLoading(false);

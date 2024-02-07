@@ -1,6 +1,6 @@
 let Questions = [
     {
-        no : 'FAQ1',
+        id : 'FAQ1',
         category : "소모임",
         title : "모임 생성은 어떻게 하는건가요?",
         content :
@@ -11,7 +11,7 @@ let Questions = [
         `
     },
     {
-        no : 'FAQ2',
+        id : 'FAQ2',
         category : "계정관련",
         title : "회원탈퇴를 하고싶어요",
         content :
@@ -23,7 +23,7 @@ let Questions = [
         `
     },
     {
-        no : 'FAQ3',
+        id : 'FAQ3',
         category : "멘토링",
         title : "멘토링 기능을 이용하고싶어요",
         content :
@@ -34,7 +34,7 @@ let Questions = [
         `
     },
     {
-        no : 'FAQ4',
+        id : 'FAQ4',
         category : "계정관련",
         title : "FAQ 테스트중 1",
         content :
@@ -46,7 +46,7 @@ let Questions = [
         `
     },
     {
-        no : 'FAQ5',
+        id : 'FAQ5',
         category : "계정관련",
         title : "FAQ 테스트중 2",
         content :

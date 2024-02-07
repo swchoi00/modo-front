@@ -18,7 +18,7 @@ function Search({ data, currentPage, itemsPerPage, path, ad, selectedCategory })
                             <tr key={i} className="faq-tr">
                                 <td className="faq-td"><Link
                                     to={{
-                                        pathname: `${ad}/${item.no}`,
+                                        pathname: `${ad}/${item.id}`,
                                         state: {
                                             currentPage
                                         },
@@ -35,7 +35,7 @@ function Search({ data, currentPage, itemsPerPage, path, ad, selectedCategory })
                                     padding : '0.3rem'
                                     }}>답변 완료</span>}
                                 </Link></td>
-
+                                
                             </tr>
                         ))}
                 </tbody>

@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import data from '../FAQ/mockData/Questions'; // 예시로 데이터 가져오기
 import Sidebar from './Sidebar';
 import './FaqDetails.css';
+import Questions from '../FAQ/mockData/Questions';
+import axiosInstance from '../../axiosInstance';
 
 
 
@@ -11,15 +13,39 @@ function FaqDetails( {state} ) {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const selectedData = data.find(item => item.no === parseInt(id));
+    // const selectedData = data.find(item => item.id === parseInt(id));
 
-    if (!selectedData) {
-        return (
-            <div>
-                해당 데이터를 찾을 수 없습니다.
-            </div>
-        );
-    }
+    const [isLoading, setIsLoading] = useState(true);
+    const [faqDetail, setFaqDetail] = useState();
+
+    useEffect(() => {
+        if(id.startsWith('FAQ')) {
+            const faqId = parseInt(id.replace('FAQ', ''), 10);
+            const mockData = Questions.find(item => item.id === `FAQ${faqId}`);
+
+            if (mockData) {
+                setFaqDetail(mockData);
+                setIsLoading(false);
+            } else {
+                setIsLoading(false);
+            }
+        } else {
+            axiosInstance.get(`/faqDetails/${id}`)
+            .then((response) => {
+                setFaqDetail(response.data);
+                setIsLoading(false);
+            }).catch((error) => {
+                console.log(error);
+                setIsLoading(false);
+            });
+        }
+    }, [id]);
+
+    if(isLoading)
+    return 
+    <div>
+        데이터 로딩중
+    </div>
 
     const returnListHandler = () => {
         navigate('/faq', {
@@ -37,13 +63,13 @@ function FaqDetails( {state} ) {
 
                 <div className='right-bar-container'>
                     <div className='notice'>
-                        <h4 className='faq-title'>{selectedData.title}</h4>
+                        <h4 className='faq-title'>{faqDetail.title}</h4>
                     </div>
 
                 </div>
                 
                 <div className='faq-content-container'>
-                    {selectedData.content}
+                    {faqDetail.content}
                 </div>
 
                 <button onClick={returnListHandler}>

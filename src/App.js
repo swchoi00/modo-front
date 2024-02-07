@@ -24,6 +24,8 @@ import FaqDetails from './Home/FAQ/FaqDetails';
 import NoticeDetails from './Home/FAQ/NoticeDetails';
 import InquiryForm from './Home/FAQ/InquiryForm/InquiryForm';
 import InquiryForm_write from './Home/FAQ/InquiryForm/InquiryForm_write';
+import Notice_write from './Home/FAQ/Notice_write';
+import Faq_write from './Home/FAQ/Faq_write';
 
 function App() {
 
@@ -84,11 +86,13 @@ function App() {
         <Routes>
           <Route path ='/'element={<Main />}/> 
 
-          <Route path ='/faq' element={<Faq currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
+          <Route path ='/faq' element={<Faq userInfo={userInfo} currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
           <Route path ='/faqDetails/:id' element={<FaqDetails currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
+          <Route path ='/faq_write' element={<Faq_write userInfo={userInfo} />} />
 
           <Route path ='/notice' element={<Notice userInfo={userInfo} currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
           <Route path ='/noticeDetails/:id' element={<NoticeDetails notice={notice} currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
+          <Route path ='/notice_write' element={<Notice_write userInfo={userInfo}/>} />
 
           <Route path='/inquiryForm' element={<InquiryForm userInfo={userInfo} currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
           <Route path='/inquiryForm_write' element={<InquiryForm_write userInfo={userInfo} />}/>

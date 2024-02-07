@@ -5,12 +5,15 @@ import Search from './Search';
 import { useEffect, useState } from "react";
 import axiosInstance from "../../axiosInstance";
 import Notices from "../FAQ/mockData/Notices";
+import { useNavigate } from "react-router-dom";
 
 function Notice ( {userInfo, currentPage, setCurrentPage} ) {
 
     const itemsPerPage = 10;
     const [isNoticeLoading, setIsNoticeLoading] = useState(true);
     const [noticeList, setNoticeList] = useState([]);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         if(isNoticeLoading) {
@@ -32,6 +35,10 @@ function Notice ( {userInfo, currentPage, setCurrentPage} ) {
             console.log(error);
             setIsNoticeLoading(false);
         })
+    }
+
+    const writeNoticeBtn = () => {
+        navigate('/notice_write')
     }
 
     console.log(userInfo);
@@ -62,8 +69,8 @@ function Notice ( {userInfo, currentPage, setCurrentPage} ) {
                     />
                 </div>
 
-                {userInfo.role === "admin" && (
-                    <button style={{marginTop : "1rem"}} >글 작성</button>
+                {userInfo.role === "ADMIN" && (
+                    <button style={{marginTop : "1rem"}} onClick={writeNoticeBtn}>글 작성</button>
                 )}
 
                 <div className='pagination-container'>
