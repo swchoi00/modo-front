@@ -40,7 +40,7 @@ const Header = ( {isAuth, setIsAuth, userInfo} ) =>{
           <Link className='nav-aTag' to = {"/moim"} >소모임</Link>
           <Link className='nav-aTag' to = {"/"}>멘토링</Link>
           <Link className='nav-aTag' to = {"/"}>커뮤니티</Link>
-          <Link className='nav-aTag' to = {"/"}>FAQ</Link>
+          <Link className='nav-aTag' to = {"/faq"}>FAQ</Link>
         </div>
 
         <div className='nav-searchBar'>        
@@ -111,7 +111,7 @@ const Header = ( {isAuth, setIsAuth, userInfo} ) =>{
             <Link to = {"/moim"}>소모임</Link>
             <Link to = {"/"}>멘토링</Link>
             <Link to = {"/"}>커뮤니티</Link>
-            <Link to = {"/"}>FAQ</Link>
+            <Link to = {"/faq"}>FAQ</Link>
           </div>
           
           {/* 🟡🟡🟡🟡디자인 보완 필요🟡🟡🟡🟡 */}
