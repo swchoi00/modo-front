@@ -102,7 +102,7 @@
 
 /* 데이트피커 input 박스 가로 너비 설정을 위한 wrapper div class */
 .customDatePickerWidth{
-  width: 47.4%;
+  width: 47%;
 }
 .customDatePickerWidth > div.react-datepicker-wrapper, 
 .customDatePickerWidth > div > div.react-datepicker__input-container

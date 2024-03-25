@@ -70,17 +70,21 @@ const scheduleSwitch= useRef();
 const scheduleSwitchHandler= (e) => {
   setScheduleTerm(e.target.checked);
   scheduleSwitch.current.blur(); // focus 해제 (스위치가 변경될때마다, css에서 따로 설정 불가능...)
-  setAddScheduleInfo((data)=>({...data, scheduleEndDate: ''}))
+  setAddScheduleInfo((data)=>({...data, scheduleEndDate: ''}));
 };
 
 
 // 일정 추가 모달이 켜지고 꺼질때마다 
 // 사용자가 모임디테일페이지에서 날짜를 바꾸면 해당날짜로 일정 시작 날을 바꿔줌
 useEffect(() => {
+    // 처음에 사용자가 선택한 날짜로 값을 보여주기 위해
     setAddScheduleInfo((data) => ({
       ...data, scheduleStartDate: Ckdate
     }));
+}, [addScheduleModal, Ckdate]);
 
+// 종료 시간값을 빈값으로 둘 수 없어서 이렇게 처리함
+useEffect(()=>{
     // 최종 제출 정규식에서 일정이 하루짜리일때도 통과되야해서 추가함
     // 하루일정일때는 scheduleEndDate에 임시 값이 들어 있음
     if(!scheduleTerm){
@@ -88,8 +92,7 @@ useEffect(() => {
         ...data, scheduleEndDate: 'no'
       }));
     }
-}, [addScheduleModal, Ckdate, scheduleTerm]);
-
+},[addScheduleModal, scheduleTerm]);
 
 
 
@@ -189,12 +192,11 @@ const addScheduleSubmitCheck = Object.entries(addScheduleInfo).every(([key, valu
 
 
 
-
 const mimi= ()=>{
   window.alert('서버랑 연결해야되유');
 }
 
-console.log(addScheduleSubmitCheck, scheduleTimeRegex);
+// console.log(addScheduleInfo.scheduleEndDate + '😡');
 
 
   return(
@@ -207,10 +209,16 @@ console.log(addScheduleSubmitCheck, scheduleTimeRegex);
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
-        <Modal.Header closeButton>
+        {/* style={{border:'none'}} */}
+        <Modal.Header closeButton > 
           {/* 수정해야함 */}
           <Modal.Title id="example-modal-sizes-title-lg">
-          <span style={{color: '#9087d3'}}>{moment(Ckdate).format("M월 D일 (ddd)", 'ko')}</span> 모임 일정 추가하기
+            <div style={{width:'87%', position: 'absolute', top: '0', paddingTop: '0.5rem', display: 'flex', justifyContent:'space-between', alignItems: 'center'}}>
+              모임 일정 추가하기 
+              <span style={{color: '#a472ff', fontSize:'medium'}}>
+                {moment(addScheduleInfo.scheduleStartDate).format("M월 D일 (ddd)", 'ko')}
+              </span> 
+            </div>
           </Modal.Title>
         </Modal.Header>
  

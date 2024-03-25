@@ -11,7 +11,15 @@ const MoimDetailBoard = () =>{
           {/* 😡임시😡 ↓ 모임장만 보이게 해야함 */}
           <FontAwesomeIcon icon={faEllipsisVertical} size="lg"/>
       </div>
+
       <MoimDetailBoardComponent/>
+
+      <div className="moimDetail-moimContent-board-header">
+          <h6>모임 게시판</h6>
+          {/* 😡임시😡 ↓ 모임장만 보이게 해야함 */}
+          <FontAwesomeIcon icon={faEllipsisVertical} size="lg"/>
+      </div>
+
     </div>
   )
 } 

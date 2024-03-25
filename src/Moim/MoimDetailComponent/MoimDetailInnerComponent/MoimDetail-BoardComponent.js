@@ -11,7 +11,9 @@ import 'moment/locale/ko';  // 요일 한글로 구하려면 필요
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 // import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import sorryIcon from '../../../Img/sorryIcon.svg';
 import MoimDetailBoardComponentModal from "./MoimDetail-BoardComponent-Modal";
+
 
 const MoimDetailBoardComponent = ()=>{
   //⭐임시⭐
@@ -65,45 +67,47 @@ const MoimDetailBoardComponent = ()=>{
   
   //⭐임시 모임일정 데이터⭐
   const imsiScheduleData = [
-    {
-      id : 1,
-      title : '🏸정기민턴🏸',
-      startDate: '12/13',
-      endDate : '',
-      startDay : '(수)',
-      endDay : '',
-      dDay : 2,
-      startTime : '16:00',
-      endTime : '20:00',
-      place : '계양 실내 배드민턴장',
-      price : '입장료 5,000원',
-      joinMember : 19,
-      maxMamber : 25,
-      moimType : '정기'
-    }
-    ,
-    {
-      id : 2,
-      title : '🏆연말 배드민턴 대회🏆',
-      startDate: '12/23',
-      endDate : '12/24',
-      startDay : '(토)',
-      endDay : '(일)',
-      dDay : 12,
-      startTime : '14:00',
-      endTime : '12:00',
-      place : '계양구 구민체육관 2관',
-      price : '입장료 30,000원',
-      joinMember : 29,
-      maxMamber : 40,
-     moimType : '비정기'
-    }
+    // {
+    //   id : 1,
+    //   title : '🏸정기민턴🏸',
+    //   startDate: '12/13',
+    //   endDate : '',
+    //   startDay : '(수)',
+    //   endDay : '',
+    //   dDay : 2,
+    //   startTime : '16:00',
+    //   endTime : '20:00',
+    //   place : '계양 실내 배드민턴장',
+    //   price : '입장료 5,000원',
+    //   joinMember : 19,
+    //   maxMamber : 25,
+    //   moimType : '정기'
+    // }
+    // ,
+    // {
+    //   id : 2,
+    //   title : '🏆연말 배드민턴 대회🏆',
+    //   startDate: '12/23',
+    //   endDate : '12/24',
+    //   startDay : '(토)',
+    //   endDay : '(일)',
+    //   dDay : 12,
+    //   startTime : '14:00',
+    //   endTime : '12:00',
+    //   place : '계양구 구민체육관 2관',
+    //   price : '입장료 30,000원',
+    //   joinMember : 29,
+    //   maxMamber : 40,
+    //  moimType : '비정기'
+    // }
     ];
 
 
 // 일정 추가 버튼 눌렀을때 모달 작동시키는 스테이트
 const [addScheduleModal, setAddScheduleModal] = useState(false);
 
+
+console.log(imsiScheduleData.length);
 
   return(
     <div className="moimDetail-calendar-container">
@@ -160,11 +164,22 @@ const [addScheduleModal, setAddScheduleModal] = useState(false);
           </div>
         ))
       }
-      { imsiScheduleData.length >=1 &&
+
+
+      {imsiScheduleData.length === 0 && ( // 일정이 없을때
+        <div className="moimDetail-calendar-noSchedule">
+          <img src={sorryIcon} alt=""/>
+          <div>
+            <span>{moment(date).format("M월 D일 (ddd)", 'ko')}</span>은 일정이 없어요
+          </div>
+        </div>
+      )}
+
+      {imsiScheduleData.length < 2 && ( // 해당 날짜에 일정이 두개이상일때는 일정 추가버튼이 안보임
         <div className="moimDetail-calendar-scheduleAdd" onClick={()=>setAddScheduleModal(true)}>
           <span>+</span>모임 일정 추가하기
         </div>
-      }
+      )}
       
                     
     </div>

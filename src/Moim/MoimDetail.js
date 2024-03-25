@@ -3,7 +3,7 @@ import './MoimDetail.css';
 import { faList} from '@fortawesome/free-solid-svg-icons';
 import { faHeart as fullHeart} from '@fortawesome/free-regular-svg-icons';
 import { faHeart as lineHeart} from '@fortawesome/free-solid-svg-icons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import face from '../HomeComponent/ReviewComponent/face.svg';
 import { Carousel } from 'react-bootstrap';
 import MoimDetailHome from './MoimDetailComponent/MoimDetail-Home';
@@ -31,6 +31,26 @@ const MoimDetail = ()=>{
   const moimMenuCkHandler = (e) =>{
     setMoimMenuCk(e.target.textContent); // value로 뽑으니까 값이 안나와서 textContent로 변경
   }
+
+  // 😡임시 모임디테일 페이지 내에서 게시판, 갤러리, 채팅등으로 이동 시 새로고침했을때 페이지 유지를 위함
+  useEffect(() => {
+    // 컴포넌트가 마운트될 때 로컬 스토리지에서 값을 가져옴
+    const savedMenuCk = localStorage.getItem('moimMenuCk');
+    if (savedMenuCk) {
+      setMoimMenuCk(savedMenuCk);
+    }
+  }, []);
+
+  useEffect(() => {
+    // 컴포넌트가 언마운트될 때 현재 메뉴 상태를 로컬 스토리지에 저장
+    localStorage.setItem('moimMenuCk', moimMenuCk);
+    return () => {
+      // 언마운트 시에는 클린업 함수에서 저장된 값 삭제
+      localStorage.removeItem('moimMenuCk');
+    };
+  }, [moimMenuCk]);
+
+
   console.log(moimMenuCk);
 
   return(
