@@ -1,0 +1,25 @@
+
+.faq-table {
+    width: 100%;
+    margin-top: 1rem;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.faq-tr {
+    margin-bottom: 10px; /* 원하는 마진 값으로 조절 */
+}
+
+.faq-tr td {
+    padding: 8px;
+}
+
+.faq-td a {
+    text-decoration: none;
+    color: inherit;
+    font-weight: 600;
+}
+
+.faq-td a:hover {
+    color: #6A60A9;
+}

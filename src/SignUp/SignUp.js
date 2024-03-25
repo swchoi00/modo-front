@@ -1,7 +1,7 @@
 import './SignUp.css';
-import modo from './SNSImage/modo.png';
+// import modo from './SNSImage/modo.png';
 import naver from './SNSImage/naver.png';
-import kakao from './SNSImage/kakao.png';
+// import kakao from './SNSImage/kakao.png';
 import { useState } from 'react';
 import Modal from './Modal';
 import TermsContents from './TermsContents';
@@ -94,22 +94,22 @@ function SignUp() {
     const [usernameRegexMsg, setUsernameRegexMsg] = useState("");
     const [nicknameRegexMsg, setNicknameRegexMsg] = useState("");
 
-    const checkPasswordMatch = () => {
-        const pwMsgElement = document.getElementById("pwMsg");
+    // const checkPasswordMatch = () => {
+    //     const pwMsgElement = document.getElementById("pwMsg");
 
-        if (memberData.password !== memberData.pwCheck) {
-            setPwChkMsg("비밀번호가 일치하지 않습니다");
-            setIsPasswordChk(false);
-            pwMsgElement.classList.remove("success");
-        } else if (memberData.pwCheck === "") {
-            setPwChkMsg("");
-            pwMsgElement.classList.remove("success");
-        } else {
-            setPwChkMsg("비밀번호가 같습니다 !");
-            setIsPasswordChk(true);
-            pwMsgElement.classList.add("success");
-        }
-    };
+    //     if (memberData.password !== memberData.pwCheck) {
+    //         setPwChkMsg("비밀번호가 일치하지 않습니다");
+    //         setIsPasswordChk(false);
+    //         pwMsgElement.classList.remove("success");
+    //     } else if (memberData.pwCheck === "") {
+    //         setPwChkMsg("");
+    //         pwMsgElement.classList.remove("success");
+    //     } else {
+    //         setPwChkMsg("비밀번호가 같습니다 !");
+    //         setIsPasswordChk(true);
+    //         pwMsgElement.classList.add("success");
+    //     }
+    // };
 
     const inputChangeHandler = (e) => {
         const { id, value } = e.target;
@@ -292,7 +292,7 @@ function SignUp() {
                 <div className='listContainerLast'>
                     <div className='inputWrapper'>
                         <input type='checkbox' className='agreeAll' id='agreeAll' checked={allChecked} onChange={handleAllCheck}></input>
-                        <label className='' for='agreeAll'>전체동의</label>
+                        <label className='' htmlFor='agreeAll'>전체동의</label>
                     </div>
                     <div className='afterAgreeAll'></div>
                     <br></br>
@@ -300,7 +300,7 @@ function SignUp() {
                     <div className='TermsContainer'>
                         <div className='inputWrapper'>
                             <input type='checkbox' className='' id='accessTerms' checked={accessTermsChecked} onChange={() => handleSingleCheck('accessTerms')}></input>
-                            <label className='AgreeTerms' for='accessTerms'>(필수) 이용약관 동의</label>
+                            <label className='AgreeTerms' htmlFor='accessTerms'>(필수) 이용약관 동의</label>
                             <button className='showTerms' onClick={() => openModal('accessTerms')}>보기</button>
                         </div>
                     </div>
@@ -308,7 +308,7 @@ function SignUp() {
                     <div className='TermsContainer'>
                         <div className='inputWrapper'>
                             <input type='checkbox' className='' id='infoTerms' checked={infoTermsChecked} onChange={() => handleSingleCheck('infoTerms')} ></input>
-                            <label className='AgreeTerms' for='infoTerms'>(필수) 개인정보 수집 및 이용 동의</label>
+                            <label className='AgreeTerms' htmlFor='infoTerms'>(필수) 개인정보 수집 및 이용 동의</label>
                             <button className='showTerms' onClick={() => openModal('infoTerms')}>보기</button>
                         </div>
                     </div>
@@ -316,7 +316,7 @@ function SignUp() {
                     <div className='TermsContainer'>
                         <div className='inputWrapper'>
                             <input type='checkbox' className='' id='ageCheck' checked={ageCheckChecked} onChange={() => handleSingleCheck('ageCheck')}></input>
-                            <label className='AgreeTerms' for='ageCheck'>(필수) 14세 이상입니다</label>
+                            <label className='AgreeTerms' htmlFor='ageCheck'>(필수) 14세 이상입니다</label>
                         </div>
                     </div>
                 </div>
@@ -331,14 +331,14 @@ function SignUp() {
                         onClick={() => {
                             window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_KAKAO_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT_URI}`
                         }}
-                    ><img className='kakao' src="https://d2v80xjmx68n4w.cloudfront.net/assets/icon/icon_kakao.png"></img>카카오로 회원가입</button>
+                    ><img className='kakao' src="https://d2v80xjmx68n4w.cloudfront.net/assets/icon/icon_kakao.png" alt=""></img>카카오로 회원가입</button>
                 </div>
 
                 <div className='NaverSignUp'>
                     <button className='NaverSignUpBtn'
                         onClick={() => {
                             window.location.href = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${process.env.REACT_APP_NAVER_CLIENT_ID}&state=${process.env.REACT_APP_NAVER_STATE}&redirect_uri=${process.env.REACT_APP_NAVER_REDIRECT_URI}`
-                        }}> <img className='naver' src={naver}></img>네이버로 회원가입</button>
+                        }}> <img className='naver' src={naver} alt=""></img>네이버로 회원가입</button>
                 </div>
                 
         

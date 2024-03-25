@@ -1,0 +1,335 @@
+/* ✅모달 창 바디 div */
+.moimDetail-calendar-scheduleAdd-infoBox{
+  /* border: 1px solid salmon; */
+  display: flex;
+  flex-direction: column;
+  gap: 1.3rem;
+  padding: 0 1rem;
+  overflow-y: scroll;
+}
+
+.moimDetail-calendar-scheduleAdd-infoBox::-webkit-scrollbar {
+  width: 0.5rem; /* 스크롤바의 너비 설정 */
+  border: none;
+}
+
+.moimDetail-calendar-scheduleAdd-infoBox::-webkit-scrollbar-thumb {
+  background-color: #ebebeb; /* 스크롤바의 색상 설정 */
+  border-radius: 5px; /* 스크롤바의 모서리 둥글게 설정 */
+  height: 5rem; /* 스크롤바의 길이 */
+}
+
+
+
+/* 모달 창 바디 내부 div 덩어리 */
+.moimDetail-calendar-scheduleAdd-info{
+  display: flex;
+  flex-direction: column;
+}
+
+/* 모달 창 바디 내부 div 덩어리 */
+.moimDetail-calendar-scheduleAdd-info3{
+  /* border: 1px solid salmon; */
+  display: flex;
+  gap: 1.5rem;
+}
+/* 참여 비용 및 참여 인원 div 덩어리 */
+.moimDetail-calendar-scheduleAdd-info3 div{
+  width: 100%;
+}
+
+/* 모달 창 바디 내부 div 덩어리 카테고리 name */
+.scheduleAdd-top-title{
+  color: #303030;
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0 0.4rem 0.3rem 0 ;
+  /* margin-bottom: 0.3rem; */
+}
+
+/* ⭐일정 날짜, 일정 시간을 제외한 나머지 입력박스*/
+.moimDetail-calendar-scheduleAdd-info-input{
+  /* width: 100%; */
+  /* background-color: #f5f1ff; */
+  background-color: white;
+  border: 1px solid #e4e5ed;
+  border-radius: 5px;
+  height: 2rem;
+  text-indent: 0.5rem; /*들여쓰기*/
+  font-size: small;
+}
+
+.moimDetail-calendar-scheduleAdd-info-input::placeholder{
+  /* color: #acacac; */
+  font-size: small;
+  /* font-weight: 300; */
+}
+
+.moimDetail-calendar-scheduleAdd-info-input:focus{
+  outline: none;
+  border: 2px solid #a472ff;
+}
+
+/* 일정 날짜 , 일정 시간 placeholder */
+.moimDetail-calendar-scheduleAdd-info2 label, .moimDetail-calendar-scheduleAdd-infoText {
+  color: #acacac;
+  font-size: 12px;
+}
+
+/* 부트스트랩 스위치 설정 */
+.moimDetail-calendar-scheduleAdd-info2 .form-check-input:checked {
+  background-color: #a472ff !important;
+  border-color: #a472ff !important;
+}
+
+/* 부트스트랩 스위치 설정 */
+.moimDetail-calendar-scheduleAdd-info2 .form-check-input:focus {
+  border-color: #a472ff !important;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(65, 13, 253, 0.25) !important;
+}
+
+
+/* ✅ 데이트 피커박스 (상세 설정값은 react-datepicker.css에서함) */
+.moimDetail-calendar-scheduleAdd-info-inner-datePickerBox{
+  /* border: 1px solid #a472ff; */
+  width: 100%;
+  display: flex;
+  /* gap: 1rem; */
+  align-items: center;
+}
+
+
+/* 데이트피커 input 박스 가로 너비 설정을 위한 wrapper div class */
+.customDatePickerWidth{
+  width: 47%;
+}
+.customDatePickerWidth > div.react-datepicker-wrapper, 
+.customDatePickerWidth > div > div.react-datepicker__input-container
+.customDatePickerWidth > div > div.react-datepicker__input-container input {
+   width: 100%;
+}
+
+/* 데이트피커 처음보이는 input 입력 박스 */
+.moimDetail-calendar-scheduleAdd-info-inner-datePickerBox input{
+  width: 100%;
+  height: 2rem !important;
+  text-align: center !important;
+}
+
+/* 데이트피커, 타임피커 중간에 들어가는 ~ 범위 모양 span값 */
+.moimSechdule-last-termText{
+  display: inline-block;
+  margin: 0 0.5rem;
+  color: #696969;
+}
+
+/* 데이트피커, 타임피커 플레이스홀더 값 설정 */
+.moimDetail-calendar-scheduleAdd-info-inner-datePickerBox input::placeholder
+, .moimDetail-calendar-schedule-title{
+  color: #757575;
+  font-size: small;
+}
+
+
+
+
+/* ✅ 타임피커 */
+.moimDetail-calendar-schedule-timeBox {
+  position: relative;
+  white-space: pre; /*스페이스 공백도 적용되게 */
+  width: 100%;
+}
+
+/* 타임피커 입력 버튼(button) */
+.moimDetail-calendar-schedule-title {
+  background-color: white;
+  border: 1px solid #e4e5ed;
+  border-radius: 5px;
+  width: 100%;
+  height: 2rem;
+  /* text-indent: 0.5rem; */
+  font-size: small;
+}
+
+/* 타임피커는 직접만든거라 focus(open됐을때 상태) 스타일을 따로 적용해줌 */
+.moimDetail-calendar-schedule-title-focus{
+  border: 2px solid #a472ff;
+}
+
+/* 입력했을때 글색상 변화 (button이라 placeHolder가 없어서 넣음) */
+.timePicker-colored{
+  color: black;
+}
+
+/* 타임피커 드롭박스 설정값 */
+.moimDetail-calendar-schedule-timeBox-menu {
+  position: absolute;
+  top: 120%;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  /* height: 15rem; */
+  box-shadow: 0px 0px 7px -2px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  border-radius: 5px;
+  background-color: white;
+}
+
+/* 타임피커 드롭박스 크기 */
+.moimDetail-calendar-schedule-timeBox-menu-inner{
+  display: flex;
+  height: 7.5rem;
+}
+
+/* 타임피커 안에 있는 시간 스타일값 */
+.moimDetail-calendar-schedule-timeBox-item{
+width: 45%;
+  /* background-color: white; */
+  color: #696969;
+  display: flex;
+  justify-content: center;
+}
+/* 분단위는 스크롤이 필요하지 않지만 시간은 스크롤이 필요함 */
+.timeBox-hour-scroll{
+  width: 55%;
+  overflow: auto;
+  background-color: white; /*배경색 지정 안해주면 스크롤 내렸을때 투명배경됨*/
+}
+
+/* 스크롤바 커스텀 */
+.timeBox-hour-scroll::-webkit-scrollbar {
+  width: 0.5rem; /* 스크롤바의 너비 설정 */
+  border: none;
+
+}
+
+.timeBox-hour-scroll::-webkit-scrollbar-thumb {
+  background-color: #ebebeb; /* 스크롤바의 색상 설정 */
+  border-radius: 5px; /* 스크롤바의 모서리 둥글게 설정 */
+  height: 5rem; /* 스크롤바의 길이 */
+}
+
+
+
+.moimDetail-calendar-schedule-timeBox-item ul {
+  background-color: white;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.moimDetail-calendar-schedule-timeBox-item-time li {
+  width: 100%;
+  text-align: center;
+  padding: 0.3rem 0;
+  cursor: pointer;
+  user-select: none;
+  font-size: small;
+}
+
+.moimDetail-calendar-schedule-timeBox-item-time li:hover{
+  background-color: #dcd8f5;
+  color: white;
+}
+
+/* 선택한 항목 스타일 설정 */
+.moimDetail-calendar-schedule-timeBox-item-time li:active {
+  background-color: #a472ff;
+  color: white;
+  font-weight: bolder;
+}
+
+.schedule-time-select{
+  background-color: #a472ff;
+  color: white;
+  font-weight: bolder;
+}
+
+
+.moimDetail-calendar-schedule-timeBox-bottom{
+  /* style={{display: 'flex', padding: '0.3rem', gap:'0.3rem'}} */
+  display: flex;
+  padding: 0.3rem;
+  gap: 0.3rem;
+}
+
+.moimDetail-calendar-schedule-timeBox-bottom button{
+  border: none;
+  border-radius: 5px;
+  width: 10rem;
+  height: 2rem;
+  font-size: small;
+}
+
+
+/* 시간 선택 취소버튼 */
+.moimDetail-calendar-schedule-timeBox-bottomBtn-no{
+  background-color: rgb(243, 243, 243);
+  color: rgb(165, 165, 165);
+}
+
+.moimDetail-calendar-schedule-timeBox-bottom button:hover{
+  filter: brightness(0.95);  /*기존 색상에서 조금 어두워지게 1이상은 밝아지게*/
+}
+
+/* 시간 선택 확인버튼 */
+.moimDetail-calendar-schedule-timeBox-bottomBtn-yes{
+  background-color: #dcd8f5;
+  color: #a472ff;
+}
+
+/* 최대 참여 인원 숫자 input 오른쪽 업다운 화살표 없애기 */
+.moimDetail-scheduleAdd-inputNum::-webkit-inner-spin-button,
+.moimDetail-scheduleAdd-inputNum::-webkit-outer-spin-button{
+    -webkit-appearance: none; 
+    margin: 0; 
+}
+
+
+.moimDetail-calendar-scheduleAdd-info textarea{
+  resize: none;
+  height: 8rem;
+  background-color: white;
+  border: 1px solid #e4e5ed;
+  border-radius: 5px;
+  padding: 0.5rem;
+  /* text-indent: 0.5rem; 들여쓰기 */
+  font-size: small;
+}  
+
+.moimDetail-calendar-scheduleAdd-info textarea::-webkit-scrollbar {
+  width: 0.5rem; /* 스크롤바의 너비 설정 */
+  border: none;
+}
+
+.moimDetail-calendar-scheduleAdd-info textarea::-webkit-scrollbar-thumb {
+  background-color: #ebebeb; /* 스크롤바의 색상 설정 */
+  border-radius: 5px; /* 스크롤바의 모서리 둥글게 설정 */
+  /* height: 1rem; 스크롤바의 길이 */
+}
+
+
+.moimDetail-calendar-scheduleAdd-info textarea:focus{
+  border: 2px solid #a472ff;
+  outline: none;
+}
+
+.moimDetail-calendar-scheduleAdd-submitBtn{
+  border: none;
+  background-color: #a472ff;
+  color: white;
+  padding: 0.7rem;
+  border-radius: 5px;
+  font-weight: 600;
+}
+
+.moimDetail-calendar-scheduleAdd-submitBtn:disabled{
+  background-color: #eaebee;
+  border: 1px solid #eaebee;
+  color: #7a7a7a;
+}

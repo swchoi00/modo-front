@@ -18,7 +18,7 @@ const Banner = () => {
       <Carousel className='banner-carousel' activeIndex={activeIndex} onSelect={handleBanner}> {/*노션 설명 참고 https://www.notion.so/jellachoi/4c1fa67e7afb48d096d8fe21c4b20e9f*/}
         {banner.map((num, i) => (
           <Carousel.Item key={i} className='banner-carousel-item'>
-            <img src={`https://raw.githubusercontent.com/Jella-o312/modo-image/main/banner/banner${num}.svg`} />
+            <img src={`https://raw.githubusercontent.com/Jella-o312/modo-image/main/banner/banner${num}.svg`} alt=""/>
           </Carousel.Item>
         ))}
       </Carousel>

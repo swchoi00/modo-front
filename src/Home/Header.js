@@ -6,9 +6,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { faSearch } from '@fortawesome/free-solid-svg-icons'; 
 import { faXmark } from '@fortawesome/free-solid-svg-icons'; 
-import { Link } from 'react-router-dom';
+import {faPen} from '@fortawesome/free-solid-svg-icons'; 
+import { Link, useNavigate } from 'react-router-dom';
+import face from '../HomeComponent/ReviewComponent/face.svg';
 
-const Header = () =>{
+const Header = ( {isAuth, setIsAuth, userInfo} ) =>{
+
+  const navigate = useNavigate();
 
   //모바일 버거버튼 여부
   const[isMenuOpen, setIsMenuOpen]= useState(false); 
@@ -18,6 +22,11 @@ const Header = () =>{
     setIsMenuOpen(!isMenuOpen)
   };
 
+  const logoutHandler = () => {
+    sessionStorage.removeItem('jwt');
+    setIsAuth(false);
+    navigate('/');
+  }
 
 
   return(
@@ -31,7 +40,7 @@ const Header = () =>{
           <Link className='nav-aTag' to = {"/moim"} >소모임</Link>
           <Link className='nav-aTag' to = {"/"}>멘토링</Link>
           <Link className='nav-aTag' to = {"/"}>커뮤니티</Link>
-          <Link className='nav-aTag' to = {"/"}>FAQ</Link>
+          <Link className='nav-aTag' to = {"/faq"}>FAQ</Link>
         </div>
 
         <div className='nav-searchBar'>        
@@ -41,8 +50,18 @@ const Header = () =>{
         </div>
 
         <div className='nav-joinLogin'>
+
+          {isAuth ? 
+          <>
+          <Link className='nav-aTag' to={"/myPage"}>{userInfo.nickname}님</Link>
+          <button className='nav-logoutBtn' onClick={logoutHandler}>로그아웃</button>
+          </>
+          :  
+          <>
           <Link className='nav-aTag' to = {"/signUp"}>회원가입</Link>
           <Link className='nav-loginBtn' to = {"/login"}>로그인</Link>
+          </>
+          }
         </div>
       </div>
 
@@ -67,11 +86,23 @@ const Header = () =>{
 
         {/* 모바일 사이드바 */}
         <div className={`headerSide-menu ${isMenuOpen ? 'headerSide-menu-open' : ''}`}>
-          <div className='headerSide-menu-inner1'>
+          {
+            isAuth ? 
+            <div className='headerSide-menu-inner1-login'>
+              <div>{/* 🟡🟡🟡🟡디자인 보완 필요🟡🟡🟡🟡 */}
+                <img src={face} alt=''/>
+                <div><FontAwesomeIcon icon={faPen}/></div>                
+              </div>
+              <div>{userInfo.nickname}님</div>
+            </div>
+          :
+            <div className='headerSide-menu-inner1'>
               <h5>로그인 후 이용해주세요 :-)</h5>
-              <button>로그인</button>
-              <p>아직 회원이 아니라면? <Link className='headerSide-join' href=''>회원가입 하러가기</Link></p>
-          </div>
+              <Link to = {"/login"} onClick={handleMenuOpen}><button>로그인</button></Link>
+              <p>아직 회원이 아니라면? <Link className='headerSide-join' to = {"/signUp"} onClick={handleMenuOpen}>회원가입 하러가기</Link></p>
+            </div>
+          }
+          
 
           <hr/>
 
@@ -80,8 +111,15 @@ const Header = () =>{
             <Link to = {"/moim"}>소모임</Link>
             <Link to = {"/"}>멘토링</Link>
             <Link to = {"/"}>커뮤니티</Link>
-            <Link to = {"/"}>FAQ</Link>
+            <Link to = {"/faq"}>FAQ</Link>
           </div>
+          
+          {/* 🟡🟡🟡🟡디자인 보완 필요🟡🟡🟡🟡 */}
+          {
+            isAuth &&
+            <button className='' onClick={logoutHandler}>로그아웃</button>
+          }
+          
         </div>
       
       </div>
