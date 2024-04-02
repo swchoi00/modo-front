@@ -24,6 +24,7 @@ import InquiryForm from './Home/FAQ/InquiryForm/InquiryForm';
 import InquiryForm_write from './Home/FAQ/InquiryForm/InquiryForm_write';
 import Notice_write from './Home/FAQ/Notice_write';
 import Faq_write from './Home/FAQ/Faq_write';
+import UploadTest from './UploadTest';
 
 function App() {
 
@@ -75,6 +76,7 @@ function App() {
           <Route path='/addMoim' element={<AddMoim userInfo={userInfo}/>}/> 
           <Route path='/moimDetail' element={<MoimDetail />}/>
 
+          <Route path='/uploadTest' element={<UploadTest/>}/>
 
           <Route path ='/faq' element={<Faq userInfo={userInfo} currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
           <Route path ='/faqDetails/:id' element={<FaqDetails currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>

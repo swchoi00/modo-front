@@ -67,22 +67,22 @@ const MoimDetailBoardComponent = ()=>{
   
   //⭐임시 모임일정 데이터⭐
   const imsiScheduleData = [
-    // {
-    //   id : 1,
-    //   title : '🏸정기민턴🏸',
-    //   startDate: '12/13',
-    //   endDate : '',
-    //   startDay : '(수)',
-    //   endDay : '',
-    //   dDay : 2,
-    //   startTime : '16:00',
-    //   endTime : '20:00',
-    //   place : '계양 실내 배드민턴장',
-    //   price : '입장료 5,000원',
-    //   joinMember : 19,
-    //   maxMamber : 25,
-    //   moimType : '정기'
-    // }
+    {
+      id : 1,
+      title : '🏸정기민턴🏸',
+      startDate: '12/13',
+      endDate : '',
+      startDay : '(수)',
+      endDay : '',
+      dDay : 2,
+      startTime : '16:00',
+      endTime : '20:00',
+      place : '계양 실내 배드민턴장',
+      price : '입장료 5,000원',
+      joinMember : 19,
+      maxMamber : 25,
+      moimType : '정기'
+    }
     // ,
     // {
     //   id : 2,

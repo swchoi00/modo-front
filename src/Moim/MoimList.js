@@ -12,7 +12,11 @@ const MoimList = () =>{
   const navigate = useNavigate();
   const [likedMoims, setLikedMoims] = useState([]); // 각 모임의 좋아요 상태를 관리하는 배열
 
-  const handleLikeToggle = (moimId) => {
+
+  //⭐ 추후 서버에 좋아요 여부 연동되게 해야함
+  const handleLikeToggle = (moimId,e) => {
+    e.stopPropagation(); // 하트 클릭 이벤트의 상위 이벤트 전파 방지
+
     // 모임 ID를 통해 해당 모임의 좋아요 상태를 토글
     setLikedMoims((prevLikedMoims) => {
       if (prevLikedMoims.includes(moimId)) {
@@ -39,7 +43,7 @@ const MoimList = () =>{
                 }}>
                 <div className='moim-content-box-categoryBack'>
                 <span className='moim-content-box-categoty'>{data.category}</span>
-                <span className='moim-content-box-like' onClick={() => handleLikeToggle(data.id)}>
+                <span className='moim-content-box-like' onClick={(e) => handleLikeToggle(data.id,e)}>
                   <FontAwesomeIcon icon={isLiked ? fullHeart : lineHeart}  size='lg' style={{ color: isLiked ? 'white' : '#ff2727' }}/>
                 </span>
                 </div>
