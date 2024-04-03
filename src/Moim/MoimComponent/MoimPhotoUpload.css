@@ -9,7 +9,7 @@
 .uploadPreview{
   /* width: 14rem; */
   width: 100%;  /*이미지 업로드 박스 크기*/
-  height: 10rem;
+  height: 12rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -47,7 +47,7 @@
 .uploadBox{
   width: 100%; /*이미지 업로드 박스 크기*/
   /* width: 14rem; */
-  height: 10rem;
+  height: 12rem;
   border: 0.1rem dashed #e4e5ed;
   border-radius: 0.6rem;
   display: flex;

@@ -140,7 +140,7 @@
 .AddMoim-submit:disabled{
   background-color: #eaebee;
   border: 1px solid #eaebee;
-  color: #404040;
+  color: rgb(146, 146, 146);
 }
 
 

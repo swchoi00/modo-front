@@ -1,20 +1,20 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons'; 
-import './UploadTest.css';
-import {useEffect, useState } from 'react';
-import addMoimUploadIcon from './Img/moim_addMoimUpload.png'
-import axiosInstance from './axiosInstance';
-const UploadTest = ()=>{
+import './MoimPhotoUpload.css';
+import {useState } from 'react';
+import addMoimPhotoIcon from '../../Img/moim_addMoimPhoto.png'
 
+
+const MoimPhotoUpload = ({setMoimThumbnail})=>{
 
   const [imageUrl, setImageUrl] = useState(null);// [미리보기용] 이미지 주소 저장 경로 
-  const [moimThumnail, setMoimThumnail] = useState(null); // 업로드용 스테이트
+  // const [moimThumbnail, setMoimThumbnail] = useState(null); // 업로드용 스테이트
 
 
   // 클릭해서 파일 업로드 할때 사용하는 핸들러
   const onChangeImage= (e) => {
     const file = e.target.files[0];
-    setMoimThumnail(file);
+    setMoimThumbnail(file);
 
     const reader = new FileReader();
     // console.log(file);
@@ -45,7 +45,7 @@ const UploadTest = ()=>{
     setIsDragging(false); // 드롭이 발생했으므로 드래그 중임을 나타내는 상태 변수를 해제합니다.
   
     const file = e.dataTransfer.files[0]; 
-    setMoimThumnail(file);
+    setMoimThumbnail(file);
 
     if (file) {
       const reader = new FileReader();
@@ -60,45 +60,8 @@ const UploadTest = ()=>{
   // 업로드한 모임 이미지 취소할때 버튼 핸들러
   const uploadCancleHandler = ()=>{
     setImageUrl(null);  // [미리보기용] 여기에 이미지 경로가 저장되어 있음
-    setMoimThumnail(null); //[저장용] 이미지 파일 있음
+    setMoimThumbnail(null); //[저장용] 이미지 파일 있음
   }
-
-
-  const submitPhoto = ()=>{
-    const formData = new FormData();
-    formData.append('file', moimThumnail);  // 모임 사진 추가
-    formData.append('moimName', "modo"); // 모임 이름 추가
-
-    axiosInstance.post('/addMoimThumbnail', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    })
-    .then((response) => {
-      alert(response.data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  }
-
-  const [moimPhotoShow, setMoimPhotoShow] = useState(''); // 여기에 사진 경로가 저장되어 사진이 보여짐
-  const photoNo = 52; // 임시로 확인하려고 넣은 데이터베이스에 저장된 사진 No
-
-  // 가져온 이미지 띄우기
-  useEffect(() => {
-
-      axiosInstance.get(`/getMoimThumbnail/${photoNo}`, {
-        responseType: 'blob',
-      })
-      .then((response) => {
-        const imageUrl = URL.createObjectURL(response.data);
-        setMoimPhotoShow(imageUrl);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    },[]);
 
 
 
@@ -119,21 +82,13 @@ const UploadTest = ()=>{
           onDragLeave={() => setIsDragging(false)}  // 드래그 떠났을때 이벤트
           onDrop={(e) => handleDrop(e)} // 드랍됐을때 이벤트
         >
-            <img className='uploadIcon' src={addMoimUploadIcon} alt=''/>
+            <img className='uploadIcon' src={addMoimPhotoIcon} alt=''/>
             <span>모임 대표 이미지를 넣어주세요</span>
           <input type="file" accept='image/*'  onChange={onChangeImage} hidden/> 
         </label>
         }
-      
-      <button onClick={submitPhoto}>제출하기</button>
-
-      <div className='showMoimPhoto'>
-        업로드한 이미지 가져오기
-        <br></br>
-        {moimPhotoShow && <img src={moimPhotoShow} alt="" />}
-      </div>
     </div>
   )
 }
 
-export default UploadTest;
+export default MoimPhotoUpload;

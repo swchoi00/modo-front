@@ -3,7 +3,7 @@ import './AddMoim.css';
 import { MoimAdressCity, MoimAdressTown } from './MoimAddress';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../../axiosInstance';
-import UploadTest from '../../UploadTest';
+import MoimPhotoUpload from './MoimPhotoUpload';
 const AddMoim = ({ userInfo }) =>{
 
   const navigate = useNavigate();
@@ -20,7 +20,11 @@ const AddMoim = ({ userInfo }) =>{
   })
 
 
-  // 모임명 중복확인 여부 [1] 중복확인 필요 [2] 사용가능 [3] 사용불가
+  // 모임 사진파일 저장하는 스테이트
+  const [moimThumbnail, setMoimThumbnail] = useState(null); 
+
+
+  // ⭐모임명 중복확인 여부 [1] 중복확인 필요 [2] 사용가능 [3] 사용불가
   const [checkMoimName, setCheckMoimName] = useState(null);
 
   const moim = ['공모전', '디자인', '이직·취업', '운동', '글쓰기', '한잔', '기타'];
@@ -47,23 +51,24 @@ const addMoimHandler = (e)=>{
   let eValue = e.target.value;
   
   if(eDataset === 'moimname'){
-    setCheckMoimName(1);
+    setCheckMoimName(1);  // [1] 중복확인 필요 [2] 사용가능 [3] 사용불가
   }
-
   setAddMoimInfo({...addMoimInfo,  [eDataset] : eValue});
 }
+
 
 // 모임 카테고리 가져오는 핸들러
 const addMoimCateHandler = (title, value)=>{
   setAddMoimInfo({...addMoimInfo,  [title] : value});
 }
 
+
 // 모임이름 중복 확인하는 핸들러
 const moimnameCheckHandler = () => {
   axiosInstance.post('/moimnameCheck',{ moimname: addMoimInfo.moimname })
       .then((response => {
         if(response.data === "사용 가능한 모임 이름입니다!"){
-          setCheckMoimName(2);
+          setCheckMoimName(2);  // [1] 중복확인 필요 [2] 사용가능 [3] 사용불가
         }else{
           setCheckMoimName(3);
           moimnameInputRef.current.focus(); // ref를 사용하여 해당 입력 창으로 포커스 이동
@@ -75,16 +80,38 @@ const moimnameCheckHandler = () => {
   })
 }
 
-// 모임 등록하는 핸들러
-const createMoim = () => {
-  axiosInstance.post('/createMoim', addMoimInfo)
-      .then((response) => {
-          alert(response.data);
-          navigate('/moim');
-      }).catch((error) => {
-          console.log(error);
-      })
+// // 모임 등록하는 핸들러
+// const createMoim = () => {
+//   axiosInstance.post('/createMoim', addMoimInfo)
+//       .then((response) => {
+//           alert(response.data);
+//           navigate('/moim');
+//       }).catch((error) => {
+//           console.log(error);
+//       })
+// }
+
+
+const createMoim = ()=>{
+  const formData = new FormData();
+  formData.append('moimInfo', JSON.stringify(addMoimInfo)); // 모임 정보 
+  formData.append('file', moimThumbnail);  // 모임 사진 
+  formData.append('photoType', "main"); // 사진 타입 (폴더 저장 경로)
+
+  axiosInstance.post('/addMoimThumbnail', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  })
+  .then((response) => {
+    alert(response.data);
+    navigate('/moim');
+  })
+  .catch((error) => {
+    console.log(error);
+  });
 }
+
 
 
 // 전체 모임 생성 데이터 입력 받았을때 true로 바뀜
@@ -93,14 +120,15 @@ const addMoimSubmitCheck = Object.values(addMoimInfo).every(value => value !== '
 
 
 console.log(addMoimInfo);
+console.log(moimThumbnail);
 
   return(
     <div className="AddMoim-container">
       <h5 className='AddMoim-title'>모임 만들기</h5>
       <div className='AddMoim-contentBox'>
-        {/* <div className='AddMoim-content'>
-          <UploadTest/>
-        </div> */}
+        <div className='AddMoim-content'>
+          <MoimPhotoUpload moimThumbnail={moimThumbnail} setMoimThumbnail = {setMoimThumbnail}/>
+        </div>
         <div className='AddMoim-content'>
           <span className='AddMoim-content-title'>모임 이름</span>
           <div className='AddMoim-content-inner'>
@@ -113,7 +141,8 @@ console.log(addMoimInfo);
             <button className={`AddMoim-content-check ${addMoimInfo.moimname.length > 0 && 'AddMoim-content-checkOn'}`} onClick={moimnameCheckHandler}>중복확인</button>
           </div>
          {
-           addMoimInfo.moimname === '' ? ''
+           addMoimInfo.moimname === '' ? '' // 빈칸일 경우 아무런 멘트 없음
+            // [1] 중복확인 필요 [2] 사용가능 [3] 사용불가
            : checkMoimName === 1 ? (<span className='AddMoim-check-Message'>중복확인 버튼을 눌러주세요</span>)
            : checkMoimName === 2 ? (<span className='AddMoim-check-Message'>멋진 모임이름이에요😉</span>) 
            : checkMoimName === 3 ?(<span className='AddMoim-check-Message AddMoim-check-MessageNo'>모임이름을 바꿔주세요 🥲</span>)
@@ -187,8 +216,8 @@ console.log(addMoimInfo);
         </div>
         
         
-        <button className={`AddMoim-submit ${addMoimSubmitCheck && checkMoimName === 2 ? '' : 'disabled'}`}
-                disabled={!addMoimSubmitCheck || checkMoimName !== 2 }
+        <button className={`AddMoim-submit ${addMoimSubmitCheck && checkMoimName === 2 && moimThumbnail !== null? '' : 'disabled'}`}
+                disabled={!addMoimSubmitCheck || checkMoimName !== 2 || moimThumbnail === null} // 모임 정보 다 입력, 모임 이름 중복확인, 사진 업로드 여부
                 onClick={createMoim}
         >모임 개설하기</button>
         
