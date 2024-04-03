@@ -28,6 +28,7 @@ function InquiryForm( {userInfo, currentPage, setCurrentPage} ) {
         .then((response) => {
             setInquiryFormList(response.data);
             setIsInquiryFormLoading(false);
+            console.log(response.data);
         }).catch((error) => {
             console.log(error);
             setIsInquiryFormLoading(false);
@@ -62,7 +63,7 @@ function InquiryForm( {userInfo, currentPage, setCurrentPage} ) {
                         currentPage={currentPage}
                         itemsPerPage={itemsPerPage}
                         path={"/"}
-                        ad={"/InquiryFormDetails"}
+                        ad={"/inquiryFormDetail"}
                     />
                 </div>
 

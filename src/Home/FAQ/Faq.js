@@ -95,7 +95,7 @@ function Faq({ userInfo, currentPage, setCurrentPage }) {
                         currentPage={currentPage}
                         itemsPerPage={itemsPerPage}
                         path={"/"}
-                        ad={"/faqDetails"}
+                        ad={"/faqDetail"}
                         selectedCategory={selectedCategory}
                     />
 
