@@ -12,7 +12,7 @@ function PaginationComponent({ currentPage, itemsPerPage, totalItems, onPageChan
                 count={pageCount}
                 page={currentPage}
                 onChange={(event, page) => onPageChange(page)}
-                shape="rounded"
+                // shape="rounded"
             />
         </Stack>
     )

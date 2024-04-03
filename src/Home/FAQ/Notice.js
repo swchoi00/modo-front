@@ -65,7 +65,7 @@ function Notice ( {userInfo, currentPage, setCurrentPage} ) {
                     currentPage={currentPage}
                     itemsPerPage={itemsPerPage}
                     path={"/"}
-                    ad={"/noticeDetails"}
+                    ad={"/noticeDetail"}
                     />
                 </div>
 

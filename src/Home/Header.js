@@ -38,8 +38,8 @@ const Header = ( {isAuth, setIsAuth, userInfo} ) =>{
 
         <div className='nav-menu'>
           <Link className='nav-aTag' to = {"/moim"} >소모임</Link>
-          <Link className='nav-aTag' to = {"/"}>멘토링</Link>
-          <Link className='nav-aTag' to = {"/"}>커뮤니티</Link>
+          <Link className='nav-aTag' to = {"/uploadTest"}>멘토링</Link>
+          <Link className='nav-aTag' to = {"/community"}>커뮤니티</Link>
           <Link className='nav-aTag' to = {"/faq"}>FAQ</Link>
         </div>
 

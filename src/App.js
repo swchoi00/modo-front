@@ -24,6 +24,8 @@ import InquiryForm from './Home/FAQ/InquiryForm/InquiryForm';
 import InquiryForm_write from './Home/FAQ/InquiryForm/InquiryForm_write';
 import Notice_write from './Home/FAQ/Notice_write';
 import Faq_write from './Home/FAQ/Faq_write';
+import InquiryFormDetail from './Home/FAQ/InquiryForm/InquiryFormDetail';
+import Community from './Community/Community';
 
 function App() {
 
@@ -47,7 +49,13 @@ function App() {
     title : '',
     content : '',
     member : userInfo.username
-  })
+  });
+
+  const [inquiryForm, setInquiryForm] = useState({
+    title : '',
+    content : '',
+    member : userInfo.username
+  });
 
   const [isAuth, setIsAuth] = useState(false); // 로그인 상태 확인
 
@@ -75,16 +83,16 @@ function App() {
           <Route path='/addMoim' element={<AddMoim userInfo={userInfo}/>}/> 
           <Route path='/moimDetail' element={<MoimDetail />}/>
 
-
           <Route path ='/faq' element={<Faq userInfo={userInfo} currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
-          <Route path ='/faqDetails/:id' element={<FaqDetails currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
+          <Route path ='/faqDetail/:id' element={<FaqDetails currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
           <Route path ='/faq_write' element={<Faq_write userInfo={userInfo} />} />
 
           <Route path ='/notice' element={<Notice userInfo={userInfo} currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
-          <Route path ='/noticeDetails/:id' element={<NoticeDetails notice={notice} currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
+          <Route path ='/noticeDetail/:id' element={<NoticeDetails notice={notice} currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
           <Route path ='/notice_write' element={<Notice_write userInfo={userInfo}/>} />
 
           <Route path='/inquiryForm' element={<InquiryForm userInfo={userInfo} currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
+          <Route path='/inquiryFormDetail/:id' element={<InquiryFormDetail userInfo={userInfo} currentPage={currentPage} setCurrentPage={setCurrentPage} />} />
           <Route path='/inquiryForm_write' element={<InquiryForm_write userInfo={userInfo} />}/>
 
           <Route path='/signUp' element={<SignUp />}></Route>
@@ -93,6 +101,9 @@ function App() {
           <Route path='/oauth/kakao' element={<KakaoLogin setUserInfo={setUserInfo} isAuth={isAuth} setIsAuth={setIsAuth} />}></Route>
           <Route path='/oauth/google' element={<GoogleLogin setUserInfo={setUserInfo} isAuth={isAuth} setIsAuth={setIsAuth} />}></Route>
           <Route path='/oauth/naver' element={<NaverLogin setUserInfo={setUserInfo} isAuth={isAuth} setIsAuth={setIsAuth} />}></Route>
+        
+          <Route path='/community' element={<Community currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
+        
         </Routes>
       </div>
       

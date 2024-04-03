@@ -23,7 +23,7 @@ const Footer = () =>{
           </div>
         </div>
         <div className='footer-box2'>
-          <div>(주)Modo &nbsp; | &nbsp; 개발책임자 : 최예원, 최상운</div>
+          <div>(주)Modo &nbsp; | &nbsp; 개발책임자 : 최예원, 최상운, 박윤희</div>
           <div>주소 : 49, Hwagok-ro, Gangseo-gu, Seoul, Republic of Korea &nbsp; | &nbsp; 전화번호: 1588-0000 &nbsp; | &nbsp; </div>
           <div>사업자등록번호: xxx-xx-xxxxx &nbsp; | &nbsp; 이메일 : dpdnjs0312@gamil.com &nbsp; | &nbsp; Github : https://github.com/swchoi00/modo-front</div>
         </div>

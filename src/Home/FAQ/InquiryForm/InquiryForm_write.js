@@ -8,9 +8,9 @@ function InquiryForm_write( {userInfo} ) {
     const navigate = useNavigate();
 
     const [inquiryFormData, setInquiryFormData] = useState({
-        writerName : userInfo.username,
         title : '',
         content : '',
+        writerName : userInfo.username,
     });
 
     const inquiryFormDataHandler = (e) => {
