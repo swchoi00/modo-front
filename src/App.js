@@ -24,6 +24,7 @@ import InquiryForm from './Home/FAQ/InquiryForm/InquiryForm';
 import InquiryForm_write from './Home/FAQ/InquiryForm/InquiryForm_write';
 import Notice_write from './Home/FAQ/Notice_write';
 import Faq_write from './Home/FAQ/Faq_write';
+import Community from './Community/Community';
 
 function App() {
 
@@ -93,6 +94,9 @@ function App() {
           <Route path='/oauth/kakao' element={<KakaoLogin setUserInfo={setUserInfo} isAuth={isAuth} setIsAuth={setIsAuth} />}></Route>
           <Route path='/oauth/google' element={<GoogleLogin setUserInfo={setUserInfo} isAuth={isAuth} setIsAuth={setIsAuth} />}></Route>
           <Route path='/oauth/naver' element={<NaverLogin setUserInfo={setUserInfo} isAuth={isAuth} setIsAuth={setIsAuth} />}></Route>
+        
+          <Route path='/community' element={<Community currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
+        
         </Routes>
       </div>
       
