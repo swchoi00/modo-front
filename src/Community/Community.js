@@ -5,22 +5,27 @@ import { useEffect, useState } from "react";
 import mockData from "./mockData";
 import PaginationComponent from "../Pagination/PaginationComponent";
 import HotIssue from "./HotIssue";
+import CommAddBtn from "./CommAddBtn";
+import axiosInstance from "../axiosInstance";
 
-const Community = ({ currentPage, setCurrentPage }) => {
-  const page = 20;
+const Community = ({ isAuth, currentPage, setCurrentPage }) => {
+  const page = 15;
 
   const type = ['전체보기', '자유', '질문·고민', '홍보', '후기'];
   const [typeBtn, setTypeBtn] = useState('전체보기');
 
   const [data, setData] = useState(mockData); // 게시글 임시데이터
-  //const [data, setData] = useState([]); // 데이터 받아오기
+  const [comm, setComm] = useState(); // 데이터 받아오기
 
-  // useEffect(() => {
-  //   axiosInstance.get(`???`)
-  //     .then((response) => {
-  //       setData(response.data);
-  //     })
-  // })
+  useEffect(() => {
+    axiosInstance.get("/comm_getList")
+      .then((response) => {
+        setComm(response.data);
+        console.log(response.data);
+      }).catch((error) => {
+        console.log(error);
+    })
+  }, [])
   
   const typeHandler = (e) => {
     setTypeBtn(e.target.value);
@@ -139,7 +144,7 @@ const Community = ({ currentPage, setCurrentPage }) => {
           color="secondary"
         />
       </div>
-
+      <CommAddBtn isAuth={isAuth}/>
     </div>
   )
 }

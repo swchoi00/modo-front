@@ -26,6 +26,7 @@ import Notice_write from './Home/FAQ/Notice_write';
 import Faq_write from './Home/FAQ/Faq_write';
 import InquiryFormDetail from './Home/FAQ/InquiryForm/InquiryFormDetail';
 import Community from './Community/Community';
+import AddComm from './Community/AddComm';
 
 function App() {
 
@@ -102,8 +103,8 @@ function App() {
           <Route path='/oauth/google' element={<GoogleLogin setUserInfo={setUserInfo} isAuth={isAuth} setIsAuth={setIsAuth} />}></Route>
           <Route path='/oauth/naver' element={<NaverLogin setUserInfo={setUserInfo} isAuth={isAuth} setIsAuth={setIsAuth} />}></Route>
         
-          <Route path='/community' element={<Community currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
-        
+          <Route path='/community' element={<Community currentPage={currentPage} setCurrentPage={setCurrentPage} isAuth={isAuth}/>}/>
+          <Route path='/addComm' element={<AddComm userInfo={userInfo}/>} />
         </Routes>
       </div>
       
