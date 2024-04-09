@@ -19,6 +19,12 @@ const AddMoim = ({ userInfo }) =>{
       introduction : ''
   })
 
+  // 사진타입 정리
+  const PhotoType = {
+    MAIN: 'main',
+    SCHEDULE: 'schedule',
+    GALLERY: 'gallery'
+  };
 
   // 모임 사진파일 저장하는 스테이트
   const [moimThumbnail, setMoimThumbnail] = useState(null); 
@@ -80,8 +86,8 @@ const moimnameCheckHandler = () => {
   })
 }
 
-// // 모임 등록하는 핸들러
-// const createMoim = () => {
+// 모임 등록하는 핸들러
+// const createMoim2 = () => {
 //   axiosInstance.post('/createMoim', addMoimInfo)
 //       .then((response) => {
 //           alert(response.data);
@@ -96,7 +102,7 @@ const createMoim = ()=>{
   const formData = new FormData();
   formData.append('moimInfo', JSON.stringify(addMoimInfo)); // 모임 정보 
   formData.append('file', moimThumbnail);  // 모임 사진 
-  formData.append('photoType', "main"); // 사진 타입 (폴더 저장 경로)
+  formData.append('photoType', PhotoType.MAIN); // 사진 타입 (폴더 저장 경로)
 
   axiosInstance.post('/addMoimThumbnail', formData, {
     headers: {
