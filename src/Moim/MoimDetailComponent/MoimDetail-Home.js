@@ -7,7 +7,7 @@ import managerIcon from '../../Img/moimDetail_managerIcon.svg';
 import { Button, Modal, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { useState } from 'react';
 
-const MoimDetailHome = () =>{
+const MoimDetailHome = ({moimInfo}) =>{
 
 const imsiScheduleData = [
 {
@@ -104,7 +104,8 @@ const memberKickOutHandler = (name)=>{
           <FontAwesomeIcon icon={faEllipsisVertical} size="lg"/>
         </div>
         <div className="moimDetail-moimContent-home-description-text">
-          🌟 어서와, SMASH에 찾아온 당신! 🌟 <br/>
+          {moimInfo.description}
+          {/* 🌟 어서와, SMASH에 찾아온 당신! 🌟 <br/>
           SMASH는 2030을 위한 배드민턴 모임으로, 우리는 스포츠와 즐거움을 함께하는 공간이에요. <br/><br/><br/>
 
 
@@ -125,7 +126,7 @@ const memberKickOutHandler = (name)=>{
 
 
           지금 바로 함께해, SMASH의 멋진 사람들과 최고의 스포츠와 만남을 경험하세요!<br/>
-          #SMASH #배드민턴 #스포츠 #친목 #2030 #함께뛰자
+          #SMASH #배드민턴 #스포츠 #친목 #2030 #함께뛰자 */}
         </div>
       </div>
       

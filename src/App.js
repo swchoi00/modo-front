@@ -70,6 +70,7 @@ function App() {
     console.log("Auth바뀜 : " + isAuth);
   }, [isAuth]);
 
+  // 게시글 리스트 페이지네이션 용 
   const [currentPage, setCurrentPage] = useState(1);
 
   return (
@@ -80,8 +81,9 @@ function App() {
         <Routes>
           <Route path ='/'element={<Main />}/> 
           <Route path='/moim' element={<Moim isAuth={isAuth}/>}/>
+          {/* ↓ 모임상세페이지 URL값 , 나중에 유저정보 보내줘야함*/}
+          <Route path = '/moim/:id' element={<MoimDetail/>}/>
           <Route path='/addMoim' element={<AddMoim userInfo={userInfo}/>}/> 
-          <Route path='/moimDetail' element={<MoimDetail />}/>
 
           <Route path ='/faq' element={<Faq userInfo={userInfo} currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
           <Route path ='/faqDetail/:id' element={<FaqDetails currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>

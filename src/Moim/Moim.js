@@ -4,6 +4,7 @@ import './Moim.css';
 import { useEffect, useState } from 'react';
 import MoimList from './MoimList';
 import MoimAddBtn from './MoimComponent/MoimAddBtn';
+import axiosInstance from '../axiosInstance';
 
 
 
@@ -11,9 +12,7 @@ const Moim = ({isAuth}) =>{
 
   const moimShowType = ['전체보기', '카테고리'];
   const [moimShowTypeBtn, setMoimShowTypeBtn] = useState('전체보기');
-  // const moimCateType = ['주제별', '지역별']
-  // const moimCategories1 = ['공모전', '디자인', '이직·취업', '운동', '글쓰기', '한잔', '기타'];
-  // const moimCategories2 = ['서울 ', '경기', '인천', '대구', '부산', '제주', '기타'];
+
 
   const moimCateType = [
     {
@@ -38,10 +37,9 @@ const Moim = ({isAuth}) =>{
     if (moimShowTypeBtn === '전체보기') { // 여기서 moimShowTypeBtn으로 수정
       moimCategoryRetryHandler(); // 새로고침 핸들러 (moimCategoryCheck 비워줌)
     }
-    
-    // console.log(moimCategoryCheck);
   }, [moimShowTypeBtn]); 
   
+
   
   const [moimCategoryCheck, SetMoimCategoryCheck] = useState({
     moimType:[],
@@ -73,8 +71,22 @@ const Moim = ({isAuth}) =>{
     setMoimSortTypeCheck(sort);
   }
   
-  
-   
+  //⭐⭐모임 값 받아오기 테스트⭐⭐
+  const [moimList, setMoimList] = useState([]); // 모임 리스트 저장 스테이트
+
+  useEffect (()=>{
+    axiosInstance.get("/moimList")
+    .then((response) => {
+      setMoimList(response.data);
+      console.log(response.data);
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+  },[]);
+
+
+
 
 
   return(
@@ -159,7 +171,7 @@ const Moim = ({isAuth}) =>{
           }
         </div>
 
-      <MoimList/>
+      <MoimList moimList={moimList}/>
       <MoimAddBtn isAuth={isAuth}/>
 
 

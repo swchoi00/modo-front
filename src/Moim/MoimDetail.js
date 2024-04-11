@@ -10,7 +10,31 @@ import MoimDetailHome from './MoimDetailComponent/MoimDetail-Home';
 import MoimDetailBoard from './MoimDetailComponent/MoimDetail-Board';
 import MoimDetailGellery from './MoimDetailComponent/MoimDetail-Gallery';
 import MoimDetailChat from './MoimDetailComponent/MoimDetail-Chat';
+import { useParams } from 'react-router-dom';
+import axiosInstance from '../axiosInstance';
+
 const MoimDetail = ()=>{
+
+  // APP에서 지정한 url → /moim/detail/:id 변수이름을 'id'로 저장해야 url파라미터 값을 제대로 가져올 수 있음
+  const {id} = useParams(); // URL 파라미터인 id 값을 가져옴 (반환되는 값이 객체형태여서 객체 형태인 {id로 받아줘야함})
+
+console.log(id);
+
+  // 모임정보 저장하는 스테이트
+  const [moimInfo,setMoimInfo] = useState({});
+
+  // 모임정보 받아오는 effect
+  // 나중에 모임일정, 게시판, 모임 멤버 등도 받아와야함
+  useEffect(()=>{
+    axiosInstance.get(`/moimInfo/${id}`)
+    .then((response) => {
+      setMoimInfo(response.data);
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+  },[])
+
 
   // 😡임시😡
   const [isLiked, setIsLiked] = useState(false);
@@ -60,8 +84,8 @@ const MoimDetail = ()=>{
         <div className='moimDetail-header-beforeBtn'>{/* 목록 */}
           <FontAwesomeIcon icon={faList} size='lg'style={{color: '#6a60a9'}}/>
         </div>
-        <div className='moimDetail-header-category'>운동</div>
-        <div className='moimDetail-header-title'>SMASH</div>
+        <div className='moimDetail-header-category'>{moimInfo.category}</div>
+        <div className='moimDetail-header-title'>{moimInfo.moimname}</div>
       </div>
 
       <div className='moimDetail-moimInfoBox'>
@@ -80,25 +104,24 @@ const MoimDetail = ()=>{
         
         <div className='moimDetail-moimInfo-textBox'>          
           <div className='moimDetail-moimInfo-text1-box'>
-            <div className='moimDetail-moimInfo-text1-title'>SMASH</div>
+            <div className='moimDetail-moimInfo-text1-title'>{moimInfo.moimname}</div>
             <div className='moimDetail-moimInfo-text1-like' onClick={moimLikeHandler}> {/* 😡임시😡 */}
               <FontAwesomeIcon icon={isLiked ? fullHeart : lineHeart}  size='lg' style={{ color: isLiked ? 'gray' : '#ff2727' }}/>
             </div>
             <div className='moimDetail-moimInfo-text1-share'>s</div>
           </div>
-          <div className='moimDetail-moimInfo-text2-shortinfo'>
-            2030 배드민턴 모임입니다.
-          </div>
+          <div className='moimDetail-moimInfo-text2-shortinfo'>{moimInfo.introduction}</div>
           <div className='moimDetail-moimInfo-text3-box'>
             <div className='moimDetail-moimInfo-text3-leaderImgBox'>
               <img src={face} alt=''/>
               {/* 추후 프로필 사진 저장되어 있는 url div로 연결하기
               backgroundImage: `url(https://raw.githubusercontent.com/Jella-o312/modo-image/main/moim-img/${data.id}.png)` */}
             </div>
-            <div className='moimDetail-moimInfo-text3-leaderName'> 모임장 <span>배민족장</span></div>
+            {/* ↓ 이거 어떻게 해야하나.....닉네임으로 떠야하는디 */}
+            <div className='moimDetail-moimInfo-text3-leaderName'> 모임장 <span>{moimInfo.leadername}</span></div>
           </div>
           <div className='moimDetail-moimInfo-text4-Box'>
-            <div className='moimDetail-moimInfo-text4-location'>인천</div>
+            <div className='moimDetail-moimInfo-text4-location'>{moimInfo.city}·{moimInfo.town}</div>
             <div className='moimDetail-moimInfo-text4-member'>34 명</div>
           </div>
           <div className='moimDetail-moimInfo-text5-Box'>
@@ -124,7 +147,7 @@ const MoimDetail = ()=>{
       </div>
 
       <div className='moimDetail-moimContentBox'>
-        {moimMenuCk === '홈' &&  <MoimDetailHome/>}
+        {moimMenuCk === '홈' &&  <MoimDetailHome moimInfo={moimInfo}/>}
         {moimMenuCk === '게시판' &&  <MoimDetailBoard/>}
         {moimMenuCk === '갤러리' &&  <MoimDetailGellery/>}
         {moimMenuCk === '채팅' &&  <MoimDetailChat/>}

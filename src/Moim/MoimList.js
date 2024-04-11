@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 
-const MoimList = () =>{
+const MoimList = ({moimList}) =>{
 
   const navigate = useNavigate();
   const [likedMoims, setLikedMoims] = useState([]); // 각 모임의 좋아요 상태를 관리하는 배열
@@ -29,9 +29,16 @@ const MoimList = () =>{
     });
   };
 
+  // [임시 이미지 생성용] 랜덤 숫자 생성 함수
+  const getRandomImageNumber = () => {
+    // Math.random()은 0 이상 1 미만의 랜덤한 숫자를 생성합니다.
+    // 0~17까지의 숫자를 얻기 위해 18을 곱하고, Math.floor를 사용하여 소수점 이하를 버립니다.
+    return Math.floor(Math.random() * 18);
+  };
+
   return(
     <div className='moim-list-box'>
-      {
+      {/* {
         moimContent.map((data) => {
           const isLiked = likedMoims.includes(data.id);
           return (
@@ -57,12 +64,45 @@ const MoimList = () =>{
             </div>
           );
         })
+      } */}
+
+      {
+        moimList.map((data) => {
+          const isLiked = likedMoims.includes(data.id);
+           // 각 항목마다 랜덤 숫자 생성
+           const imageNumber = getRandomImageNumber();
+          return (
+            <div className='moim-content-box' key={data.id} onClick={()=>navigate(`/moim/${data.id}`)}>
+              <div className='moim-content-box-img'
+                style={{
+                  backgroundImage: `url(https://raw.githubusercontent.com/Jella-o312/modo-image/main/moim-img/moim${imageNumber}.png)` // ⭐보안 정책 때문에 컴퓨터 내부에 있는 파일로 테스트 불가
+                  , opacity: '0.85'
+                }}>
+                <div className='moim-content-box-categoryBack'>
+                <span className='moim-content-box-categoty'>{data.category}</span>
+                <span className='moim-content-box-like' onClick={(e) => handleLikeToggle(data.id,e)}>
+                  <FontAwesomeIcon icon={isLiked ? fullHeart : lineHeart}  size='lg' style={{ color: isLiked ? 'white' : '#ff2727' }}/>
+                </span>
+                </div>
+              </div>
+
+              <div className='moim-content-box-info'>
+                <div className='moim-contnent-box-title'>{data.moimname}</div>
+                <span>{data.introduction}</span>
+                <div className='moim-content-box-info-member'>{data.city}·{data.town} ┃ n명</div>
+              </div>
+            </div>
+          );
+        })
       }
-      
     </div>
   );
 }
 
 export default MoimList;
+
+
+
+
 
 

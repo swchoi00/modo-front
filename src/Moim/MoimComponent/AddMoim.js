@@ -96,7 +96,7 @@ const createMoim = ()=>{
   const formData = new FormData();
   formData.append('moimInfo', JSON.stringify(addMoimInfo)); // 모임 정보 
   formData.append('file', moimThumbnail);  // 모임 사진 
-  formData.append('photoType', "main"); // 사진 타입 (폴더 저장 경로)
+  formData.append('moimName', "main"); // 사진 타입 (폴더 저장 경로)
 
   axiosInstance.post('/addMoimThumbnail', formData, {
     headers: {
