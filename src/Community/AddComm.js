@@ -7,7 +7,7 @@ const AddComm = ({ userInfo }) => {
   const navigate = useNavigate();
 
   const [commInfo, setCommInfo] = useState({
-    author: userInfo.username,
+    author: userInfo.nickname,  // 작성자는 username보다 nickname이 좋아보임
     postname: '',
     categories: '',
     content: ''
@@ -25,43 +25,19 @@ const AddComm = ({ userInfo }) => {
   }
 
   //유효성 검사 후 서버로 보내기
-  // test1
   const handleSubmit = () => {
     if (commInfo.postname === '' || commInfo.categories === '' || commInfo.content === '') {
       alert('제목, 카테고리, 내용은 필수 입력 항목입니다.');
       return;
     }
     axiosInstance.post('/comm_insert', commInfo)
-      .then(response => {
+      .then((response) => {
         alert(response.data);
         navigate('/Community');
       }).catch(error => {
         console.log(error);
       })
   }
-  
-  // test2
-  const handleSubmit2 = () => {
-    if (commInfo.postname === '' || commInfo.categories === '' || commInfo.content === '') {
-      alert('제목, 카테고리, 내용은 필수 입력 항목입니다.');
-      return;
-    }
-
-    // 데이터를 JSON 형식으로 변환
-    axiosInstance.post('/comm_insert', commInfo, {
-      headers: {
-        'Content-Type': 'multipart/form-data' //'Content-Type':  'application/json'
-      }
-    })
-      .then(response => {
-        alert(response.data);
-        navigate('/Community');
-      }).catch(error => {
-        console.log(error);
-      })
-  }
-
-
     console.log(commInfo);
 
   return(
@@ -85,7 +61,7 @@ const AddComm = ({ userInfo }) => {
         <textarea className='content-inner content' placeholder="내용을 입력해주세요" name="content" value={commInfo.content} onChange={changeHandler}/>
       </div>
       <div>
-        <button className='addBtn' onClick={handleSubmit2}>게시글 등록</button>
+        <button className='addBtn' onClick={handleSubmit}>게시글 등록</button>
       </div>
     </div>
   );

@@ -5,6 +5,7 @@ const HotIssue = ({ hotIssues, typeColors }) => {
   
   return (
     <>
+    {/* modata */}
       {hotIssues.map((issue, i) => (
         <tr key={i} className="top5">
           <td>{issue.postNo}</td>
@@ -15,6 +16,17 @@ const HotIssue = ({ hotIssues, typeColors }) => {
           <td>{issue.view}</td>
         </tr>
       ))}
+      {/* getdata */}
+      {/* {hotIssues.map((issue, i) => (
+        <tr key={i} className="top5">
+          <td>{issue.postno}</td>
+          <td style={{ color: typeColors[issue.categories], fontWeight: 'bold' }}>[{issue.categories}]</td>
+          <td className="title"><img src={hotImage} alt="hot" className="hot-icon"/>{issue.postname}</td>
+          <td>{issue.author}</td>
+          <td>{issue.date}</td>
+          <td>{issue.views}</td>
+        </tr>
+      ))} */}
 
     </>
   );
