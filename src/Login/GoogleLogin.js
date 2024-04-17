@@ -14,9 +14,10 @@ function GoogleLogin ( {setUserInfo, isAuth, setIsAuth}) {
         axiosInstance.post('/oauth/google', {accessToken : accessToken})
         .then(response => {
             const jwt = response.headers.authorization;
-
             if(jwt) {
+                const userInfo = response.data.member[0];
                 sessionStorage.setItem('jwt', jwt);
+                sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
                 setUserInfo(response.data.member[0]);
                 setIsAuth(true);
                 navigate('/')

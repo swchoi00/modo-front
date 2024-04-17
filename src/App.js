@@ -38,6 +38,15 @@ function App() {
     setPageNow(location.pathname);  
   }, [location.pathname]);
 
+  useEffect(() => {
+    const storedUserInfo = sessionStorage.getItem('userInfo');
+    if (storedUserInfo) {
+      const userInfoObject = JSON.parse(storedUserInfo); // 문자열을 객체로 변환
+      setUserInfo(userInfoObject);
+      setIsAuth(true);
+    }
+  }, []);
+
   
 
   const [userInfo, setUserInfo] = useState({

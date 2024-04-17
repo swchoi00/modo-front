@@ -1,11 +1,19 @@
 import { Link, useNavigate } from 'react-router-dom';
 import './Login.css';
 import axiosInstance from '../axiosInstance';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function Login( {userInfo, setUserInfo, setIsAuth} ) {
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const jwt = sessionStorage.getItem('jwt');
+        if(jwt) {
+            setIsAuth(true);
+        }
+    })
+
 
     const appleLoginHandler = () => {
         alert('서비스 준비중입니다!');
@@ -33,9 +41,10 @@ function Login( {userInfo, setUserInfo, setIsAuth} ) {
         .then((response => {
             
             const jwt = response.headers.authorization;
+            const userInfo = response.data.member[0];
             alert('로그인 완료!')
-            console.log(response.data.member[0]);
             sessionStorage.setItem('jwt', jwt);
+            sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
             setUserInfo(response.data.member[0]);
             setIsAuth(true);
             navigate('/');
