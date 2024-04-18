@@ -7,7 +7,7 @@ const AddComm = ({ userInfo }) => {
   const navigate = useNavigate();
 
   const [commInfo, setCommInfo] = useState({
-    author: userInfo.nickname,  // 작성자는 username보다 nickname이 좋아보임
+    author: userInfo.username,  // 작성자는 username보다 nickname이 좋아보임
     postname: '',
     categories: '',
     content: ''

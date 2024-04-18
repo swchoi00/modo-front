@@ -27,6 +27,7 @@ import Faq_write from './Home/FAQ/Faq_write';
 import InquiryFormDetail from './Home/FAQ/InquiryForm/InquiryFormDetail';
 import Community from './Community/Community';
 import AddComm from './Community/AddComm';
+import CommDetail from './Community/CommDetail';
 
 function App() {
 
@@ -105,6 +106,7 @@ function App() {
         
           <Route path='/community' element={<Community currentPage={currentPage} setCurrentPage={setCurrentPage} isAuth={isAuth}/>}/>
           <Route path='/addComm' element={<AddComm userInfo={userInfo}/>} />
+          <Route path='/comm/:id' element={<CommDetail isAuth={isAuth} userInfo={userInfo}/>} />
         </Routes>
       </div>
       
