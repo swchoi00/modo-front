@@ -35,6 +35,8 @@ function App() {
   const location = useLocation();
   const [pageNow, setPageNow] = useState(location.pathname);
 
+  // 지울거임
+  const [test, setTest] = useState();
 
   useEffect(() => {
     setPageNow(location.pathname);  
