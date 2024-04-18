@@ -1,0 +1,55 @@
+.LoginPzModal-Box, .LoginPzModal-Body{
+  width: 100%;
+  display: flex; 
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.LoginPzModal-Box{
+  padding: 1rem 0 0.3rem;
+}
+
+.LoginPzModal-Box b{
+  margin: 0.5rem 0;
+}
+
+
+.LoginPzModal-BtnBox{
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-top: 1rem;
+  gap: 0.8rem;
+}
+
+
+
+.LoginPzModal-BtnStyle1{
+  border: 1px solid #a472ff;
+  color: #a472ff;
+  background-color: white;
+  border-radius: 5px;
+  width: 50%;
+  padding: 0.3rem 0;
+}
+
+.LoginPzModal-BtnStyle2{
+  border: 1px solid #bdbdbd;
+  color: #bdbdbd;
+  background-color: white;
+  border-radius: 5px;
+  width: 50%;
+  padding: 0.3rem 0;
+}
+
+
+.LoginPzModal-BtnStyle1:hover{
+  background-color: #a472ff;
+  color: white;
+}
+
+.LoginPzModal-BtnStyle2:hover{
+  background-color: #bdbdbd;
+  color: white;
+}

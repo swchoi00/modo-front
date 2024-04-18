@@ -1,0 +1,96 @@
+.ServiceCategories-container{
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  width: 100%;
+  /* overflow: visible; 
+  가로 스크롤이 나타나도록 설정
+  min-width: 0;     
+  가로 스크롤을 할 수 있도록 설정 */
+}
+
+.categories-title {
+  align-self: flex-start; /*flex받은 곳 시작점에 배치*/
+  margin: 1.9rem 0 1.2rem 1.5rem;
+  font-weight: bolder;
+  font-size: large;
+  color:  rgb(73, 73, 73);
+}
+
+.categories-box{
+  display: grid;
+  grid-template-columns: repeat(7, 1fr); 
+  gap: 1rem; /* 열 사이의 간격 */
+  justify-content: center;
+  align-items: center;
+  /* width: 100%; */
+}
+
+.categories-innerBox{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+
+/* ⭐ 카테고리 이미지에 마우스 가져다 대면 위치 변하는 효과 */
+.categories-innerBox:hover{
+  position: relative;
+  top:-0.2rem;
+  right: -0.2rem;
+}
+
+.cate-img {
+  border-radius: 7px;
+  width: 5rem;  /*이전 사이즈는 5.8rem*/
+  height: 5rem;
+}
+
+
+.cate-text{
+  margin-top: 0.8rem;
+}
+
+
+
+
+
+@media screen and (max-width: 970px){
+	.ServiceCategories-container{
+    width: 780px;
+  }
+  .categories-title{
+    margin: 1.9rem 0 1.2rem 0.7rem;
+  }
+}
+
+
+/* 화면이 780되기 전까지는 카테고리 더보기 버튼 안보임 */
+@media screen and (min-width: 781px){
+  .categories-innerBox2{
+    display: none;
+  }
+}
+
+
+@media screen and (max-width: 780px){
+  .ServiceCategories-container{
+    width: 100vw;
+    padding: 0 0.5rem;
+  }
+  .cate-img{
+    width:72%;
+    height: 72%;
+  }
+  .categories-box{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 1rem; /* 열 사이의 간격 */
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 3rem;
+  }
+  .categories-title{
+    margin: 1.9rem 0 1.2rem 0.8rem;
+  }
+}

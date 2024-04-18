@@ -1,0 +1,229 @@
+.MoimDetail-container{
+  /* border: 1px solid #6A60A9; */
+  width: 1050px;
+  display: flex;
+  flex-direction: column;
+}
+
+.moimDetail-headerBox{
+  /* border-bottom: 1px solid rgba(0,0,0,.08); */
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin: 0.5rem 0;
+}
+
+.moimDetail-headerBox div{
+  margin-right: 1rem;
+}
+
+.moimDetail-header-category{
+  padding: 0 0.7rem;
+  border-radius: 5px;
+  color: white;
+  background: linear-gradient(130deg, #6a60a9,#9087d3, #b5afe6);
+}
+
+.moimDetail-header-title{
+  color: #7E7E7E;
+}
+
+.moimDetail-moimInfoBox{
+  /* border: 1px solid salmon; */
+  width: 100%;
+  height: 27rem;
+  display: flex;
+}
+
+.moimDetail-moimInfo-imageBox{
+  /* border: 1px solid salmon; */
+  width: 55%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.moimDetail-moimInfo-carousel{
+  /* border: 1px solid seagreen; */
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 이건 부트스트랩 캐러셀 자체 classname */
+.carousel-inner{
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+.moimDetail-moimInfo-carousel-item{
+  /* border: 1px solid seagreen; */
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+/*🔔모임 배너 5개🔔*/
+.moimDetail-moimInfo-carousel-item div{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* background-color: #b5afe6;
+  color: white; */
+  font-size: 500%;
+}
+
+.moimDetail-moimInfo-image-num{
+  position: absolute;
+  bottom: 1rem;
+  font-size: small;
+  width: 3rem;
+  padding: 0.1rem 0 0.2rem 0;
+  background-color: rgba(141, 141, 141, 0.644);
+  border-radius: 15px;
+  color: white;
+}
+
+
+.moimDetail-moimInfo-textBox{
+  /* border: 1px solid salmon; */
+  width: 45%;
+  display: flex;
+  flex-direction: column;
+  padding:  0.2rem 0.1rem 0.2rem 1.5rem;
+  gap: 0.8rem;
+}
+
+.moimDetail-moimInfo-text1-box, .moimDetail-moimInfo-text3-box, 
+.moimDetail-moimInfo-text4-Box, .moimDetail-moimInfo-text5-Box{
+  /* border: 1px solid salmon; */
+  display: flex;
+  align-items: center;
+}
+
+.moimDetail-moimInfo-text1-title{
+  font-size: x-large;
+  font-weight: 700;
+  color: #424242;
+  margin-right: 0.5rem;
+}
+
+.moimDetail-moimInfo-textq1-RightBtn{
+  margin-left: auto;
+  display: flex;
+  gap: 1rem;
+  /* border: 1px solid salmon; */
+}
+
+.moimDetail-moimInfo-text1-setting, .moimDetail-moimInfo-text1-share{
+  cursor: pointer;
+}
+
+.moimDetail-moimInfo-text1-like{
+  cursor: pointer;
+}
+
+.moimDetail-moimInfo-text2-shortinfo{
+  /* border: 1px solid salmon; */
+  width: 100%;
+  text-align: start;
+}
+
+.moimDetail-moimInfo-text3-box{
+  margin: 2rem 0 1.5rem ;
+  padding: 0.5rem;
+  box-shadow: 0px 0px 15px -4px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  gap: 0.7rem;
+}
+
+/* .moimDetail-moimInfo-text3-leaderImgBox{
+  border-radius: 50%;
+  추후에 이미지 동적으로 넣으면 이 코드 활성화하고 아래 img 코드 삭제
+} */
+
+
+.moimDetail-moimInfo-text3-leaderImgBox img{
+  height: 3rem;
+}
+
+.moimDetail-moimInfo-text3-leaderName{
+  font-weight: 500;
+}
+
+.moimDetail-moimInfo-text3-leaderName span{
+  font-weight: 400;
+  margin-left: 0.5rem;
+}
+
+.moimDetail-moimInfo-text4-location, .moimDetail-moimInfo-text4-member{
+  background-color: #bdbdbd;
+  border-radius: 50px;
+  color: white;
+  margin-right: 0.5rem;
+  padding: 0.12rem 1.2rem;
+}
+
+
+.moimDetail-moimInfo-text5-Box{
+  margin: 0.5rem 0 2rem;
+  /* ⭐⭐⭐ */
+}
+
+.moimDetail-moimInfo-text5-hashtag{
+  color: #afafaf;
+  /* border: 1px solid #c4c4c4; */
+  border-radius: 5px;
+  padding: 0.08rem 0.4rem 0.15rem;
+  margin-right: 0.5rem;
+}
+
+.moimDetail-moimInfo-joinBtn{
+  width: 100%;
+  background-color: #6a60a9;
+  border-radius: 8px;
+  color: white;
+  font-size: larger;
+  font-weight: 500;
+  letter-spacing: 0.13rem;
+  padding: 0.8rem;
+  margin-top: auto;
+}
+
+
+
+.moimDetail-moimMenu-box{
+  width: 100%;
+  border-bottom: 1px solid rgba(0,0,0,.08);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem 0 0.8rem;
+}
+
+.moimDetail-moimMenu{
+  width: 10%;
+  padding: 0.3rem 0 0.5rem;
+  cursor: pointer;
+  color: #afafaf;
+}
+
+.moimDetail-moimMenu-ck{
+  background-color: #6a60a9;
+  color: white;
+  border-radius: 10px 10px 0 0 ;
+}
+
+.moimDetail-moimContentBox{
+  /* border: 1px solid salmon; */
+  width: 100%;
+  display: flex;
+  /* justify-content: center; */
+  padding: 0 1rem;
+}

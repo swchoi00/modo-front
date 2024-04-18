@@ -1,0 +1,55 @@
+.CommAddBtn{
+  bottom: 2.5rem;
+  right: 3rem;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.CommAddBtn .ScrollBtn-Btn{
+  background-color: #dddddd94;
+  width: 4rem;
+  height: 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+
+.CommAddBtn .AddBtn-BtnBox{
+  text-decoration: none;
+}
+
+.CommAddBtn .AddBtn-Btn{
+  width: 4rem;
+  height: 4rem;
+  background: linear-gradient(130deg, #6a60a9,#9087d3, #b5afe6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15px;
+}
+
+
+@media screen and (max-width: 1195px){
+  .CommAddBtn{
+    bottom: 2rem;
+    right: 2rem;
+  }
+}
+
+@media screen and (max-width: 780px){
+  .CommAddBtn{
+    bottom: 4.5rem;
+    right: 0.8rem;
+  }
+  .CommAddBtn .AddBtn-Btn, .ScrollBtn-Btn{
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+}
