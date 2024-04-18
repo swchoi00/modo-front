@@ -8,11 +8,11 @@ import axiosInstance from '../axiosInstance';
 
 
 
-const Moim = ({isAuth}) =>{
+const Moim = ({isAuth, userInfo,setUserInfo}) =>{
 
   const moimShowType = ['전체보기', '카테고리'];
   const [moimShowTypeBtn, setMoimShowTypeBtn] = useState('전체보기');
-
+  
 
   const moimCateType = [
     {
@@ -78,14 +78,11 @@ const Moim = ({isAuth}) =>{
     axiosInstance.get("/moimList")
     .then((response) => {
       setMoimList(response.data);
-      console.log(response.data);
     })
     .catch((error) => {
         console.log(error);
     });
   },[]);
-
-
 
 
 
@@ -170,10 +167,13 @@ const Moim = ({isAuth}) =>{
             ))
           }
         </div>
-
-      <MoimList moimList={moimList}/>
+      {/* <MoimLoginPz showLoginModal={showLoginModal} setShowLoginModal={setShowLoginModal} /> */}
+      
+      <MoimList isAuth={isAuth} moimList={moimList} userInfo={userInfo} setUserInfo={setUserInfo}/>
       <MoimAddBtn isAuth={isAuth}/>
 
+
+      
 
     </div>
   );

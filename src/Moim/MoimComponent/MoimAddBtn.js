@@ -3,11 +3,12 @@ import './MoimAddBtn.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faChevronUp} from '@fortawesome/free-solid-svg-icons'; 
 import { useEffect, useState } from 'react';
+import LoginPzModal from '../../Login/LoginPzModalComponent/LoginPzModal';
 
 const MoimAddBtn = ({isAuth}) =>{
 
   const navigate = useNavigate();
-
+  const [showLoginModal, setShowLoginModal] = useState(false); // 로그인 안했을때 모달창 띄움
   const [moimScrollVisible, setMoimScrollVisible] = useState(false);
   
   const MoimScrollHandler = () => {
@@ -40,26 +41,28 @@ const MoimAddBtn = ({isAuth}) =>{
       // 인증된 경우 페이지 이동
       navigate('/addMoim');
     } else {
-      // 비인증된 경우 알림 표시 및 로그인 페이지로 이동
-      alert('로그인 후 이용해주세요.');
-      navigate('/login');
+      setShowLoginModal(true);
     }
   };
 
 
   return(
     <div className='MoimBtn-container'>
+      {/* ⭐⭐모임 리스트 스크롤 버튼 */}
       {moimScrollVisible && (
         <div className='MoimScrollBtn-Btn' onClick={MoimScrollHandler}>
           <FontAwesomeIcon icon={faChevronUp}  size='2x' style={{color:'#6a60a9' }}/>
         </div>
       )}
 
+      {/* ⭐⭐모임 추가 버튼 */}
       <div className='MoimAddBtn-BtnBox' onClick={handleMoimAddBtnClick}>
         <div className='MoimAddBtn-Btn'>
           <FontAwesomeIcon icon={faPlus} size='2x' style={{ color: 'white' }} />
         </div>
       </div>
+
+      <LoginPzModal showLoginModal={showLoginModal} setShowLoginModal={setShowLoginModal}/>
     </div>
   );
 }

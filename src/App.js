@@ -42,8 +42,9 @@ function App() {
 
   const [userInfo, setUserInfo] = useState({
     username : '',
-    nickname : '',
+    nickname : ''
   });
+
 
   const [notice, setNotice] = useState({
     title : '',
@@ -80,9 +81,9 @@ function App() {
       <div className='App-Body'>
         <Routes>
           <Route path ='/'element={<Main />}/> 
-          <Route path='/moim' element={<Moim isAuth={isAuth}/>}/>
+          <Route path='/moim' element={<Moim isAuth={isAuth} userInfo={userInfo} setUserInfo={setUserInfo}/>}/>
           {/* ↓ 모임상세페이지 URL값 , 나중에 유저정보 보내줘야함*/}
-          <Route path = '/moim/:id' element={<MoimDetail/>}/>
+          <Route path = '/moim/:id' element={<MoimDetail isAuth={isAuth} userInfo={userInfo} setUserInfo={setUserInfo}/>}/>
           <Route path='/addMoim' element={<AddMoim userInfo={userInfo}/>}/> 
 
           <Route path ='/faq' element={<Faq userInfo={userInfo} currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>

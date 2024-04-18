@@ -1,8 +1,10 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './MoimDetail.css';
 import { faList} from '@fortawesome/free-solid-svg-icons';
-import { faHeart as fullHeart} from '@fortawesome/free-regular-svg-icons';
-import { faHeart as lineHeart} from '@fortawesome/free-solid-svg-icons';
+import { faArrowUpFromBracket as share} from '@fortawesome/free-solid-svg-icons';
+import { faGear as setting} from '@fortawesome/free-solid-svg-icons';
+import { faHeart as fullHeart} from '@fortawesome/free-solid-svg-icons'; // 실선으로 된 하트 아이콘
+import { faHeart as lineHeart} from '@fortawesome/free-regular-svg-icons'; // 비어있는 하트 아이콘
 import { useEffect, useState } from 'react';
 import face from '../HomeComponent/ReviewComponent/face.svg';
 import { Carousel } from 'react-bootstrap';
@@ -12,35 +14,81 @@ import MoimDetailGellery from './MoimDetailComponent/MoimDetail-Gallery';
 import MoimDetailChat from './MoimDetailComponent/MoimDetail-Chat';
 import { useParams } from 'react-router-dom';
 import axiosInstance from '../axiosInstance';
+import LoginPzModal from '../Login/LoginPzModalComponent/LoginPzModal';
+import MoimDetailMoimInfoModal from './MoimDetailComponent/MoimDetailInnerComponent/MoimDetail-MoimInfo-Modal';
 
-const MoimDetail = ()=>{
+
+const MoimDetail = ({isAuth, userInfo, setUserInfo})=>{
+
 
   // APP에서 지정한 url → /moim/detail/:id 변수이름을 'id'로 저장해야 url파라미터 값을 제대로 가져올 수 있음
   const {id} = useParams(); // URL 파라미터인 id 값을 가져옴 (반환되는 값이 객체형태여서 객체 형태인 {id로 받아줘야함})
-
-console.log(id);
+  const moimId = Number(id);  // 파라미터로 받은 id를 숫자로 변경
 
   // 모임정보 저장하는 스테이트
   const [moimInfo,setMoimInfo] = useState({});
+  // 좋아요 상태 저장하는 스테이트
+  const [likedMoims, setLikedMoims] = useState(false); // 초기값을 false로 설정
+  // 로그인 유저와 모임장이 일치하는지 여부 (😡😡모임장, 매니저, 모임원 여부 있어야 할거 같은데😡😡)
+  const [moimMember, setMoimMember] = useState(null);
+  // 모임 기본 정보 수정하는 모달 
+  const [showMoimInfoSettingModal, setShowMoimInfoSettingModal] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false); // 로그인 안했을때 모달창 띄움
 
-  // 모임정보 받아오는 effect
+
+  // 모임정보 받아오는 effect, 좋아요 여부 세팅
   // 나중에 모임일정, 게시판, 모임 멤버 등도 받아와야함
   useEffect(()=>{
     axiosInstance.get(`/moimInfo/${id}`)
     .then((response) => {
-      setMoimInfo(response.data);
+      setMoimInfo(response.data); // 모임 정보 저장
+      // 모임 리더 여부 
+      if(isAuth){
+        //😡😡추후에 스위치문으로 모임장, 매니저, 모임원 여부 저장해야 할듯
+        if(response.data.leadername === userInfo.username){
+          setMoimMember("leader");
+        }else{
+          setMoimMember("member");
+        }
+      }
+
+      // 모임 좋아요 여부
+      if (userInfo && userInfo.likedMoim) { //userInfo.likedMoim는 새로고침됐을때 로그인 풀리면서 생기는 오류 방지로 추가됨
+        setLikedMoims(userInfo.likedMoim.includes(moimId));
+      } else {
+        setLikedMoims(false); // 비어있는 배열로 초기화
+      }
     })
     .catch((error) => {
         console.log(error);
     });
-  },[])
+  },[userInfo])
 
 
-  // 😡임시😡
-  const [isLiked, setIsLiked] = useState(false);
-  const moimLikeHandler = () =>{
-    setIsLiked(!isLiked);
-  }
+
+  //  ⭐모임 좋아요 버튼 핸들러
+  const handleMoimLikeBtn = () => {
+    // 좋아요 기능은 로그인 되어있는 상태만 작동됨
+    if(isAuth){
+      // 서버에서 받아둔 좋아요 모임좋아요 여부가 true면 해당 번호를 제거하고, false면 좋아요 리스트에 추가
+      const upDateLikedMoims = likedMoims ? userInfo.likedMoim.filter(data => data !==moimId) : [...userInfo.likedMoim, moimId];
+      // 해당 좋아요 모임 리스트를 userInfo에 업데이트
+      const member = { ...userInfo, likedMoim: upDateLikedMoims };
+      axiosInstance.post('/upDateLikedMoim',member)
+      .then((response)=>{
+        setUserInfo(response.data); // userinfo 컴포넌트에 member 정보 업데이트
+      }).catch((error)=>{
+        console.log(error);
+      });
+      
+    }else{ // 로그인되어있지 않은 경우 로그인 안내 모달 띄우는 스테이트 값 변경(해당 컴포넌트는 재활용 가능)
+      setShowLoginModal(true);
+    }
+  };
+
+
+
+
   const hashtagList = ["운동맛집", "인천 정모", "배드민턴"];
 
   // 😡임시_캐러셀 이미지 추후 링크 통해서 대체해야함😡
@@ -75,7 +123,7 @@ console.log(id);
   }, [moimMenuCk]);
 
 
-  console.log(moimMenuCk);
+// console.log(moimInfo);
 
   return(
     <div className='MoimDetail-container'>
@@ -94,7 +142,14 @@ console.log(id);
           {
             banner.map((num, i)=>(
               <Carousel.Item key={i} className='moimDetail-moimInfo-carousel-item'>{/*😡추후에 클릭했을때 모달 띄워서 확대해서 볼 수 있게 해야하나😡*/}
-                <div>{num}</div>{/*😡임시😡*/}
+                {/* <div>{num}</div>😡임시😡 */}
+                <div className='moimDetail-thumbnail-img'
+                  style={{
+                    backgroundImage: `url(https://raw.githubusercontent.com/Jella-o312/modo-image/main/moim-img/moim${num}.png)`, // ⭐보안 정책 때문에 컴퓨터 내부에 있는 파일로 테스트 불가
+                    backgroundRepeat: 'no-repeat',
+                    backgroundSize: 'cover'
+                  }}
+                />
               </Carousel.Item>
             ))
           }
@@ -105,10 +160,19 @@ console.log(id);
         <div className='moimDetail-moimInfo-textBox'>          
           <div className='moimDetail-moimInfo-text1-box'>
             <div className='moimDetail-moimInfo-text1-title'>{moimInfo.moimname}</div>
-            <div className='moimDetail-moimInfo-text1-like' onClick={moimLikeHandler}> {/* 😡임시😡 */}
-              <FontAwesomeIcon icon={isLiked ? fullHeart : lineHeart}  size='lg' style={{ color: isLiked ? 'gray' : '#ff2727' }}/>
+            <div className='moimDetail-moimInfo-text1-like' onClick={handleMoimLikeBtn}> {/* 😡임시😡 */}
+              <FontAwesomeIcon icon={likedMoims ? fullHeart : lineHeart}  size='lg' style={{ color: likedMoims ? '#ff2727' : 'gray' }}/>
             </div>
-            <div className='moimDetail-moimInfo-text1-share'>s</div>
+            <div className='moimDetail-moimInfo-textq1-RightBtn' onClick={()=>setShowMoimInfoSettingModal(true)}>
+              { moimMember === 'leader' &&
+              <div className='moimDetail-moimInfo-text1-setting'>
+                <FontAwesomeIcon icon={setting}  size='lg' style={{ color: 'gray'}}/>
+              </div>
+              }
+              <div className='moimDetail-moimInfo-text1-share'>
+               <FontAwesomeIcon icon={share}  size='lg' style={{ color: 'gray'}}/>
+              </div>
+            </div>
           </div>
           <div className='moimDetail-moimInfo-text2-shortinfo'>{moimInfo.introduction}</div>
           <div className='moimDetail-moimInfo-text3-box'>
@@ -132,7 +196,8 @@ console.log(id);
             }
           </div>
           {/* 😡여기에 가입여부 가리는거 필요😡 */}
-          <div className='moimDetail-moimInfo-joinBtn'>가입하기</div>
+          { moimMember === null && <div className='moimDetail-moimInfo-joinBtn'>가입하기</div>}
+          {/* { moimMember === 'leader' && <div className='moimDetail-moimInfo-settingBtn'>운영중인 모임</div>} */}
         </div>
       </div>
 
@@ -152,6 +217,14 @@ console.log(id);
         {moimMenuCk === '갤러리' &&  <MoimDetailGellery/>}
         {moimMenuCk === '채팅' &&  <MoimDetailChat/>}
       </div>
+      
+      <LoginPzModal showLoginModal={showLoginModal} setShowLoginModal={setShowLoginModal}/>
+      <MoimDetailMoimInfoModal 
+        showMoimInfoSettingModal = {showMoimInfoSettingModal}
+        setShowMoimInfoSettingModal ={setShowMoimInfoSettingModal}
+        moimInfo={moimInfo}
+        setMoimInfo={setMoimInfo}
+      />
       
     </div>
   )
