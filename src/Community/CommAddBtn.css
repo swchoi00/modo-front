@@ -48,7 +48,7 @@
     bottom: 4.5rem;
     right: 0.8rem;
   }
-  .CommAddBtn .AddBtn-Btn, .ScrollBtn-Btn{
+  .CommAddBtn .AddBtn-Btn, .CommAddBtn .ScrollBtn-Btn{
     width: 3.5rem;
     height: 3.5rem;
   }

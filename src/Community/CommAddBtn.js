@@ -3,11 +3,13 @@ import './CommAddBtn.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faChevronUp} from '@fortawesome/free-solid-svg-icons'; 
 import { useEffect, useState } from 'react';
+import LoginPzModal from '../Login/LoginPzModalComponent/LoginPzModal';
 
 const CommAddBtn = ({ isAuth }) =>{
 
   const navigate = useNavigate();
 
+  const [showLoginModal, setShowLoginModal] = useState(false); // 로그인 안했을때 모달창 띄움
   const [ScrollVisible, setScrollVisible] = useState(false);
   
   const ScrollHandler = () => {
@@ -41,8 +43,7 @@ const CommAddBtn = ({ isAuth }) =>{
       navigate('/addComm');
     } else {
       // 비인증된 경우 알림 표시 및 로그인 페이지로 이동
-      alert('로그인 후 이용해주세요.');
-      navigate('/login');
+      setShowLoginModal(true);
     }
   };
 
@@ -60,6 +61,8 @@ const CommAddBtn = ({ isAuth }) =>{
           <FontAwesomeIcon icon={faPlus} size='2x' style={{ color: 'white' }} />
         </div>
       </div>
+
+      <LoginPzModal showLoginModal={showLoginModal} setShowLoginModal={setShowLoginModal}/>
     </div>
   );
 }
