@@ -48,8 +48,6 @@
 }
 
 .CommReply .date {
-  /* font-size: 0.9rem; */
-  /* line-height: 1.5rem; */
   color: #7c7c7c;
   margin-left: 5px;
 } 
@@ -63,8 +61,26 @@
   justify-content: flex-end;
 }
 
-.CommReply .aa > button {
+.CommReply .isAuthTrue > button {
   border: none;
-  background-color: none;
+  border-bottom: 1px solid rgb(240, 240, 240);
+  background-color: white;
+  margin: 5px;
+}
 
+
+
+@media screen and (max-width: 431px){
+  .CommReply .writeReply {
+    width: 100%;
+  }
+
+  .CommReply .replyInput { 
+    width: 80%;
+  }
+
+  .CommReply .replyBtn {
+    width: 16%;
+    height: 3rem;
+  }
 }

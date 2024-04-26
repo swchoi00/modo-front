@@ -1,13 +1,24 @@
 import './MoimDetail-Home.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
+import { faPen } from '@fortawesome/free-solid-svg-icons';
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import face from '../../HomeComponent/ReviewComponent/face.svg';
 import leaderIcon from '../../Img/moimDetail_leaderIcon.svg';
 import managerIcon from '../../Img/moimDetail_managerIcon.svg';
-import { Button, Modal, OverlayTrigger, Tooltip } from 'react-bootstrap';
-import { useState } from 'react';
+import { Button, Collapse, Modal, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import axiosInstance from '../../axiosInstance';
 
-const MoimDetailHome = ({moimInfo}) =>{
+const MoimDetailHome = ({moimInfo,setMoimInfo,moimMemberRole}) =>{
+ 
+  // 모임 소개 수정용 스테이트 및 이펙트
+  // 나중에 지워주세요
+  const [imsiMoimInfo, setImsiMoimInfo] = useState(null);
+  useEffect (()=>{
+    setImsiMoimInfo(moimInfo);
+  },[moimInfo]);
 
 const imsiScheduleData = [
 {
@@ -93,6 +104,67 @@ const memberKickOutHandler = (name)=>{
   setMemberKickOutName(name);
 }
 
+// 모임 소개 미리보기 토글용 스테이트
+const [moimDescriptionSampleOpen, setMoimDescriptionSampleOpen] = useState(false);
+
+// 모임 소개 수정버튼  스테이트
+const [moimDescription, setMoimDescription] = useState(false);
+
+// 글자 수 세기 
+const [countDescription, setCountDescription] = useState(0);
+
+// 내용 X 모임 소개 수정 시도 방지
+const [checkDescription, setCheckDescription] = useState(null);
+
+// 모임 설명 수정 버튼 핸들러
+const editDescriptionBtnHandler=()=>{
+  setMoimDescription(!moimDescription); 
+  setMoimDescriptionSampleOpen(false);
+
+  if(imsiMoimInfo.description){
+    setCountDescription(imsiMoimInfo.description.length);
+  }
+}
+
+// 모임 설명 수정 핸들러
+const updateDescriptionHandler = (e)=>{
+  const eValue = e.target.value;
+  
+  setCheckDescription(null);
+  setCountDescription(eValue.length);
+  setImsiMoimInfo((data)=>({
+    ...data, description : eValue
+  }));
+}
+
+// 모임 수정 서버 작업
+const editDesCriptionHandler = ()=>{
+
+  // 빈 값 넣기 방지
+  let Descripton = imsiMoimInfo.description.trim(); // trim ->공백제거 (스페이스바)
+  if(countDescription === 0 || Descripton.length === 0) { // 스페이스바만 넣어서 저장하는거 방지
+    setCheckDescription(false);
+    return;
+  }
+
+  if(moimInfo.description === imsiMoimInfo.description){  // 내용이 똑같은데 수정하려는 경우 그냥 수정창 끔
+    editDescriptionBtnHandler();
+    return;
+  }
+  
+  axiosInstance.post('/updateMoimInfo', imsiMoimInfo)
+  .then((response) => {
+    setMoimDescription(false); // 수정모달창 끄기
+    setMoimInfo(imsiMoimInfo); 
+    alert(response.data);
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+}
+
+
+  // console.log(imsiMoimInfo.description);
 
   return(
     <div className="moimDetail-moimContent-home">
@@ -100,33 +172,93 @@ const memberKickOutHandler = (name)=>{
       <div className="moimDetail-moimContent-home-descriptionBox">
         <div className="moimDetail-moimContent-home-header">
           <h6>모임소개</h6>
-          {/* 😡임시😡 ↓ 모임장만 보이게 해야함 */}
-          <FontAwesomeIcon icon={faEllipsisVertical} size="lg"/>
+           {
+            moimMemberRole === "leader" &&
+            <div className='moimDetail-moimContent-editBtn-Box' 
+                style={{cursor: 'pointer'}}
+                onClick={editDescriptionBtnHandler}
+            >
+              <FontAwesomeIcon icon={faPen} size="1x" style={{color: 'gray'}}/>
+            </div>
+           }   
         </div>
-        <div className="moimDetail-moimContent-home-description-text">
-          {moimInfo.description}
-          {/* 🌟 어서와, SMASH에 찾아온 당신! 🌟 <br/>
-          SMASH는 2030을 위한 배드민턴 모임으로, 우리는 스포츠와 즐거움을 함께하는 공간이에요. <br/><br/><br/>
+        <div className="moimDetail-moimContent-home-description-Box">
+          {/* ⭐⭐[ 구조 ] 수정창O : 수정창X (모임설명O : 모임설명X) */}
+          {moimDescription ? (// 모임 설명 수정 여부
+              <div className='moimDetail-moimContent-home-description-edit'>
+                <textarea placeholder='모임에 대해 자세히 알려주세요!'
+                          value={imsiMoimInfo.description}
+                          onChange={updateDescriptionHandler}
+                          maxLength="1500"
+                />
+                <div>
+                  { checkDescription === false &&
+                    <span style={{position: 'absolute', left: '0', paddingLeft: '0.5rem', fontSize: 'small', color:'red'}}>
+                      *내용을 입력해주세요
+                    </span>
+                  }
+                  <span style={{color: '#a472ff'}}>{countDescription}/1500</span>
+                  <button onClick={editDesCriptionHandler} style={{backgroundColor: '#a472ff', color:'white'}}>수정</button>
+                  <button onClick={()=>{setMoimDescription(false); setImsiMoimInfo(moimInfo); setCheckDescription(null);}}>취소</button>
+                </div>
+              </div>
+            ) : ( // 모임 수정 아닌 경우
+              moimInfo.description? ( // 모임 설명 데이터 O
+                <div className='moimDetail-moimContent-home-description-yes'>
+                  {/* 
+                    // 이건 줄바꿈은 적용되지만, 스페이스바 공백 1개 이상 적용 X
+                  {moimInfo.description.split('\n').map((item, key) => {return <React.Fragment key={key}>{item}<br/></React.Fragment>})} 
+                  */}
+                  <pre>{moimInfo.description}</pre>
+                </div>
+              ):( // 모임 설명 데이터 X
+                moimMemberRole === "leader" ?
+                (// 모임 리더인 경우
+                <div className='moimDetail-moimContent-home-description-no'>
+                  <div className='moimDetail-moimContent-home-description-no-guide'>
+                    <FontAwesomeIcon icon={faPen} size="1x"/>  &nbsp; 버튼을 눌러 모임 소개를 추가할 수 있어요!
+                  </div>
+                  <button
+                    onClick={() => setMoimDescriptionSampleOpen(!moimDescriptionSampleOpen)}
+                    aria-controls="example-collapse-text"
+                    aria-expanded={moimDescriptionSampleOpen}
+                    style={{backgroundColor: '#ffffff00', border: 'none', color: 'gray', padding: '0', marginLeft: '0.8rem'}}
+                  >
+                    {// 모임 소개 미리보기 버튼 글자
+                      moimDescriptionSampleOpen? 
+                      <span><FontAwesomeIcon icon={faAngleDown} size="1x"/> 모임 소개 예시 닫기</span>
+                      :
+                      <span><FontAwesomeIcon icon={faAngleRight} size="1x"/> 모임 소개 예시 보기👀</span>
+                    }
+                  </button>
+                  <Collapse in={moimDescriptionSampleOpen}>
+                    <div id="example-collapse-text" style={{color: 'gray', margin: '0.5rem 1.6rem'}}>
+                      {/* <hr/> */}
+                      🌟 어서와, SMASH에 찾아온 당신! 🌟 <br/>
+                        SMASH는 2030을 위한 배드민턴 모임으로, 우리는 스포츠와 즐거움을 함께하는 공간이에요. <br/><br/><br/>
 
+                        📅 정기 모임📅 <br/>
+                        매주 토요일에 SMASH에서 열리는 화려한 배드민턴 대결에 참여하세요! 🏆<br/><br/><br/>
 
-          📅 정기 모임📅 <br/>
-          매주 토요일에 SMASH에서 열리는 화려한 배드민턴 대결에 참여하세요! 🏆<br/><br/><br/>
+                        🍲 운동 후엔 맛있는 음식과 함께하는 시간! 🍲 <br/>
+                        SMASH는 운동 끝에 펼쳐지는 다양한 맛집 탐방도 함께합니다. 먹으면서 즐겁게 소통하세요!<br/><br/><br/>
 
+                        🤝 새로운 친구들과 친해지는 특별한 순간! 🤝 <br/>
+                        SMASH는 모두가 함께 즐기며 성장할 수 있는 공간입니다. 새로운 인연과 친목을 쌓아가세요.<br/><br/><br/>
 
-          🏋️‍ 스포츠를 통한 우정의 시작! 🏋️‍♂️ <br/>
-          함께 운동하며 건강을 챙기고, 스포츠의 즐거움을 공유하세요.<br/><br/><br/>
-
-
-          🍲 운동 후엔 맛있는 음식과 함께하는 시간! 🍲 <br/>
-          SMASH는 운동 끝에 펼쳐지는 다양한 맛집 탐방도 함께합니다. 먹으면서 즐겁게 소통하세요!<br/><br/><br/>
-
-
-          🤝 새로운 친구들과 친해지는 특별한 순간! 🤝 <br/>
-          SMASH는 모두가 함께 즐기며 성장할 수 있는 공간입니다. 새로운 인연과 친목을 쌓아가세요.<br/><br/><br/>
-
-
-          지금 바로 함께해, SMASH의 멋진 사람들과 최고의 스포츠와 만남을 경험하세요!<br/>
-          #SMASH #배드민턴 #스포츠 #친목 #2030 #함께뛰자 */}
+                        지금 바로 함께해, SMASH의 멋진 사람들과 최고의 스포츠와 만남을 경험하세요!<br/>
+                        #SMASH #배드민턴 #스포츠 #친목 #2030 #함께뛰자
+                    </div>
+                  </Collapse>
+                </div>
+                ):( // 모임설명이 없는데 리더가 아닌 경우
+                  <div className='moimDetail-moimContent-home-description-non'>
+                    아직 모임 설명이 없어요 🥲
+                  </div>
+                )
+              )
+            )
+           }
         </div>
       </div>
       

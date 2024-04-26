@@ -172,6 +172,53 @@
   font-weight: bolder;
 }
 
+/* 해시태그 */
+.moimDetail-moimInfo-setting-modal-hashBox{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e4e5ed;
+  border-radius: 7px;
+  justify-content: center;
+  padding: 0.4rem;
+} 
+
+.moimDetail-moimInfo-setting-modal-hashTop{
+  width: 100%;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap; /* 해시태그가 너비를 넘어갈 경우 다음 줄로 이동 */
+  margin-bottom: 0.5rem;
+}
+
+.moimDetail-moimInfo-setting-modal-hashTop div{
+  background-color: #e4e5ed;
+  border-radius: 0.4rem;
+  padding: 0 0.3rem;
+  white-space: nowrap; /* 해시태그가 길어도 한 줄에 표시되도록 설정 */
+  cursor: pointer;
+}
+
+.moimDetail-moimInfo-setting-modal-hashTop span{
+  margin-right: 0.5rem;
+}
+
+.moimDetail-moimInfo-setting-modal-hashTop button{
+  border: none;
+  background-color: rgba(255, 255, 255, 0);
+  padding: 0;
+}
+
+.moimDetail-moimInfo-setting-modal-hashBox input{
+  border: none;
+}
+
+.moimDetail-moimInfo-setting-modal-hashBox input:focus{
+  outline: none;
+}
+
+
+
 .moimDetail-moimInfo-setting-modal-submit{
   background-color: #a472ff;
   border: 1px solid #a472ff;
@@ -189,8 +236,6 @@
   border: 1px solid #eaebee;
   color: rgb(146, 146, 146);
 }
-
-
 
 
 /* 나중에 반응형 할때 카테고리 설정값
