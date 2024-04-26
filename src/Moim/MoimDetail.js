@@ -18,7 +18,7 @@ import LoginPzModal from '../Login/LoginPzModalComponent/LoginPzModal';
 import MoimDetailMoimInfoModal from './MoimDetailComponent/MoimDetailInnerComponent/MoimDetail-MoimInfo-Modal';
 
 
-const MoimDetail = ({isAuth, userInfo, setUserInfo})=>{
+const MoimDetail = ({isAuth, userInfo, setUserInfo, moimInfo, setMoimInfo})=>{
 
 
   // APP에서 지정한 url → /moim/detail/:id 변수이름을 'id'로 저장해야 url파라미터 값을 제대로 가져올 수 있음
@@ -26,43 +26,84 @@ const MoimDetail = ({isAuth, userInfo, setUserInfo})=>{
   const moimId = Number(id);  // 파라미터로 받은 id를 숫자로 변경
 
   // 모임정보 저장하는 스테이트
-  const [moimInfo,setMoimInfo] = useState({});
+  // const [moimInfo,setMoimInfo] = useState({});
+
   // 좋아요 상태 저장하는 스테이트
   const [likedMoims, setLikedMoims] = useState(false); // 초기값을 false로 설정
   // 로그인 유저와 모임장이 일치하는지 여부 (😡😡모임장, 매니저, 모임원 여부 있어야 할거 같은데😡😡)
-  const [moimMember, setMoimMember] = useState(null);
+  const [moimMemberRole, setMoimMemberRole] = useState(null);
+  // 🔥🔥🔥오류파티🔥🔥🔥모임멤버 리스트
+  // const [moimMemberList,setMoimMemberList] = useState(null);
   // 모임 기본 정보 수정하는 모달 
   const [showMoimInfoSettingModal, setShowMoimInfoSettingModal] = useState(false);
-  const [showLoginModal, setShowLoginModal] = useState(false); // 로그인 안했을때 모달창 띄움
+  // 로그인 안했을때 모달창 
+  const [showLoginModal, setShowLoginModal] = useState(false); 
 
 
-  // 모임정보 받아오는 effect, 좋아요 여부 세팅
-  // 나중에 모임일정, 게시판, 모임 멤버 등도 받아와야함
+  // 모임정보 받아오는 effect
   useEffect(()=>{
     axiosInstance.get(`/moimInfo/${id}`)
     .then((response) => {
       setMoimInfo(response.data); // 모임 정보 저장
-      // 모임 리더 여부 
-      if(isAuth){
-        //😡😡추후에 스위치문으로 모임장, 매니저, 모임원 여부 저장해야 할듯
-        if(response.data.leadername === userInfo.username){
-          setMoimMember("leader");
-        }else{
-          setMoimMember("member");
-        }
-      }
-
-      // 모임 좋아요 여부
-      if (userInfo && userInfo.likedMoim) { //userInfo.likedMoim는 새로고침됐을때 로그인 풀리면서 생기는 오류 방지로 추가됨
-        setLikedMoims(userInfo.likedMoim.includes(moimId));
-      } else {
-        setLikedMoims(false); // 비어있는 배열로 초기화
-      }
     })
     .catch((error) => {
         console.log(error);
     });
-  },[userInfo])
+    console.log("??");
+  },[id,setMoimInfo]);
+  
+
+
+  // 모임 좋아요 여부 세팅
+useEffect(()=>{
+  if(isAuth){
+    if (userInfo && userInfo.likedMoim) { //userInfo.likedMoim는 새로고침됐을때 로그인 풀리면서 생기는 오류 방지로 추가됨
+     setLikedMoims(userInfo.likedMoim.includes(moimId));
+   } else {
+     setLikedMoims(false); // 비어있는 배열로 초기화
+   }
+  }else{
+    setLikedMoims(false); // 비어있는 배열로 초기화
+  }
+},[userInfo,isAuth, moimId]);
+
+
+useEffect(()=>{
+  if(isAuth){
+    if(moimInfo.leadername === userInfo.username){
+      setMoimMemberRole("leader");
+    }
+  }
+},[isAuth, moimInfo.leadername ,userInfo.username])
+
+
+
+
+// 모임 멤버 받아오는 이펙트
+// useEffect(()=>{
+//   axiosInstance.get(`/getMoimMemberList/${moimId}`)
+//   .then((response)=>{
+//     setMoimMemberList(response.data);
+
+//     if(isAuth){ // 로그인 상태 확인
+//        const userMember = response.data.find(member => member.memberno === userInfo.id); // find() 메소드를 사용하여 로그인한 유저의 ID와 일치하는 멤버 찾기
+//        if (userMember) { // 모임 멤버 리스트에 유저 ID가 있으면
+//          // userMember에서 memberRole을 설정
+//          setMoimMember(userMember.memberRole);
+//        } else { // 로그인은 했지만, 모임멤버가 아닌 경우
+//          setMoimMember('noMember');
+//        }
+//      } else {
+//        setMoimMember(null);
+//      }
+//     console.log(response.data);
+//   }).catch((error)=>{
+//     console.log(error);
+//   })
+// },[moimMemberList, isAuth, userInfo, moimId]);
+
+
+
 
 
 
@@ -87,9 +128,6 @@ const MoimDetail = ({isAuth, userInfo, setUserInfo})=>{
   };
 
 
-
-
-  const hashtagList = ["운동맛집", "인천 정모", "배드민턴"];
 
   // 😡임시_캐러셀 이미지 추후 링크 통해서 대체해야함😡
   const banner = [1, 2, 3, 4, 5];
@@ -122,8 +160,13 @@ const MoimDetail = ({isAuth, userInfo, setUserInfo})=>{
     };
   }, [moimMenuCk]);
 
+  const CkLoginHandler =()=>{
+    if(!isAuth){
+      setShowLoginModal(true);
+    }
+  }
 
-// console.log(moimInfo);
+
 
   return(
     <div className='MoimDetail-container'>
@@ -164,7 +207,7 @@ const MoimDetail = ({isAuth, userInfo, setUserInfo})=>{
               <FontAwesomeIcon icon={likedMoims ? fullHeart : lineHeart}  size='lg' style={{ color: likedMoims ? '#ff2727' : 'gray' }}/>
             </div>
             <div className='moimDetail-moimInfo-textq1-RightBtn' onClick={()=>setShowMoimInfoSettingModal(true)}>
-              { moimMember === 'leader' &&
+              { moimMemberRole === 'leader' &&
               <div className='moimDetail-moimInfo-text1-setting'>
                 <FontAwesomeIcon icon={setting}  size='lg' style={{ color: 'gray'}}/>
               </div>
@@ -190,13 +233,13 @@ const MoimDetail = ({isAuth, userInfo, setUserInfo})=>{
           </div>
           <div className='moimDetail-moimInfo-text5-Box'>
            {
-            hashtagList.map((tag, i) => (
+            moimInfo.hashtag?.map((tag, i) => (
               <div key={i} className='moimDetail-moimInfo-text5-hashtag'># {tag}</div>
             ))
             }
           </div>
           {/* 😡여기에 가입여부 가리는거 필요😡 */}
-          { moimMember === null && <div className='moimDetail-moimInfo-joinBtn'>가입하기</div>}
+          { moimMemberRole === null && <div className='moimDetail-moimInfo-joinBtn' onClick={CkLoginHandler} style={{cursor:'pointer'}}>가입하기</div>}
           {/* { moimMember === 'leader' && <div className='moimDetail-moimInfo-settingBtn'>운영중인 모임</div>} */}
         </div>
       </div>
@@ -212,7 +255,7 @@ const MoimDetail = ({isAuth, userInfo, setUserInfo})=>{
       </div>
 
       <div className='moimDetail-moimContentBox'>
-        {moimMenuCk === '홈' &&  <MoimDetailHome moimInfo={moimInfo}/>}
+        {moimMenuCk === '홈' &&  <MoimDetailHome moimInfo={moimInfo} setMoimInfo={setMoimInfo} moimMemberRole={moimMemberRole}/>}
         {moimMenuCk === '게시판' &&  <MoimDetailBoard/>}
         {moimMenuCk === '갤러리' &&  <MoimDetailGellery/>}
         {moimMenuCk === '채팅' &&  <MoimDetailChat/>}
