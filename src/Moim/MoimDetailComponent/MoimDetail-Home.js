@@ -12,7 +12,7 @@ import React, { useEffect, useState } from 'react';
 import axiosInstance from '../../axiosInstance';
 
 const MoimDetailHome = ({moimInfo,setMoimInfo,moimMemberRole}) =>{
-
+  // 제발..
   // 모임 소개 수정용 스테이트 및 이펙트
   const [imsiMoimInfo, setImsiMoimInfo] = useState(null);
   useEffect (()=>{
