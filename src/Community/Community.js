@@ -176,7 +176,7 @@ const Community = ({ isAuth, currentPage, setCurrentPage }) => {
                     <div className="card-body">
                       <div>{data.postname.length > 10 ? data.postname.substring(0, 18) + "..." : data.postname}</div>
                       <div><img src={dog} alt="" /></div>
-                      <div>{data.content.length > 20 ? data.content.substring(0, 57) + "..." : data.content}</div>
+                      <div style={{wordWrap: 'break-word'}}>{data.content.length > 20 ? data.content.substring(0, 57) + "..." : data.content}</div>
                     </div>
                     <div className="card-footer">
                       <div className="card-footer inner2">
