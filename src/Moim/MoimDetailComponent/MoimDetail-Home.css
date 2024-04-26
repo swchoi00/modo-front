@@ -14,12 +14,89 @@
   margin: 1rem 0;
 }
 
-.moimDetail-moimContent-home-description-text{
+.moimDetail-moimContent-home-description-Box{
   /* white-space: pre-wrap; */
   width: 100%;
   font-size: 90%;
   text-align: left;
 }
+
+
+.moimDetail-moimContent-home-description-edit{
+  display: flex;
+  flex-direction: column;
+}
+
+.moimDetail-moimContent-home-description-edit div{
+  display: flex;
+  width: 100%;
+  /* border: 1px solid salmon; */
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.7rem;
+  margin-top: 0.5rem;
+  position: relative;
+}
+
+.moimDetail-moimContent-warning{
+
+}
+
+/* 모임 설명 수정화면 */
+.moimDetail-moimContent-home-description-edit button{
+  padding: 0.2rem 1rem;
+  border-radius: 0.3rem;
+  border: 1px solid #e4e5ed;
+}
+
+.moimDetail-moimContent-home-description-edit textarea{
+  width: 100%;
+  resize: none;
+  height: 18rem;
+  background-color: white;
+  border: 1px solid #e4e5ed;
+  border-radius: 5px;
+  padding: 0.7rem;
+  /* text-indent: 0.5rem; 들여쓰기 */
+  font-size: small;
+}  
+
+.moimDetail-moimContent-home-description-edit textarea:focus{
+  border: 2px solid #a472ff;
+  outline: none;
+}
+
+.moimDetail-moimContent-home-description-edit textarea::-webkit-scrollbar {
+  width: 0.6rem; /* 스크롤바의 너비 설정 */
+  border: none;
+}
+
+.moimDetail-moimContent-home-description-edit textarea::-webkit-scrollbar-thumb {
+  background-color: #ebebeb; /* 스크롤바의 색상 설정 */
+  border-radius: 5px; /* 스크롤바의 모서리 둥글게 설정 */
+  /* height: 1rem; 스크롤바의 길이 */
+}
+
+
+/* 모임 설명 보여지는 화면 (데이터 O)*/
+.moimDetail-moimContent-home-description-yes{
+  padding-left: 0.3rem;
+}
+
+/* 모임 설명 보여지는 화면 (데이터 X)*/
+.moimDetail-moimContent-home-description-no{
+  padding: 1rem;
+}
+
+.moimDetail-moimContent-home-description-no-guide{
+  padding: 0.8rem 0.7rem;
+  margin-bottom: 0.7rem;
+  color: white;
+  border-radius: 0.5rem;
+  background: linear-gradient(130deg, #6644d6, #c3b4fd);
+}
+
+
 
 .moimDatail-line{
   width: 100%;

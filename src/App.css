@@ -27,6 +27,11 @@
   font-family: 'Noto Sans KR', sans-serif;
 }
 
+pre{
+  font-family: 'Noto Sans KR', sans-serif  !important;
+  font-size: inherit !important;
+}
+
 @media (max-width: 1000px) {
   .App {
 
