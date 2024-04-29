@@ -104,7 +104,7 @@ const createMoim = ()=>{
   formData.append('file', moimThumbnail);  // 모임 사진 
   formData.append('photoType', PhotoType.MAIN); // 사진 타입 (폴더 저장 경로)
 
-  axiosInstance.post('/addMoimThumbnail', formData, {
+  axiosInstance.post('/createMoim', formData, {
     headers: {
       'Content-Type': 'multipart/form-data'
     }

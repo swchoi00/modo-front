@@ -24,6 +24,7 @@ const Header = ( {isAuth, setIsAuth, userInfo} ) =>{
 
   const logoutHandler = () => {
     sessionStorage.removeItem('jwt');
+    sessionStorage.removeItem('userInfo');
     setIsAuth(false);
     navigate('/');
   }
