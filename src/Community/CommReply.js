@@ -2,84 +2,110 @@ import { useEffect, useState } from 'react';
 import './CommReply.css';
 import axiosInstance from '../axiosInstance';
 import { useNavigate } from 'react-router-dom';
+import LoginPzModal from '../Login/LoginPzModalComponent/LoginPzModal';
+import { faThumbsUp } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const CommReply = ({ isAuth, userInfo, id }) => {
-
-  const [reply, setReply] = useState({
+  const [like, setLike] = useState(1);
+  const [recomm, setRecomm] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [postReply, setPostReply] = useState({
     content: '',
-    member: { username: userInfo.username } // 서버에서 요구하는 형식에 맞추어 객체로 전달
+    member: { username: userInfo.username }
   });
+  const [getReply, setGetReply] = useState([]);
   const navigate = useNavigate();
 
-  const [replyList, setReplyList] = useState([]);
-
   const changeHandler = (e) => {
-    setReply({ ...reply, content: e.target.value }); // content 필드만 업데이트
+    setPostReply({
+      ...postReply,
+      content: e.target.value
+    });
   }
 
-  // useEffect(() => {
-  //   axiosInstance.get(`/commReply/${id}/list`)
-  //     .then((response) => {
-  //       setReply(response.data);
-  //     }).catch((error) => {
-  //       console.log(error);
-  //     })
-  // }, [])
+  const recommChangeHandler = () => {
+    setRecomm(true);
+  }
 
-  console.log(reply);
-  console.log("id : " + id);
-  console.log("댓글 목록" + reply)
+  useEffect(() => {
+    axiosInstance.get(`/commReply/${id}/list`)
+      .then((response) => {
+        setGetReply(response.data);
+      }).catch((error) => {
+        console.log(error);
+      })
+  }, [id])
+
+  const addNewReply = (reply) => {
+    setGetReply([...getReply, reply]);
+  }
+
+  const fetchNewReply = () => {
+    axiosInstance.get(`/commReply/${id}/list`)
+      .then((response) => {
+        setGetReply(response.data);
+      }).catch((error) => {
+        console.log(error);
+      });
+  }
 
   return (
     <div className='CommReply'>
       <div className='postReply'>
-        <div className='replyTitle'>댓글</div>
+        <div className='replyTittle'>댓글</div>
         <div className='writeReply'>
-          <textarea className='replyInput' value={reply.content} onChange={changeHandler} />
+          <textarea className='replyInput' value={postReply.content} onChange={changeHandler} />
           <button className='replyBtn' onClick={() => {
             if (isAuth === true) {
-              axiosInstance.post(`/commReply/${id}`, reply)
+              axiosInstance.post(`/commReply/${id}`, postReply)
                 .then((response) => {
                   alert(response.data);
+                  fetchNewReply(); // 댓글이 추가된 후에 새로운 댓글을 가져옴
                 })
                 .catch((error) => {
                   console.log(error);
                 })
             } else {
-              alert('로그인 후 작성 가능합니다.');
-              navigate('/login');
+              setShowLoginModal(true);
             }
           }}>등록</button>
         </div>
-        {/* 아래는 예시이므로 필요에 따라 수정하셔야 합니다 */}
         <div className='getReply'>
-          <div className='nickName-date'>
-            <img src="/static/media/face.786407e39b657bdecd13bdabee73e67b.svg" alt="face icon" />
-            <div className='nickName'>{userInfo.username}</div>
-            <div className='date'>| 2024-04-15</div>
-          </div>
-          <div className='Content'>내용</div>
-          <div className='aa'>
-            {
-              userInfo.username === reply.member.username ?
-                <>
-                  <button>수정</button>
-                  <button onClick={() => {
-                    axiosInstance.delete(`/reply/${reply.rno}`)
-                      .then((response) => {
-                        alert(response.data);
-                      })
-                      .error((error) => {
-                        console.log(error);
-                      })
-                  }}>삭제</button>
-                </>
-                : ''
-            }
-            <button>답글쓰기</button>
-          </div>
+          {
+            getReply.map((reply, i) => {
+              return (
+                <div key={i}>
+                  <div className='nickName-date'>
+                    <img src="/static/media/face.786407e39b657bdecd13bdabee73e67b.svg" />
+                    <div className='nickName'>닉네임 : {reply.member && reply.member.nickname}</div>
+                    <div className='date'>|  날짜: {reply.createDate}</div>
+                  </div>
+                  <div className='Content'>내용 : {reply.content}</div>
+                  <div className='reply-update-delete'>
+                    <button className='update'>수정</button>
+                    <button className='delete' onClick={() => {
+                      axiosInstance.delete(`/commReply/${reply.rno}`)
+                        .then((response) => {
+                          alert(response.data);
+                          setGetReply(getReply.filter(item => item.rno !== reply.rno));
+                        })
+                        .catch((error) => {
+                          console.log(error);
+                        });
+                    }}>삭제</button>
+                  </div>
+                  <div>
+                    <FontAwesomeIcon icon={faThumbsUp} size="2xl" style={{ color: recomm === true ? '#8F7BE0' : 'gray' }} onClick={recommChangeHandler} />
+                    <div className='likeCnt'>{recomm === true ? like + 1 : like}</div>
+                  </div>
+                </div>
+              );
+            })
+          }
         </div>
       </div>
+      <LoginPzModal showLoginModal={showLoginModal} setShowLoginModal={setShowLoginModal} />
     </div>
   )
 }
