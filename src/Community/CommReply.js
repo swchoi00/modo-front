@@ -3,8 +3,8 @@ import './CommReply.css';
 import axiosInstance from '../axiosInstance';
 import { useNavigate } from 'react-router-dom';
 import LoginPzModal from '../Login/LoginPzModalComponent/LoginPzModal';
-// import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
-import { faThumbsUp } from '@fortawesome/free-regular-svg-icons';
+import { faThumbsUp as likedIcon } from '@fortawesome/free-solid-svg-icons';
+import { faThumbsUp as unLikedIcon} from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const CommReply = ({ isAuth, userInfo, id }) => {
@@ -28,7 +28,7 @@ const CommReply = ({ isAuth, userInfo, id }) => {
   }
 
   const recommChangeHandler = () => {
-    setRecomm(true);
+    setLike(true);
   }
 
 
@@ -36,6 +36,7 @@ const CommReply = ({ isAuth, userInfo, id }) => {
     axiosInstance.get(`/commReply/${id}/list`)
       .then((response) => {
         setGetReply(response.data);
+        console.log(response.data);
       }).catch((error) => {
         console.log(error);
       })
@@ -49,6 +50,7 @@ const CommReply = ({ isAuth, userInfo, id }) => {
     axiosInstance.get(`/commReply/${id}/list`)
       .then((response) => {
         setGetReply(response.data);
+        console.log(response.data);
       }).catch((error) => {
         console.log(error);
       });
@@ -77,133 +79,76 @@ const CommReply = ({ isAuth, userInfo, id }) => {
             }
           }}>등록</button>
         </div>
-        <div className='getReply'>
-          <div className='getReply-leftBox'>
-            <div className='nickName-date'>
-              <img src="/static/media/face.786407e39b657bdecd13bdabee73e67b.svg" />
-              <div className='nickName'>닉네임</div>
-              <div className='date'>|  날짜</div>
-            </div>
-            {
-              update === true ?
-                <textarea className='Content' style={{width: "100%", outlineColor: "#8F7BE0"}}>내용</textarea>
-                :
-                <div className='Content'>내용</div>
-            }
-            <div className='reply-update-delete'>
-              {
-                // userInfo.username === getReply.member ?
-                  update === true ?
-                    <>
-                      <button className='delete' onClick={() => {
-                        // 댓글 수정
-                        axiosInstance.put(`/commReply_update/${reply.rno}`, updateReply)
-                          .then((response) => {
-                            alert(response.data);
-                          })
-                          .catch((error) => {
-                            console.log(error);
-                          })
-                      }}>수정완료</button>
-                      <button className='update' onClick={() => setUpdate(false)}>취소</button>
-                    </>
-                    :
-                    <>
-                      <button className='update' onClick={() => setUpdate(true)}>수정</button>
-                      <button className='delete' onClick={() => {
-                        // 댓글 삭제
-                        axiosInstance.delete(`/commReply/${reply.rno}`)
-                        .then((response) => {
-                          alert(response.data);
-                          setGetReply(getReply.filter(item => item.rno !== reply.rno));
-                        })
-                        .catch((error) => {
-                          console.log(error);
-                        });
-                      }}>삭제</button>
-                    </>
-                  // : ''
-              }
-            </div>
-          </div>
-          <div>
-            <div>
-              {/* <FontAwesomeIcon icon={faThumbsUp} size="2xl" style={{ color: '#8F7BE0' }} /> */}
-            </div>
-            <FontAwesomeIcon icon={faThumbsUp} size="2xl" style={{ color: like === true ? '#8F7BE0' : 'gray' }} onClick={() => setLike(!like)} />
-            <div className='likeCnt'>{like === true ? liked + 1 : liked}</div>
-          </div>
+        <div className='getReplyBox'>
           {
-            getReply &&
-            getReply.map((reply, i) => {
-              return (
-                <>
-                  <div key={i}>
-                    <div className='nickName-date'>
-                      <img src="/static/media/face.786407e39b657bdecd13bdabee73e67b.svg" />
-                      <div className='nickName'>닉네임 : {reply.rno}</div>
-                      <div className='date'>|  날짜: {reply.createDate}</div>
-                    </div>
-                    {
-                      update === true ?
-                        <textarea defaultValue={reply.content} />
-                        :
-                        <div className='Content'>내용 : {reply.content}</div>
-                    }
-                    <div className='reply-update-delete'>
-                      {
-                        userInfo.username === getReply.member ?
-                          update === true ?
-                            <>
-                              <button className='update' onClick={() => {
-                                // 댓글 수정
-                                axiosInstance.put(`/???`, update)
-                                  .then((response) => {
-                                    alert(response.data);
-                                  })
-                                  .catch((error) => {
-                                    console.log(error);
-                                  })
-                              }}>수정완료</button>
-                              <button className='delete'>취소</button>
-                            </>
-                            :
-                            <>
-                              <button className='update' onClick={setUpdate(true)}>수정</button>
-                              <button className='delete' onClick={() => {
-                                // 댓글 삭제
-                                axiosInstance.delete(`/reply/${reply.rno}`)
-                                  .then((response) => {
-                                    alert(response.data);
-                                  })
-                                  .error((error) => {
-                                    console.log(error);
-                                  })
-                              }}>삭제</button>
-                            </>
-                          : ''
-                      }
-                    </div>
-                    <div>
-                      <div>
-                        {/* <FontAwesomeIcon icon={faThumbsUp} size="2xl" style={{ color: '#8F7BE0' }} /> */}
-                      </div>
-                      <FontAwesomeIcon icon={faThumbsUp} size="2xl" style={{ color: like === true ? '#8F7BE0' : 'gray' }} onClick={() => setLike(!like)} />
-                      <div className='likeCnt'>{like === true ? liked + 1 : liked}</div>
-                    </div>
+            getReply.map((reply, i)=>{
+              return(
+                <div className='getReply' key={i}>
+                <div className='getReply-leftBox'>
+                  <div className='nickName-date'>
+                    <img src="/static/media/face.786407e39b657bdecd13bdabee73e67b.svg" />
+                    <div className='nickName'>{reply.member.nickname}</div>
+                    <div className='date'>|  {reply.createDate}</div>
                   </div>
-
-                </>
-
-              );
-            })
+                  {
+                    update === true ?
+                      <textarea defaultValue={reply.content} className='Content' style={{ width: "100%", outlineColor: "#8F7BE0" }}></textarea>
+                      :
+                      <div className='Content'>{reply.content}</div>
+                  }
+                  <div className='reply-update-delete'>
+                    {
+                      // userInfo.username === getReply.member ?
+                      update === true ?
+                        <>
+                          <button className='delete' onClick={() => {
+                            // 댓글 수정
+                            axiosInstance.put(`/commReply_update/${reply.rno}`, updateReply)
+                              .then((response) => {
+                                alert(response.data);
+                              })
+                              .catch((error) => {
+                                console.log(error);
+                              })
+                          }}>수정완료</button>
+                          <button className='update' onClick={() => setUpdate(false)}>취소</button>
+                        </>
+                        :
+                        <>
+                          <button className='update' onClick={() => setUpdate(true)}>수정</button>
+                          <button className='delete' onClick={() => {
+                            // 댓글 삭제
+                            axiosInstance.delete(`/commReply/${reply.rno}`)
+                              .then((response) => {
+                                alert(response.data);
+                                setGetReply(getReply.filter(item => item.rno !== reply.rno));
+                              })
+                              .catch((error) => {
+                                console.log(error);
+                              });
+                          }}>삭제</button>
+                        </>
+                      // : ''
+                    }
+                  </div>
+                </div>
+                <div>
+                  <div>
+                    {/* <FontAwesomeIcon icon={faThumbsUp} size="2xl" style={{ color: '#8F7BE0' }} /> */}
+                  </div>
+                  <FontAwesomeIcon icon={like === true ? likedIcon : unLikedIcon} size="lg" style={{ color: like === true ? '#8F7BE0' : 'gray' }} onClick={() => setLike(!like)} />
+                  <div className='likeCnt'>{like === true ? liked + 1 : liked}</div>
+                </div>
+              </div>      
+              )
+            })      
           }
-
         </div>
-      </div>
-      <LoginPzModal showLoginModal={showLoginModal} setShowLoginModal={setShowLoginModal} />
-    </div>
+        
+                </div>
+                <LoginPzModal showLoginModal={showLoginModal} setShowLoginModal={setShowLoginModal} />
+              </div >
   )
-}
+        }
 
-export default CommReply;
+        export default CommReply;

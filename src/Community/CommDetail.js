@@ -11,11 +11,14 @@ const CommDetail = ({ isAuth, userInfo }) => {
   const [update, setUpdate] = useState(false);
   const navigate = useNavigate();
 
+
+  
   useEffect(() => {
     axiosInstance.get(`/comm/${id}`)
       .then((response) => {
         setComm(response.data);
         setUpdateComm(response.data);
+        console.log(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -62,7 +65,7 @@ const CommDetail = ({ isAuth, userInfo }) => {
         </div>
         <div className='post-delete-update'>
           {
-            userInfo.username === comm.author ?
+            userInfo.nickname === comm.author ?
 
               update === true ?
                 <>

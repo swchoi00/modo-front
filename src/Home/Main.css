@@ -1,5 +1,14 @@
 .main-container{
   /* border: 1px solid salmon; */
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  overflow-x: hidden;
+}
+
+.main-container-box{
   width: 1050px;
   display: flex;
   align-items: center;
@@ -11,13 +20,14 @@
 /* ✅ service-key-point */
 .main-service-key-point{
   background-color: #56477D;
-  width: calc(100vw - 1.2vw);
+  /* width: calc(100vw - 1.2vw); */
+  width: 100vw;
    /* *오른쪽으로 좀 튀어나와서 전체 너비에서 18px 제외한 값을 가로로 지정 */
   margin: 3.5rem 0 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
 }
 
 .main-motivation-img {
@@ -46,7 +56,7 @@
 
 /* ✅ 모바일 버전 메인화면 검색창 */
 .main-mobile-searchBar{
-  width: 90VW;
+  width: 90%;
   height: 2.7rem;
   display: flex;
   justify-content: space-between;
@@ -73,15 +83,15 @@
 
 
 
-@media screen and (max-width: 970px){
-	.main-container{
+@media screen and (max-width: 1050px){
+	/* .main-container{
     overflow: hidden;
-  }
-  .main-service-key-point{
+  } */
+  .main-service-key-point,.main-container-box{
     width: 100%;
   }
   .main-registration-box{
-    width: 780px;
+    width: 100%;
   }
 }
 
@@ -93,16 +103,15 @@
 }
 
 
-
-
-@media screen and (max-width: 750px){
+@media screen and (max-width: 760px){
 	.main-service-key-point{
     width: 110%;
+    background-color: white;
   }
   .main-registration-box{
     flex-direction: column; 
     align-items: center; 
-    width: 100vw;
+    width: 100%;
     margin-bottom: 0.5rem;
   }
   .main-registration-moinBtn, .main-registration-mentoringBtn{
