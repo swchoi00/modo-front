@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './MoimDetail-Board.css';
 import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import MoimDetailBoardSchduleComponent from './MoimDetailInnerComponent/MoimDetail-BoardSchduleComponent';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import mockData from '../../Community/mockData';
 import '../../Community/Community.css';
 
