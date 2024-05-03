@@ -11,7 +11,8 @@ const AddMoim = ({ userInfo }) =>{
 
   // 생성 모임 정보 담아두는 스테이트
   const [addMoimInfo, setAddMoimInfo] = useState({
-      leadername : userInfo.username,
+      leaderid : userInfo.id,
+      leadername: userInfo.nickname,
       moimname: '',
       category : '',
       city: '',
@@ -104,7 +105,7 @@ const createMoim = ()=>{
   formData.append('file', moimThumbnail);  // 모임 사진 
   formData.append('photoType', PhotoType.MAIN); // 사진 타입 (폴더 저장 경로)
 
-  axiosInstance.post('/addMoimThumbnail', formData, {
+  axiosInstance.post('/createMoim', formData, {
     headers: {
       'Content-Type': 'multipart/form-data'
     }

@@ -6,12 +6,13 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import Modal from 'react-modal';
+import ScrollToTop from './ScrollTop';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 Modal.setAppElement('#root'); 
 root.render(
   <BrowserRouter>
-
+    <ScrollToTop/>
     <App />
 
   </BrowserRouter>

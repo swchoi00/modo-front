@@ -38,10 +38,6 @@
   position: relative;
 }
 
-.moimDetail-moimContent-warning{
-
-}
-
 /* 모임 설명 수정화면 */
 .moimDetail-moimContent-home-description-edit button{
   padding: 0.2rem 1rem;
@@ -157,7 +153,8 @@
 /* 😡임시 이미지 대체용임😡 */
 .moimDetail-moimContent-home-schedule-content-img{
   width: 100%;
-  height: 10rem;
+  /* height: 10rem; */
+  aspect-ratio: 2.1;
   background-color: #c4c4c4;
   display: flex;
   justify-content: center;
@@ -233,42 +230,122 @@
   flex-direction: column;
 }
 
+.moimDetail-moimContent-home-member-settingIcon{
+  padding-left: 1rem;
+  cursor: pointer;
+}
 
 .moimDetail-moimContent-home-member-contentBox{
   /* border: 1px solid salmon; */
   width: 100%;
-  display: flex;
-  gap: 1rem;
+  /* display: flex;
+  gap: 1rem; */
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  
 }
 
+
+  .moimDetail-moimContent-home-member-content, .moimDetail-moimContent-home-member-content2{
+  display: flex;
+  color: #5e5e5e;
+  padding: 0 0.5rem 1.5rem;
+}
+
+
+
+.moimDetail-moimContent-home-member-content-img, .moimDetail-moimContent-home-member-content-img-modal{
+  /* border: 1px solid salmon; */
+  border-radius: 50%;
+  position: relative;
+  width: 20%;
+  aspect-ratio: 1/1;
+
+  display: flex;
+  align-items: center;
+  margin: 0 0.5rem;
+  background-position: center;
+  background-size: cover;
+}
+
+.moimDetail-moimLeaderIcon{
+  position: absolute;
+  width: 55%;
+  top: -0.5rem;
+  left: -0.5rem;
+  /* border: 1px solid blue; */
+}
+
+.moimDetail-moimManagerIcon{
+  position: absolute;
+  width: 35%;
+  bottom: 0;
+  right: 0;
+}
+
+
+
+.moimDetail-moimContent-home-member-content-text{
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  justify-content: center;
+  gap: 0.1rem;
+  margin-left: 0.2rem;
+}
+
+.moimDetail-moimContent-home-member-content-text div {
+  font-weight: 500;
+}
+
+.moimDetail-moimContent-home-member-content-text span{
+  font-size: 75%;
+}
+
+
+.moim-moimContent-home-member-settingBox{
+  /* border: 1px solid rebeccapurple; */
+  margin-left: auto;
+  display: flex;
+}
+
+
+
+/* ✅멤버 모달창 설정 값✅ */
 .moimDetail-moimContent-home-member-content-modalBox{
   width: 100%;
+  height: 65vh;
+  overflow-y: scroll;
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  /* padding: 0.2rem 0.7rem; */
+  background-color: #f1f1f1;
 }
 
+.moimDetail-moimContent-home-member-content-modalBox::-webkit-scrollbar {
+  width: 0.5rem; /* 스크롤바의 너비 설정 */
+  border: none;
+}
 
-.moimDetail-moimContent-home-member-content, .moimDetail-moimContent-home-member-content2{
-  width: 20%;
-  display: flex;
-  box-shadow: 0px 0px 8px -1px rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
-  color: #5e5e5e;
-  padding: 0.6rem 0;
+.moimDetail-moimContent-home-member-content-modalBox::-webkit-scrollbar-thumb {
+  background-color: #9087d3; /* 스크롤바의 색상 설정 */
+  border-radius: 3px; /* 스크롤바의 모서리 둥글게 설정 */
+  height: 5rem; /* 스크롤바의 길이 */
 }
 
 .moimDetail-moimContent-home-member-content-modal{
   width: 100%;
-  height: 4rem;
+  /* height: 4rem; */
   display: flex;
-  box-shadow: 0px 0px 8px -1px rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
+  /* box-shadow: 0px 0px 8px -1px rgba(0, 0, 0, 0.2); */
+  /* border-radius: 10px; */
   color: #5e5e5e;
-  padding: 0.6rem 0;
+  padding: 0.6rem 0 0.6rem 1rem;
+  background-color: white;
 }
 
-.moimDetail-moimContent-home-member-content2{
+/* .moimDetail-moimContent-home-member-content2{
   justify-content: center;
   align-items: center;
   cursor: pointer;
@@ -285,17 +362,8 @@
   color: white ;
   background-color: #d1d1d1;
   border-radius: 50%;
-}
+} */
 
-
-.moimDetail-moimContent-home-member-content-img{
-  /* border: 1px solid salmon; */
-  position: relative;
-  width: 26%;
-  display: flex;
-  align-items: center;
-  margin: 0 0.5rem;
-}
 
 .moimDetail-moimContent-home-member-content-img-modal{
   position: relative;
@@ -305,43 +373,7 @@
   margin: 0 0.5rem;
 }
 
-.moimDetail-moimLeaderIcon{
-  position: absolute;
-  width: 60%;
-  top: -1.5rem;
-  left: -1rem;
-}
 
-.moimDetail-moimManagerIcon{
-  position: absolute;
-  width: 35%;
-  bottom: 0;
-  right: 0;
-}
-
-
-.moimDetail-moimMember-img{
-  /* border: 1px solid salmon; */
-  width: 100%;
-}
-
-.moimDetail-moimContent-home-member-content-text{
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-  justify-content: center;
-  /* gap: 0.5rem; */
-}
-
-.moimDetail-moimContent-home-member-content-text div {
-  font-weight: 500;
-}
-
-.moimDetail-moimContent-home-member-content-text span{
-  font-size: 75%;
-}
-
-/* ✅멤버 모달창 설정 값✅ */
 .moimDetail-moimContent-home-member-modal-setting{
   /* border: 1px solid slateblue; */
   margin-left: auto;
@@ -351,47 +383,129 @@
   align-items: center;
 }
 
-.moimDetail-moimContent-home-member-modal-settingBtn {
+.moimDetail-moimContent-home-member-modal-setting button{
+  border-radius: 0.3rem;
+  font-size: small;
+  padding: 0.2rem 0.3rem;
+}
+
+
+.moimDetail-moimContent-home-member-modal-managerBtn {
   background-color: white;
   color: #9087d3;
-  border-color: #9087d3;
+  border: 1px solid #9087d3;
 }
 
-.moimDetail-moimContent-home-member-modal-settingBtn:hover {
+.moimDetail-moimContent-home-member-modal-managerBtn:active {
   background-color: #9087d3;
   color: white;
-  border-color: #9087d3;
-}
-
-
-/* 클릭 시 및 포커스 시 스타일 덮어쓰기 */
-.moimDetail-moimContent-home-member-modal-settingBtn:active{
-/*, .moimDetail-moimContent-home-member-modal-settingBtn:focus  */
-  background-color: #9087d3 !important;
-  color: white !important;
-  border-color: #9087d3 !important;
-  /* box-shadow: none !important;
-  outline: none !important; */
 }
 
 .member-modal-managerBtn{
   background-color: #9087d3;
   color: white;
-  border-color: #9087d3;
 }  
 
+.moimDetail-moimContent-home-member-modal-kickOut{
+  border: 1px solid #e4e5ed ;
+  background-color: #e4e5ed;
+  color: #494949;
+}
 
 
 
 
+@media screen and (max-width: 875px){
+  .moimDetail-moimContent-home-schedule-contentBox{
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+  .moimDetail-moimContent-home-schedule-content{
+    padding: 0.7rem;
+    width: 100%;
+  }
+  .moimDetail-moimContent-home-schedule-content-headerBox{
+    justify-content: left;
+    align-items: flex-start;
+  }
+  .moimDetail-moimContent-home-schedule-content-header-date{
+    display: none;
+  }
+  .ddd{
+    display: flex;
+    gap: 0;
+  }
+  .moimDetail-moimContent-home-schedule-content-img{
+    /* width: 25%; */
+    flex: 1.5;
+    /* position: relative; */
+    height: auto;
+    aspect-ratio: 1/1;
+    border-radius: 1rem;
+    margin-right: 3%;
+  }
+  .moimDetail-moimContent-home-schedule-content-info{
+    padding: 0;
+    flex: 3;
+    justify-content: space-around;
+  }
+  .moimDetail-moimContent-home-schedule-content-info-data p{
+    margin: 0;
+  }
+  .moimDetail-moimContemt-home-board-content{
+    padding: 0.5rem;
+  }
+  .moimDetail-moimContemt-home-board-content-cate{
+    white-space: nowrap; /*한 줄로 표시되게 설정 */
+  }
+  .moimDetail-moimContemt-home-board-content-title{
+    white-space: nowrap; /* 텍스트가 한 줄로만 표시되도록 설정 */
+    overflow: hidden; /* 넘치는 부분은 숨김 처리 */
+    text-overflow: ellipsis; /* 넘치는 텍스트를 ...으로 생략 */
+  }
+  .moimDetail-moimContemt-home-board-content span{
+    display: none;
+  }
+  .moimDetail-moimContent-home-member-contentBox{
+    /* flex-direction: column; */
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .moimDetail-moimContent-home-member-content{
+    width: 100%;
+  }
+  .moimDetail-moimContent-home-member-content-img{
+    width: 15%;
+  }
+}
+
+
+@media screen and (max-width: 520px){
+
+  .moimDetail-moimContent-home-member-contentBox{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    background-color: #f1f1f1;
+    width: calc(100% + 30px); /* 만약 음수 마진을 사용한다면 */
+    margin-left: -15px; /* 부모 요소의 padding 크기 */
+  }
+  .moimDetail-moimContent-home-member-content{
+    box-shadow: none;
+    padding: 0.5rem 0;
+    background-color: white;
+    padding-left: 1rem;
+  }
+  .moimDetail-moimContent-home-member-settingIcon{ /*이 크기가 되면 오른쪽에 있는 : 버튼 안보임*/
+    display: none;
+   }
+}
 
 
 
-
-
-
-@media screen and (max-width: 430px){
- .moimDetail-moimContent-home-member-content-modal .moimDetail-moimContent-home-member-content-text span{
-  display: none;
- }
+@media screen and (min-width: 521px){ 
+  .moim-moimContent-home-member-settingBox{
+    display: none;
+  }
 }

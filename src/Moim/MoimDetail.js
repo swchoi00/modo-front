@@ -30,7 +30,7 @@ const MoimDetail = ({isAuth, userInfo, setUserInfo, moimInfo, setMoimInfo})=>{
 
   // 좋아요 상태 저장하는 스테이트
   const [likedMoims, setLikedMoims] = useState(false); // 초기값을 false로 설정
-  // 로그인 유저와 모임장이 일치하는지 여부 (😡😡모임장, 매니저, 모임원 여부 있어야 할거 같은데😡😡)
+  // [임시]로그인 유저와 모임장이 일치하는지 여부 (😡😡모임장, 매니저, 모임원 여부 있어야 할거 같은데😡😡)
   const [moimMemberRole, setMoimMemberRole] = useState(null);
   // 🔥🔥🔥오류파티🔥🔥🔥모임멤버 리스트
   // const [moimMemberList,setMoimMemberList] = useState(null);
@@ -70,11 +70,11 @@ useEffect(()=>{
 
 useEffect(()=>{
   if(isAuth){
-    if(moimInfo.leadername === userInfo.username){
+    if(moimInfo.leaderid === userInfo.id){
       setMoimMemberRole("leader");
     }
   }
-},[isAuth, moimInfo.leadername ,userInfo.username])
+},[isAuth, moimInfo.leaderid ,userInfo.id])
 
 
 
@@ -179,7 +179,18 @@ useEffect(()=>{
         <div className='moimDetail-header-title'>{moimInfo.moimname}</div>
       </div>
 
-      <div className='moimDetail-moimInfoBox'>
+      <div className='moimDetail-moimMenu-box-moblie'>
+        {
+          moimDetailMenu.map((data, i)=>(
+            <div className={`moimDetail-moimMenu ${moimMenuCk === data ? 'moimDetail-moimMenu-ck': ''}`} 
+                 onClick={moimMenuCkHandler} key={i}>
+            {data}</div>
+          ))
+        }
+      </div>
+
+      
+      <div className={`moimDetail-moimInfoBox ${moimMenuCk !== '홈' ? 'moimDetail-moimMenu-notShow' : ''}`}>
         <div className='moimDetail-moimInfo-imageBox'>
           <Carousel className='moimDetail-moimInfo-carousel' activeIndex={activeIndex} onSelect={handleBanner} interval={null}>
           {
@@ -238,8 +249,21 @@ useEffect(()=>{
             ))
             }
           </div>
+          <div className='moimDetail-moimInfo-text3-box2'> {/* 모바일용 방장프로필 */}
+            <div className='moimDetail-moimInfo-text3-leaderImgBox'>
+              <img src={face} alt=''/>
+              {/* 추후 프로필 사진 저장되어 있는 url div로 연결하기
+              backgroundImage: `url(https://raw.githubusercontent.com/Jella-o312/modo-image/main/moim-img/${data.id}.png)` */}
+            </div>
+            {/* ↓ 이거 어떻게 해야하나.....닉네임으로 떠야하는디 */}
+            <div className='moimDetail-moimInfo-text3-leaderName'> 모임장 <span>{moimInfo.leadername}</span></div>
+          </div>
           {/* 😡여기에 가입여부 가리는거 필요😡 */}
-          { moimMemberRole === null && <div className='moimDetail-moimInfo-joinBtn' onClick={CkLoginHandler} style={{cursor:'pointer'}}>가입하기</div>}
+          { moimMemberRole === null && 
+            <div className='moimDetail-moimInfo-joinBtn-Box'>
+              <div className='moimDetail-moimInfo-joinBtn' onClick={CkLoginHandler} style={{cursor:'pointer'}}>가입하기</div>
+            </div>
+          }
           {/* { moimMember === 'leader' && <div className='moimDetail-moimInfo-settingBtn'>운영중인 모임</div>} */}
         </div>
       </div>

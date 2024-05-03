@@ -28,7 +28,7 @@ import InquiryFormDetail from './Home/FAQ/InquiryForm/InquiryFormDetail';
 import Community from './Community/Community';
 import AddComm from './Community/AddComm';
 import CommDetail from './Community/CommDetail';
-import MoimDetailMoimInfoModal from './Moim/MoimDetailComponent/MoimDetailInnerComponent/MoimDetail-MoimInfo-Modal';
+
 
 function App() {
 
@@ -101,11 +101,11 @@ function App() {
   const [currentPage, setCurrentPage] = useState(1);
 
  
-
+console.log(userInfo);
 
   return (
-    <div className="App">
-      <Header userInfo={userInfo} isAuth={isAuth} setIsAuth={setIsAuth}/>
+    <div className="App" style={{scrollBehavior: 'unset'}}>
+      <Header userInfo={userInfo} isAuth={isAuth} setIsAuth={setIsAuth} setUserInfo= {setUserInfo}/>
 
       <div className='App-Body'>
         <Routes>

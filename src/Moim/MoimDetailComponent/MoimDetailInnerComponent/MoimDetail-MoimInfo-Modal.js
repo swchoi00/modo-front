@@ -157,7 +157,7 @@ const MoimDetailMoimInfoModal = ({showMoimInfoSettingModal, setShowMoimInfoSetti
     <div>
       <Modal
               show={showMoimInfoSettingModal}
-              size="lg"
+              // size="lg"
               onHide={() =>setShowMoimInfoSettingModal(false)}
               // aria-labelledby="contained-modal-title-vcenter"
               centered
@@ -262,6 +262,7 @@ const MoimDetailMoimInfoModal = ({showMoimInfoSettingModal, setShowMoimInfoSetti
                   <div className="moimDetail-moimInfo-setting-modal-box">
                     <span className='moimDetail-moimInfo-setting-modal-title'>모임 카테고리</span>
                     <div className='moimDetail-moimInfo-setting-modal-inputBox'>
+                      <div className='moimDetail-moimInfo-setting-modal-categoryBox'>
                       {
                         moim.map ((title,i)=>{
                           return(
@@ -278,11 +279,11 @@ const MoimDetailMoimInfoModal = ({showMoimInfoSettingModal, setShowMoimInfoSetti
                               <span style={{color : moimInfo.category === title? '#C59DF1': 'gray',
                                             fontWeight: moimInfo.category === title? '500' : ''
                                           }}>{title}</span>
-                              {/* className={moimInfo.category === title? 'AddMoim-category-check': ''} */}
                             </div>
                           );
                         })
                       }
+                      </div>
                     </div>
                   </div>
 

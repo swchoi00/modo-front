@@ -10,7 +10,7 @@ import {faPen} from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from 'react-router-dom';
 import face from '../HomeComponent/ReviewComponent/face.svg';
 
-const Header = ( {isAuth, setIsAuth, userInfo} ) =>{
+const Header = ( {isAuth, setIsAuth, userInfo, setUserInfo} ) =>{
 
   const navigate = useNavigate();
 
@@ -25,6 +25,10 @@ const Header = ( {isAuth, setIsAuth, userInfo} ) =>{
   const logoutHandler = () => {
     sessionStorage.removeItem('jwt');
     sessionStorage.removeItem('userInfo');
+    setUserInfo({
+      username : '',
+      nickname : ''
+    });
     setIsAuth(false);
     navigate('/');
   }

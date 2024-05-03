@@ -36,27 +36,31 @@
   border-bottom: 1px solid rgb(243, 242, 242);
   padding-bottom: 25px;
   display: flex;
+  justify-content: flex-end;
 }
 
 .CommDetail .post-delete-update .delete {
-  width: 45px;
+  width: auto;
   height: 25px;
   font-size: 0.8rem;
   border: 1px solid red;
   border-radius: 5px;
   color: red;
   background-color: white;
-  margin-right: 10px;
+  margin: 5px;
+  padding: 0 10px;
 }
 
 .CommDetail .post-delete-update .update {
-  width: 45px;
+  width: auto;
   height: 25px;
   font-size: 0.8rem;
   border: 1px solid rgb(182, 182, 182);
   border-radius: 5px;
   color: rgb(182, 182, 182);
   background-color: white;
+  margin: 5px;
+  padding: 0 10px;
 }
 
 .CommDetail .postContent {
@@ -64,6 +68,7 @@
   margin: 30px 0;
   width: 100%;
   height: auto;
+  word-wrap: break-word;
   white-space: pre-wrap;
 }
 
@@ -79,18 +84,14 @@
 
 
 
-
-
-
-@media screen and (max-width: 431px){
+@media screen and (max-width: 1060px){
   .CommDetail {
     width: 90%;
   }
+}
+
+@media screen and (max-width: 650px) {
   .CommDetail .post {
     display: block;
   }
 }
-
-
-
-

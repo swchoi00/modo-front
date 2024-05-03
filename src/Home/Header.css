@@ -9,7 +9,7 @@
   height: 4.5rem;
   position: sticky;
   top: 0; 
-  z-index: 5;
+  z-index: 15;
   padding: 0 1rem;
 }
 
@@ -299,7 +299,7 @@
 }
 
 
-/* 가로 길이가 780되기 전가지는  미니바 안보임*/
+/* 가로 길이가 875px되기 전가지는  미니바 안보임*/
 @media screen and (min-width: 876px){
 	#HeaderMobile{
     display: none;
@@ -307,7 +307,7 @@
 }
 
 
-/* 780만큼 줄어들면 미니바로 전환 */
+/* 875만큼 줄어들면 미니바로 전환 */
 @media screen and (max-width: 875px){
   #HeaderDesktop{
     display: none;

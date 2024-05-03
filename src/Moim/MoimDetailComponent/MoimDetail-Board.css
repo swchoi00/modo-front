@@ -2,11 +2,83 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  /* overflow-x: hidden; */
 }
 
-.moimDetail-moimContent-board-header{
+/* .moimDetailBoard-schedule-Box, .moimDetailBoard-comm-Box{
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+} */
+
+.moimDetailBoard-header{
   width: 100%;
   display: flex;
   justify-content: space-between;
   margin: 1rem 0;
+}
+
+/* .moimDetailBoard-contentBox{
+  width: 100%;
+  border: 1px solid salmon;
+} */
+
+.moimDetailBoard-comm-categotyBox{
+  width: 100%;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.moimDetailBoard-comm-categoty{
+  background-color: #F2EEF8;
+  padding: 0.3rem 1.5rem;
+  /* width: 4.5rem; */
+  border-radius: 1rem;
+  color: #B0B0B0;
+  cursor: pointer;
+}
+
+.moimCommCateCheck{
+  background-color: #9087d3;
+  color: white;
+}
+
+.moimDetailBoard-commListBox{
+  width: 100%;
+  /* display: flex; */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media screen and (max-width: 474px){ 
+  .moimDetailBoard-comm-categoty{
+    padding: 0.3rem 0rem;
+    flex: 1;
+  }
+  .moimDetailBoard-commListBox{
+    background-color: #f1f1f1;
+    width: calc(100% + 30px); 
+    margin-left: -15px; /* 부모 요소의 padding 크기 */
+  }
+  .moimDetailBoard-commListBox .Community .tbl .tr{
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+  .moimDetailBoard-commListBox .Community .tbl .td{
+    border: none;
+    background-color: white;
+    padding: 1rem 0;
+  }
 }
