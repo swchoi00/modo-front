@@ -1,4 +1,4 @@
-import './MoimDetail-BoardComponent-Modal.css';
+import './MoimDetail-BoardSchedule-Modal.css';
 import {useEffect, useRef, useState } from "react";
 import ReactDatePicker from "react-datepicker";
 import { ko } from 'date-fns/locale'; // datePicker (일정추가 input) 한글패치
@@ -9,7 +9,7 @@ import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { Form, Modal } from 'react-bootstrap';
 
 
-const MoimDetailBoardComponentModal = ({addScheduleModal,setAddScheduleModal, Ckdate, moment})=>{
+const MoimDetailBoardSheduleModal = ({addScheduleModal,setAddScheduleModal, Ckdate, moment})=>{
   
 
 // 일정추가 모달이 닫힐 때 기존 입력 값 초기화
@@ -468,4 +468,4 @@ const mimi= ()=>{
 
 }
 
-export default MoimDetailBoardComponentModal;
+export default MoimDetailBoardSheduleModal;

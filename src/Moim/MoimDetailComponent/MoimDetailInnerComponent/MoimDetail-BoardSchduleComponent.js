@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Calendar from "react-calendar";
-import './MoimDetail-BoardComponent.css';
+import './MoimDetail-BoardSheduleComponent.css';
 import './Calendar.css';
 import moment from 'moment';
 import 'moment/locale/ko';  // 요일 한글로 구하려면 필요
@@ -12,10 +12,10 @@ import 'moment/locale/ko';  // 요일 한글로 구하려면 필요
 // import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 // import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import sorryIcon from '../../../Img/sorryIcon.svg';
-import MoimDetailBoardComponentModal from "./MoimDetail-BoardComponent-Modal";
+import MoimDetailBoardSheduleModal from "./MoimDetail-BoardSchedule-Modal";
 
 
-const MoimDetailBoardComponent = ()=>{
+const MoimDetailBoardSchduleComponent = ()=>{
   //⭐임시⭐
   const [date, setDate] = useState(new Date());
   const [markedDates, setMarkedDates] = useState([]);
@@ -107,7 +107,7 @@ const MoimDetailBoardComponent = ()=>{
 const [addScheduleModal, setAddScheduleModal] = useState(false);
 
 
-console.log(imsiScheduleData.length);
+// console.log(imsiScheduleData.length);
 
   return(
     <div className="moimDetail-calendar-container">
@@ -185,7 +185,7 @@ console.log(imsiScheduleData.length);
     </div>
 
     {/* 모임 일정 추가하는 모달 */}
-    <MoimDetailBoardComponentModal 
+    <MoimDetailBoardSheduleModal 
       addScheduleModal={addScheduleModal} 
       setAddScheduleModal={setAddScheduleModal} 
       Ckdate={date} 
@@ -198,4 +198,4 @@ console.log(imsiScheduleData.length);
   )
 }
 
-export default MoimDetailBoardComponent;
+export default MoimDetailBoardSchduleComponent;

@@ -10,6 +10,7 @@ import managerIcon from '../../Img/moimDetail_managerIcon.svg';
 import { Button, Collapse, Modal, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../../axiosInstance';
+import imsiImg from '../../Img/깡총강쥐.png';
 
 const MoimDetailHome = ({moimInfo,setMoimInfo,moimMemberRole}) =>{
   // 제발..
@@ -82,6 +83,16 @@ const imsiMemberData = [
     memberRole : 'manager',
     nickname : '산비',
     profileText : '올해는 운동좀 하자🫥'
+  },
+  {
+    memberRole : 'member',
+    nickname : 'Jella',
+    profileText : '안녕하세요'
+  },
+  {
+    memberRole : 'member',
+    nickname : '상운',
+    profileText : '안녕하세요'
   },
   {
     memberRole : 'member',
@@ -283,26 +294,30 @@ const editDesCriptionHandler = ()=>{
                   </div>
                 </div>
                 {/* 임시 이미지 */}
-                <div className='moimDetail-moimContent-home-schedule-content-img'>{i+1}<br/>임시 이미지</div>
-                <div className='moimDetail-moimContent-home-schedule-content-info'>
-                  {data.endDate === '' ?
+                <div className='ddd'>
+                  <div className='moimDetail-moimContent-home-schedule-content-img' 
+                      style={{backgroundImage: `url(${imsiImg})`, backgroundSize: 'cover', backgroundPosition: 'center'}}
+                  />
+                  <div className='moimDetail-moimContent-home-schedule-content-info'>
+                    {data.endDate === '' ?
+                      <div className='moimDetail-moimContent-home-schedule-content-info-data'>
+                        <span>일시</span><p>{data.startDate} {data.startDay} {data.startTime} {/*~ {data.endTime}*/}</p>
+                      </div>
+                    :
+                      <div className='moimDetail-moimContent-home-schedule-content-info-data'>
+                        <span>일시</span><p>{data.startDate} {data.startDay} {data.startTime} ~ {data.endDate} {data.endDay} {/*{data.endTime}*/}</p>
+                      </div>
+                    }
                     <div className='moimDetail-moimContent-home-schedule-content-info-data'>
-                      <span>일시</span><p>{data.startDate} {data.startDay} {data.startTime} ~ {data.endTime}</p>
+                      <span>위치</span><p>{data.place}</p>
                     </div>
-                  :
                     <div className='moimDetail-moimContent-home-schedule-content-info-data'>
-                      <span>일시</span><p>{data.startDate} {data.startDay} {data.startTime} ~ {data.endDate} {data.endDay} {data.endTime}</p>
+                      <span>비용</span><p>{data.price}</p>
                     </div>
-                  }
-                  <div className='moimDetail-moimContent-home-schedule-content-info-data'>
-                    <span>위치</span><p>{data.place}</p>
-                  </div>
-                  <div className='moimDetail-moimContent-home-schedule-content-info-data'>
-                    <span>비용</span><p>{data.price}</p>
-                  </div>
+                  </div> 
+                  <div className='moimDetail-moimContent-home-schedule-content-info-member'><span>{data.joinMember}</span> / {data.maxMamber}명</div> 
                 </div> 
-                <div className='moimDetail-moimContent-home-schedule-content-info-member'><span>{data.joinMember}</span> / {data.maxMamber}명</div> 
-              </div>                
+              </div>
             ))
           }
         </div>
@@ -332,37 +347,63 @@ const editDesCriptionHandler = ()=>{
 
       <span className='moimDatail-line'>&nbsp;</span>{/*⭐ 컨텐츠 나누는 중간 줄 ⭐*/}
       
+      {/* ⭐모임멤버⭐ */}
       <div className='moimDetail-moimContent-home-memberBox'>
         <div className="moimDetail-moimContent-home-header">
-          <h6>모임멤버</h6>
+          <h6>모임멤버 <span>({imsiMemberData.length}명)</span></h6>
           {/* 😡임시😡 ↓ 모임장만 보이게 해야함 */}
-          <FontAwesomeIcon icon={faEllipsisVertical} size="lg"/>
+          <div className='moimDetail-moimContent-home-member-settingIcon' onClick={() => setIsMoreMember(true)}>
+            <FontAwesomeIcon icon={faEllipsisVertical} size="lg"/>
+          </div>
           {/* <div>더보기</div> */}
         </div>
         <div className='moimDetail-moimContent-home-member-contentBox'>
           {
-            imsiMemberData.slice(0, 4).map((data, i) => (
+            // imsiMemberData.slice(0, 4).map((data, i) => (
+              imsiMemberData.map((data, i) => (
               <div className='moimDetail-moimContent-home-member-content' key={i}>
-                <div className='moimDetail-moimContent-home-member-content-img'>
+                <div className='moimDetail-moimContent-home-member-content-img' style={{backgroundImage: `url(${face})`}}>
                   {data.memberRole === 'leader' && <img className='moimDetail-moimLeaderIcon' src={leaderIcon} alt=''/>}
                   {data.memberRole === 'manager' && <img className='moimDetail-moimManagerIcon' src={managerIcon} alt=''/>}
-                  <img className='moimDetail-moimMember-img' src={face} alt=''/>
+                  {/* <img className='moimDetail-moimMember-img' src={face} alt=''/> */}
                 </div>
                 <div className='moimDetail-moimContent-home-member-content-text'>
                   <div>{data.nickname}</div>
                   <span>{data.profileText}</span>
                 </div>
+                {
+                  moimMemberRole === "leader" &&
+                  <div className='moim-moimContent-home-member-settingBox'>
+                  {
+                    data.memberRole!== 'leader' &&
+                    <div className='moimDetail-moimContent-home-member-modal-setting'>
+                      <button className={`moimDetail-moimContent-home-member-modal-managerBtn 
+                                        ${data.memberRole==='manager' && 'member-modal-managerBtn'}`}
+                                        // onClick={🚫매니저 지정 및 해제 핸들러 추가해야함}
+                      >
+                        {/* {data.memberRole==='manager'? '★ 매니저 해제' : '★ 매니저 지정'} */}
+                        ★ 매니저
+                      </button>
+                      <button className='moimDetail-moimContent-home-member-modal-kickOut' 
+                              onClick={()=>memberKickOutHandler(data.nickname)}>
+                        모임강퇴
+                      </button>
+                    </div>
+                  }
+                  </div>
+                }
+
               </div>
             ))
           }
           {/* 멤버가 4명 이상인 경우 멤버 더 보기 버튼 활성화 (hover 시 tooltip버튼 활성화) */}
-          {imsiMemberData.length > 4 && (
+          {/* {imsiMemberData.length > 4 && (
             <OverlayTrigger placement="top" overlay={<Tooltip>멤버 더 보기</Tooltip>}>
               <div className='moimDetail-moimContent-home-member-content2' onClick={() => setIsMoreMember(true)}>
                 <div>+</div>
               </div>
             </OverlayTrigger>
-          )}
+          )} */}
         </div>
       </div>
 
@@ -379,15 +420,14 @@ const editDesCriptionHandler = ()=>{
           </Modal.Title>
         </Modal.Header>
 
-        <Modal.Body>
+        <Modal.Body style={{paddingTop: '0', paddingLeft: '0', paddingRight: '0'}}>
           <div className='moimDetail-moimContent-home-member-content-modalBox'>
           {
             imsiMemberData.map((data,i)=>(
               <div className='moimDetail-moimContent-home-member-content-modal' key={i}>
-                  <div className='moimDetail-moimContent-home-member-content-img-modal'>
+                  <div className='moimDetail-moimContent-home-member-content-img-modal' style={{backgroundImage: `url(${face})`}}>
                     {data.memberRole === 'leader' && <img className='moimDetail-moimLeaderIcon' src={leaderIcon} alt=''/>}
                     {data.memberRole === 'manager' && <img className='moimDetail-moimManagerIcon' src={managerIcon} alt=''/>}
-                    <img className='moimDetail-moimMember-img' src={face} alt=''/>
                   </div>
                   <div className='moimDetail-moimContent-home-member-content-text'>
                     <div>{data.nickname}</div>
@@ -398,10 +438,16 @@ const editDesCriptionHandler = ()=>{
                     data.memberRole!== 'leader' &&
                     <div className='moimDetail-moimContent-home-member-modal-setting'>
                       {/* <button>{data.memberRole==='manager'? '★ 매니저 해제' : '★ 매니저 지정'}</button> */}
-                      <Button className={`moimDetail-moimContent-home-member-modal-settingBtn 
-                              ${data.memberRole==='manager' && 'member-modal-managerBtn'}`}
-                              size='sm'>{data.memberRole==='manager'? '★ 매니저 해제' : '★ 매니저 지정'}</Button>
-                      <Button size='sm'variant="outline-secondary" onClick={()=>memberKickOutHandler(data.nickname)}>모임퇴장</Button>
+                      <button className={`moimDetail-moimContent-home-member-modal-managerBtn 
+                                        ${data.memberRole==='manager' && 'member-modal-managerBtn'}`}
+                                        // onClick={🚫매니저 지정 및 해제 핸들러 추가해야함}
+                      >
+                        ★ 매니저
+                      </button>
+                      <button className='moimDetail-moimContent-home-member-modal-kickOut' 
+                              onClick={()=>memberKickOutHandler(data.nickname)}>
+                        모임강퇴
+                      </button>
                     </div>
                   }
                 </div>
