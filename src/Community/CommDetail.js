@@ -7,17 +7,34 @@ import CommReply from './CommReply';
 const CommDetail = ({ isAuth, userInfo }) => {
   const { id } = useParams();
   const [comm, setComm] = useState([]);
+  const [updateComm, setUpdateComm] = useState([]);
+  const [update, setUpdate] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     axiosInstance.get(`/comm/${id}`)
       .then((response) => {
         setComm(response.data);
+        setUpdateComm(response.data);
       })
       .catch((error) => {
         console.log(error);
       })
   }, [])
+
+
+
+  const changeHandler = (e) => {
+
+    const updateContent = e.target.value
+
+    setUpdateComm((data) => ({
+      ...data,
+      content: updateContent
+    }))
+
+  }
+
 
   console.log(comm);
 
@@ -46,17 +63,52 @@ const CommDetail = ({ isAuth, userInfo }) => {
         <div className='post-delete-update'>
           {
             userInfo.username === comm.author ?
-              <>
-                <button className='delete'>삭제</button>
-                <button className='update'>수정</button>
-              </>
+
+              update === true ?
+                <>
+                  {/* 게시글 수정 */}
+                  <button className='delete' onClick={() => {
+                    axiosInstance.put('/???', updateComm)
+                      .then((response) => {
+                        alert(response.data);
+                      })
+                      .catch((error) => {
+                        console.log(error);
+                      })
+                  }}>수정완료</button>
+                  <button className='update' onClick={() => setUpdate(false)}>취소</button>
+                </>
+                :
+                <>
+                  <button className='update' onClick={() => { setUpdate(true) }}>수정</button>
+                  {/* 게시글 삭제 */}
+                  <button className='delete' onClick={() => {
+                    axiosInstance.delete(`/???/${id}`)
+                      .then((response) => {
+                        alert(response.data);
+                      })
+                      .catch((error) => {
+                        console.log(error);
+                      })
+                  }}>삭제</button>
+                </>
+
               : ''
           }
         </div>
       </div>
 
       <div className='postContent'>
-        <pre>{comm.content}</pre>
+        {
+          update === true ?
+            <textarea
+              defaultValue={updateComm.content}
+              style={{ width: "100%", minHeight: "50vh", padding: "10px", borderRadius: "10px", outlineColor: "#8F7BE0" }}
+              onChange={changeHandler} />
+            :
+            <div>{comm.content}</div>
+        }
+
 
       </div>
 

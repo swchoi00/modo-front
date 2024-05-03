@@ -50,7 +50,6 @@
 /* 버튼 */
 .Community .typBtn-box {
   border: none;
-
   margin-top: 2rem;
   width: 100%;
   display: flex;
@@ -144,12 +143,20 @@
 
 /* grid 게시물 */
 .Community .grid-comm {
-  width: 1040px;
+  /* width: 1040px;
   margin: 5rem auto 0 auto;
   display: grid;
   grid-template-columns: repeat(3, 20rem);
   column-gap: 2.5rem;
-  text-align: left;
+  text-align: left; */
+
+  width: 1040px;
+  margin: 5rem auto 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 20rem);
+  gap: 3rem;
+  justify-content: center;
+  align-items: center;
 }
 
 .Community .card-type {
@@ -157,6 +164,14 @@
   box-shadow: 0px 0px 15px -4px rgba(0, 0, 0, 0.2);
   border-radius: 1.7rem;
   margin-bottom: 2rem;
+
+  width: 100%;
+  height: 100%;
+  margin-bottom: 10%;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  cursor: pointer;
 }
 
 .Community .card-header,
@@ -187,10 +202,17 @@
 }
 
 .Community .card-body img {
-  border-radius: 10px;
+  /* border-radius: 10px;
   margin: 12px 0;
   height: 13rem;
-  width: 17.5rem;
+  width: 17.5rem; */
+
+  width: 100%;
+  aspect-ratio: 1.5;
+  margin: 12px 0;
+  background-size: cover;
+  border-radius: 13px;
+  position: relative;
 }
 
 .Community .card-footer {
@@ -234,7 +256,7 @@
 
 
 
-@media screen and (max-width: 1060px) {
+@media screen and (max-width: 1080px) {
 
   .Community .icon-typeBtn-box {
     width: 100%;
@@ -245,20 +267,18 @@
   }
 
   .Community .grid-comm {
-    width: 65.5%;
-    margin: 5rem auto 0 auto;
     grid-template-columns: repeat(2, 20rem);
-    column-gap: 3rem;
+    width: 100%;
   }
-
-
 }
 
-@media screen and (max-width: 780px) {
+@media screen and (max-width: 1000px) {
   .Community .searchBar {
     width: 17rem;
   }
+}
 
+@media screen and (max-width: 780px) {
   .Community .tbl {
     margin: 30px auto 0 auto;
     font-size: 0.8rem;
@@ -317,28 +337,12 @@
     font-weight: 600;
   }
 
-  .Community .grid-comm {
-    width: 100%;
-    grid-template-columns: repeat(2, 1fr);
-    padding: 0 45px;
-  }
-
 }
 
-@media screen and (max-width: 650px) {
-
+@media screen and (max-width: 720px) {
   .Community .grid-comm {
-    margin: 30px auto;
-    padding: 0 10px;
-    column-gap: 2rem;
-  }
-
-  .Community .card-body img {
-    width: 100%;
-  }
-
-  .Community .card-type {
-    height: 30rem;
+    grid-template-columns: repeat(1, 23rem);
+    width: 70%;
   }
 }
 
@@ -351,7 +355,6 @@
   .Community .grid-comm {
     width: 72%;
     grid-template-columns: repeat(1, 19rem);
-    margin: 30px auto;
   }
 
   .Community .card-type {

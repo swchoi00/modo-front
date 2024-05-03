@@ -9,13 +9,14 @@
 }
 
 .CommReply .writeReply {
-  /* margin-bottom: 30px; */
+  width: 1040px;
   padding-bottom: 30px;
   border-bottom: 1px solid rgb(243, 242, 242);
 }
 
 .CommReply .replyInput {
-  width: 58rem;
+  /* width: 58rem; */
+  width: 88%;
   height: auto;
   resize: none;
   padding: 3px 10px;
@@ -28,15 +29,23 @@
   border-radius: 5px;
   background-color: #8F7BE0;
   color: azure;
-  width: 6rem;
+  /* width: 6rem; */
+  width: 10%;
   height: 3.5rem;
-  margin-left: 12px;
+  margin-left: 2%;
 
 }
 
 .CommReply .getReply {
   border-bottom: 1px dashed rgb(243, 242, 242);
   padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.CommReply .getReply-leftBox {
+  width: 90%;
 }
 
 .CommReply .nickName-date {
@@ -68,19 +77,68 @@
   margin: 5px;
 }
 
+.CommReply .reply-update-delete {
+  margin-top: 10px;
+}
 
+.CommReply .delete {
+  width: auto;
+  height: 25px;
+  font-size: 0.8rem;
+  border: 1px solid red;
+  border-radius: 5px;
+  color: red;
+  background-color: white;
+  margin: 5px;
+  padding: 0 10px;
+}
 
-@media screen and (max-width: 431px){
+.CommReply .update {
+  width: auto;
+  height: 25px;
+  font-size: 0.8rem;
+  border: 1px solid rgb(182, 182, 182);
+  border-radius: 5px;
+  color: rgb(182, 182, 182);
+  background-color: white;
+  margin: 5px;
+  padding: 0 10px;
+}
+
+.CommReply .likeCnt {
+  text-align: center;
+  color: gray;
+}
+
+@media screen and (max-width: 1060px) {
   .CommReply .writeReply {
     width: 100%;
   }
+}
 
+@media screen and (max-width: 1000px) {
+  .CommReply .replyBtn {
+    height: 3rem;
+  }
+}
+
+@media screen and (max-width: 780px) {
   .CommReply .replyInput { 
-    width: 80%;
+    width: 86%;
   }
 
   .CommReply .replyBtn {
-    width: 16%;
-    height: 3rem;
+    width: 12%;
+  }
+}
+
+
+@media screen and (max-width: 550px){
+  .CommReply .replyInput { 
+    width: 83%;
+  }
+
+  .CommReply .replyBtn {
+    width: 15%;
   }
 }
