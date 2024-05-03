@@ -1,5 +1,5 @@
 import './AddComm.css';
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../axiosInstance";
 
@@ -38,6 +38,7 @@ const AddComm = ({ userInfo }) => {
         console.log(error);
       })
   }
+
     console.log(commInfo);
 
   return(
@@ -58,7 +59,12 @@ const AddComm = ({ userInfo }) => {
         </select>
       </div>
       <div className='content-box'>
-        <textarea className='content-inner content' placeholder="내용을 입력해주세요" name="content" value={commInfo.content} onChange={changeHandler}/>
+        <textarea 
+        className='content-inner content'
+         placeholder="내용을 입력해주세요"
+          name="content" 
+          value={commInfo.content} 
+          onChange={changeHandler}/>
       </div>
       <div>
         <button className='addBtn' onClick={handleSubmit}>게시글 등록</button>

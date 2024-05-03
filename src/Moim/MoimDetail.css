@@ -173,7 +173,8 @@
 
 .moimDetail-moimInfo-text5-Box{
   margin: 0.5rem 0 2rem;
-  /* ⭐⭐⭐ */
+  display: flex;
+  flex-wrap: wrap; /* 해시태그가 너비를 넘어갈 경우 다음 줄로 이동 */
 }
 
 .moimDetail-moimInfo-text5-hashtag{
@@ -182,6 +183,7 @@
   border-radius: 5px;
   padding: 0.08rem 0.4rem 0.15rem;
   margin-right: 0.5rem;
+  white-space: nowrap; /* 해시태그가 길어도 한 줄에 표시되도록 설정 */
 }
 
 .moimDetail-moimInfo-joinBtn{

@@ -32,38 +32,47 @@
   margin: 0;
 }
 
+.Community .icon-typeBtn-box {
+  width: 1040px;
+  margin: auto;
+  padding: 0.5rem;
+}
+
 /* 리스트, 그리드 아이콘 */
 .Community .icon {
   display: flex;
   justify-content: flex-end;
   padding-top: 15px;
-  padding-right: 27rem;
   cursor: pointer;
 }
 
 
 /* 버튼 */
-.Community .btn {
+.Community .typBtn-box {
   border: none;
+  margin-top: 2rem;
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
 }
 
-.Community .btn .typeBtn {
+.Community .typBtn-box .typeBtn {
   border: none;
   border-radius: 5px;
-  margin: 2rem 2rem 0 0;
-  width: 120px;
-  height: 45px;
+  width: 7rem;
+  height: 2.5rem;
   font-weight: 400;
   background-color: white;
   color: lightgray;
 }
 
-.Community .btn .clicked {
+.Community .typBtn-box .clicked {
   border: none;
   border-radius: 5px;
-  margin: 2rem 2rem 0 0;
-  width: 120px;
-  height: 45px;
+  width: 7rem;
+  height: 2.5rem;
   font-weight: 400;
   background-color: #8F7BE0;
   color: white;
@@ -76,37 +85,78 @@
   width: 65rem;
 }
 
-.Community .tbl th {
+.Community ul {
+  margin: 0;
+  padding: 0;
+}
+
+.Community li {
+  list-style-type: none;
+}
+
+.Community .tbl .th {
+  display: flex;
   padding-bottom: 15px;
   border-bottom: 2px solid lightgray;
-  font-size: 15px;
+  font-size: 1rem;
+  font-weight: 600;
 }
 
-.Community .tbl td {
+.Community .tbl .td {
+  display: flex;
   padding: 15px 0;
   border-bottom: 1px solid rgb(243, 242, 242);
-  /* #E7E7E7 */
+  cursor: pointer;
 }
 
-.Community .tbl th:nth-child(2),
-td:nth-child(2) {
-  width: 138px;
+.Community .no {
+  width: 4rem;
 }
 
-.Community .tbl td:nth-child(3) {
+.Community .category {
+  width: 7rem;
+}
+
+.Community .postTitle {
+  width: 30rem;
+}
+
+.Community .tbl .td .postTitle {
   text-align: left;
-  padding-left: 10px;
+  padding-left: 30px;
 }
+
+.Community .author {
+  width: 14rem;
+}
+
+.Community .date {
+  width: 7rem;
+}
+
+.Community .view {
+  width: 4rem;
+}
+
+
+
 
 /* grid 게시물 */
 .Community .grid-comm {
-  width: 65rem;
+  /* width: 1040px;
   margin: 5rem auto 0 auto;
   display: grid;
-  grid-template-rows: repeat(auto, 1fr);
-  grid-template-columns: repeat(3, 1fr);
-  column-gap: 3rem;
-  text-align: left;
+  grid-template-columns: repeat(3, 20rem);
+  column-gap: 2.5rem;
+  text-align: left; */
+
+  width: 1040px;
+  margin: 5rem auto 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 20rem);
+  gap: 3rem;
+  justify-content: center;
+  align-items: center;
 }
 
 .Community .card-type {
@@ -114,6 +164,14 @@ td:nth-child(2) {
   box-shadow: 0px 0px 15px -4px rgba(0, 0, 0, 0.2);
   border-radius: 1.7rem;
   margin-bottom: 2rem;
+
+  width: 100%;
+  height: 100%;
+  margin-bottom: 10%;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  cursor: pointer;
 }
 
 .Community .card-header,
@@ -140,11 +198,21 @@ td:nth-child(2) {
 
 .Community .card-body {
   height: 20rem;
-  /* display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 10px; */
   margin: 10px 0;
+}
+
+.Community .card-body img {
+  /* border-radius: 10px;
+  margin: 12px 0;
+  height: 13rem;
+  width: 17.5rem; */
+
+  width: 100%;
+  aspect-ratio: 1.5;
+  margin: 12px 0;
+  background-size: cover;
+  border-radius: 13px;
+  position: relative;
 }
 
 .Community .card-footer {
@@ -188,141 +256,108 @@ td:nth-child(2) {
 
 
 
+@media screen and (max-width: 1080px) {
 
-
-
-
-
-
-
-
-
-@media screen and (max-width: 431px) {
-
-  .Community .searchBar {
-    width: 12rem;
-  }
-
-  .Community .icon {
-    padding-right: 1rem;
-  }
-
-  .Community .btn .typeBtn {
-    margin: 10px auto 0 auto;
-    width: 80px;
-  }
-
-  .Community .btn .clicked {
-    margin: 10px auto 0 auto;
-    width: 80px;
-    height: 30px;
-    font-weight: 400;
+  .Community .icon-typeBtn-box {
+    width: 100%;
   }
 
   .Community .tbl {
-    margin: 60px auto 0 auto;
     width: 100%;
-    font-size: 0.8rem;
+  }
+
+  .Community .grid-comm {
+    grid-template-columns: repeat(2, 20rem);
+    width: 100%;
   }
 }
 
-@media screen and (max-width: 650px) {
+@media screen and (max-width: 1000px) {
   .Community .searchBar {
     width: 17rem;
   }
-
-  .Community .icon {
-    padding-right: 2rem;
-  }
-
-  .Community .btn .typeBtn {
-    margin: 10px;
-    width: 100px;
-  }
-
-  .Community .btn .clicked {
-    margin: 10px;
-    width: 100px;
-  }
-
-  .Community .tbl {
-    margin: 30px auto 0 auto;
-    width: 100%;
-  }
-
-  .Community .tbl th:nth-child(2),
-  td:nth-child(2) {
-    width: auto;
-  }
-
 }
 
 @media screen and (max-width: 780px) {
-  .Community .searchBar {
-    width: 17rem;
-  }
-
-  .Community .icon {
-    padding-right: 3.5rem;
-  }
-
-  .Community .btn .typeBtn {
-    width: 110px;
-  }
-
-  .Community .btn .clicked {
-    width: 110px;
-  }
-
   .Community .tbl {
-    width: 100%;
+    margin: 30px auto 0 auto;
+    font-size: 0.8rem;
   }
 
-  .Community .tbl th:nth-child(2),
-  td:nth-child(2) {
+  .Community .tbl .th,
+  .Community .tbl .td .no,
+  .Community .tbl .td .view {
+    display: none;
+  }
+
+
+  .Community .tbl .td {
     width: auto;
+    display: grid;
+    grid-template-areas:
+      "title title title title"
+      "category author date .";
+    grid-template-columns: minmax(min-content, max-content) minmax(min-content, max-content) minmax(min-content, max-content);
+    text-align: left;
+    row-gap: 10px;
+  }
+
+  .Community .tbl .td .postTitle {
+    grid-area: title;
+  }
+
+  .Community .tbl .td.category {
+    grid-area: category;
+  }
+
+  .Community .tbl .td .author {
+    grid-area: author;
+  }
+
+  .Community .tbl .td .date {
+    grid-area: date;
+  }
+
+  .Community .tbl .td .category {
+    width: auto;
+    padding-left: 1rem;
+  }
+
+  .Community .tbl .td .author,
+  .Community .tbl .td .date {
+    width: auto;
+    padding-left: 0.4rem;
+    font-size: 0.8rem;
+    color: rgb(94, 94, 94);
+  }
+
+  .Community .tbl .td .postTitle {
+    padding-left: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
   }
 
 }
 
-/* @media screen and (min-width: 781px) {
-  .Community .searchBar {
-    width: 17rem;
+@media screen and (max-width: 720px) {
+  .Community .grid-comm {
+    grid-template-columns: repeat(1, 23rem);
+    width: 70%;
+  }
+}
+
+@media screen and (max-width: 431px) {
+
+  .Community .tbl .td .postTitle {
+    font-size: 0.9rem;
   }
 
-  .Community .icon {
-    padding-right: 3.5rem;
+  .Community .grid-comm {
+    width: 72%;
+    grid-template-columns: repeat(1, 19rem);
   }
 
-  .Community .btn .typeBtn {
-    width: 110px;
-  }
-
-  .Community .btn .clicked {
-    width: 110px;
-  }
-
-  .Community .tbl {
-    width: 100%;
-  }
-
-  .Community .tbl th:nth-child(2),
-  td:nth-child(2) {
-    width: auto;
-  }
-
-} */
-
-@media screen and (max-width: 1060px) {
-  .Community .searchBar {
-    width: 20rem;
-  }
-
-  .Community .icon {
-    padding-right: 3.5rem;
-  }
-
-  .Community .tbl {
-    width: 100%;
+  .Community .card-type {
+    margin: 0 auto 2rem auto;
   }
 }

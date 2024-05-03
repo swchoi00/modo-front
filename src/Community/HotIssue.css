@@ -8,12 +8,12 @@
   margin-right: 10px; 
 }
 
-.top5 .title {
-  display: flex;
-  align-items: center;
+.top5 .postTitle {
   color: #7E57C2;
   font-size: 16px;
   font-weight: 700;
+  text-align: left;
+  padding-left: 30px;
 }
 
 @media screen and (max-width: 431px) {
@@ -23,7 +23,7 @@
     margin-right: 10px; 
   }
 
-  .top5 .title {
+  .top5 .postTitle {
     font-size: 12px;
     font-weight: 700;
   }
@@ -36,7 +36,7 @@
     margin-right: 10px; 
   }
 
-  .top5 .title {
+  .top5 .postTitle {
     font-size: 14px;
     font-weight: 700;
   }

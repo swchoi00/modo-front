@@ -28,6 +28,7 @@ import InquiryFormDetail from './Home/FAQ/InquiryForm/InquiryFormDetail';
 import Community from './Community/Community';
 import AddComm from './Community/AddComm';
 import CommDetail from './Community/CommDetail';
+import MoimDetailMoimInfoModal from './Moim/MoimDetailComponent/MoimDetailInnerComponent/MoimDetail-MoimInfo-Modal';
 
 function App() {
 
@@ -47,6 +48,18 @@ function App() {
       setUserInfo(userInfoObject);
       setIsAuth(true);
     }
+
+    console.log(`%c
+    💜 Welcome 💜
+    
+    ███╗   ███╗ ██████╗ ██████╗  ██████╗ 
+    ████╗ ████║██╔═══██╗██╔══██╗██╔═══██╗
+    ██╔████╔██║██║   ██║██║  ██║██║   ██║
+    ██║╚██╔╝██║██║   ██║██║  ██║██║   ██║
+    ██║ ╚═╝ ██║╚██████╔╝██████╔╝╚██████╔╝
+    ╚═╝     ╚═╝ ╚═════╝ ╚═════╝  ╚═════╝ 
+                                                       
+    `, 'color: #a472ff');
   }, []);
 
   
@@ -55,6 +68,8 @@ function App() {
     username : '',
     nickname : ''
   });
+
+  const [moimInfo, setMoimInfo] = useState({});
 
 
   const [notice, setNotice] = useState({
@@ -85,6 +100,9 @@ function App() {
   // 게시글 리스트 페이지네이션 용 
   const [currentPage, setCurrentPage] = useState(1);
 
+ 
+
+
   return (
     <div className="App">
       <Header userInfo={userInfo} isAuth={isAuth} setIsAuth={setIsAuth}/>
@@ -94,7 +112,7 @@ function App() {
           <Route path ='/'element={<Main />}/> 
           <Route path='/moim' element={<Moim isAuth={isAuth} userInfo={userInfo} setUserInfo={setUserInfo}/>}/>
           {/* ↓ 모임상세페이지 URL값 , 나중에 유저정보 보내줘야함*/}
-          <Route path = '/moim/:id' element={<MoimDetail isAuth={isAuth} userInfo={userInfo} setUserInfo={setUserInfo}/>}/>
+          <Route path = '/moim/:id' element={<MoimDetail isAuth={isAuth} userInfo={userInfo} setUserInfo={setUserInfo} moimInfo={moimInfo} setMoimInfo={setMoimInfo}/>}/>
           <Route path='/addMoim' element={<AddMoim userInfo={userInfo}/>}/> 
 
           <Route path ='/faq' element={<Faq userInfo={userInfo} currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>

@@ -20,12 +20,16 @@ const MoimList = ({isAuth, moimList, userInfo,setUserInfo}) =>{
 
   // userInfo가 변경될 때마다 likedMoims의 초기값 설정
   useEffect(() => {
-    if (userInfo && userInfo.likedMoim) { //userInfo.likedMoim는 새로고침됐을때 로그인 풀리면서 생기는 오류 방지로 추가됨
-      setLikedMoims(userInfo.likedMoim);
-    } else {
+    if(isAuth){
+      if (userInfo && userInfo.likedMoim) { //userInfo.likedMoim는 새로고침됐을때 로그인 풀리면서 생기는 오류 방지로 추가됨
+        setLikedMoims(userInfo.likedMoim);
+      } else {
+        setLikedMoims([]); // 비어있는 배열로 초기화
+      }
+    }else{
       setLikedMoims([]); // 비어있는 배열로 초기화
     }
-  }, [userInfo]);
+  }, [userInfo,isAuth]);
 
 
 

@@ -111,7 +111,7 @@ const Header = ( {isAuth, setIsAuth, userInfo} ) =>{
             <Link to = {"/"}><FontAwesomeIcon icon={faSearch} style={{color:'#575757', fontSize: 'x-large'}}/></Link>
             <Link to = {"/moim"}>소모임</Link>
             <Link to = {"/"}>멘토링</Link>
-            <Link to = {"/"}>커뮤니티</Link>
+            <Link to = {"/community"}>커뮤니티</Link>
             <Link to = {"/faq"}>FAQ</Link>
           </div>
           
