@@ -1,0 +1,90 @@
+.MoimDetailBoard-Comm-WriteBox{
+  /* margin-top: 1rem; */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  box-shadow: 0px 0px 15px -4px rgba(0, 0, 0, 0.2);
+  border-radius: 0.3rem;
+}
+
+.MoimDetailBoard-Comm-WriteBox-Header{
+  display: flex;
+  width: 100%;
+  /* flex-direction: column; */
+  border-bottom: 1px solid rgba(0, 0, 0, .08);
+  padding: 1rem;
+}
+
+.MoimDetailBoard-Comm-WriteBox-Header select{
+  /* width: 10%; */
+  flex: 1;
+  border: none;
+  outline: none;
+}
+
+.MoimDetailBoard-Comm-WriteBox-Header input{
+  /* width: 90%; */
+  flex: 7;
+  border: none;
+  outline: none;
+  padding-left: 1rem;
+}
+
+.MoimDetailBoard-Comm-WriteBox-body{
+  width: 100%;
+  display: flex;
+}
+
+.MoimDetailBoard-Comm-WriteBox-body textarea{
+  width: 100%;
+  height: 50vh;
+  resize: none;
+  border: none;
+  outline: none;
+  padding: 0 1rem;
+}
+
+.MoimDetailBoard-Comm-WriteBox-body textarea::-webkit-scrollbar {
+  width: 0.5rem; /* 스크롤바의 너비 설정 */
+  border: none;
+}
+
+.MoimDetailBoard-Comm-WriteBox-body textarea::-webkit-scrollbar-thumb {
+  background-color: #9087d3; /* 스크롤바의 색상 설정 */
+  border-radius: 3px; /* 스크롤바의 모서리 둥글게 설정 */
+  height: 5rem; /* 스크롤바의 길이 */
+}
+
+
+
+.MoimDetailBoard-Comm-WriteBox-btn{
+  margin-top: 1rem;
+  padding: 0.7rem;
+  border-radius: 0.3rem;
+  outline: none;
+  border: none;
+  background-color: rgb(164, 114, 255);
+  color: white;
+}
+
+.MoimDetailBoard-Comm-WriteBox-btn:disabled{
+  background-color: #eaebee;
+  border: 1px solid #eaebee;
+  color: rgb(146, 146, 146);
+}
+
+
+@media screen and (max-width: 760px){
+  .MoimDetailBoard-Comm-WriteBox-Header{
+    flex-direction: column;
+    gap: 1rem;
+    padding: 0.5rem;
+  }
+  .MoimDetailBoard-Comm-WriteBox-Header input{
+    padding-left: 0.3rem;
+  }
+  .MoimDetailBoard-Comm-WriteBox-btn{
+    border-radius: 0;
+  }
+}

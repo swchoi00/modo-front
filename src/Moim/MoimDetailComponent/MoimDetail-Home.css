@@ -75,9 +75,16 @@
 
 
 /* 모임 설명 보여지는 화면 (데이터 O)*/
-.moimDetail-moimContent-home-description-yes{
+.moimDetail-moimContent-home-description-yes {
   padding-left: 0.3rem;
+  width: 100%;
+  display: flex;
 }
+
+.moimDetail-moimContent-home-description-yes pre {
+  white-space: pre-wrap; /* 줄 바꿈을 허용하여 텍스트를 표시 */
+}
+
 
 /* 모임 설명 보여지는 화면 (데이터 X)*/
 .moimDetail-moimContent-home-description-no{
@@ -270,9 +277,12 @@
 
 .moimDetail-moimLeaderIcon{
   position: absolute;
-  width: 55%;
+  width: 50%;
+  bottom: -0.3rem;
+  right: -0.2rem;
+  /* width: 55%;
   top: -0.5rem;
-  left: -0.5rem;
+  left: -0.5rem; */
   /* border: 1px solid blue; */
 }
 

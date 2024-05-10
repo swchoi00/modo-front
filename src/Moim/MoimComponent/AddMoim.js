@@ -4,6 +4,7 @@ import { MoimAdressCity, MoimAdressTown } from './MoimAddress';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../../axiosInstance';
 import MoimPhotoUpload from './MoimPhotoUpload';
+// import { tr } from 'date-fns/locale';
 const AddMoim = ({ userInfo }) =>{
 
   const navigate = useNavigate();
@@ -36,7 +37,8 @@ const AddMoim = ({ userInfo }) =>{
 
   const moim = ['공모전', '디자인', '이직·취업', '운동', '글쓰기', '한잔', '기타'];
 
-
+  // 입력값 공백 여부 확인 스테이트
+  const [spaceCheck, setSpaceCheck] = useState(false);
 
 
  // 지역 정보 처리하는 핸들러
@@ -56,9 +58,16 @@ const AddMoim = ({ userInfo }) =>{
 const addMoimHandler = (e)=>{
   let eDataset = e.target.dataset.field;
   let eValue = e.target.value;
-  
+  const spaceCheck = eValue.trim(); // trim ->공백제거 (스페이스바)
+
+
   if(eDataset === 'moimname'){
-    setCheckMoimName(1);  // [1] 중복확인 필요 [2] 사용가능 [3] 사용불가
+    if(spaceCheck.length===0){  // 모임명 공백만 넣으면 중복확인 버튼 활성화 안되게 함
+      setSpaceCheck(false);
+    }else{
+      setSpaceCheck(true);
+      setCheckMoimName(1);  // [1] 중복확인 필요 [2] 사용가능 [3] 사용불가
+    }
   }
   setAddMoimInfo({...addMoimInfo,  [eDataset] : eValue});
 }
@@ -145,10 +154,14 @@ console.log(moimThumbnail);
                   data-field= 'moimname'
                   onChange={addMoimHandler}
             />
-            <button className={`AddMoim-content-check ${addMoimInfo.moimname.length > 0 && 'AddMoim-content-checkOn'}`} onClick={moimnameCheckHandler}>중복확인</button>
+            <button className={`AddMoim-content-check ${addMoimInfo.moimname.length > 0 && spaceCheck && 'AddMoim-content-checkOn'}`} 
+                    disabled={!spaceCheck || addMoimInfo.moimname.length < 1 }
+                    onClick={moimnameCheckHandler}
+            >중복확인</button>
           </div>
          {
            addMoimInfo.moimname === '' ? '' // 빈칸일 경우 아무런 멘트 없음
+           : spaceCheck === false ? (<span className='AddMoim-check-Message AddMoim-check-MessageNo'>띄어쓰기만 입력하면 안돼요...</span>)
             // [1] 중복확인 필요 [2] 사용가능 [3] 사용불가
            : checkMoimName === 1 ? (<span className='AddMoim-check-Message'>중복확인 버튼을 눌러주세요</span>)
            : checkMoimName === 2 ? (<span className='AddMoim-check-Message'>멋진 모임이름이에요😉</span>) 

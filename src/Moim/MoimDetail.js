@@ -18,16 +18,26 @@ import LoginPzModal from '../Login/LoginPzModalComponent/LoginPzModal';
 import MoimDetailMoimInfoModal from './MoimDetailComponent/MoimDetailInnerComponent/MoimDetail-MoimInfo-Modal';
 
 
-const MoimDetail = ({isAuth, userInfo, setUserInfo, moimInfo, setMoimInfo})=>{
+const MoimDetail = ({isAuth, userInfo, setUserInfo, moimInfo, setMoimInfo,currentPage, setCurrentPage, moimCommAfter,setMoimCommAfter})=>{
 
 
   // APP에서 지정한 url → /moim/detail/:id 변수이름을 'id'로 저장해야 url파라미터 값을 제대로 가져올 수 있음
   const {id} = useParams(); // URL 파라미터인 id 값을 가져옴 (반환되는 값이 객체형태여서 객체 형태인 {id로 받아줘야함})
   const moimId = Number(id);  // 파라미터로 받은 id를 숫자로 변경
+  // const [moimCommAfter, setMoimCommAfter] = useState(false); // 모임 게시글 작성 후 페이지 이동을 위해 사용
 
-  // 모임정보 저장하는 스테이트
-  // const [moimInfo,setMoimInfo] = useState({});
+useEffect(()=>{
+  axiosInstance.get(`/moimGet/${id}`)
+  .then((response)=>{
+    console.log(response.data);
+  }).catch((error)=>{
+    console.log(error);
+  }
+)
 
+})
+
+  
   // 좋아요 상태 저장하는 스테이트
   const [likedMoims, setLikedMoims] = useState(false); // 초기값을 false로 설정
   // [임시]로그인 유저와 모임장이 일치하는지 여부 (😡😡모임장, 매니저, 모임원 여부 있어야 할거 같은데😡😡)
@@ -49,9 +59,10 @@ const MoimDetail = ({isAuth, userInfo, setUserInfo, moimInfo, setMoimInfo})=>{
     .catch((error) => {
         console.log(error);
     });
-    console.log("??");
   },[id,setMoimInfo]);
   
+
+
 
 
   // 모임 좋아요 여부 세팅
@@ -142,6 +153,15 @@ useEffect(()=>{
     setMoimMenuCk(e.target.textContent); // value로 뽑으니까 값이 안나와서 textContent로 변경
   }
 
+  // 상세 페이지 메뉴 바꼈을때마다 화면 최상단으로 바꾸기
+  useEffect(() => {
+    if (!moimCommAfter && window.innerWidth <= 875) {
+      window.scroll(0, 0);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps 
+  }, [moimMenuCk]); // moimCommAfter를 의존성 배열에 포함하면 위치 이동이 안됨....
+  
+
   // 😡임시 모임디테일 페이지 내에서 게시판, 갤러리, 채팅등으로 이동 시 새로고침했을때 페이지 유지를 위함
   useEffect(() => {
     // 컴포넌트가 마운트될 때 로컬 스토리지에서 값을 가져옴
@@ -166,6 +186,12 @@ useEffect(()=>{
     }
   }
 
+  // 모임 게시글 작성 후 페이지 이동을 위해 생성
+  useEffect(()=>{
+    if(moimCommAfter){
+      setMoimMenuCk('게시판');
+    }
+  },[moimCommAfter,setMoimMenuCk]);
 
 
   return(
@@ -280,7 +306,8 @@ useEffect(()=>{
 
       <div className='moimDetail-moimContentBox'>
         {moimMenuCk === '홈' &&  <MoimDetailHome moimInfo={moimInfo} setMoimInfo={setMoimInfo} moimMemberRole={moimMemberRole}/>}
-        {moimMenuCk === '게시판' &&  <MoimDetailBoard/>}
+        {moimMenuCk === '게시판' &&  <MoimDetailBoard moimInfo={moimInfo} currentPage={currentPage} setCurrentPage={setCurrentPage} 
+                                                      moimCommAfter={moimCommAfter} setMoimCommAfter={setMoimCommAfter}/>}
         {moimMenuCk === '갤러리' &&  <MoimDetailGellery/>}
         {moimMenuCk === '채팅' &&  <MoimDetailChat/>}
       </div>
