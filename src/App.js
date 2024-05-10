@@ -28,6 +28,7 @@ import InquiryFormDetail from './Home/FAQ/InquiryForm/InquiryFormDetail';
 import Community from './Community/Community';
 import AddComm from './Community/AddComm';
 import CommDetail from './Community/CommDetail';
+import MoimDetailBoardCommComponent from './Moim/MoimDetailComponent/MoimDetailInnerComponent/MoimDetail-BoardCommComponent';
 
 
 function App() {
@@ -36,6 +37,8 @@ function App() {
   const location = useLocation();
   const [pageNow, setPageNow] = useState(location.pathname);
 
+  // 모임 게시글 작성 후 페이지 이동을 위해 사용
+  const [moimCommAfter, setMoimCommAfter] = useState(false); 
 
   useEffect(() => {
     setPageNow(location.pathname);  
@@ -112,7 +115,10 @@ console.log(userInfo);
           <Route path ='/'element={<Main />}/> 
           <Route path='/moim' element={<Moim isAuth={isAuth} userInfo={userInfo} setUserInfo={setUserInfo}/>}/>
           {/* ↓ 모임상세페이지 URL값 , 나중에 유저정보 보내줘야함*/}
-          <Route path = '/moim/:id' element={<MoimDetail isAuth={isAuth} userInfo={userInfo} setUserInfo={setUserInfo} moimInfo={moimInfo} setMoimInfo={setMoimInfo}/>}/>
+          <Route path = '/moim/:id' element={<MoimDetail isAuth={isAuth} userInfo={userInfo} setUserInfo={setUserInfo} 
+                                                         moimInfo={moimInfo} setMoimInfo={setMoimInfo} currentPage={currentPage} 
+                                                         setCurrentPage={setCurrentPage} moimCommAfter={moimCommAfter} setMoimCommAfter={setMoimCommAfter}/>}/>
+          <Route path = '/moim/:id/write' element={<MoimDetailBoardCommComponent userInfo={userInfo} setMoimCommAfter={setMoimCommAfter}/>}/>                                             
           <Route path='/addMoim' element={<AddMoim userInfo={userInfo}/>}/> 
 
           <Route path ='/faq' element={<Faq userInfo={userInfo} currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
