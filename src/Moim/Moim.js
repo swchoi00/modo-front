@@ -85,7 +85,7 @@ const Moim = ({isAuth, userInfo,setUserInfo}) =>{
   },[]);
 
 
-
+console.log(moimList);
   return(
     <div className="Moim-container"  >
       

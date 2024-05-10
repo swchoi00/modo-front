@@ -89,14 +89,25 @@ const CommReply = ({ isAuth, userInfo, id , setUpdateReplyCnt}) => {
 
   };
 
-  const handleLikeClick = (index) => {
-    const updatedReplies = [...getReply]; // 기존 댓글 목록을 복사합니다.
-    updatedReplies[index].liked = !updatedReplies[index].liked; // 해당 댓글의 추천 상태를 토글합니다.
-    setGetReply(updatedReplies); // 변경된 댓글 목록을 저장합니다.
 
 
-  };
+const handleLikeClick = (rno) => {
+  // getReply 배열을 업데이트합니다. rno가 일치하는 객체만 likedReply를 업데이트합니다.
+  const updatedReplies = getReply.map(reply => 
+    reply.rno === rno ? {
+      ...reply,
+      likedReply: reply.likedReply.includes(userInfo.id) 
+        ? reply.likedReply.filter(id => id !== userInfo.id) 
+        : [...reply.likedReply, userInfo.id]
+    } : reply
+  );
+  // 업데이트된 배열로 상태를 설정합니다.
+  setGetReply(updatedReplies); // -> 이거 말고 제일 하단에 서버에 업데이트 요청하기
+};
 
+
+
+// console.log(getReply);
 
   return (
     <div className='CommReply'>
@@ -181,11 +192,11 @@ const CommReply = ({ isAuth, userInfo, id , setUpdateReplyCnt}) => {
               </div>
               <div>
                 <FontAwesomeIcon
-                  icon={reply.liked ? likedIcon : unLikedIcon}
+                  icon={reply.likedReply.includes(userInfo.id) ? likedIcon : unLikedIcon}
                   size="lg"
-                  style={{ color: reply.liked ? '#8F7BE0' : 'gray' }}
+                  style={{ color: reply.likedReply.includes(userInfo.id) ? '#8F7BE0' : 'gray' }}
                   // onClick={() => setLike(!like)}
-                  onClick={() => handleLikeClick(i)}
+                  onClick={() => handleLikeClick(reply.rno)}
                 />
                 <div className='likeCnt'>{reply.liked ? reply.likedReply.length + 1 : reply.likedReply.length}</div>
               </div>
