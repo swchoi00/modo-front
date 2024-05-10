@@ -26,7 +26,16 @@ const MoimDetail = ({isAuth, userInfo, setUserInfo, moimInfo, setMoimInfo,curren
   const moimId = Number(id);  // 파라미터로 받은 id를 숫자로 변경
   // const [moimCommAfter, setMoimCommAfter] = useState(false); // 모임 게시글 작성 후 페이지 이동을 위해 사용
 
+useEffect(()=>{
+  axiosInstance.get(`/moimGet/${id}`)
+  .then((response)=>{
+    console.log(response.data);
+  }).catch((error)=>{
+    console.log(error);
+  }
+)
 
+})
 
   
   // 좋아요 상태 저장하는 스테이트
