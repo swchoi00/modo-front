@@ -87,10 +87,10 @@ const Community = ({ isAuth, currentPage, setCurrentPage }) => {
           <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,500,1,0" />
 
           <span onClick={() => toggleViewType('list')}>
-            <span class="material-symbols-outlined" style={{ color: clickedIcon === 'list' ? "#8F7BE0" : "#C8C8C8" }}>lists</span>
+            <span className="material-symbols-outlined" style={{ color: clickedIcon === 'list' ? "#8F7BE0" : "#C8C8C8" }}>lists</span>
           </span>
           <span onClick={() => toggleViewType('grid')} >
-            <span class="material-symbols-outlined" style={{ color: clickedIcon === 'grid' ? "#8F7BE0" : "#C8C8C8" }}>grid_view</span>
+            <span className="material-symbols-outlined" style={{ color: clickedIcon === 'grid' ? "#8F7BE0" : "#C8C8C8" }}>grid_view</span>
           </span>
         </div>
 
@@ -174,9 +174,9 @@ const Community = ({ isAuth, currentPage, setCurrentPage }) => {
                       </div>
                     </div>
                     <div className="card-body">
-                      <div>{data.postname.length > 10 ? data.postname.substring(0, 18) + "..." : data.postname}</div>
+                      <div>{data.postname.length > 20 ? data.postname.substring(0, 18) + "..." : data.postname}</div>
                       <div><img src={dog} alt="" /></div>
-                      <div style={{wordWrap: 'break-word'}}>{data.content.length > 20 ? data.content.substring(0, 57) + "..." : data.content}</div>
+                      <div style={{wordWrap: 'break-word'}}>{data.content.length > 60 ? data.content.substring(0, 57) + "..." : data.content}</div>
                     </div>
                     <div className="card-footer">
                       <div className="card-footer inner2">
