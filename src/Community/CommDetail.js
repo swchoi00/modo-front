@@ -11,6 +11,7 @@ const CommDetail = ({ isAuth, userInfo }) => {
   const [update, setUpdate] = useState(false);
   const [replyLegth, setReplyLegth] = useState([]);
   const navigate = useNavigate();
+  const [updateReplyCnt, setUpdateReplyCnt] = useState(false);
 
   useEffect(() => {
     axiosInstance.get(`/comm/${id}`)
@@ -31,6 +32,19 @@ const CommDetail = ({ isAuth, userInfo }) => {
       });
 
   }, [id]);
+
+  useEffect(()=>{
+    if(updateReplyCnt){
+      axiosInstance.get(`/commReply/${id}/list`)
+        .then((response) => {
+          setReplyLegth(response.data); 
+          setUpdateReplyCnt(false);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  },[updateReplyCnt])
 
   const changeHandler = (e) => {
     setUpdateComm({
@@ -117,7 +131,7 @@ console.log(comm)
         <button onClick={() => navigate('/community')}>목록</button>
       </div>
 
-      <CommReply isAuth={isAuth} userInfo={userInfo} id={id} />
+      <CommReply isAuth={isAuth} userInfo={userInfo} id={id} setUpdateReplyCnt={setUpdateReplyCnt}/>
     </div>
   );
 }

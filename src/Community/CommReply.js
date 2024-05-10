@@ -6,12 +6,12 @@ import { faThumbsUp as likedIcon } from '@fortawesome/free-solid-svg-icons';
 import { faThumbsUp as unLikedIcon } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const CommReply = ({ isAuth, userInfo, id }) => {
+const CommReply = ({ isAuth, userInfo, id , setUpdateReplyCnt}) => {
   const [like, setLike] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [postReply, setPostReply] = useState({
     content: '',
-    member: { username: userInfo.username }
+    // member: { username: userInfo.username }
   });
   const [getReply, setGetReply] = useState([]);
   const [update, setUpdate] = useState(false);
@@ -39,15 +39,17 @@ const CommReply = ({ isAuth, userInfo, id }) => {
       .catch((error) => {
         console.log(error);
       });
-  }, [id]);
+  }, [update]);
 
   const handleReplySubmit = () => {
     if (isAuth) {
-      axiosInstance.post(`/commReply/${id}`, postReply)
+      const updateCommReply = {...postReply, member: { username: userInfo.username }}
+      axiosInstance.post(`/commReply/${id}`, updateCommReply)
         .then((response) => {
           alert(response.data);
           setPostReply({ ...postReply, content: '' });
           fetchNewReply(); // 댓글 추가 후 업데이트
+          setUpdateReplyCnt(true);
         })
         .catch((error) => {
           console.log(error);
@@ -95,7 +97,6 @@ const CommReply = ({ isAuth, userInfo, id }) => {
 
   };
 
-  console.log(getReply)
 
   return (
     <div className='CommReply'>
