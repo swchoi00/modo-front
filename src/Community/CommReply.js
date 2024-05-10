@@ -1,154 +1,201 @@
 import { useEffect, useState } from 'react';
 import './CommReply.css';
 import axiosInstance from '../axiosInstance';
-import { useNavigate } from 'react-router-dom';
 import LoginPzModal from '../Login/LoginPzModalComponent/LoginPzModal';
 import { faThumbsUp as likedIcon } from '@fortawesome/free-solid-svg-icons';
-import { faThumbsUp as unLikedIcon} from '@fortawesome/free-regular-svg-icons';
+import { faThumbsUp as unLikedIcon } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const CommReply = ({ isAuth, userInfo, id }) => {
-  const [liked, setLiked] = useState(1);
+const CommReply = ({ isAuth, userInfo, id , setUpdateReplyCnt}) => {
   const [like, setLike] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [postReply, setPostReply] = useState({
     content: '',
-    member: { username: userInfo.username }
+    // member: { username: userInfo.username }
   });
   const [getReply, setGetReply] = useState([]);
-  const [updateReply, setUpdateReply] = useState([]); // 댓글은 update가 랜더링 될때마다 get으로 가져오면 될듯? 없어도될듯 만약 안되면 있어야함
   const [update, setUpdate] = useState(false);
-  const navigate = useNavigate();
 
   const changeHandler = (e) => {
-    setPostReply({
-      ...postReply,
-      content: e.target.value
-    });
-  }
+    const { value } = e.target;
 
-  const recommChangeHandler = () => {
-    setLike(true);
+    if (update) {
+      setGetReply(getReply.map(reply => 
+        reply.rno === update ? { ...reply, content: value } : reply
+      ));
+    } else {
+      setPostReply({
+        ...postReply,
+        content: value
+      });
+    }
   }
-
 
   useEffect(() => {
     axiosInstance.get(`/commReply/${id}/list`)
       .then((response) => {
         setGetReply(response.data);
-        console.log(response.data);
-      }).catch((error) => {
-        console.log(error);
       })
-  }, [id])
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [update]);
 
-  const addNewReply = (reply) => {
-    setGetReply([...getReply, reply]);
-  }
+  const handleReplySubmit = () => {
+    if (isAuth) {
+      const updateCommReply = {...postReply, member: { username: userInfo.username }}
+      axiosInstance.post(`/commReply/${id}`, updateCommReply)
+        .then((response) => {
+          alert(response.data);
+          setPostReply({ ...postReply, content: '' });
+          fetchNewReply(); // 댓글 추가 후 업데이트
+          setUpdateReplyCnt(true);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      setShowLoginModal(true);
+    }
+  };
 
   const fetchNewReply = () => {
     axiosInstance.get(`/commReply/${id}/list`)
       .then((response) => {
         setGetReply(response.data);
-        console.log(response.data);
-      }).catch((error) => {
+      })
+      .catch((error) => {
         console.log(error);
       });
   }
 
-  console.log(postReply);
-  console.log(like);
+  const handleUpdate = (rno) => {
+    const updatedReply = getReply.find(reply => reply.rno === rno);
+
+    if (!updatedReply || !updatedReply.content.trim()) {
+      alert('수정할 내용을 입력해주세요.');
+      return;
+    }
+
+      axiosInstance.put(`/commReply_update/${rno}`, { content: updatedReply.content })
+      .then((response) => {
+        alert(response.data);
+        setUpdate(false);
+        fetchNewReply(); // 수정 후 댓글 목록 업데이트
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+  };
+
+  const handleLikeClick = (index) => {
+    const updatedReplies = [...getReply]; // 기존 댓글 목록을 복사합니다.
+    updatedReplies[index].liked = !updatedReplies[index].liked; // 해당 댓글의 추천 상태를 토글합니다.
+    setGetReply(updatedReplies); // 변경된 댓글 목록을 저장합니다.
+
+
+  };
+
+
   return (
     <div className='CommReply'>
       <div className='postReply'>
         <div className='replyTittle'>댓글</div>
         <div className='writeReply'>
-          <textarea className='replyInput' value={postReply.content} onChange={changeHandler} />
-          <button className='replyBtn' onClick={() => {
-            if (isAuth === true) {
-              axiosInstance.post(`/commReply/${id}`, postReply)
-                .then((response) => {
-                  alert(response.data);
-                  fetchNewReply(); // 댓글이 추가된 후에 새로운 댓글을 가져옴
-                })
-                .catch((error) => {
-                  console.log(error);
-                })
-            } else {
-              setShowLoginModal(true);
-            }
-          }}>등록</button>
+          <textarea
+            className='replyInput'
+            value={postReply.content}
+            onChange={changeHandler}
+          />
+          <button className='replyBtn' onClick={handleReplySubmit}>등록</button>
         </div>
         <div className='getReplyBox'>
-          {
-            getReply.map((reply, i)=>{
-              return(
-                <div className='getReply' key={i}>
-                <div className='getReply-leftBox'>
-                  <div className='nickName-date'>
-                    <img src="/static/media/face.786407e39b657bdecd13bdabee73e67b.svg" />
-                    <div className='nickName'>{reply.member.nickname}</div>
-                    <div className='date'>|  {reply.createDate}</div>
-                  </div>
-                  {
-                    update === true ?
-                      <textarea defaultValue={reply.content} className='Content' style={{ width: "100%", outlineColor: "#8F7BE0" }}></textarea>
-                      :
-                      <div className='Content'>{reply.content}</div>
-                  }
-                  <div className='reply-update-delete'>
-                    {
-                      // userInfo.username === getReply.member ?
-                      update === true ?
-                        <>
-                          <button className='delete' onClick={() => {
-                            // 댓글 수정
-                            axiosInstance.put(`/commReply_update/${reply.rno}`, updateReply)
-                              .then((response) => {
-                                alert(response.data);
-                              })
-                              .catch((error) => {
-                                console.log(error);
-                              })
-                          }}>수정완료</button>
-                          <button className='update' onClick={() => setUpdate(false)}>취소</button>
-                        </>
-                        :
-                        <>
-                          <button className='update' onClick={() => setUpdate(true)}>수정</button>
-                          <button className='delete' onClick={() => {
+          {getReply.map((reply, i) => (
+            <div className='getReply' key={i}>
+              <div className='getReply-leftBox'>
+                <div className='nickName-date'>
+                  <img src="/static/media/face.786407e39b657bdecd13bdabee73e67b.svg" />
+                  <div className='nickName'>{reply.member.nickname}</div>
+                  <div className='date'>| {reply.createDate}</div>
+                </div>
+                {update === reply.rno ? (
+                  <textarea
+                    defaultValue={reply.content}
+                    className='Content'
+                    style={{ width: "100%", outlineColor: "#8F7BE0" }}
+                    onChange={changeHandler}
+                  />
+                ) : (
+                  <div className='Content'>{reply.content}</div>
+                )}
+                <div className='reply-update-delete'>
+                  {userInfo.nickname === reply.member.nickname ? (
+                    update === reply.rno ? (
+                      <>
+                        <button className='delete' onClick={() => handleUpdate(reply.rno)}>수정완료</button>
+                        {/* <button className='delete' onClick={() => {
+                          if (!reply || !reply.content.trim()) {
+                            alert('수정할 내용을 입력해주세요.');
+                            return;
+                          }
+                            axiosInstance.put(`/commReply_update/${reply.rno}`, reply)
+                            .then((response) => {
+                              alert(response.data);
+                              setUpdate(false);
+                              fetchNewReply(); // 수정 후 댓글 목록 업데이트
+                            })
+                            .catch((error) => {
+                              console.log(error);
+                            });
+                      
+                        }}>수정완료</button> */}
+                        <button className='update' onClick={() => setUpdate(false)}>취소</button>
+                      </>
+                    ) : (
+                      <>
+                        <button className='update' onClick={() => setUpdate(reply.rno)}>수정</button>
+                        <button
+                          className='delete'
+                          onClick={() => {
                             // 댓글 삭제
-                            axiosInstance.delete(`/commReply/${reply.rno}`)
+                            axiosInstance
+                              .delete(`/commReply/${reply.rno}`)
                               .then((response) => {
                                 alert(response.data);
-                                setGetReply(getReply.filter(item => item.rno !== reply.rno));
+                                fetchNewReply(); // 댓글 삭제 후 목록 업데이트
                               })
                               .catch((error) => {
                                 console.log(error);
                               });
-                          }}>삭제</button>
-                        </>
-                      // : ''
-                    }
-                  </div>
+                          }}
+                        >
+                          삭제
+                        </button>
+                      </>
+                    )
+                  ) : (
+                    ''
+                  )}
                 </div>
-                <div>
-                  <div>
-                    {/* <FontAwesomeIcon icon={faThumbsUp} size="2xl" style={{ color: '#8F7BE0' }} /> */}
-                  </div>
-                  <FontAwesomeIcon icon={like === true ? likedIcon : unLikedIcon} size="lg" style={{ color: like === true ? '#8F7BE0' : 'gray' }} onClick={() => setLike(!like)} />
-                  <div className='likeCnt'>{like === true ? liked + 1 : liked}</div>
-                </div>
-              </div>      
-              )
-            })      
-          }
+              </div>
+              <div>
+                <FontAwesomeIcon
+                  icon={reply.liked ? likedIcon : unLikedIcon}
+                  size="lg"
+                  style={{ color: reply.liked ? '#8F7BE0' : 'gray' }}
+                  // onClick={() => setLike(!like)}
+                  onClick={() => handleLikeClick(i)}
+                />
+                <div className='likeCnt'>{reply.liked ? reply.likedReply.length + 1 : reply.likedReply.length}</div>
+              </div>
+            </div>
+          ))}
         </div>
-        
-                </div>
-                <LoginPzModal showLoginModal={showLoginModal} setShowLoginModal={setShowLoginModal} />
-              </div >
-  )
-        }
+      </div>
+      <LoginPzModal showLoginModal={showLoginModal} setShowLoginModal={setShowLoginModal} />
+    </div>
+  );
+}
 
-        export default CommReply;
+export default CommReply;
