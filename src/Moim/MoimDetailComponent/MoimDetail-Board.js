@@ -10,6 +10,7 @@ import axiosInstance from '../../axiosInstance';
 
 const MoimDetailBoard = ({moimInfo, currentPage, setCurrentPage, moimCommAfter, setMoimCommAfter}) =>{
   
+  // ..dlkdjlkajslkjaldkjasd
   // 모임 게시판 작성 후 페이지 이동을 위해 추가
   const commBoxRef = useRef(null); // ref 생성
   useEffect(() => {
@@ -76,7 +77,7 @@ const MoimDetailBoard = ({moimInfo, currentPage, setCurrentPage, moimCommAfter, 
     // switch(menu){
     //   case "글 쓰기": console.log("글 쓰기");
     // }
-    // console.log(e.target.textContent);
+    console.log(e.target.textContent);
   }
 
 
