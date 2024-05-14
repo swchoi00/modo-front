@@ -120,9 +120,9 @@ function SignUp() {
 
         const pwMsgElement = document.getElementById("pwMsg");
 
-        console.log("ID:", id);
-        console.log("Value:", value);
-        console.log("pwMsgElement:", pwMsgElement);
+        // console.log("ID:", id);
+        // console.log("Value:", value);
+        // console.log("pwMsgElement:", pwMsgElement);
 
         if (pwMsgElement) {
             if (id === "username") {
@@ -250,7 +250,7 @@ function SignUp() {
         }
     }
 
-
+    console.log(memberData.nickname);
     return (
         <div className="SignUp">
             <h3>모도에 온 것을 환영해요!</h3>

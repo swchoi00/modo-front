@@ -43,9 +43,10 @@ const Header = ( {isAuth, setIsAuth, userInfo, setUserInfo} ) =>{
 
         <div className='nav-menu'>
           <Link className='nav-aTag' to = {"/moim"} >소모임</Link>
-          <Link className='nav-aTag' to = {"/uploadTest"}>멘토링</Link>
+          {/* <Link className='nav-aTag' to = {"/uploadTest"}>멘토링</Link> */}
           <Link className='nav-aTag' to = {"/community"}>커뮤니티</Link>
           <Link className='nav-aTag' to = {"/faq"}>FAQ</Link>
+          <Link className='nav-aTag' to = {"/faq"}>공지사항</Link>
         </div>
 
         <div className='nav-searchBar'>        
@@ -112,17 +113,17 @@ const Header = ( {isAuth, setIsAuth, userInfo, setUserInfo} ) =>{
           <hr/>
 
           <div className='headerSide-menu-inner2' onClick={handleMenuOpen}> {/* 아래 메뉴 클릭했을때 사이드 메뉴바 들어가게 하기 위해서 */}
-            <Link to = {"/"}><FontAwesomeIcon icon={faSearch} style={{color:'#575757', fontSize: 'x-large'}}/></Link>
+            {/* <Link to = {"/"}><FontAwesomeIcon icon={faSearch} style={{color:'#575757', fontSize: 'x-large'}}/></Link> */}
             <Link to = {"/moim"}>소모임</Link>
-            <Link to = {"/"}>멘토링</Link>
+            {/* <Link to = {"/"}>멘토링</Link> */}
             <Link to = {"/community"}>커뮤니티</Link>
             <Link to = {"/faq"}>FAQ</Link>
+            <Link to = {"/faq"}>공지사항</Link>
           </div>
           
-          {/* 🟡🟡🟡🟡디자인 보완 필요🟡🟡🟡🟡 */}
           {
             isAuth &&
-            <button className='' onClick={logoutHandler}>로그아웃</button>
+            <button className='headerSide-login' onClick={logoutHandler}>로그아웃</button>
           }
           
         </div>

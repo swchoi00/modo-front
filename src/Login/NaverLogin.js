@@ -23,7 +23,7 @@ function NaverLogin ( {setIsAuth, setUserInfo} ) {
                 sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
                 setUserInfo(response.data.member[0]);
                 setIsAuth(true);
-                navigate('/');
+                navigate(-2);
             }
         }).catch(error => {
             console.log(error);

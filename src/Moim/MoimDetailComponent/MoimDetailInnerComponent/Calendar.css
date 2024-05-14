@@ -269,3 +269,15 @@
   background-color: #faf8f8;
 }
 
+
+@media screen and (max-width: 875px){
+  .react-calendar{
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 500px){
+  .react-calendar{
+    padding: 0;
+  }
+}

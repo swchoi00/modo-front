@@ -298,7 +298,7 @@
   }
   .moimDetail-headerBox{
     position: sticky;
-    top: 3.77rem;
+    top: 3.3rem;
     z-index: 10;
     background-color: white;
    }
@@ -306,7 +306,7 @@
     margin: 0;
     padding: 0.5rem 0 0 0;
     position: sticky;
-    top: 6rem;
+    top: 5.53rem;
     z-index: 10;
     background-color: white;
     /* border: 1px solid red; */
@@ -326,5 +326,11 @@
 @media screen and (min-width: 876px){ /* 875가 되기 전까지는 모바일용 방장 프로필 안보임 */
   .moimDetail-moimInfo-text3-box2, .moimDetail-moimMenu-box-moblie{
     display: none;
+  }
+}
+
+@media screen and (max-width: 500px){
+  .moimDetail-moimContentBox{
+    overflow-x: hidden;
   }
 }
