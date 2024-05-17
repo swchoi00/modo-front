@@ -71,9 +71,10 @@ const Moim = ({isAuth, userInfo,setUserInfo}) =>{
     setMoimSortTypeCheck(sort);
   }
   
-  //⭐⭐모임 값 받아오기 테스트⭐⭐
-  const [moimList, setMoimList] = useState([]); // 모임 리스트 저장 스테이트
-
+  // 모임 리스트 저장 스테이트
+  const [moimList, setMoimList] = useState([]); 
+  
+  //모임 리스트 받아오는 이펙트
   useEffect (()=>{
     axiosInstance.get("/moimList")
     .then((response) => {
@@ -85,7 +86,6 @@ const Moim = ({isAuth, userInfo,setUserInfo}) =>{
   },[]);
 
 
-console.log(moimList);
   return(
     <div className="Moim-container"  >
       

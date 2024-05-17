@@ -94,7 +94,7 @@ const MoimDetailBoard = ({moimInfo, currentPage, setCurrentPage, moimCommAfter, 
     <div className="moimDetailBoard-container" onClick={handleOutsideClick}>
       <div className='moimDetailBoard-schedule-Box'>
         <div className="moimDetailBoard-header">
-            <h6>모임일정 <span style={{color: 'salmon'}}>(나중에 여기 리스트로 보기 버튼 만들어야함)</span></h6>
+            <h6>모임일정 <span style={{color: 'salmon'}}>(리스트로 보기 버튼 만들어)</span></h6>
             {/* 😡임시😡 ↓ 모임장만 보이게 해야함 */}
             <FontAwesomeIcon icon={faEllipsisVertical} size="lg"/>
         </div>

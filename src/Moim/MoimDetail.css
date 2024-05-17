@@ -113,16 +113,41 @@
   margin-right: 0.5rem;
 }
 
-.moimDetail-moimInfo-textq1-RightBtn{
+
+.moimDetail-moimInfo-text1-RightBtn{
   margin-left: auto;
-  display: flex;
-  gap: 1rem;
-  /* border: 1px solid salmon; */
+  padding-left: 1rem;
+  cursor: pointer;
+  position: relative;
 }
 
-.moimDetail-moimInfo-text1-setting, .moimDetail-moimInfo-text1-share{
+/* 모임 설정 메뉴 */
+.moimDetail-moimInfo-text1-RightBtn-icon{
+  background-color: white;
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  border-radius: 0.3rem;
+  box-shadow: 0px 0px 8px -1px rgba(0, 0, 0, 0.2);
+  /* width: auto; */
+  align-items: center;
+}
+
+.moimDetail-moimInfo-text1-RightBtn-icon li{
+  width: 6.5rem;
+  padding: 0.5rem 0;
   cursor: pointer;
 }
+.moimDetail-moimInfo-text1-RightBtn-icon li:hover{
+  background-color: #F2EEF8;
+}
+
+/* .moimDetail-moimInfo-text1-setting, .moimDetail-moimInfo-text1-share{
+  cursor: pointer;
+} */
 
 .moimDetail-moimInfo-text1-like{
   cursor: pointer;
@@ -233,7 +258,6 @@
 
 
 
-
 @media screen and (max-width: 1069px){
   .MoimDetail-container{
     width: 100%;
@@ -248,6 +272,9 @@
 
 
 @media screen and (max-width: 875px){
+  .moimDetail-moimInfo-block{
+    height: 2rem !important;
+  }
   .moimDetail-moimInfoBox{
     flex-direction: column;
   }
@@ -260,7 +287,7 @@
   } 
   .moimDetail-moimInfo-textBox{
     width: 100%;
-    padding: 1.5rem;
+    padding: 1rem;
     gap: 1rem;
   }
   .moimDetail-moimInfo-text5-Box{
@@ -298,7 +325,7 @@
   }
   .moimDetail-headerBox{
     position: sticky;
-    top: 3.77rem;
+    top: 3.3rem;
     z-index: 10;
     background-color: white;
    }
@@ -306,7 +333,7 @@
     margin: 0;
     padding: 0.5rem 0 0 0;
     position: sticky;
-    top: 6rem;
+    top: 5.53rem;
     z-index: 10;
     background-color: white;
     /* border: 1px solid red; */
@@ -321,10 +348,17 @@
   .moimDetail-moimMenu-notShow{ /*모임메뉴가 홈이 아니면 모임 기본 정보 안보여줌*/
     display: none;
   }
+
 }
 
 @media screen and (min-width: 876px){ /* 875가 되기 전까지는 모바일용 방장 프로필 안보임 */
   .moimDetail-moimInfo-text3-box2, .moimDetail-moimMenu-box-moblie{
     display: none;
+  }
+}
+
+@media screen and (max-width: 500px){
+  .moimDetail-moimContentBox{
+    overflow-x: hidden;
   }
 }

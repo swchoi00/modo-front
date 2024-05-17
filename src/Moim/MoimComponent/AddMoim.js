@@ -12,8 +12,9 @@ const AddMoim = ({ userInfo }) =>{
 
   // 생성 모임 정보 담아두는 스테이트
   const [addMoimInfo, setAddMoimInfo] = useState({
-      leaderid : userInfo.id,
-      leadername: userInfo.nickname,
+      // leaderid : userInfo.id,
+      // leadername: userInfo.nickname,
+      leader : {id: userInfo.id},
       moimname: '',
       category : '',
       city: '',

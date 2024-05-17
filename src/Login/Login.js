@@ -47,7 +47,7 @@ function Login( {userInfo, setUserInfo, setIsAuth} ) {
             sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
             setUserInfo(response.data.member[0]);
             setIsAuth(true);
-            navigate('/');
+            navigate(-1);
 
             
         }))

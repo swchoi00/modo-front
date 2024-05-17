@@ -4,7 +4,8 @@ import { faHouse } from '@fortawesome/free-solid-svg-icons';
 import { faUserGroup } from '@fortawesome/free-solid-svg-icons';
 import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
 import { faList } from '@fortawesome/free-solid-svg-icons';
-import { faBookOpen } from '@fortawesome/free-solid-svg-icons';
+// import { faBookOpen } from '@fortawesome/free-solid-svg-icons';
+import { faSearch } from '@fortawesome/free-solid-svg-icons'; 
 import { Link } from 'react-router-dom';
 
 
@@ -23,12 +24,20 @@ const MoblieTabBar = ({pageNow})=>{
         <div className='TabBar-title'>소모임</div>
       </Link>
 
+      {/* 
+      멘토링
       <Link className={`TabBar-box ${pageNow === '/mento' ? 'tabBar-active' : ''}`} to={'/'}>
         <span><FontAwesomeIcon className='TabBar-img' icon={faBookOpen} /></span>
         <div className='TabBar-title'>멘토링</div>
+      </Link> */}
+
+      
+      <Link className={`TabBar-box ${pageNow === '/search' ? 'tabBar-active' : ''}`} to={'/search'}>
+        <span><FontAwesomeIcon className='TabBar-img' icon={faSearch} /></span>
+        <div className='TabBar-title'>검색</div>
       </Link>
 
-      <Link className={`TabBar-box ${pageNow === '/frBoard' ? 'tabBar-active' : ''}`} to={'/'}>
+      <Link className={`TabBar-box ${pageNow === '/frBoard' ? 'tabBar-active' : ''}`} to={'/community'}>
         <span><FontAwesomeIcon className='TabBar-img' icon={faList} /></span>
         <div className='TabBar-title'>자유게시판</div>
       </Link>

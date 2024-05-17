@@ -1,11 +1,11 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './MoimDetail.css';
 import { faList} from '@fortawesome/free-solid-svg-icons';
-import { faArrowUpFromBracket as share} from '@fortawesome/free-solid-svg-icons';
-import { faGear as setting} from '@fortawesome/free-solid-svg-icons';
+// import { faArrowUpFromBracket as share} from '@fortawesome/free-solid-svg-icons';
+import { faEllipsisVertical} from '@fortawesome/free-solid-svg-icons';
 import { faHeart as fullHeart} from '@fortawesome/free-solid-svg-icons'; // 실선으로 된 하트 아이콘
 import { faHeart as lineHeart} from '@fortawesome/free-regular-svg-icons'; // 비어있는 하트 아이콘
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import face from '../HomeComponent/ReviewComponent/face.svg';
 import { Carousel } from 'react-bootstrap';
 import MoimDetailHome from './MoimDetailComponent/MoimDetail-Home';
@@ -16,7 +16,7 @@ import { useParams } from 'react-router-dom';
 import axiosInstance from '../axiosInstance';
 import LoginPzModal from '../Login/LoginPzModalComponent/LoginPzModal';
 import MoimDetailMoimInfoModal from './MoimDetailComponent/MoimDetailInnerComponent/MoimDetail-MoimInfo-Modal';
-
+import { is, tr } from 'date-fns/locale';
 
 const MoimDetail = ({isAuth, userInfo, setUserInfo, moimInfo, setMoimInfo,currentPage, setCurrentPage, moimCommAfter,setMoimCommAfter})=>{
 
@@ -26,24 +26,13 @@ const MoimDetail = ({isAuth, userInfo, setUserInfo, moimInfo, setMoimInfo,curren
   const moimId = Number(id);  // 파라미터로 받은 id를 숫자로 변경
   // const [moimCommAfter, setMoimCommAfter] = useState(false); // 모임 게시글 작성 후 페이지 이동을 위해 사용
 
-useEffect(()=>{
-  axiosInstance.get(`/moimGet/${id}`)
-  .then((response)=>{
-    console.log(response.data);
-  }).catch((error)=>{
-    console.log(error);
-  }
-)
-
-})
-
   
   // 좋아요 상태 저장하는 스테이트
   const [likedMoims, setLikedMoims] = useState(false); // 초기값을 false로 설정
-  // [임시]로그인 유저와 모임장이 일치하는지 여부 (😡😡모임장, 매니저, 모임원 여부 있어야 할거 같은데😡😡)
+  // 로그인 유저와 모임장이 일치하는지 여부 (😡😡모임장, 매니저, 모임원 여부 있어야 할거 같은데😡😡)
   const [moimMemberRole, setMoimMemberRole] = useState(null);
-  // 🔥🔥🔥오류파티🔥🔥🔥모임멤버 리스트
-  // const [moimMemberList,setMoimMemberList] = useState(null);
+  // 모임멤버 리스트
+  const [moimMemberList,setMoimMemberList] = useState(null);
   // 모임 기본 정보 수정하는 모달 
   const [showMoimInfoSettingModal, setShowMoimInfoSettingModal] = useState(false);
   // 로그인 안했을때 모달창 
@@ -59,11 +48,34 @@ useEffect(()=>{
     .catch((error) => {
         console.log(error);
     });
-  },[id,setMoimInfo]);
+  },[id,setMoimInfo,isAuth]);
   
 
+//모임 멤버 가져오는거
+useEffect(()=>{
+  axiosInstance.get(`/getMoimMemberList/${id}`)
+  .then((response)=>{
+    setMoimMemberList(response.data);
+  }).catch((error)=>{
+    console.log(error);
+  }
+)
+},[id,setMoimMemberList]);
 
-
+ // 모임 가입 핸들러
+ const joinMoimHandler =()=>{
+  if(isAuth && userInfo){ //(로그인 유무, 유저 정보 확인)
+    axiosInstance.post(`/joinMoim/${id}`, userInfo.id)
+    .then((response)=>{
+      setMoimMemberList(response.data); // userinfo 컴포넌트에 member 정보 업데이트
+      window.alert("가입완료!");
+    }).catch((error)=>{
+      console.log(error);
+    });
+  }else{
+    setShowLoginModal(true);
+  }
+}
 
   // 모임 좋아요 여부 세팅
 useEffect(()=>{
@@ -79,43 +91,23 @@ useEffect(()=>{
 },[userInfo,isAuth, moimId]);
 
 
+// 모임 role확인
 useEffect(()=>{
-  if(isAuth){
-    if(moimInfo.leaderid === userInfo.id){
-      setMoimMemberRole("leader");
-    }
+  const matchingMember = moimMemberList?.find(memberInfo => memberInfo.member.id === userInfo.id);
+  if(!matchingMember){ //로그인 안하거나, 회원이 아닌 경우
+    setMoimMemberRole('notMember');
+    return;
   }
-},[isAuth, moimInfo.leaderid ,userInfo.id])
+
+  switch(matchingMember.memberRole) {
+    case 'leader' : setMoimMemberRole('leader'); break;
+    case 'manager' : setMoimMemberRole('manager'); break;
+    case 'member' : setMoimMemberRole('member'); break;
+  }
+},[isAuth, userInfo, moimMemberList]);
 
 
-
-
-// 모임 멤버 받아오는 이펙트
-// useEffect(()=>{
-//   axiosInstance.get(`/getMoimMemberList/${moimId}`)
-//   .then((response)=>{
-//     setMoimMemberList(response.data);
-
-//     if(isAuth){ // 로그인 상태 확인
-//        const userMember = response.data.find(member => member.memberno === userInfo.id); // find() 메소드를 사용하여 로그인한 유저의 ID와 일치하는 멤버 찾기
-//        if (userMember) { // 모임 멤버 리스트에 유저 ID가 있으면
-//          // userMember에서 memberRole을 설정
-//          setMoimMember(userMember.memberRole);
-//        } else { // 로그인은 했지만, 모임멤버가 아닌 경우
-//          setMoimMember('noMember');
-//        }
-//      } else {
-//        setMoimMember(null);
-//      }
-//     console.log(response.data);
-//   }).catch((error)=>{
-//     console.log(error);
-//   })
-// },[moimMemberList, isAuth, userInfo, moimId]);
-
-
-
-
+// console.log(moimMemberRole);
 
 
   //  ⭐모임 좋아요 버튼 핸들러
@@ -180,11 +172,8 @@ useEffect(()=>{
     };
   }, [moimMenuCk]);
 
-  const CkLoginHandler =()=>{
-    if(!isAuth){
-      setShowLoginModal(true);
-    }
-  }
+
+ 
 
   // 모임 게시글 작성 후 페이지 이동을 위해 생성
   useEffect(()=>{
@@ -194,8 +183,64 @@ useEffect(()=>{
   },[moimCommAfter,setMoimMenuCk]);
 
 
+  // 모임기본 메뉴
+  const leaderMoimSettingMenu = ['모임 정보 수정', '모임 링크 복사', '모임 삭제'];
+  const memberMoimSettingMenu = ['모임 링크 복사','모임 탈퇴'];
+  const settingMenuRef = useRef(null); //  settingMenu 요소를 참조
+
+  
+  // 모임기본 메뉴 아이콘 눌렀는지 여부
+  const [moimSettingIcon, setMoimSettingIcon] = useState(false);
+  useEffect(()=>{ //로그인 풀리면 닫으려고 추가
+    if(!isAuth){setMoimSettingIcon(false);}
+  },[isAuth]);
+
+  // settingMenu 외의 영역을 클릭할 때 settingMenu를 닫기
+  const handleOutsideClick = (e) => {
+    if (!settingMenuRef.current || !settingMenuRef.current.contains(e.target)) {
+      setMoimSettingIcon(false);
+    }
+  };
+
+  const MoimSettingMenuHandler = (e)=>{ 
+    let menu =e.target.textContent;
+    switch(menu){
+      case "모임 정보 수정": setShowMoimInfoSettingModal(true);
+      case "모임 링크 복사": 
+        navigator.clipboard.writeText(window.location.href)
+          .then(() => {
+            alert("링크가 클립보드에 복사되었습니다."); 
+          })
+          .catch(err => {
+            console.error("링크 복사에 실패하였습니다.", err); 
+          });
+      break;
+      case "모임 삭제" : 
+        const deleteMoim = window.confirm("정말 모임을 삭제하시겠습니까?");
+        // if(deleteMoim){
+        //   여기에 모임 삭제 서버 요청하기
+        // }
+      break;
+      case "모임 탈퇴" : 
+        const quitMoim = window.confirm("정말 모임을 탈퇴하시겠습니까?");
+        if(quitMoim){
+          const moimMemberId = moimMemberList?.find(memberInfo => memberInfo.member.id === userInfo.id).id;
+          axiosInstance.delete(`/quitMoim/${moimMemberId}`)
+          .then((response)=>{
+            alert(response.data);
+            setMoimMemberList(prevList => prevList.filter(member => member.id !== moimMemberId)); // moimMemberList안에 있는 id값과 일치하는거 제거
+            // window.location.reload(); // 페이지 새로고침 (그래야 탈퇴반영됨)
+          }).catch((error)=>{
+            console.log(error);
+          });
+        }
+      break;
+    }
+  }
+
+  console.log(moimMemberList);
   return(
-    <div className='MoimDetail-container'>
+    <div className='MoimDetail-container' onClick={handleOutsideClick}>
 
       <div className='moimDetail-headerBox'>
         <div className='moimDetail-header-beforeBtn'>{/* 목록 */}
@@ -240,19 +285,33 @@ useEffect(()=>{
         <div className='moimDetail-moimInfo-textBox'>          
           <div className='moimDetail-moimInfo-text1-box'>
             <div className='moimDetail-moimInfo-text1-title'>{moimInfo.moimname}</div>
-            <div className='moimDetail-moimInfo-text1-like' onClick={handleMoimLikeBtn}> {/* 😡임시😡 */}
+            <div className='moimDetail-moimInfo-text1-like' onClick={handleMoimLikeBtn}>
               <FontAwesomeIcon icon={likedMoims ? fullHeart : lineHeart}  size='lg' style={{ color: likedMoims ? '#ff2727' : 'gray' }}/>
             </div>
-            <div className='moimDetail-moimInfo-textq1-RightBtn' onClick={()=>setShowMoimInfoSettingModal(true)}>
-              { moimMemberRole === 'leader' &&
-              <div className='moimDetail-moimInfo-text1-setting'>
-                <FontAwesomeIcon icon={setting}  size='lg' style={{ color: 'gray'}}/>
+            {moimMemberRole !== 'notMember' &&
+              <div className='moimDetail-moimInfo-text1-RightBtn'
+                  onClick={(e)=>{e.stopPropagation(); setMoimSettingIcon(!moimSettingIcon);}}             
+              >
+                <FontAwesomeIcon 
+                  icon={faEllipsisVertical} 
+                  size="lg" 
+                />
+                  
+                  { 
+                    moimSettingIcon &&
+                    <div className='moimDetail-moimInfo-text1-RightBtn-icon' ref={settingMenuRef}>
+                      {
+                        (moimMemberRole === 'leader' ? leaderMoimSettingMenu : memberMoimSettingMenu).map((menu) => (
+                          <li onClick={MoimSettingMenuHandler} 
+                              style={{color: `${menu==='모임 삭제' || menu ==='모임 탈퇴' ? 'red' : ''}`}} 
+                              key={menu}
+                          >{menu}</li>
+                        ))
+                      }
+                    </div>
+                  }
               </div>
-              }
-              <div className='moimDetail-moimInfo-text1-share'>
-               <FontAwesomeIcon icon={share}  size='lg' style={{ color: 'gray'}}/>
-              </div>
-            </div>
+            }
           </div>
           <div className='moimDetail-moimInfo-text2-shortinfo'>{moimInfo.introduction}</div>
           <div className='moimDetail-moimInfo-text3-box'>
@@ -261,12 +320,11 @@ useEffect(()=>{
               {/* 추후 프로필 사진 저장되어 있는 url div로 연결하기
               backgroundImage: `url(https://raw.githubusercontent.com/Jella-o312/modo-image/main/moim-img/${data.id}.png)` */}
             </div>
-            {/* ↓ 이거 어떻게 해야하나.....닉네임으로 떠야하는디 */}
-            <div className='moimDetail-moimInfo-text3-leaderName'> 모임장 <span>{moimInfo.leadername}</span></div>
+            <div className='moimDetail-moimInfo-text3-leaderName'> 모임장 <span>{moimInfo?.leader?.nickname}</span></div>
           </div>
           <div className='moimDetail-moimInfo-text4-Box'>
             <div className='moimDetail-moimInfo-text4-location'>{moimInfo.city}·{moimInfo.town}</div>
-            <div className='moimDetail-moimInfo-text4-member'>34 명</div>
+            <div className='moimDetail-moimInfo-text4-member'>{moimMemberList?.length} 명</div>
           </div>
           <div className='moimDetail-moimInfo-text5-Box'>
            {
@@ -281,16 +339,15 @@ useEffect(()=>{
               {/* 추후 프로필 사진 저장되어 있는 url div로 연결하기
               backgroundImage: `url(https://raw.githubusercontent.com/Jella-o312/modo-image/main/moim-img/${data.id}.png)` */}
             </div>
-            {/* ↓ 이거 어떻게 해야하나.....닉네임으로 떠야하는디 */}
             <div className='moimDetail-moimInfo-text3-leaderName'> 모임장 <span>{moimInfo.leadername}</span></div>
           </div>
-          {/* 😡여기에 가입여부 가리는거 필요😡 */}
-          { moimMemberRole === null && 
+          { !moimMemberList?.some(data => data.member.id === userInfo.id) ? // moimMemberList안에 있는 member 객체 안에 있는id와 유저 id가 있는지 확인
             <div className='moimDetail-moimInfo-joinBtn-Box'>
-              <div className='moimDetail-moimInfo-joinBtn' onClick={CkLoginHandler} style={{cursor:'pointer'}}>가입하기</div>
+              <div className='moimDetail-moimInfo-joinBtn' onClick={joinMoimHandler} style={{cursor:'pointer'}}>가입하기</div>
             </div>
+            :
+            <div className='moimDetail-moimInfo-block' style={{height: '4rem'}}/>
           }
-          {/* { moimMember === 'leader' && <div className='moimDetail-moimInfo-settingBtn'>운영중인 모임</div>} */}
         </div>
       </div>
 
@@ -305,7 +362,8 @@ useEffect(()=>{
       </div>
 
       <div className='moimDetail-moimContentBox'>
-        {moimMenuCk === '홈' &&  <MoimDetailHome moimInfo={moimInfo} setMoimInfo={setMoimInfo} moimMemberRole={moimMemberRole}/>}
+        {moimMenuCk === '홈' &&  <MoimDetailHome moimInfo={moimInfo} setMoimInfo={setMoimInfo} moimMemberRole={moimMemberRole} 
+                                                 moimMemberList={moimMemberList} setMoimMemberList={setMoimMemberList}/>}
         {moimMenuCk === '게시판' &&  <MoimDetailBoard moimInfo={moimInfo} currentPage={currentPage} setCurrentPage={setCurrentPage} 
                                                       moimCommAfter={moimCommAfter} setMoimCommAfter={setMoimCommAfter}/>}
         {moimMenuCk === '갤러리' &&  <MoimDetailGellery/>}

@@ -9,7 +9,7 @@ const CommDetail = ({ isAuth, userInfo }) => {
   const [comm, setComm] = useState({});
   const [updateComm, setUpdateComm] = useState({});
   const [update, setUpdate] = useState(false);
-  const [replyLegth, setReplyLegth] = useState([]);
+  const [replyLength, setReplyLength] = useState([]);
   const navigate = useNavigate();
   const [updateReplyCnt, setUpdateReplyCnt] = useState(false);
 
@@ -23,13 +23,13 @@ const CommDetail = ({ isAuth, userInfo }) => {
         console.log(error);
       });
 
-      axiosInstance.get(`/commReply/${id}/list`)
-      .then((response) => {
-        setReplyLegth(response.data); 
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      // axiosInstance.get(`/commReply/${id}/list`)
+      // .then((response) => {
+      //   setReplyLength(response.data); 
+      // })
+      // .catch((error) => {
+      //   console.log(error);
+      // });
 
   }, [id]);
 
@@ -37,7 +37,7 @@ const CommDetail = ({ isAuth, userInfo }) => {
     if(updateReplyCnt){
       axiosInstance.get(`/commReply/${id}/list`)
         .then((response) => {
-          setReplyLegth(response.data); 
+          setReplyLength(response.data); 
           setUpdateReplyCnt(false);
         })
         .catch((error) => {
@@ -85,8 +85,8 @@ console.log(comm)
           <div className='view-reply'>
             <div>조회수 {comm.views}</div>
             <div style={{ margin: '0 7px', color: '#e6e6e6' }}>|</div>
-            <div>댓글 {replyLegth ? replyLegth.length : 0}</div>
-            {/* <div>댓글 {comm.replies ? comm.replies.length : 0}</div> */}
+
+            <div>댓글 {comm.replies ? comm.replies.length : 0}</div>
           </div>
         </div>
         <div className='post-delete-update'>
@@ -128,7 +128,7 @@ console.log(comm)
       </div>
 
       <div className='postBtn'>
-        <button onClick={() => navigate('/community')}>목록</button>
+        <button onClick={() => navigate(-1)}>목록</button>
       </div>
 
       <CommReply isAuth={isAuth} userInfo={userInfo} id={id} setUpdateReplyCnt={setUpdateReplyCnt}/>

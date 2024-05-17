@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { Form, Modal } from 'react-bootstrap';
+import axiosInstance from '../../../axiosInstance';
 
 
 const MoimDetailBoardSheduleModal = ({addScheduleModal,setAddScheduleModal, Ckdate, moment})=>{
@@ -21,13 +22,13 @@ const endScheduleModal = () => {
   setTimePickerIsOpen(false); // 시작시간 오픈여부
   setEndTimePickerIsOpen(false);  //종료시간 오픈여부
   setAddScheduleInfo({
-    moimId: 12, // 😡😡모임번호 props로 받아서 추가되어야함
+    Id: 1, // 😡😡모임번호 props로 받아서 추가되어야함
     scheduleName: '',
     scheduleStartDate: '',
     scheduleEndDate: '',
     scheduleStartTime: '',
     scheduleEndTime: '',
-    scheduleAdress: '',
+    scheduleAddress: '',
     scheduleCost: '',
     scheduleMaxMember: '',
     scheduleDescription: ''
@@ -38,7 +39,7 @@ const endScheduleModal = () => {
 // 모임 일정 정보 담는 스테이트
 // 시간은 나중에 한번에 합쳐서 저장해야할듯
 const [addScheduleInfo, setAddScheduleInfo] = useState({
-  moimId : 12, // 😡😡모임번호 props로 받아서 추가되어야함
+  Id : 1, // 😡😡모임번호 props로 받아서 추가되어야함
   scheduleName: '',
   scheduleStartDate : '',
   scheduleEndDate : '',  
@@ -193,10 +194,21 @@ const addScheduleSubmitCheck = Object.entries(addScheduleInfo).every(([key, valu
 
 
 const mimi= ()=>{
-  window.alert('서버랑 연결해야되유');
+  // window.alert('서버랑 연결해야되유');
+  const id = addScheduleInfo.Id;
+  console.log("요청 아이디" + id);
+
+  axiosInstance.post(`/createMoimSchedule/${id}`, addScheduleInfo)
+      .then((response) => {
+        alert(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 }
 
 // console.log(addScheduleInfo.scheduleEndDate + '😡');
+console.log(addScheduleInfo);
 
 
   return(

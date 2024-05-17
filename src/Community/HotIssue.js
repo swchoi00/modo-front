@@ -10,7 +10,7 @@ const HotIssue = ({ hotIssues, typeColors }) => {
         <div key={i} className="top5 td" onClick={() => navigate(`/comm/${issue.postno}`)}>
           <li className="no">{issue.postno}</li>
           <li className="category" style={{ color: typeColors[issue.categories], fontWeight: 'bold' }}>[{issue.categories}]</li>
-          <li className="title postTitle"><img src={hotImage} alt="hot" className="hot-icon"/>{issue.postname.length > 20 ? issue.postname.substring(0, 20) + "..." : issue.postname} [{issue.views}]</li>
+          <li className="title postTitle"><img src={hotImage} alt="hot" className="hot-icon"/>{issue.postname.length > 20 ? issue.postname.substring(0, 20) + "..." : issue.postname} [{issue.replies.length}]</li>
           <li className="author">{issue.author}</li>
           <li className="date">{issue.uploadDate}</li>
           <li className="view">{issue.views}</li>

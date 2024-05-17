@@ -134,7 +134,12 @@ const [addScheduleModal, setAddScheduleModal] = useState(false);
             <div className="moimDetail-calendar-schedule-header">
               {/* 클릭한 날짜 (추후에 오늘을 기본으로 바꿔야할듯, 혹은 날짜를 클릭해주세요나)*/}
               <span>{moment(date).format("M월 D일 (ddd)", 'ko')}</span> 
-              <div>{moimScheduleDday(date) === 0 ? 'Today' : `D-${moimScheduleDday(date)}`}</div>
+              {/* <div>{moimScheduleDday(date) === 0 ? 'Today' : `D-${moimScheduleDday(date)}`}</div> */}
+              <div>
+                {moimScheduleDday(date) === 0 ? 'Today' :
+                moimScheduleDday(date) < 0 ? `D+${Math.abs(moimScheduleDday(date))}` : 
+                `D-${moimScheduleDday(date)}`}
+              </div>
             </div>
 
             <div className="moimDetail-calendar-schedule-body">
