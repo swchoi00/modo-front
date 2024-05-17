@@ -6,12 +6,10 @@ import { faThumbsUp as likedIcon } from '@fortawesome/free-solid-svg-icons';
 import { faThumbsUp as unLikedIcon } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const CommReply = ({ isAuth, userInfo, id , setUpdateReplyCnt}) => {
-  const [like, setLike] = useState(false);
+const CommReply = ({ isAuth, userInfo, id, setUpdateReplyCnt }) => {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [postReply, setPostReply] = useState({
-    content: '',
-    // member: { username: userInfo.username }
+    content: ''
   });
   const [getReply, setGetReply] = useState([]);
   const [update, setUpdate] = useState(false);
@@ -20,7 +18,7 @@ const CommReply = ({ isAuth, userInfo, id , setUpdateReplyCnt}) => {
     const { value } = e.target;
 
     if (update) {
-      setGetReply(getReply.map(reply => 
+      setGetReply(getReply.map(reply =>
         reply.rno === update ? { ...reply, content: value } : reply
       ));
     } else {
@@ -39,11 +37,11 @@ const CommReply = ({ isAuth, userInfo, id , setUpdateReplyCnt}) => {
       .catch((error) => {
         console.log(error);
       });
-  }, [update]);
+  }, [id]);
 
   const handleReplySubmit = () => {
     if (isAuth) {
-      const updateCommReply = {...postReply, member: { username: userInfo.username }}
+      const updateCommReply = { ...postReply, member: { username: userInfo.username } }
       axiosInstance.post(`/commReply/${id}`, updateCommReply)
         .then((response) => {
           alert(response.data);
@@ -77,7 +75,7 @@ const CommReply = ({ isAuth, userInfo, id , setUpdateReplyCnt}) => {
       return;
     }
 
-      axiosInstance.put(`/commReply_update/${rno}`, { content: updatedReply.content })
+    axiosInstance.put(`/commReply_update/${rno}`, { content: updatedReply.content })
       .then((response) => {
         alert(response.data);
         setUpdate(false);
@@ -91,23 +89,63 @@ const CommReply = ({ isAuth, userInfo, id , setUpdateReplyCnt}) => {
 
 
 
-const handleLikeClick = (rno) => {
-  // getReply 배열을 업데이트합니다. rno가 일치하는 객체만 likedReply를 업데이트합니다.
-  const updatedReplies = getReply.map(reply => 
-    reply.rno === rno ? {
-      ...reply,
-      likedReply: reply.likedReply.includes(userInfo.id) 
-        ? reply.likedReply.filter(id => id !== userInfo.id) 
-        : [...reply.likedReply, userInfo.id]
-    } : reply
-  );
-  // 업데이트된 배열로 상태를 설정합니다.
-  setGetReply(updatedReplies); // -> 이거 말고 제일 하단에 서버에 업데이트 요청하기
-};
+  const handleLikeClick = (rno) => {
+    if (isAuth) {
+      //getReply 배열을 업데이트합니다. rno가 일치하는 객체만 likedReply를 업데이트합니다.
+      const updatedReplies = getReply.map(reply =>
+        reply.rno === rno ? {
+          ...reply,
+          likedReply: reply.likedReply.includes(userInfo.id)
+            ? reply.likedReply.filter(id => id !== userInfo.id)
+            : [...reply.likedReply, userInfo.id]
+        } : reply
+      )
+      // 업데이트된 배열로 상태를 설정합니다.
+      //setGetReply(updatedReplies); // -> 이거 말고 제일 하단에 서버에 업데이트 요청하기
+
+      // axiosInstance
+      //   .post(`like/${rno}`, userInfo.id)
+      //   .then((response) => {
+      //     console.log(response.data);
+      //     // 서버 요청 성공 시 댓글 데이터 다시 가져오기
+      //     axiosInstance.get(`/commReply/${id}/list`)
+      //       .then((response) => {
+      //         setGetReply(response.data);
+      //       })
+      //       .catch((error) => {
+      //         console.log(error);
+      //       });
+      //   })
+      //   .catch((error) => {
+      //     console.log(error);
+      //   });
+
+        axiosInstance
+        .post(`updateLike/${rno}`, userInfo.id)
+        .then((response) => {
+          console.log(response.data);
+          // 서버 요청 성공 시 댓글 데이터 다시 가져오기
+          axiosInstance.get(`/commReply/${id}/list`)
+            .then((response) => {
+              setGetReply(response.data);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+        }
+    else {
+      setShowLoginModal(true);
+    }
+
+  };
 
 
-
-// console.log(getReply);
+  console.log(userInfo.id);
+  console.log(getReply);
 
   return (
     <div className='CommReply'>
@@ -145,22 +183,6 @@ const handleLikeClick = (rno) => {
                     update === reply.rno ? (
                       <>
                         <button className='delete' onClick={() => handleUpdate(reply.rno)}>수정완료</button>
-                        {/* <button className='delete' onClick={() => {
-                          if (!reply || !reply.content.trim()) {
-                            alert('수정할 내용을 입력해주세요.');
-                            return;
-                          }
-                            axiosInstance.put(`/commReply_update/${reply.rno}`, reply)
-                            .then((response) => {
-                              alert(response.data);
-                              setUpdate(false);
-                              fetchNewReply(); // 수정 후 댓글 목록 업데이트
-                            })
-                            .catch((error) => {
-                              console.log(error);
-                            });
-                      
-                        }}>수정완료</button> */}
                         <button className='update' onClick={() => setUpdate(false)}>취소</button>
                       </>
                     ) : (
@@ -194,8 +216,7 @@ const handleLikeClick = (rno) => {
                 <FontAwesomeIcon
                   icon={reply.likedReply.includes(userInfo.id) ? likedIcon : unLikedIcon}
                   size="lg"
-                  style={{ color: reply.likedReply.includes(userInfo.id) ? '#8F7BE0' : 'gray' }}
-                  // onClick={() => setLike(!like)}
+                  style={{ color: reply.likedReply.includes(userInfo.id) ? '#8F7BE0' : 'gray', cursor: 'pointer' }}
                   onClick={() => handleLikeClick(reply.rno)}
                 />
                 <div className='likeCnt'>{reply.liked ? reply.likedReply.length + 1 : reply.likedReply.length}</div>
