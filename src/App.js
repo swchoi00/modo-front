@@ -103,8 +103,9 @@ function App() {
   // 게시글 리스트 페이지네이션 용 
   const [currentPage, setCurrentPage] = useState(1);
 
- 
-console.log(userInfo);
+
+
+// console.log(userInfo);
 
   return (
     <div className="App" style={{scrollBehavior: 'unset'}}>

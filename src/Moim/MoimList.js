@@ -63,7 +63,7 @@ const MoimList = ({isAuth, moimList, userInfo,setUserInfo}) =>{
     return Math.floor(Math.random() * 18);
   };
 
-
+console.log(moimList);
 
   return(
     <div className='moim-list-box'>
@@ -93,39 +93,12 @@ const MoimList = ({isAuth, moimList, userInfo,setUserInfo}) =>{
               <div className='moim-content-box-info'>
                 <div className='moim-contnent-box-title'>{data.moimname}</div>
                 <span>{data.introduction}</span>
-                <div className='moim-content-box-info-member'>{data.city}·{data.town} ┃ n명</div>
+                <div className='moim-content-box-info-member'>{data.city}·{data.town} ┃ {data.moimMemberNum}명</div>
               </div>
             </div>
           );
         })
       }
-      {/* ⭐목데이터⭐{
-        moimContent.map((data) => {
-          const isLiked = likedMoims.includes(data.id);
-          return (
-            <div className='moim-content-box' key={data.id} onClick={()=>navigate('/moimDetail')}>
-              <div className='moim-content-box-img'
-                style={{
-                  backgroundImage: `url(https://raw.githubusercontent.com/Jella-o312/modo-image/main/moim-img/${data.id}.png)`
-                  , opacity: '0.85'
-                }}>
-                <div className='moim-content-box-categoryBack'>
-                <span className='moim-content-box-categoty'>{data.category}</span>
-                <span className='moim-content-box-like' onClick={(e) => handleLikeToggle(data.id,e)}>
-                  <FontAwesomeIcon icon={isLiked ? fullHeart : lineHeart}  size='lg' style={{ color: isLiked ? 'white' : '#ff2727' }}/>
-                </span>
-                </div>
-              </div>
-
-              <div className='moim-content-box-info'>
-                <div className='moim-contnent-box-title'>{data.title}</div>
-                <span>{data.promotion}</span>
-                <div className='moim-content-box-info-member'>{data.area} ┃ {data.member} 명</div>
-              </div>
-            </div>
-          );
-        })
-      } */}
 
       {/* ⭐로그인 안했을때  좋아요 누르면 뜨는 로그인 모달*/}
       <LoginPzModal showLoginModal={showLoginModal} setShowLoginModal={setShowLoginModal}/>

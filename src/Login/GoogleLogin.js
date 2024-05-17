@@ -20,7 +20,8 @@ function GoogleLogin ( {setUserInfo, isAuth, setIsAuth}) {
                 sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
                 setUserInfo(response.data.member[0]);
                 setIsAuth(true);
-                navigate('/')
+                // navigate(-3);
+                navigate('/');
               
             }
         }).catch(error => {

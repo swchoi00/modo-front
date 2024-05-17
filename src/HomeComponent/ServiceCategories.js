@@ -12,7 +12,7 @@ const ServiceCategories = () =>{
 
   return(
     <div className="ServiceCategories-container">
-      <div className="categories-title">소모임 카테고리</div>
+      <div className="categories-title">모임 카테고리</div>{/*소모임 글자 들어있던 곳 */}
       <div className='categories-box'> {/* ← 얘가 grid*/}
           {
             moim.map ((title,i)=>{
@@ -32,7 +32,7 @@ const ServiceCategories = () =>{
       
 
       <div className="categories-title">멘토링 카테고리</div>
-      <div className='categories-box'> {/* ← 얘가 grid*/}
+      <div className='categories-box'> 
           {
             mentoring.map ((title,i)=>{
               return(
@@ -43,7 +43,7 @@ const ServiceCategories = () =>{
               );
             })
           }
-          <div className='categories-innerBox categories-innerBox2' onClick={() => navigate('/moim')}> {/* → 버튼 눌렀을때 해당 카테고리 상세 페이지 이동은 안됨... */}
+          <div className='categories-innerBox categories-innerBox2' onClick={() => navigate('/moim')}> 
             <img className='cate-img' src={`https://raw.githubusercontent.com/Jella-o312/modo-image/main/categoris/mentoring/mentoring8.svg`} alt=""/>
             <p className='cate-text'>더보기</p>
           </div>
