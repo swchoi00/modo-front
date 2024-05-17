@@ -89,59 +89,46 @@ const CommReply = ({ isAuth, userInfo, id, setUpdateReplyCnt }) => {
 
 
 
-  const handleLikeClick = (rno) => {
-    if (isAuth) {
-      //getReply 배열을 업데이트합니다. rno가 일치하는 객체만 likedReply를 업데이트합니다.
-      const updatedReplies = getReply.map(reply =>
-        reply.rno === rno ? {
-          ...reply,
-          likedReply: reply.likedReply.includes(userInfo.id)
-            ? reply.likedReply.filter(id => id !== userInfo.id)
-            : [...reply.likedReply, userInfo.id]
-        } : reply
-      )
-      // 업데이트된 배열로 상태를 설정합니다.
-      //setGetReply(updatedReplies); // -> 이거 말고 제일 하단에 서버에 업데이트 요청하기
+// const handleLikeClick = (rno) => {
+//   // getReply 배열을 업데이트합니다. rno가 일치하는 객체만 likedReply를 업데이트합니다.
+//   const updatedReplies = getReply.map(reply => 
+//     reply.rno === rno ? {
+//       ...reply,
+//       likedReply: reply.likedReply.includes(userInfo.id) 
+//         ? reply.likedReply.filter(id => id !== userInfo.id) 
+//         : [...reply.likedReply, userInfo.id]
+//     } : reply
+//   );
+//   // 업데이트된 배열로 상태를 설정합니다.
+//   setGetReply(updatedReplies); // -> 이거 말고 제일 하단에 서버에 업데이트 요청하기
+// };
 
-      axiosInstance
-        .post(`like/${rno}`, userInfo.id)
-        .then((response) => {
-          console.log(response.data);
-          // 서버 요청 성공 시 댓글 데이터 다시 가져오기
-          axiosInstance.get(`/commReply/${id}/list`)
-            .then((response) => {
-              setGetReply(response.data);
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+const handleLikeClick = (rno) => {
+  const isLiked = getReply.find(reply => reply.rno === rno).likedReply.includes(userInfo.id);
+  const url = isLiked
+    ? `/unlike/${rno}`
+    : `/like/${rno}`;
 
-        // axiosInstance
-        // .post(`updateLike/${rno}`, userInfo.id)
-        // .then((response) => {
-        //   console.log(response.data);
-        //   // 서버 요청 성공 시 댓글 데이터 다시 가져오기
-        //   axiosInstance.get(`/commReply/${id}/list`)
-        //     .then((response) => {
-        //       setGetReply(response.data);
-        //     })
-        //     .catch((error) => {
-        //       console.log(error);
-        //     });
-        // })
-        // .catch((error) => {
-        //   console.log(error);
-        // });
-        }
-    else {
-      setShowLoginModal(true);
-    }
-
-  };
+  axiosInstance.post(url, userInfo.id)
+    .then(response => {
+      if (response.status === 200) {
+        const updatedReplies = getReply.map(reply =>
+          reply.rno === rno ? {
+            ...reply,
+            likedReply: isLiked
+              ? reply.likedReply.filter(id => id !== userInfo.id)
+              : [...reply.likedReply, userInfo.id]
+          } : reply
+        );
+        setGetReply(updatedReplies);
+      } else {
+        console.log('error');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+};
 
 
   console.log(userInfo.id);
