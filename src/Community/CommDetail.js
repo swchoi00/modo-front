@@ -23,13 +23,13 @@ const CommDetail = ({ isAuth, userInfo }) => {
         console.log(error);
       });
 
-      axiosInstance.get(`/commReply/${id}/list`)
-      .then((response) => {
-        setReplyLength(response.data); 
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      // axiosInstance.get(`/commReply/${id}/list`)
+      // .then((response) => {
+      //   setReplyLength(response.data); 
+      // })
+      // .catch((error) => {
+      //   console.log(error);
+      // });
 
   }, [id]);
 
@@ -85,8 +85,8 @@ console.log(comm)
           <div className='view-reply'>
             <div>조회수 {comm.views}</div>
             <div style={{ margin: '0 7px', color: '#e6e6e6' }}>|</div>
-            <div>댓글 {replyLength ? replyLength.length : 0}</div>
-            {/* <div>댓글 {comm.replies ? comm.replies.length : 0}</div> */}
+
+            <div>댓글 {comm.replies ? comm.replies.length : 0}</div>
           </div>
         </div>
         <div className='post-delete-update'>

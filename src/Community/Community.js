@@ -1,7 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch as searchIcon } from '@fortawesome/free-solid-svg-icons';
-import { faCircleXmark as cancleIconFill } from '@fortawesome/free-solid-svg-icons';
-import { faCircleXmark as cancleIcon } from '@fortawesome/free-regular-svg-icons';
 import { faXmark as cancle } from '@fortawesome/free-solid-svg-icons';
 import './Community.css';
 import { useEffect, useState } from "react";
@@ -122,9 +120,7 @@ const Community = ({ isAuth, currentPage, setCurrentPage }) => {
                 <FontAwesomeIcon icon={searchIcon} size='lg' style={{ color: '#9c9c9c' }} onClick={searchFilterHandler} />
                 :
                 <>
-                  {/* <FontAwesomeIcon icon={cancleIconFill} size="lg" style={{ color: '#9c9c9c' }} onClick={searchCancleHandler}/> */}
-                  <FontAwesomeIcon icon={cancleIcon} size="lg" style={{ color: '#9c9c9c' }} onClick={searchCancleHandler} />
-                  {/* <FontAwesomeIcon icon={cancle} size="lg" style={{ color: '#9c9c9c' }} onClick={searchCancleHandler}/> */}
+                  <FontAwesomeIcon icon={cancle} size="lg" style={{ color: '#9c9c9c' }} onClick={searchCancleHandler}/>
                 </>
             }
           </span>
@@ -185,8 +181,7 @@ const Community = ({ isAuth, currentPage, setCurrentPage }) => {
                                 <div key={i} className="td" onClick={() => navigate(`/comm/${data.postno}`)}>
                                   <li className="no">{data.postno}</li>
                                   <li className="item category" style={{ color: typeColors[data.categories], fontWeight: 'bold' }}>[{data.categories}]</li>
-                                  {/* {data.replies.length} */}
-                                  <li className="item postTitle">{data.postname.length > 20 ? data.postname.substring(0, 20) + "..." : data.postname} [0]</li>
+                                  <li className="item postTitle">{data.postname.length > 20 ? data.postname.substring(0, 20) + "..." : data.postname} [{data.replies.length}]</li>
                                   <li className="item author">{data.author}</li>
                                   <li className="item date">{data.uploadDate}</li>
                                   <li className="view">{data.views}</li>
@@ -260,8 +255,7 @@ const Community = ({ isAuth, currentPage, setCurrentPage }) => {
                                   </div>
                                   <div>
                                     <img src={reply} alt="view" />
-                                    {/* {data.replies.length} */}
-                                    댓글수
+                                    {data.replies.length}
                                   </div>
                                 </div>
                               </div>

@@ -103,25 +103,8 @@ const CommReply = ({ isAuth, userInfo, id, setUpdateReplyCnt }) => {
       // 업데이트된 배열로 상태를 설정합니다.
       //setGetReply(updatedReplies); // -> 이거 말고 제일 하단에 서버에 업데이트 요청하기
 
-      // axiosInstance
-      //   .post(`like/${rno}`, userInfo.id)
-      //   .then((response) => {
-      //     console.log(response.data);
-      //     // 서버 요청 성공 시 댓글 데이터 다시 가져오기
-      //     axiosInstance.get(`/commReply/${id}/list`)
-      //       .then((response) => {
-      //         setGetReply(response.data);
-      //       })
-      //       .catch((error) => {
-      //         console.log(error);
-      //       });
-      //   })
-      //   .catch((error) => {
-      //     console.log(error);
-      //   });
-
-        axiosInstance
-        .post(`updateLike/${rno}`, userInfo.id)
+      axiosInstance
+        .post(`like/${rno}`, userInfo.id)
         .then((response) => {
           console.log(response.data);
           // 서버 요청 성공 시 댓글 데이터 다시 가져오기
@@ -136,6 +119,23 @@ const CommReply = ({ isAuth, userInfo, id, setUpdateReplyCnt }) => {
         .catch((error) => {
           console.log(error);
         });
+
+        // axiosInstance
+        // .post(`updateLike/${rno}`, userInfo.id)
+        // .then((response) => {
+        //   console.log(response.data);
+        //   // 서버 요청 성공 시 댓글 데이터 다시 가져오기
+        //   axiosInstance.get(`/commReply/${id}/list`)
+        //     .then((response) => {
+        //       setGetReply(response.data);
+        //     })
+        //     .catch((error) => {
+        //       console.log(error);
+        //     });
+        // })
+        // .catch((error) => {
+        //   console.log(error);
+        // });
         }
     else {
       setShowLoginModal(true);
