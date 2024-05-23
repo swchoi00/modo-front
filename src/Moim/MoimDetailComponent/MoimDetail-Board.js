@@ -8,7 +8,7 @@ import PaginationComponent from '../../Pagination/PaginationComponent';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../../axiosInstance';
 
-const MoimDetailBoard = ({moimInfo, currentPage, setCurrentPage, moimCommAfter, setMoimCommAfter}) =>{
+const MoimDetailBoard = ({moimInfo, currentPage, setCurrentPage, moimCommAfter, setMoimCommAfter, moimMemberRole, isAuth, userInfo}) =>{
   
   // ..dlkdjlkajslkjaldkjasd
   // 모임 게시판 작성 후 페이지 이동을 위해 추가
@@ -99,7 +99,7 @@ const MoimDetailBoard = ({moimInfo, currentPage, setCurrentPage, moimCommAfter, 
             <FontAwesomeIcon icon={faEllipsisVertical} size="lg"/>
         </div>
         <div className='moimDetailBoard-contentBox'>
-          <MoimDetailBoardSchduleComponent/> 
+          <MoimDetailBoardSchduleComponent moimInfo={moimInfo} moimMemberRole={moimMemberRole} isAuth={isAuth} userInfo={userInfo}/> 
         </div>
 
       </div>

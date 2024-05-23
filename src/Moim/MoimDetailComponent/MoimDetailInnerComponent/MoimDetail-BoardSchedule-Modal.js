@@ -10,7 +10,7 @@ import { Form, Modal } from 'react-bootstrap';
 import axiosInstance from '../../../axiosInstance';
 
 
-const MoimDetailBoardSheduleModal = ({addScheduleModal,setAddScheduleModal, Ckdate, moment})=>{
+const MoimDetailBoardSheduleModal = ({addScheduleModal,setAddScheduleModal, Ckdate, moment, moimInfo,markedDates})=>{
   
 
 // 일정추가 모달이 닫힐 때 기존 입력 값 초기화
@@ -21,8 +21,9 @@ const endScheduleModal = () => {
   setEndScheduleTime({hour: '', minute: ''}); // 종료시간
   setTimePickerIsOpen(false); // 시작시간 오픈여부
   setEndTimePickerIsOpen(false);  //종료시간 오픈여부
-  setAddScheduleInfo({
-    Id: 1, // 😡😡모임번호 props로 받아서 추가되어야함
+  setAddScheduleInfo( // 모임일정 담는 스테이트 비우기
+    {
+    Id: moimInfo.id, 
     scheduleName: '',
     scheduleStartDate: '',
     scheduleEndDate: '',
@@ -39,24 +40,23 @@ const endScheduleModal = () => {
 // 모임 일정 정보 담는 스테이트
 // 시간은 나중에 한번에 합쳐서 저장해야할듯
 const [addScheduleInfo, setAddScheduleInfo] = useState({
-  Id : 1, // 😡😡모임번호 props로 받아서 추가되어야함
+  Id : moimInfo.id, 
   scheduleName: '',
   scheduleStartDate : '',
   scheduleEndDate : '',  
   scheduleStartTime : '',
   scheduleEndTime : '',
-  scheduleAdress : '',
+  scheduleAddress : '',
   scheduleCost: '',
   scheduleMaxMember: '',
   scheduleDescription:''
 });
 
 
-// 일정추가_제목, 
+// 일정추가_제목, 모임위치, 참여비용, 참여인원, 일정 설명
 const AddMoimScheduleHandler = (e)=>{
-  const title = e.target.dataset.field;
-  const value = e.target.value;
-  
+  let title = e.target.dataset.field;
+  let value = e.target.value;
   setAddScheduleInfo((data)=>({...data, [title] : value}));
 }
 
@@ -69,11 +69,11 @@ const scheduleSwitch= useRef();
 
 // 부트스트랩 스위치 커스텀 시 focus 막기 위해 추가
 const scheduleSwitchHandler= (e) => {
-  setScheduleTerm(e.target.checked);
+  setScheduleTerm(e.target.checked); // true/false로 스위치가 켜진지 설정
   scheduleSwitch.current.blur(); // focus 해제 (스위치가 변경될때마다, css에서 따로 설정 불가능...)
   setAddScheduleInfo((data)=>({...data, scheduleEndDate: ''}));
 };
-
+// console.log(addScheduleInfo);
 
 // 일정 추가 모달이 켜지고 꺼질때마다 
 // 사용자가 모임디테일페이지에서 날짜를 바꾸면 해당날짜로 일정 시작 날을 바꿔줌
@@ -84,16 +84,14 @@ useEffect(() => {
     }));
 }, [addScheduleModal, Ckdate]);
 
-// 종료 시간값을 빈값으로 둘 수 없어서 이렇게 처리함
-useEffect(()=>{
-    // 최종 제출 정규식에서 일정이 하루짜리일때도 통과되야해서 추가함
-    // 하루일정일때는 scheduleEndDate에 임시 값이 들어 있음
-    if(!scheduleTerm){
-      setAddScheduleInfo((data) => ({
-        ...data, scheduleEndDate: 'no'
-      }));
-    }
-},[addScheduleModal, scheduleTerm]);
+// useEffect(() => {
+//   // 처음에 사용자가 선택한 날짜로 값을 보여주기 위해
+//   const formattedDate = Ckdate.toISOString().slice(0, 10); // yyyy-MM-dd 형식으로 변환
+//   setAddScheduleInfo((data) => ({
+//     ...data, scheduleStartDate: formattedDate
+//   }));
+// }, [addScheduleModal, Ckdate]);
+
 
 
 
@@ -117,6 +115,18 @@ const timePickerHandler = (type) => {
 };
 
 
+const startDateCheckHandler = (date)=>{
+  const dateString = new Date(date).toDateString();
+  const countOnDate = markedDates[dateString] || 0; // 선택한 날짜에 일정이 몇개 있는지 확인 일정 없으면 0으로 리턴됨
+  if (countOnDate >= 2) {
+    alert("해당 날짜에 더 이상 일정을 추가 할 수 없어요 🥲");
+    setAddScheduleInfo((data)=>({...data, scheduleStartDate: null}));
+  }else{
+    setAddScheduleInfo((data)=>({...data, scheduleStartDate: date}));
+  }
+}
+
+
 // 일정 시작시간 넣는 임시 스테이트
 const [scheduleTime, setScheduleTime] = useState({hour:'', minute:''});
 // 일정 종료 시간 넣는 임시 스테이트
@@ -131,6 +141,14 @@ const scheduleTimeDB ={
 
 //타임피커 내부 버튼(취소, 확인) 핸들러
 const moimAddTimePickerBtn=(btn, timeType)=>{
+  if(scheduleTime.minute === '' || scheduleTime.hour === ''){
+      setScheduleTime({hour:'', minute:''}); // 시: 분 중에 하나라도 입력 안하면 그냥 빈값으로 다시 세팅
+  }
+  
+  if(endscheduleTime.minute === '' || endscheduleTime.hour === ''){
+      setEndScheduleTime({hour:'', minute:''});
+  }
+
   if(btn==='no'){
     if(timeType==='start'){
       setTimePickerIsOpen(false);
@@ -139,7 +157,7 @@ const moimAddTimePickerBtn=(btn, timeType)=>{
       setEndTimePickerIsOpen(false);
       setEndScheduleTime({hour: '', minute: ''});
     }
-  }else{
+  }else{ // 확인 눌렀을 때 setScheduleTime({ ...scheduleTime, minute: minute })
     if(timeType==='start'){
       setTimePickerIsOpen(false);
     }else{
@@ -187,20 +205,24 @@ useEffect(() => {
 // Object.entries는 key, value를 반환하는 메서드
 // every(([key, value]) => 함수는 배열의 모든 요소가 특정 조건을 만족하는지 확인
 // every 함수 내의 조건 key === 'scheduleDescription' || value !== '' 
-// ↑[설명] key 'scheduleDescription'와 일치하거나 value가 빈 문자열('')이 아닌 경우를 확인
-// key값이 scheduleDescription가 아닌 것들의 value가 ''값이면 flase가 됨
-const addScheduleSubmitCheck = Object.entries(addScheduleInfo).every(([key, value]) => key === 'scheduleDescription' || value !== '');
+// ↑[설명] key 'scheduleDescription'와 scheduleEndDate 일치하거나 value가 빈 문자열('')이 아닌 경우를 확인
+// key값이 scheduleDescription, scheduleEndDate가 아닌 것들의 value가 ''값이면 flase가 됨
+// const addScheduleSubmitCheck = Object.entries(addScheduleInfo).every(([key, value]) => key === 'scheduleDescription' || value !== '');
+const addScheduleSubmitCheck = Object.values(addScheduleInfo).every(value => value !== '' 
+                                || value === addScheduleInfo.scheduleEndDate // 모임일정 설명 빈 값 허용
+                                || value === addScheduleInfo.scheduleDescription); // 모임종료 날짜 설명 빈 값 허용
 
 
-
-const mimi= ()=>{
-  // window.alert('서버랑 연결해야되유');
+const addMoimscheduleSubmitHandler= ()=>{
+  if(addScheduleInfo.scheduleMaxMember < 1){
+    alert("참여 인원을 다시 입력해주세요 :)");
+    return;
+  }
   const id = addScheduleInfo.Id;
-  console.log("요청 아이디" + id);
-
   axiosInstance.post(`/createMoimSchedule/${id}`, addScheduleInfo)
       .then((response) => {
         alert(response.data);
+        endScheduleModal();// 모달 종료 핸들러
       })
       .catch((error) => {
         console.log(error);
@@ -208,7 +230,8 @@ const mimi= ()=>{
 }
 
 // console.log(addScheduleInfo.scheduleEndDate + '😡');
-console.log(addScheduleInfo);
+// console.log(addScheduleInfo);
+// console.log(addScheduleSubmitCheck);
 
 
   return(
@@ -227,9 +250,12 @@ console.log(addScheduleInfo);
           <Modal.Title id="example-modal-sizes-title-lg">
             <div style={{width:'87%', position: 'absolute', top: '0', paddingTop: '0.5rem', display: 'flex', justifyContent:'space-between', alignItems: 'center'}}>
               모임 일정 추가하기 
-              <span style={{color: '#a472ff', fontSize:'medium'}}>
-                {moment(addScheduleInfo.scheduleStartDate).format("M월 D일 (ddd)", 'ko')}
-              </span> 
+              {
+                addScheduleInfo.scheduleStartDate &&
+                <span style={{color: '#a472ff', fontSize:'medium'}}>
+                  {moment(addScheduleInfo.scheduleStartDate).format("M월 D일 (ddd)", 'ko')}
+                </span> 
+              }
             </div>
           </Modal.Title>
         </Modal.Header>
@@ -257,7 +283,8 @@ console.log(addScheduleInfo);
                   <ReactDatePicker
                     locale={ko}
                     selected={addScheduleInfo.scheduleStartDate} // MoimDetailBoardComponent에서 받아온 사용자가 선택한 날짜를 기본값으로 
-                    onChange={(date) => setAddScheduleInfo((data)=>({...data, scheduleStartDate: date}))}
+                    // onChange={(date) => setAddScheduleInfo((data)=>({...data, scheduleStartDate: date}))}
+                    onChange={(date)=>startDateCheckHandler(date)}
                     dateFormat="yyyy.MM.dd(eee)" // 선택된 날짜 보여주는 형식
                     minDate={new Date()} // 오늘 이전 날짜 선택 못하게
                     placeholderText="📅날짜를 선택해주세요"
@@ -288,6 +315,10 @@ console.log(addScheduleInfo);
                       locale={ko}
                       selected={addScheduleInfo.scheduleEndDate} // MoimDetailBoardComponent에서 받아온 사용자가 선택한 날짜를 기본값으로 
                       onChange={(date) => setAddScheduleInfo((data)=>({...data, scheduleEndDate: date}))}
+                      // onChange={(date) => {
+                      //   const formattedDate = date.toISOString().slice(0, 10); // yyyy-MM-dd 형식으로 변환
+                      //   setAddScheduleInfo((data) => ({ ...data, scheduleEndDate: formattedDate }));
+                      // }}
                       dateFormat="yyyy.MM.dd(eee)" // 선택된 날짜 보여주는 형식
                       minDate={new Date()} // 오늘 이전 날짜 선택 못하게
                       // isClearable // 지우기 버튼
@@ -424,7 +455,7 @@ console.log(addScheduleInfo);
               <span className='scheduleAdd-top-title'>모임 위치</span>
               <input className='moimDetail-calendar-scheduleAdd-info-input' 
                      placeholder='😡추후 카카오맵 연결필요😡' 
-                     data-field= 'scheduleAdress' 
+                     data-field= 'scheduleAddress' 
                      onChange={AddMoimScheduleHandler}
               />
             </div>
@@ -447,9 +478,10 @@ console.log(addScheduleInfo);
                 <input className='moimDetail-calendar-scheduleAdd-info-input moimDetail-scheduleAdd-inputNum' 
                        placeholder='최대 참여 인원을 적어주세요' 
                        type='number'
+                       value={addScheduleInfo.scheduleMaxMember}
                        data-field= 'scheduleMaxMember' 
                        onChange={AddMoimScheduleHandler}
-                       onKeyDown={(e) => ["e", "E", "+", "-",".","0"].includes(e.key) && e.preventDefault()} // +-입력 방지
+                       onKeyDown={(e) => ["e", "E", "+", "-","."].includes(e.key) && e.preventDefault()} // +-입력 방지
                       //  참고 : https://velog.io/@support/styled-components-Input-%EC%88%AB%EC%9E%90-%EC%9E%85%EB%A0%A5-jbskjgya
                 />
               </div>
@@ -468,7 +500,7 @@ console.log(addScheduleInfo);
 
           <button className='moimDetail-calendar-scheduleAdd-submitBtn'
                   disabled={!(scheduleTimeRegex && addScheduleSubmitCheck)}
-                  onClick={mimi}
+                  onClick={addMoimscheduleSubmitHandler}
           >
             일정 추가
           </button>

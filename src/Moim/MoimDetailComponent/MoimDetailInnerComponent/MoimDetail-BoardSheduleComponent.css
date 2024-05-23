@@ -13,6 +13,14 @@
   gap: 2.7rem;
 } 
 
+.moimDetail-calendar-schedule-body{
+  cursor: pointer;
+}
+
+.moimDetail-calendar-schedule-past{ /*지난 일정에 대한 스타일*/
+  background-color: #a0a0a00a;
+}
+
 .moimDetail-calendar-schedule-header{
   display: flex;
   justify-content: space-between;
@@ -66,7 +74,6 @@
 .moimDetail-moimContent-board-schedule-content-data{
   display: flex;
   color: #5e5e5e;
-
 }
 
 .moimDetail-moimContent-board-schedule-content-data span{

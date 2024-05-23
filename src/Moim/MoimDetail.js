@@ -62,34 +62,6 @@ useEffect(()=>{
 )
 },[id,setMoimMemberList]);
 
- // 모임 가입 핸들러
- const joinMoimHandler =()=>{
-  if(isAuth && userInfo){ //(로그인 유무, 유저 정보 확인)
-    axiosInstance.post(`/joinMoim/${id}`, userInfo.id)
-    .then((response)=>{
-      setMoimMemberList(response.data); // userinfo 컴포넌트에 member 정보 업데이트
-      window.alert("가입완료!");
-    }).catch((error)=>{
-      console.log(error);
-    });
-  }else{
-    setShowLoginModal(true);
-  }
-}
-
-  // 모임 좋아요 여부 세팅
-useEffect(()=>{
-  if(isAuth){
-    if (userInfo && userInfo.likedMoim) { //userInfo.likedMoim는 새로고침됐을때 로그인 풀리면서 생기는 오류 방지로 추가됨
-     setLikedMoims(userInfo.likedMoim.includes(moimId));
-   } else {
-     setLikedMoims(false); // 비어있는 배열로 초기화
-   }
-  }else{
-    setLikedMoims(false); // 비어있는 배열로 초기화
-  }
-},[userInfo,isAuth, moimId]);
-
 
 // 모임 role확인
 useEffect(()=>{
@@ -105,6 +77,38 @@ useEffect(()=>{
     case 'member' : setMoimMemberRole('member'); break;
   }
 },[isAuth, userInfo, moimMemberList]);
+
+
+ // 모임 가입 핸들러
+ const joinMoimHandler =()=>{
+  if(isAuth && userInfo){ //(로그인 유무, 유저 정보 확인)
+    axiosInstance.post(`/joinMoim/${id}`, userInfo.id)
+    .then((response)=>{
+      setMoimMemberList(response.data); // userinfo 컴포넌트에 member 정보 업데이트
+      window.alert("가입완료!");
+    }).catch((error)=>{
+      console.log(error);
+    });
+  }else{
+    setShowLoginModal(true);
+  }
+}
+
+
+  // 모임 좋아요 여부 세팅
+useEffect(()=>{
+  if(isAuth){
+    if (userInfo && userInfo.likedMoim) { //userInfo.likedMoim는 새로고침됐을때 로그인 풀리면서 생기는 오류 방지로 추가됨
+     setLikedMoims(userInfo.likedMoim.includes(moimId));
+   } else {
+     setLikedMoims(false); // 비어있는 배열로 초기화
+   }
+  }else{
+    setLikedMoims(false); // 비어있는 배열로 초기화
+  }
+},[userInfo,isAuth, moimId]);
+
+
 
 
 // console.log(moimMemberRole);
@@ -206,6 +210,7 @@ useEffect(()=>{
     let menu =e.target.textContent;
     switch(menu){
       case "모임 정보 수정": setShowMoimInfoSettingModal(true);
+      break;
       case "모임 링크 복사": 
         navigator.clipboard.writeText(window.location.href)
           .then(() => {
@@ -365,7 +370,9 @@ useEffect(()=>{
         {moimMenuCk === '홈' &&  <MoimDetailHome moimInfo={moimInfo} setMoimInfo={setMoimInfo} moimMemberRole={moimMemberRole} 
                                                  moimMemberList={moimMemberList} setMoimMemberList={setMoimMemberList}/>}
         {moimMenuCk === '게시판' &&  <MoimDetailBoard moimInfo={moimInfo} currentPage={currentPage} setCurrentPage={setCurrentPage} 
-                                                      moimCommAfter={moimCommAfter} setMoimCommAfter={setMoimCommAfter}/>}
+                                                      moimCommAfter={moimCommAfter} setMoimCommAfter={setMoimCommAfter}
+                                                      moimMemberRole={moimMemberRole} isAuth={isAuth} userInfo={userInfo}
+                                                      />}
         {moimMenuCk === '갤러리' &&  <MoimDetailGellery/>}
         {moimMenuCk === '채팅' &&  <MoimDetailChat/>}
       </div>

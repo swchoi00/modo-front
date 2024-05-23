@@ -1,0 +1,10 @@
+.moimDetail-thumbnail-img{
+  width: 10rem;
+  height: 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* background-color: #b5afe6;
+  color: white; */
+  font-size: 500%;
+}
