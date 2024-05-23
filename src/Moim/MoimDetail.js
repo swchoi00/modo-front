@@ -217,9 +217,15 @@ useEffect(()=>{
       break;
       case "모임 삭제" : 
         const deleteMoim = window.confirm("정말 모임을 삭제하시겠습니까?");
-        // if(deleteMoim){
-        //   여기에 모임 삭제 서버 요청하기
-        // }
+        if(deleteMoim){
+          axiosInstance.delete(`/deleteMoim/${id}`)
+            .then((response) => {
+              alert(response.data);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }
       break;
       case "모임 탈퇴" : 
         const quitMoim = window.confirm("정말 모임을 탈퇴하시겠습니까?");
