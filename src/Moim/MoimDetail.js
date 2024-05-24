@@ -12,7 +12,7 @@ import MoimDetailHome from './MoimDetailComponent/MoimDetail-Home';
 import MoimDetailBoard from './MoimDetailComponent/MoimDetail-Board';
 import MoimDetailGellery from './MoimDetailComponent/MoimDetail-Gallery';
 import MoimDetailChat from './MoimDetailComponent/MoimDetail-Chat';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axiosInstance from '../axiosInstance';
 import LoginPzModal from '../Login/LoginPzModalComponent/LoginPzModal';
 import MoimDetailMoimInfoModal from './MoimDetailComponent/MoimDetailInnerComponent/MoimDetail-MoimInfo-Modal';
@@ -38,6 +38,7 @@ const MoimDetail = ({isAuth, userInfo, setUserInfo, moimInfo, setMoimInfo,curren
   // 로그인 안했을때 모달창 
   const [showLoginModal, setShowLoginModal] = useState(false); 
 
+  const navigate = useNavigate();
 
   // 모임정보 받아오는 effect
   useEffect(()=>{
@@ -217,9 +218,15 @@ useEffect(()=>{
       break;
       case "모임 삭제" : 
         const deleteMoim = window.confirm("정말 모임을 삭제하시겠습니까?");
-        // if(deleteMoim){
-        //   여기에 모임 삭제 서버 요청하기
-        // }
+        if(deleteMoim){
+          axiosInstance.delete(`/deleteMoim/${id}`)
+          .then((response) => {
+            alert(response.data);
+            navigate('/moim')
+          }).catch((error) => {
+            console.log(error);
+          })
+        }
       break;
       case "모임 탈퇴" : 
         const quitMoim = window.confirm("정말 모임을 탈퇴하시겠습니까?");

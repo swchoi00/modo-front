@@ -85,6 +85,10 @@ const Community = ({ isAuth, currentPage, setCurrentPage }) => {
   }
 
   const searchInputChangeHandler = (e) => {
+    if (e.code === 'Enter') {
+      setSearchKeyWord(e.target.value);  
+      searchFilterHandler();
+    }
     if (searchKeyWord === '') {
       setSearch(false);
     }
@@ -116,6 +120,14 @@ const Community = ({ isAuth, currentPage, setCurrentPage }) => {
     setTypeBtn("전체보기");
   }
 
+  useEffect(()=>{
+    if(searchKeyWord?.length === 0){
+      setFilteredData(comm);
+    }
+  }, [searchKeyWord])
+
+
+
   console.log(search);
   console.log(searchKeyWord);
 
@@ -129,7 +141,9 @@ const Community = ({ isAuth, currentPage, setCurrentPage }) => {
             className='search-input'
             placeholder='제목 + 내용 검색하기'
             value={searchKeyWord}
-            onChange={searchInputChangeHandler} />
+            onChange={searchInputChangeHandler} 
+            onKeyUp={searchInputChangeHandler}
+          />
           <span>
             {
               search === false || searchKeyWord === '' ?
