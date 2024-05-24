@@ -1,0 +1,114 @@
+.Moim-schedule-detail-container{
+  /* border: 1px solid red; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* align-items: center; */
+  width: 25rem;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.moimScheduleDetail-container-header{
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.moimScheduleDetail-title{
+  text-align: left;
+  font-size: large;
+  font-weight: 500;
+}
+
+
+.moimScheduleDetail-img{
+  width: 100%;
+  aspect-ratio: 2.1;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-radius: 0.7rem;
+}
+
+.moimScheduleDetail-Box{
+  display: flex;
+  gap: 1rem;
+  color: #5e5e5e;
+}
+
+.moimScheduleDetail-Box span{
+  font-weight: 600;
+}
+
+.Moim-schedule-detail-container hr{
+  margin: 0 !important;
+  color: rgba(95, 95, 95, 0.658);
+}
+
+
+.moimScheduleDetail-infoText{
+  /* border: 1px solid red; */
+  width: 100%;
+  color: #5e5e5e;
+  display: flex;
+  text-align: left;
+}
+
+.moimScheduleDetail-infoText pre{
+  white-space: pre-wrap; /* 줄 바꿈을 허용하여 텍스트를 표시 */
+}
+
+
+.moimScheduleDetail-MemberBox{
+  display: flex;
+  gap: 0.2rem;
+  color: #5e5e5e;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.moimScheduleDetail-MemberBox-memberBox{
+  /* border: 1px solid red; */
+  display: flex;
+  width: 75%;
+  gap: 0.3rem;
+}
+
+.moimScheduleDetail-MemberBox-member{
+  width: 15%;
+  /* height: 2.5rem; */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  aspect-ratio: auto 1/1;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+  line-height: 2.7;
+}
+
+
+.moimScheduleDetail-btn{
+  width: 100%;
+  background-color: #9087d3;
+  border-radius: 0.5rem;
+  padding: 0.8rem;
+  font-size: medium;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 440px){
+  .Moim-schedule-detail-container{
+    width: 100%;
+    padding: 0.5rem 1rem;
+  }
+  .Moim-schedule-detail-container hr{
+    width: calc(100% + 30px) !important; /* 만약 음수 마진을 사용한다면 */
+    margin-left: -1rem !important; 
+  }
+}

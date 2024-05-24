@@ -41,17 +41,22 @@ const CommReply = ({ isAuth, userInfo, id, setUpdateReplyCnt }) => {
 
   const handleReplySubmit = () => {
     if (isAuth) {
-      const updateCommReply = { ...postReply, member: { username: userInfo.username } }
-      axiosInstance.post(`/commReply/${id}`, updateCommReply)
-        .then((response) => {
-          alert(response.data);
-          setPostReply({ ...postReply, content: '' });
-          fetchNewReply(); // 댓글 추가 후 업데이트
-          setUpdateReplyCnt(true);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      if (!postReply.content.trim()) {
+        alert("댓글을 작성해주세요.");
+      }
+      else {
+        const updateCommReply = { ...postReply, member: { username: userInfo.username } }
+        axiosInstance.post(`/commReply/${id}`, updateCommReply)
+          .then((response) => {
+            alert(response.data);
+            setPostReply({ ...postReply, content: '' });
+            fetchNewReply(); // 댓글 추가 후 업데이트
+            setUpdateReplyCnt(true);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
     } else {
       setShowLoginModal(true);
     }
@@ -87,48 +92,53 @@ const CommReply = ({ isAuth, userInfo, id, setUpdateReplyCnt }) => {
 
   };
 
+  const handleCancle = () => {
+    setUpdate(false);
+    fetchNewReply();
+  }
 
 
-// const handleLikeClick = (rno) => {
-//   // getReply 배열을 업데이트합니다. rno가 일치하는 객체만 likedReply를 업데이트합니다.
-//   const updatedReplies = getReply.map(reply => 
-//     reply.rno === rno ? {
-//       ...reply,
-//       likedReply: reply.likedReply.includes(userInfo.id) 
-//         ? reply.likedReply.filter(id => id !== userInfo.id) 
-//         : [...reply.likedReply, userInfo.id]
-//     } : reply
-//   );
-//   // 업데이트된 배열로 상태를 설정합니다.
-//   setGetReply(updatedReplies); // -> 이거 말고 제일 하단에 서버에 업데이트 요청하기
-// };
 
-const handleLikeClick = (rno) => {
-  const isLiked = getReply.find(reply => reply.rno === rno).likedReply.includes(userInfo.id);
-  const url = isLiked
-    ? `/unlike/${rno}`
-    : `/like/${rno}`;
+  // const handleLikeClick = (rno) => {
+  //   // getReply 배열을 업데이트합니다. rno가 일치하는 객체만 likedReply를 업데이트합니다.
+  //   const updatedReplies = getReply.map(reply => 
+  //     reply.rno === rno ? {
+  //       ...reply,
+  //       likedReply: reply.likedReply.includes(userInfo.id) 
+  //         ? reply.likedReply.filter(id => id !== userInfo.id) 
+  //         : [...reply.likedReply, userInfo.id]
+  //     } : reply
+  //   );
+  //   // 업데이트된 배열로 상태를 설정합니다.
+  //   setGetReply(updatedReplies); // -> 이거 말고 제일 하단에 서버에 업데이트 요청하기
+  // };
 
-  axiosInstance.post(url, userInfo.id)
-    .then(response => {
-      if (response.status === 200) {
-        const updatedReplies = getReply.map(reply =>
-          reply.rno === rno ? {
-            ...reply,
-            likedReply: isLiked
-              ? reply.likedReply.filter(id => id !== userInfo.id)
-              : [...reply.likedReply, userInfo.id]
-          } : reply
-        );
-        setGetReply(updatedReplies);
-      } else {
-        console.log('error');
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
-};
+  const handleLikeClick = (rno) => {
+    const isLiked = getReply.find(reply => reply.rno === rno).likedReply.includes(userInfo.id);
+    const url = isLiked
+      ? `/unlike/${rno}`
+      : `/like/${rno}`;
+
+    axiosInstance.post(url, userInfo.id)
+      .then(response => {
+        if (response.status === 200) {
+          const updatedReplies = getReply.map(reply =>
+            reply.rno === rno ? {
+              ...reply,
+              likedReply: isLiked
+                ? reply.likedReply.filter(id => id !== userInfo.id)
+                : [...reply.likedReply, userInfo.id]
+            } : reply
+          );
+          setGetReply(updatedReplies);
+        } else {
+          console.log('error');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  };
 
 
   console.log(userInfo.id);
@@ -146,31 +156,35 @@ const handleLikeClick = (rno) => {
           />
           <button className='replyBtn' onClick={handleReplySubmit}>등록</button>
         </div>
-        <div className='getReplyBox'>
-          {getReply.map((reply, i) => (
+      </div>
+      <div className='getReplyBox'>
+        {
+          getReply.map((reply, i) => (
             <div className='getReply' key={i}>
               <div className='getReply-leftBox'>
                 <div className='nickName-date'>
-                  <img src="/static/media/face.786407e39b657bdecd13bdabee73e67b.svg" />
+                  <img src="/static/media/face.786407e39b657bdecd13bdabee73e67b.svg" alt='프로필이미지' />
                   <div className='nickName'>{reply.member.nickname}</div>
                   <div className='date'>| {reply.createDate}</div>
                 </div>
-                {update === reply.rno ? (
-                  <textarea
-                    defaultValue={reply.content}
-                    className='Content'
-                    style={{ width: "100%", outlineColor: "#8F7BE0" }}
-                    onChange={changeHandler}
-                  />
-                ) : (
-                  <div className='Content'>{reply.content}</div>
-                )}
+                {
+                  update === reply.rno ? (
+                    <textarea
+                      defaultValue={reply.content}
+                      className='Content'
+                      style={{ width: "100%", outlineColor: "#8F7BE0" }}
+                      onChange={changeHandler}
+                    />
+                  ) : (
+                    <div className='Content'>{reply.content}</div>
+                  )
+                }
                 <div className='reply-update-delete'>
                   {userInfo.nickname === reply.member.nickname ? (
                     update === reply.rno ? (
                       <>
                         <button className='delete' onClick={() => handleUpdate(reply.rno)}>수정완료</button>
-                        <button className='update' onClick={() => setUpdate(false)}>취소</button>
+                        <button className='update' onClick={() => handleCancle()}>취소</button>
                       </>
                     ) : (
                       <>
@@ -210,8 +224,8 @@ const handleLikeClick = (rno) => {
               </div>
             </div>
           ))}
-        </div>
       </div>
+
       <LoginPzModal showLoginModal={showLoginModal} setShowLoginModal={setShowLoginModal} />
     </div>
   );
