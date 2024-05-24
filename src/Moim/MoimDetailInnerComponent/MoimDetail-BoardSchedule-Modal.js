@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { Form, Modal } from 'react-bootstrap';
-import axiosInstance from '../../../axiosInstance';
+import axiosInstance from '../../axiosInstance';
 
 
 const MoimDetailBoardSheduleModal = ({addScheduleModal,setAddScheduleModal, Ckdate, moment, moimInfo,markedDates})=>{
@@ -230,12 +230,12 @@ const addMoimscheduleSubmitHandler= ()=>{
 }
 
 // console.log(addScheduleInfo.scheduleEndDate + '😡');
-// console.log(addScheduleInfo);
+console.log(addScheduleInfo);
 // console.log(addScheduleSubmitCheck);
 
 
   return(
-    <div>
+    <>
       {/* 모임 일정 추가 모달 */}
     <Modal
         show={addScheduleModal}
@@ -507,7 +507,7 @@ const addMoimscheduleSubmitHandler= ()=>{
           </div>
         </Modal.Body>
     </Modal>
-    </div>
+    </>
   )
 
 }

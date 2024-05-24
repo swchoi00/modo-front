@@ -19,10 +19,14 @@
   position: relative;
 }
 
-.moimDetailBoard-comm-settingIcon{
-  padding-left: 1rem;
+.moimDetailBoard-comm-writing{
+  padding: 0.2rem 0.7rem;
+  /* border: 1px solid rgba(104, 104, 104, 0.301); */
+  border-radius: 0.4rem;
   cursor: pointer;
+  color: rgba(104, 104, 104, 0.925);
 }
+
 
 .moimDetailBoard-comm-settingMenu{
   /* border: 1px solid red; */
@@ -86,7 +90,11 @@
 
 
 
-
+@media screen and (max-width: 1069px){
+  .moimDetailBoard-container{
+    padding: 0 1rem;
+  }
+}
 
 
 

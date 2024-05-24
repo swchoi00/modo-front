@@ -1,38 +1,24 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPen } from '@fortawesome/free-solid-svg-icons';
 import './MoimDetail-Board.css';
 import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
-import MoimDetailBoardSchduleComponent from './MoimDetailInnerComponent/MoimDetail-BoardSchduleComponent';
-import { useEffect, useRef, useState } from 'react';
+import MoimDetailBoardSchduleComponent from '../MoimDetailInnerComponent/MoimDetail-BoardSchduleComponent';
+import { useEffect, useState } from 'react';
 import '../../Community/Community.css';
 import PaginationComponent from '../../Pagination/PaginationComponent';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../../axiosInstance';
 
-const MoimDetailBoard = ({moimInfo, currentPage, setCurrentPage, moimCommAfter, setMoimCommAfter, moimMemberRole, isAuth, userInfo}) =>{
-  
-  // ..dlkdjlkajslkjaldkjasd
-  // 모임 게시판 작성 후 페이지 이동을 위해 추가
-  const commBoxRef = useRef(null); // ref 생성
-  useEffect(() => {
-    if (moimCommAfter && commBoxRef.current) {
-      const { top } = commBoxRef.current.getBoundingClientRect(); // 현재 요소의 상대적 위치 가져오기
-      const offset = window.innerWidth <= 875 ? 150 : 90; // 화면 너비에 따라 offset 결정
-      const desiredTopPosition = top + window.scrollY - offset; // 최종 이동할 위치 계산
-  
-      window.scrollTo({
-        top: desiredTopPosition,
-        behavior: 'auto'
-      });
-  
-      setMoimCommAfter(false);
-    }
-  }, [moimCommAfter,setMoimCommAfter]);
+const MoimDetailBoard = ({moimInfo, currentPage, setCurrentPage, moimMemberRole, isAuth, userInfo, id}) =>{
+
+
+
+
 
 
   const navigate = useNavigate();
   const moimCommCate = ['전체', '공지','자유','일정투표','가입인사'];
   const [moimCommCateCheck,setMoimCommCateCheck] = useState('전체'); // 모임 커뮤니티 클릭한 카테고리
-  const settingMenuRef = useRef(null); // useRef를 사용하여 settingMenu 요소를 참조합니다.
   const page = 10;
   const [moimCommList, setMoimCommList] = useState([]);
   const [showMoimCommList, setShowMoimCommList] = useState([]);
@@ -47,18 +33,19 @@ const MoimDetailBoard = ({moimInfo, currentPage, setCurrentPage, moimCommAfter, 
     }else{
       setShowMoimCommList(moimCommList.filter(item => item.categories === cate));
     }
+    setCurrentPage(1);
   }
 
 
   useEffect(()=>{
-    axiosInstance.get(`/getMoimCommList/${moimInfo.id}`)
+    axiosInstance.get(`/getMoimCommList/${id}`)
     .then((response)=>{
       setMoimCommList(response.data);
       setShowMoimCommList(response.data);
     }).catch((error)=>{
       console.log(error);
     });
-  },[moimInfo]);
+  },[moimInfo,id]);
 
   
   const typeColors = {
@@ -68,32 +55,17 @@ const MoimDetailBoard = ({moimInfo, currentPage, setCurrentPage, moimCommAfter, 
     '가입인사': '#FFC727'
   };
 
-  // 모임게시판 메뉴 아이콘 눌렀는지 여부
-  const [commSettingIcon, setCommSettingIcon] = useState(false);
-
-  // 모임게시판 메뉴 아이콘 핸들러
-  const commSettingMenuHandler = (e)=>{ 
-    // let menu =e.target.textContent;
-    // switch(menu){
-    //   case "글 쓰기": console.log("글 쓰기");
-    // }
-    console.log(e.target.textContent);
-  }
 
 
-  // settingMenu 외의 영역을 클릭할 때 settingMenu를 닫기
-  const handleOutsideClick = (e) => {
-    if (!settingMenuRef.current || !settingMenuRef.current.contains(e.target)) {
-      setCommSettingIcon(false);
-    }
-  };
 
-  
+
+
+                      
 
   return(
-    <div className="moimDetailBoard-container" onClick={handleOutsideClick}>
+    <div className="moimDetailBoard-container">
       <div className='moimDetailBoard-schedule-Box'>
-        <div className="moimDetailBoard-header">
+        <div className="moimDetailBoard-header" style={{marginTop: '1.8rem'}}>
             <h6>모임일정 <span style={{color: 'salmon'}}>(리스트로 보기 버튼 만들어)</span></h6>
             {/* 😡임시😡 ↓ 모임장만 보이게 해야함 */}
             <FontAwesomeIcon icon={faEllipsisVertical} size="lg"/>
@@ -106,33 +78,15 @@ const MoimDetailBoard = ({moimInfo, currentPage, setCurrentPage, moimCommAfter, 
 
       <span className='moimDatail-line'>&nbsp;</span>{/*⭐ 컨텐츠 나누는 중간 줄 ⭐*/}
       
-      <div className='moimDetailBoard-comm-Box' ref={commBoxRef}>
-        <div className="moimDetailBoard-header">
+      <div className='moimDetailBoard-comm-Box'>
+        <div className="moimDetailBoard-header" >
             <h6>모임 게시판</h6>
             {/* 😡임시😡 ↓ 모임장만 보이게 해야함 */}
-            <div className='moimDetailBoard-comm-settingIcon' 
-                 onClick={(e)=>{
-                  e.stopPropagation(); // 이벤트 버블링 방지
-                  setCommSettingIcon(!commSettingIcon);
-                  }} 
+            <div className='moimDetailBoard-comm-writing' 
+                  onClick={()=>navigate(`/moim/${moimInfo.id}/write`)}
             >
-              <FontAwesomeIcon 
-                icon={faEllipsisVertical} 
-                size="lg" 
-              />
+              <FontAwesomeIcon icon={faPen} size="xs"/>  글 쓰기
             </div>
-
-            {
-              commSettingIcon &&
-              <div className='moimDetailBoard-comm-settingMenu' ref={settingMenuRef}>
-                <li onClick={()=>navigate(`/moim/${moimInfo.id}/write`)}>글 쓰기✏️</li>
-                <li onClick={commSettingMenuHandler}>내 글 보기</li>
-                {
-                  //이건 방장만 보이게 해야함
-                  <li onClick={commSettingMenuHandler} style={{color: 'red'}}>글 삭제</li>
-                }
-              </div>
-            }
         </div>
         <div className='moimDetailBoard-contentBox'>
           <div className='moimDetailBoard-comm-categotyBox'>
@@ -152,7 +106,6 @@ const MoimDetailBoard = ({moimInfo, currentPage, setCurrentPage, moimCommAfter, 
               <div className="tbl" style={{marginTop: '1.5rem', width: '100%'}}>
                 <ul className="th">
                   <li className="no">번호</li>
-                  {/* { moimCommCateCheck=== '전체' && <li className="category">카테고리</li>} */}
                   <li className="category">카테고리</li>
                   <li className="postTitle">제목</li>
                   <li className="author">작성자</li>

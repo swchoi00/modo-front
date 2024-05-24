@@ -11,10 +11,10 @@ import 'moment/locale/ko';  // 요일 한글로 구하려면 필요
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 // import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
-import sorryIcon from '../../../Img/sorryIcon.svg';
+import sorryIcon from '../../Img/sorryIcon.svg';
 import MoimDetailBoardSheduleModal from "./MoimDetail-BoardSchedule-Modal";
-import axiosInstance from "../../../axiosInstance";
-import MoimDetailBoardScheduleJoinModal from "./MoimDetail-BoardSchedule-JoinModal";
+import axiosInstance from "../../axiosInstance";
+import { useNavigate } from "react-router-dom";
 
 
 const MoimDetailBoardSchduleComponent = ({moimInfo, moimMemberRole, isAuth, userInfo})=>{
@@ -26,8 +26,7 @@ const MoimDetailBoardSchduleComponent = ({moimInfo, moimMemberRole, isAuth, user
   const dateFormat = "M월 D일 (ddd)";
   const [addScheduleModal, setAddScheduleModal] = useState(false); // 일정 추가 버튼 눌렀을때 모달 작동시키는 스테이트
   const [oneDaymoimSchedule, setOneDaymoimSchedule] = useState();  // 달력에서 선택한 날짜 일정 목록 저장 스테이트 
-  const [moimScheduleJoinModal, setMoimScheduleJoinModal] = useState(false); // 모임 일정 디테일 모달
-  const [moimScheduleInfo, setMoimScheduleInfo] = useState({});
+  const navigate = useNavigate();
 
   // 모임 스케쥴 리스트 가져옴
   useEffect(()=>{
@@ -103,8 +102,13 @@ const MoimDetailBoardSchduleComponent = ({moimInfo, moimMemberRole, isAuth, user
 
  
 
+  // 모임 스케쥴 상세 페이지 이동 핸들러
+  const moimScheduleDetailHandler = (scheduleNo)=>{
+    navigate(`/moim/${moimInfo.id}/schedule/${scheduleNo}`);
+  }
 
 
+console.log(moimMemberRole);
 
 
 
@@ -136,7 +140,7 @@ const MoimDetailBoardSchduleComponent = ({moimInfo, moimMemberRole, isAuth, user
             </div>
 
             <div className={`moimDetail-calendar-schedule-body ${moimScheduleDday(date) < 0 ? 'moimDetail-calendar-schedule-past' : ''}`}
-                 onClick={()=> {setMoimScheduleJoinModal(true); setMoimScheduleInfo(data);}} //모임 일정 상세페이지 보기 ( 모임 일정 참여 / 취소 포함)
+                onClick={()=>moimScheduleDetailHandler(data.scheduleNo)}
             >
               <div className="moimDetail-calendar-schedule-body-title">
                 <span style={{color: i === 0 ? '#9087d3' : 'sandybrown', marginRight: '0.5rem', lineHeight: '2rem'}}>●</span>
@@ -171,22 +175,21 @@ const MoimDetailBoardSchduleComponent = ({moimInfo, moimMemberRole, isAuth, user
         <div className="moimDetail-calendar-noSchedule">
           <img src={sorryIcon} alt=""/>
           <div>
-            <span>{moment(date).format("M월 D일 (ddd)", 'ko')}</span>은 일정이 없어요
+            <span>{moment(date).format(dateFormat, 'ko')}</span>은 일정이 없어요
           </div>
         </div>
       )}
 
 
-      {oneDaymoimSchedule?.length < 2 && moimMemberRole === 'leader' ? // 해당 날짜에 일정이 두개이상일때는 일정 추가버튼이 안보임
+      {oneDaymoimSchedule?.length < 2 && moimMemberRole === 'leader' && // 해당 날짜에 일정이 두개이상일때는 일정 추가버튼이 안보임
         <div className="moimDetail-calendar-scheduleAdd" onClick={()=>setAddScheduleModal(true)}>
           <span>+</span>모임 일정 추가하기
         </div>
-        :
-        null
       }
       
                     
     </div>
+    
 
     {/* 모임 일정 추가하는 모달 */}
     <MoimDetailBoardSheduleModal 
@@ -198,15 +201,7 @@ const MoimDetailBoardSchduleComponent = ({moimInfo, moimMemberRole, isAuth, user
       markedDates = {markedDates}
     />
 
-    <MoimDetailBoardScheduleJoinModal
-      moimScheduleJoinModal={moimScheduleJoinModal}
-      setMoimScheduleJoinModal={setMoimScheduleJoinModal}
-      moimScheduleInfo={moimScheduleInfo}
-      setMoimScheduleInfo={setMoimScheduleInfo}
-      isAuth={isAuth} userInfo={userInfo}
-    />
 
-    
     
  </div>
   )

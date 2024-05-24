@@ -68,43 +68,7 @@ const imsiBoardData = [
   }
   ];
   
-const imsiMemberData = [
-  {
-    memberRole : 'leader',
-    nickname : '배민족장',
-    profileText : '네 제가 방장입니다 :-)'
-  },
-  {
-    memberRole : 'manager',
-    nickname : '배드Mint',
-    profileText : '배드민턴 쪼아'
-  },
-  {
-    memberRole : 'manager',
-    nickname : '산비',
-    profileText : '올해는 운동좀 하자🫥'
-  },
-  {
-    memberRole : 'member',
-    nickname : 'Jella',
-    profileText : '안녕하세요'
-  },
-  {
-    memberRole : 'member',
-    nickname : '상운',
-    profileText : '안녕하세요'
-  },
-  {
-    memberRole : 'member',
-    nickname : 'Jella',
-    profileText : '안녕하세요'
-  },
-  {
-    memberRole : 'member',
-    nickname : '상운',
-    profileText : '안녕하세요'
-  }
-];
+
 
 const [memberListModal, setMemberListModal] = useState(false); // 모임 멤버 설정 모달 여부
 const [memberKickOut, setMemberKickOut] = useState(false); // 모임 멤버 강퇴 모달 여부
@@ -212,7 +176,7 @@ const moimManagerHandler=(memberId, memberName, memberRole)=>{
   return(
     <div className="moimDetail-moimContent-home">
       {/*⭐ 모임소개 ⭐*/}
-      <div className="moimDetail-moimContent-home-descriptionBox">
+      <div className="moimDetail-moimContent-home-descriptionBox" style={{marginTop: '1.5rem'}}>
         <div className="moimDetail-moimContent-home-header">
           <h6>모임소개</h6>
            {
