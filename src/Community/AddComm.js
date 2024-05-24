@@ -1,5 +1,5 @@
 import './AddComm.css';
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../axiosInstance";
 
@@ -7,7 +7,7 @@ const AddComm = ({ userInfo }) => {
   const navigate = useNavigate();
 
   const [commInfo, setCommInfo] = useState({
-    author: userInfo.username,  // 작성자는 username보다 nickname이 좋아보임
+    author: userInfo.username,
     postname: '',
     categories: '',
     content: ''

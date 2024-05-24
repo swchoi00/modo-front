@@ -29,6 +29,7 @@ import Community from './Community/Community';
 import AddComm from './Community/AddComm';
 import CommDetail from './Community/CommDetail';
 import MoimDetailBoardCommComponent from './Moim/MoimDetailComponent/MoimDetailInnerComponent/MoimDetail-BoardCommComponent';
+import PostComm from './Community/PostComm';
 
 
 function App() {
@@ -144,6 +145,7 @@ function App() {
           <Route path='/community' element={<Community currentPage={currentPage} setCurrentPage={setCurrentPage} isAuth={isAuth}/>}/>
           <Route path='/addComm' element={<AddComm userInfo={userInfo}/>} />
           <Route path='/comm/:id' element={<CommDetail isAuth={isAuth} userInfo={userInfo}/>} />
+          <Route path='/addCommTest' element={<PostComm userInfo={userInfo}/>} />
         </Routes>
       </div>
       

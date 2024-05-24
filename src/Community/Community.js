@@ -36,6 +36,10 @@ const Community = ({ isAuth, currentPage, setCurrentPage }) => {
       .then((response) => {
         setComm(response.data);
         setFilteredData(response.data);
+        // setTypeBtn('전체보기');
+        // setSearch(false);
+        // setSearchKeyWord('');
+        // setClickedIcon('list');
       }).catch((error) => {
         console.log(error);
       })
@@ -73,14 +77,18 @@ const Community = ({ isAuth, currentPage, setCurrentPage }) => {
   const communityViewIconHandler = (icon) => {
     setClickedIcon(icon);
     setTypeBtn('전체보기');
-    setFilteredData(comm);
+    if (search) {
+      searchFilterHandler();
+    } else {
+      setFilteredData(comm);
+    }
   }
 
-  const SearchInputChangeHandler = (e) => {
-    setSearchKeyWord(e.target.value);
+  const searchInputChangeHandler = (e) => {
     if (searchKeyWord === '') {
       setSearch(false);
     }
+    setSearchKeyWord(e.target.value);
   }
 
   const searchFilterHandler = () => {
@@ -93,6 +101,11 @@ const Community = ({ isAuth, currentPage, setCurrentPage }) => {
       setFilteredData(filteredBySearch);
       setTypeBtn('전체보기');
     }
+    if(searchKeyWord === '') {
+      setSearch(false);
+      setFilteredData(comm);
+      setTypeBtn('전체보기');
+    }
     setCurrentPage(1);
   }
 
@@ -102,6 +115,9 @@ const Community = ({ isAuth, currentPage, setCurrentPage }) => {
     setFilteredData(comm);
     setTypeBtn("전체보기");
   }
+
+  console.log(search);
+  console.log(searchKeyWord);
 
   return (
     <div className="Community">
@@ -113,15 +129,13 @@ const Community = ({ isAuth, currentPage, setCurrentPage }) => {
             className='search-input'
             placeholder='제목 + 내용 검색하기'
             value={searchKeyWord}
-            onChange={SearchInputChangeHandler} />
+            onChange={searchInputChangeHandler} />
           <span>
             {
               search === false || searchKeyWord === '' ?
                 <FontAwesomeIcon icon={searchIcon} size='lg' style={{ color: '#9c9c9c' }} onClick={searchFilterHandler} />
                 :
-                <>
-                  <FontAwesomeIcon icon={cancle} size="lg" style={{ color: '#9c9c9c' }} onClick={searchCancleHandler}/>
-                </>
+                <FontAwesomeIcon icon={cancle} size="lg" style={{ color: '#9c9c9c' }} onClick={searchCancleHandler} />
             }
           </span>
         </div>
@@ -240,9 +254,9 @@ const Community = ({ isAuth, currentPage, setCurrentPage }) => {
                                 </div>
                               </div>
                               <div className="card-body">
-                                <div>{data.postname.length > 20 ? data.postname.substring(0, 18) + "..." : data.postname}</div>
+                                <div>{data.postname}</div>
                                 <div><img src={dog} alt="" /></div>
-                                <div style={{ wordWrap: 'break-word' }}>{data.content.length > 60 ? data.content.substring(0, 57) + "..." : data.content}</div>
+                                <div>{data.content}</div>
                               </div>
                               <div className="card-footer">
                                 <div className="card-footer inner2">
