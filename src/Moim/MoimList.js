@@ -76,7 +76,7 @@ console.log(moimList);
            // ⭐각 항목마다 랜덤 숫자 생성
            const imageNumber = getRandomImageNumber();
           return (
-            <div className='moim-content-box' key={data.id} onClick={()=>navigate(`/moim/${data.id}`)}>
+            <div className='moim-content-box' key={data.id} onClick={()=>navigate(`/moim/${data.id}/home`)}>
               <div className='moim-content-box-img'
                 style={{
                   backgroundImage: `url(https://raw.githubusercontent.com/Jella-o312/modo-image/main/moim-img/moim${imageNumber}.png)` // ⭐보안 정책 때문에 컴퓨터 내부에 있는 파일로 테스트 불가

@@ -3,6 +3,7 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 3rem;
+  padding: 0 0.3rem;
 }
 
 .moimDetail-calendar-scheduleBox{
@@ -12,6 +13,14 @@
   flex-direction: column;
   gap: 2.7rem;
 } 
+
+.moimDetail-calendar-schedule-body{
+  cursor: pointer;
+}
+
+.moimDetail-calendar-schedule-past{ /*지난 일정에 대한 스타일*/
+  background-color: #a0a0a00a;
+}
 
 .moimDetail-calendar-schedule-header{
   display: flex;
@@ -66,7 +75,6 @@
 .moimDetail-moimContent-board-schedule-content-data{
   display: flex;
   color: #5e5e5e;
-
 }
 
 .moimDetail-moimContent-board-schedule-content-data span{
@@ -89,18 +97,15 @@
 
 
 .moimDetail-calendar-noSchedule{
-  /* box-shadow: 0px 0px 8px -1px rgba(0, 0, 0, 0.2);
-  border-radius: 10px; */
-  /* border: 1px solid salmon; */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 69%;
+  height: 100%;
 }
 
 .moimDetail-calendar-noSchedule img{
-  width: 40%;
+  width: 37%;
   margin-bottom: 1rem;
   opacity: 0.95;
 }
@@ -122,6 +127,7 @@
   line-height: 1.5rem;
   font-size: large;
   cursor: pointer;
+  /* margin-top: auto; */
 }
 
 .moimDetail-calendar-scheduleAdd span{

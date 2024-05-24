@@ -4,8 +4,8 @@ import { Modal } from 'react-bootstrap';
 import { faXmark } from '@fortawesome/free-solid-svg-icons'; 
 // import addMoimPhotoIcon from '../../../Img/moim_addMoimPhoto.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { MoimAdressCity, MoimAdressTown } from '../../MoimComponent/MoimAddress';
-import axiosInstance from '../../../axiosInstance';
+import { MoimAdressCity, MoimAdressTown } from '../MoimComponent/MoimAddress';
+import axiosInstance from '../../axiosInstance';
 
 const MoimDetailMoimInfoModal = ({showMoimInfoSettingModal, setShowMoimInfoSettingModal,moimInfo,setMoimInfo})=>{
 

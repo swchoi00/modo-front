@@ -1,12 +1,12 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faList} from '@fortawesome/free-solid-svg-icons';
-import '../../MoimDetail.css';
+import '../MoimMenu/Moim-home.css';
 import './MoimDetail-BoardCommComponent.css'
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import axiosInstance from '../../../axiosInstance';
+import axiosInstance from '../../axiosInstance';
 
-const MoimDetailBoardCommComponent = ({userInfo, setMoimCommAfter})=>{
+const MoimDetailBoardCommComponent = ({userInfo})=>{
   const navigate = useNavigate();
   const [moimInfo, setMoimInfo] = useState();
   const {id} = useParams(); // URL 파라미터인 id 값을 가져옴 (반환되는 값이 객체형태여서 객체 형태인 {id로 받아줘야함})
@@ -62,7 +62,7 @@ const MoimDetailBoardCommComponent = ({userInfo, setMoimCommAfter})=>{
     axiosInstance.post('/moimCommInsert', updatedMoimCommInfo)
     .then((response)=>{
       alert(response.data);
-      setMoimCommAfter(true);
+      // setMoimCommAfter(true);
       navigate(-1); // 이전 페이지로 
     }).catch((error)=>{
       console.log(error);
