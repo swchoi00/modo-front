@@ -1,31 +1,26 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import './MoimDetail.css';
-import { faList} from '@fortawesome/free-solid-svg-icons';
-// import { faArrowUpFromBracket as share} from '@fortawesome/free-solid-svg-icons';
+import './Moim-home';
 import { faEllipsisVertical} from '@fortawesome/free-solid-svg-icons';
 import { faHeart as fullHeart} from '@fortawesome/free-solid-svg-icons'; // 실선으로 된 하트 아이콘
 import { faHeart as lineHeart} from '@fortawesome/free-regular-svg-icons'; // 비어있는 하트 아이콘
 import { useEffect, useRef, useState } from 'react';
-import face from '../HomeComponent/ReviewComponent/face.svg';
+import face from '../../HomeComponent/ReviewComponent/face.svg';
 import { Carousel } from 'react-bootstrap';
-import MoimDetailHome from './MoimDetailComponent/MoimDetail-Home';
-import MoimDetailBoard from './MoimDetailComponent/MoimDetail-Board';
-import MoimDetailGellery from './MoimDetailComponent/MoimDetail-Gallery';
-import MoimDetailChat from './MoimDetailComponent/MoimDetail-Chat';
-import { useParams } from 'react-router-dom';
-import axiosInstance from '../axiosInstance';
-import LoginPzModal from '../Login/LoginPzModalComponent/LoginPzModal';
-import MoimDetailMoimInfoModal from './MoimDetailComponent/MoimDetailInnerComponent/MoimDetail-MoimInfo-Modal';
-import { is, tr } from 'date-fns/locale';
+import { useNavigate, useParams } from 'react-router-dom';
+import LoginPzModal from '../../Login/LoginPzModalComponent/LoginPzModal';
+import MoimDetailMoimInfoModal from '../MoimDetailInnerComponent/MoimDetail-MoimInfo-Modal';
+import MoimDetailHome from '../MoimDetailComponent/MoimDetail-Home';
+import axiosInstance from '../../axiosInstance';
+import MoimDetailHeader from '../MoimDetailComponent/MoimDetail-Header';
 
-const MoimDetail = ({isAuth, userInfo, setUserInfo, moimInfo, setMoimInfo,currentPage, setCurrentPage, moimCommAfter,setMoimCommAfter})=>{
+const MoimHome = ({isAuth, userInfo, setUserInfo, moimInfo, setMoimInfo,currentPage, setCurrentPage, moimCommAfter,setMoimCommAfter})=>{
 
 
   // APP에서 지정한 url → /moim/detail/:id 변수이름을 'id'로 저장해야 url파라미터 값을 제대로 가져올 수 있음
   const {id} = useParams(); // URL 파라미터인 id 값을 가져옴 (반환되는 값이 객체형태여서 객체 형태인 {id로 받아줘야함})
   const moimId = Number(id);  // 파라미터로 받은 id를 숫자로 변경
   // const [moimCommAfter, setMoimCommAfter] = useState(false); // 모임 게시글 작성 후 페이지 이동을 위해 사용
-
+  const moimMenuCk = '홈';
   
   // 좋아요 상태 저장하는 스테이트
   const [likedMoims, setLikedMoims] = useState(false); // 초기값을 false로 설정
@@ -38,6 +33,7 @@ const MoimDetail = ({isAuth, userInfo, setUserInfo, moimInfo, setMoimInfo,curren
   // 로그인 안했을때 모달창 
   const [showLoginModal, setShowLoginModal] = useState(false); 
 
+  const navigate = useNavigate();
 
   // 모임정보 받아오는 effect
   useEffect(()=>{
@@ -62,6 +58,24 @@ useEffect(()=>{
 )
 },[id,setMoimMemberList]);
 
+
+// 모임 role확인
+useEffect(()=>{
+  const matchingMember = moimMemberList?.find(memberInfo => memberInfo.member.id === userInfo.id);
+  if(!matchingMember){ //로그인 안하거나, 회원이 아닌 경우
+    setMoimMemberRole('notMember');
+    return;
+  }
+
+  switch(matchingMember.memberRole) {
+    case 'leader' : setMoimMemberRole('leader'); break;
+    case 'manager' : setMoimMemberRole('manager'); break;
+    case 'member' : setMoimMemberRole('member'); break;
+    default:  break;
+  }
+},[isAuth, userInfo, moimMemberList]);
+
+
  // 모임 가입 핸들러
  const joinMoimHandler =()=>{
   if(isAuth && userInfo){ //(로그인 유무, 유저 정보 확인)
@@ -77,6 +91,7 @@ useEffect(()=>{
   }
 }
 
+
   // 모임 좋아요 여부 세팅
 useEffect(()=>{
   if(isAuth){
@@ -91,23 +106,6 @@ useEffect(()=>{
 },[userInfo,isAuth, moimId]);
 
 
-// 모임 role확인
-useEffect(()=>{
-  const matchingMember = moimMemberList?.find(memberInfo => memberInfo.member.id === userInfo.id);
-  if(!matchingMember){ //로그인 안하거나, 회원이 아닌 경우
-    setMoimMemberRole('notMember');
-    return;
-  }
-
-  switch(matchingMember.memberRole) {
-    case 'leader' : setMoimMemberRole('leader'); break;
-    case 'manager' : setMoimMemberRole('manager'); break;
-    case 'member' : setMoimMemberRole('member'); break;
-  }
-},[isAuth, userInfo, moimMemberList]);
-
-
-// console.log(moimMemberRole);
 
 
   //  ⭐모임 좋아요 버튼 핸들러
@@ -115,7 +113,12 @@ useEffect(()=>{
     // 좋아요 기능은 로그인 되어있는 상태만 작동됨
     if(isAuth){
       // 서버에서 받아둔 좋아요 모임좋아요 여부가 true면 해당 번호를 제거하고, false면 좋아요 리스트에 추가
-      const upDateLikedMoims = likedMoims ? userInfo.likedMoim.filter(data => data !==moimId) : [...userInfo.likedMoim, moimId];
+      let upDateLikedMoims = [];
+      if(userInfo.likedMoim){
+        upDateLikedMoims = likedMoims ? userInfo.likedMoim.filter(data => data !==moimId) : [...userInfo.likedMoim, moimId];
+      }else{
+        upDateLikedMoims = [moimId];
+      }
       // 해당 좋아요 모임 리스트를 userInfo에 업데이트
       const member = { ...userInfo, likedMoim: upDateLikedMoims };
       axiosInstance.post('/upDateLikedMoim',member)
@@ -139,29 +142,29 @@ useEffect(()=>{
     setActiveIndex(selectedIndex);
   };
 
-  const moimDetailMenu = ['홈', '게시판', '갤러리', '채팅'];
-  const [moimMenuCk, setMoimMenuCk] = useState('홈');
-  const moimMenuCkHandler = (e) =>{
-    setMoimMenuCk(e.target.textContent); // value로 뽑으니까 값이 안나와서 textContent로 변경
-  }
+  // const moimDetailMenu = ['홈', '게시판', '갤러리', '채팅'];
+ 
+  // const moimMenuCkHandler = (e) =>{
+  //   setMoimMenuCk(e.target.textContent); // value로 뽑으니까 값이 안나와서 textContent로 변경
+  // }
 
   // 상세 페이지 메뉴 바꼈을때마다 화면 최상단으로 바꾸기
-  useEffect(() => {
-    if (!moimCommAfter && window.innerWidth <= 875) {
-      window.scroll(0, 0);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps 
-  }, [moimMenuCk]); // moimCommAfter를 의존성 배열에 포함하면 위치 이동이 안됨....
+  // useEffect(() => {
+  //   if (!moimCommAfter && window.innerWidth <= 875) {
+  //     window.scroll(0, 0);
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps 
+  // }, [moimMenuCk]); // moimCommAfter를 의존성 배열에 포함하면 위치 이동이 안됨....
   
 
   // 😡임시 모임디테일 페이지 내에서 게시판, 갤러리, 채팅등으로 이동 시 새로고침했을때 페이지 유지를 위함
-  useEffect(() => {
-    // 컴포넌트가 마운트될 때 로컬 스토리지에서 값을 가져옴
-    const savedMenuCk = localStorage.getItem('moimMenuCk');
-    if (savedMenuCk) {
-      setMoimMenuCk(savedMenuCk);
-    }
-  }, []);
+  // useEffect(() => {
+  //   // 컴포넌트가 마운트될 때 로컬 스토리지에서 값을 가져옴
+  //   const savedMenuCk = localStorage.getItem('moimMenuCk');
+  //   if (savedMenuCk) {
+  //     setMoimMenuCk(savedMenuCk);
+  //   }
+  // }, []);
 
   useEffect(() => {
     // 컴포넌트가 언마운트될 때 현재 메뉴 상태를 로컬 스토리지에 저장
@@ -176,11 +179,11 @@ useEffect(()=>{
  
 
   // 모임 게시글 작성 후 페이지 이동을 위해 생성
-  useEffect(()=>{
-    if(moimCommAfter){
-      setMoimMenuCk('게시판');
-    }
-  },[moimCommAfter,setMoimMenuCk]);
+  // useEffect(()=>{
+  //   if(moimCommAfter){
+  //     setMoimMenuCk('게시판');
+  //   }
+  // },[moimCommAfter,setMoimMenuCk]);
 
 
   // 모임기본 메뉴
@@ -206,6 +209,7 @@ useEffect(()=>{
     let menu =e.target.textContent;
     switch(menu){
       case "모임 정보 수정": setShowMoimInfoSettingModal(true);
+      break;
       case "모임 링크 복사": 
         navigator.clipboard.writeText(window.location.href)
           .then(() => {
@@ -219,12 +223,12 @@ useEffect(()=>{
         const deleteMoim = window.confirm("정말 모임을 삭제하시겠습니까?");
         if(deleteMoim){
           axiosInstance.delete(`/deleteMoim/${id}`)
-            .then((response) => {
-              alert(response.data);
-            })
-            .catch((error) => {
-              console.log(error);
-            });
+          .then((response) => {
+            alert(response.data);
+            navigate('/moim')
+          }).catch((error) => {
+            console.log(error);
+          })
         }
       break;
       case "모임 탈퇴" : 
@@ -241,31 +245,16 @@ useEffect(()=>{
           });
         }
       break;
+      default:  break;
     }
   }
 
-  console.log(moimMemberList);
+
   return(
     <div className='MoimDetail-container' onClick={handleOutsideClick}>
 
-      <div className='moimDetail-headerBox'>
-        <div className='moimDetail-header-beforeBtn'>{/* 목록 */}
-          <FontAwesomeIcon icon={faList} size='lg'style={{color: '#6a60a9'}}/>
-        </div>
-        <div className='moimDetail-header-category'>{moimInfo.category}</div>
-        <div className='moimDetail-header-title'>{moimInfo.moimname}</div>
-      </div>
-
-      <div className='moimDetail-moimMenu-box-moblie'>
-        {
-          moimDetailMenu.map((data, i)=>(
-            <div className={`moimDetail-moimMenu ${moimMenuCk === data ? 'moimDetail-moimMenu-ck': ''}`} 
-                 onClick={moimMenuCkHandler} key={i}>
-            {data}</div>
-          ))
-        }
-      </div>
-
+      {/* 모임 헤더*/}
+    <MoimDetailHeader moimCategory = {moimInfo.category} moimName = {moimInfo.moimname} moimMenuCk={moimMenuCk} id={id}/>
       
       <div className={`moimDetail-moimInfoBox ${moimMenuCk !== '홈' ? 'moimDetail-moimMenu-notShow' : ''}`}>
         <div className='moimDetail-moimInfo-imageBox'>
@@ -357,7 +346,7 @@ useEffect(()=>{
         </div>
       </div>
 
-      <div className='moimDetail-moimMenu-box'>
+      {/* <div className='moimDetail-moimMenu-box'>
         {
           moimDetailMenu.map((data, i)=>(
             <div className={`moimDetail-moimMenu ${moimMenuCk === data ? 'moimDetail-moimMenu-ck': ''}`} 
@@ -365,19 +354,15 @@ useEffect(()=>{
             {data}</div>
           ))
         }
-      </div>
+      </div> */}
 
       <div className='moimDetail-moimContentBox'>
-        {moimMenuCk === '홈' &&  <MoimDetailHome moimInfo={moimInfo} setMoimInfo={setMoimInfo} moimMemberRole={moimMemberRole} 
-                                                 moimMemberList={moimMemberList} setMoimMemberList={setMoimMemberList}/>}
-        {moimMenuCk === '게시판' &&  <MoimDetailBoard moimInfo={moimInfo} currentPage={currentPage} setCurrentPage={setCurrentPage} 
-                                                      moimCommAfter={moimCommAfter} setMoimCommAfter={setMoimCommAfter}/>}
-        {moimMenuCk === '갤러리' &&  <MoimDetailGellery/>}
-        {moimMenuCk === '채팅' &&  <MoimDetailChat/>}
+      <MoimDetailHome moimInfo={moimInfo} setMoimInfo={setMoimInfo} moimMemberRole={moimMemberRole} 
+                                                 moimMemberList={moimMemberList} setMoimMemberList={setMoimMemberList}/>
       </div>
       
       <LoginPzModal showLoginModal={showLoginModal} setShowLoginModal={setShowLoginModal}/>
-      <MoimDetailMoimInfoModal 
+      <MoimDetailMoimInfoModal
         showMoimInfoSettingModal = {showMoimInfoSettingModal}
         setShowMoimInfoSettingModal ={setShowMoimInfoSettingModal}
         moimInfo={moimInfo}
@@ -388,4 +373,4 @@ useEffect(()=>{
   )
 }
 
-export default MoimDetail;
+export default MoimHome;

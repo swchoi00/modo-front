@@ -61,13 +61,9 @@
   margin-left: 5px;
 } 
 
-.CommReply .Content {
+.CommReply .Content, .reply-update-delete {
   margin-top: 10px;
-}
-
-.CommReply .aa {
-  display: flex;
-  justify-content: flex-end;
+  text-align: left;
 }
 
 .CommReply .isAuthTrue > button {
@@ -75,10 +71,6 @@
   border-bottom: 1px solid rgb(240, 240, 240);
   background-color: white;
   margin: 5px;
-}
-
-.CommReply .reply-update-delete {
-  margin-top: 10px;
 }
 
 .CommReply .delete {

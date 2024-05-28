@@ -194,8 +194,28 @@
 }
 
 .Community .card-body {
-  height: 20rem;
+  height: 15rem;
   margin: 10px 0;
+}
+
+.Community .card-body > div:nth-child(1) {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+.Community .card-body > div:nth-child(3){
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  white-space: pre-wrap;
 }
 
 .Community .card-body img {
