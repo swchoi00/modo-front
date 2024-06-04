@@ -114,7 +114,7 @@ const createMoim = ()=>{
   formData.append('moimInfo', JSON.stringify(addMoimInfo)); // 모임 정보 
   formData.append('file', moimThumbnail);  // 모임 사진 
   formData.append('photoType', PhotoType.MAIN); // 사진 타입 (폴더 저장 경로)
-
+console.log(formData);
   axiosInstance.post('/createMoim', formData, {
     headers: {
       'Content-Type': 'multipart/form-data'
