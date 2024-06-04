@@ -1,104 +1,29 @@
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import ReactQuill, { Quill } from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import './PostComm.css';
-import { useState } from 'react';
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
 import axiosInstance from '../axiosInstance';
-import { Quill } from 'react-quill';
-import { ImageActions } from '@xeger/quill-image-actions';
-import { ImageFormats } from '@xeger/quill-image-formats';
-Quill.register('modules/imageActions', ImageActions);
-Quill.register('modules/imageFormats', ImageFormats);
+import QuillEditor from './QuillEditor';
+import { useNavigate } from 'react-router-dom';
 
 const PostComm = ({ userInfo }) => {
-
   const navigate = useNavigate();
-
+  const category = ['자유', '질문·고민', '홍보', '후기'];
   const [commInfo, setCommInfo] = useState({
     author: userInfo.username,
     postname: '',
     categories: '',
     content: ''
-  })
-
-  const category = ['자유', '질문·고민', '홍보', '후기'];
-
-  const [selectedColor, setSelectedColor] = useState('#666');
+  });
 
   const changeHandler = (e) => {
     setCommInfo({
       ...commInfo,
       [e.target.name]: e.target.value
     })
-    const color = e.target.value === '' ? '#666' : '#000000';
-    setSelectedColor(color);
   }
 
-  const handleQuillChange = (content, delta, source, editor) => {
-    setCommInfo((comm) => ({
-    ...comm,
-    content: editor.getContents(),
-    }));
-    };
-
-  // const modules = {
-  //   toolbar: [
-  //     [{ header: [1, 2, false] }],
-  //     ["bold", "italic", "underline", "strike", "blockquote"],
-  //     [
-  //       { list: "ordered" },
-  //       { list: "bullet" },
-  //       { indent: "-1" },
-  //       { indent: "+1" },
-  //     ],
-  //     ["link", "image"],
-  //     [{ align: [] }, { color: [] }, { background: [] }], // dropdown with defaults from theme
-  //     ["clean"],
-  //   ],
-  // };
-
-  // const formats = [
-  //   "header",
-  //   "bold",
-  //   "italic",
-  //   "underline",
-  //   "strike",
-  //   "blockquote",
-  //   "list",
-  //   "bullet",
-  //   "indent",
-  //   "link",
-  //   "image",
-  //   "align",
-  //   "color",
-  //   "background",
-  // ];
-
- 
-
-  const modules = {
-    toolbar: [
-      [{ header: [1, 2, 3, 4, 5, false] }],
-      ["link", "image"],
-      ["bold", "strike"],
-      [{ align: [] }], // dropdown with defaults from theme
-    ],
-    imageActions: {},
-    imageFormats: {},
-  };
-
-  const formats = [
-    "header",
-    "bold",
-    "strike",
-    "link",
-    "image",
-    "align",
-    'height', 
-    'width'
-  ];
-
-  console.log(commInfo);
+  
 
   const handleSubmit = () => {
     if (commInfo.postname === '' || commInfo.categories === '' || commInfo.content === '') {
@@ -110,10 +35,11 @@ const PostComm = ({ userInfo }) => {
         alert(response.data);
         navigate('/Community');
       }).catch(error => {
-        console.log(error);
-      })
-  }
+        console.error(error);
+      });
+  };
 
+  console.log(commInfo);
 
   return (
     <div className="PostComm">
@@ -123,45 +49,26 @@ const PostComm = ({ userInfo }) => {
           <select
             name='categories'
             onChange={changeHandler}
-            style={{ color: selectedColor }}>
-            <option defaultValue={''} hidden>카테고리</option>
-            {
-              category.map((data, i) => {
-                return (
-                  <option
-                    key={i}
-                    defaultValue={data}>
-                    {data}
-                  </option>
-                )
-              })
-            }
+            style={{ color: commInfo.categories ? '#000000' : '#666' }}>
+            <option value='' hidden>카테고리</option>
+            {category.map((data, i) => (
+              <option key={i} value={data}>{data}</option>
+            ))}
           </select>
-          <input 
-          name='postname'
-          value={commInfo.postname}
-          placeholder='제목을 입력해주세요' 
-          onChange={changeHandler} />
-        </div>
-        <div className='quill'>
-          <ReactQuill
-            style={{ width: "100%", height: "70vh", border: "none" }}
-            theme="snow"
-            modules={modules}
-            formats={formats}
-            name="content"
-            value={commInfo.content}
-            onChange={handleQuillChange}
-            // preserveWhitespace 
+          <input
+            name='postname'
+            value={commInfo.postname}
+            placeholder='제목을 입력해주세요'
+            onChange={changeHandler}
           />
         </div>
+        <div className='quill'>
+          <QuillEditor commInfo={commInfo} setCommInfo={setCommInfo}/>
+        </div>
       </div>
-      <button className='submit-comm-btn'
-              onClick={handleSubmit}
-      >게시글 등록</button>
-
+      <button className='submit-comm-btn' onClick={handleSubmit}>게시글 등록</button>
     </div>
-  )
-}
+  );
+};
 
 export default PostComm;
