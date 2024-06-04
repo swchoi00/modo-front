@@ -9,7 +9,7 @@ import PaginationComponent from '../../Pagination/PaginationComponent';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../../axiosInstance';
 
-const MoimDetailBoard = ({moimInfo, currentPage, setCurrentPage, moimMemberRole, isAuth, userInfo, id}) =>{
+const MoimDetailBoard = ({moimInfo, currentPage, setCurrentPage, moimMemberRole, isAuth, userInfo, id, moimMemberInfo}) =>{
 
 
 
@@ -17,7 +17,7 @@ const MoimDetailBoard = ({moimInfo, currentPage, setCurrentPage, moimMemberRole,
 
 
   const navigate = useNavigate();
-  const moimCommCate = ['전체', '공지','자유','일정투표','가입인사'];
+  const moimCommCate = ['전체', '공지','자유','가입인사'];
   const [moimCommCateCheck,setMoimCommCateCheck] = useState('전체'); // 모임 커뮤니티 클릭한 카테고리
   const page = 10;
   const [moimCommList, setMoimCommList] = useState([]);
@@ -51,14 +51,15 @@ const MoimDetailBoard = ({moimInfo, currentPage, setCurrentPage, moimMemberRole,
   const typeColors = {
     '공지': '#FC3232',
     '자유': '#6F6C6C',
-    '일정투표': '#7E57C2',
-    '가입인사': '#FFC727'
+    // '일정투표': '#7E57C2',
+    // '가입인사': '#FFC727'
+    '가입인사': '#7E57C2'
   };
 
 
 
 
-
+console.log(showMoimCommList);
 
                       
 
@@ -71,7 +72,7 @@ const MoimDetailBoard = ({moimInfo, currentPage, setCurrentPage, moimMemberRole,
             <FontAwesomeIcon icon={faEllipsisVertical} size="lg"/>
         </div>
         <div className='moimDetailBoard-contentBox'>
-          <MoimDetailBoardSchduleComponent moimInfo={moimInfo} moimMemberRole={moimMemberRole} isAuth={isAuth} userInfo={userInfo}/> 
+          <MoimDetailBoardSchduleComponent moimInfo={moimInfo} moimMemberRole={moimMemberRole} isAuth={isAuth} userInfo={userInfo} /> 
         </div>
 
       </div>
@@ -119,7 +120,7 @@ const MoimDetailBoard = ({moimInfo, currentPage, setCurrentPage, moimMemberRole,
                       .slice((currentPage - 1) * page, currentPage * page)
                       .map((data, i) => {
                         return (
-                          <div key={i} className="td">
+                          <div key={i} className="td" onClick={()=>navigate(`/moim/${moimInfo.id}/comm/${data.postno}`)}>
                             <li className="no">{data.postno}</li>
                             {/* { moimCommCateCheck=== '전체' && 
                               <li className="item category" style={{ color: typeColors[data.category], fontWeight: 'bold' }}>{data.category}</li>

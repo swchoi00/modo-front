@@ -346,15 +346,6 @@ useEffect(()=>{
         </div>
       </div>
 
-      {/* <div className='moimDetail-moimMenu-box'>
-        {
-          moimDetailMenu.map((data, i)=>(
-            <div className={`moimDetail-moimMenu ${moimMenuCk === data ? 'moimDetail-moimMenu-ck': ''}`} 
-                 onClick={moimMenuCkHandler} key={i}>
-            {data}</div>
-          ))
-        }
-      </div> */}
 
       <div className='moimDetail-moimContentBox'>
       <MoimDetailHome moimInfo={moimInfo} setMoimInfo={setMoimInfo} moimMemberRole={moimMemberRole} 

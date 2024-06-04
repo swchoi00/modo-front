@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faList} from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from "react-router-dom";
+import './MoimDetail-Header.css';
 const MoimDetailHeader = ({moimCategory, moimName, moimMenuCk, id})=>{
   
   const navigate = useNavigate();
@@ -14,11 +15,12 @@ const MoimDetailHeader = ({moimCategory, moimName, moimMenuCk, id})=>{
       case '게시판' : navigate(`/moim/${id}/board`); break;
       case '갤러리' : navigate(`/moim/${id}/gallery`); break;
       case '채팅' : navigate(`/moim/${id}/chat`); break;
+      default : break;
     }
   }
   
   return(
-    <div>
+    <div className="moimDetail-headerContainer">
       <div className='moimDetail-headerBox'>
         <div className='moimDetail-header-beforeBtn'>{/* 목록 */}
           <FontAwesomeIcon icon={faList} size='lg'style={{color: '#6a60a9'}}/>
@@ -27,7 +29,7 @@ const MoimDetailHeader = ({moimCategory, moimName, moimMenuCk, id})=>{
         <div className='moimDetail-header-title'>{moimName}</div>
       </div>
 
-      <div className='moimDetail-moimMenu-box-moblie'>
+      <div className='moimDetail-moimMenuBox'>
         {
           moimDetailMenu.map((data, i)=>(
             <div className={`moimDetail-moimMenu ${moimMenuCk === data ? 'moimDetail-moimMenu-ck': ''}`} 

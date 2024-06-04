@@ -24,6 +24,11 @@
   border: 1px solid rgb(214, 213, 213);
 }
 
+.replyInput:focus{
+  outline: none;
+  border: 1px solid #8F7BE0;
+}
+
 .CommReply .replyBtn {
   border: 1px solid #8F7BE0;
   border-radius: 5px;

@@ -1,16 +1,16 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faList} from '@fortawesome/free-solid-svg-icons';
-import '../MoimMenu/Moim-home.css';
+import '../MoimDetail/Moim-home.css';
 import './MoimDetail-BoardCommComponent.css'
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axiosInstance from '../../axiosInstance';
 
-const MoimDetailBoardCommComponent = ({userInfo})=>{
+const MoimDetailBoardCommComponent = ({isAuth, userInfo})=>{
   const navigate = useNavigate();
   const [moimInfo, setMoimInfo] = useState();
   const {id} = useParams(); // URL 파라미터인 id 값을 가져옴 (반환되는 값이 객체형태여서 객체 형태인 {id로 받아줘야함})
-  const commCategory = ['공지', '자유', '일정투표', '가입인사'];
+  const commCategory = ['공지', '자유', '가입인사'];
   const [moimCommInfo, setMoimCommInfo] = useState({
     // member: {id : userInfo.id, username : userInfo.username}, 
     categories: '',

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Calendar from "react-calendar";
 import './MoimDetail-BoardSheduleComponent.css';
 import './Calendar.css';
@@ -15,7 +15,8 @@ import sorryIcon from '../../Img/sorryIcon.svg';
 import MoimDetailBoardSheduleModal from "./MoimDetail-BoardSchedule-Modal";
 import axiosInstance from "../../axiosInstance";
 import { useNavigate } from "react-router-dom";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGear } from '@fortawesome/free-solid-svg-icons';
 
 const MoimDetailBoardSchduleComponent = ({moimInfo, moimMemberRole, isAuth, userInfo})=>{
 
@@ -39,7 +40,7 @@ const MoimDetailBoardSchduleComponent = ({moimInfo, moimMemberRole, isAuth, user
     }).catch((error)=>{
       console.log(error);
     });
-  },[moimInfo.id, addScheduleModal]);
+  },[moimInfo.id, addScheduleModal, setMoimScheduleList]);
 
   
   // 모임일정이 있는 날짜 찾아서 일정 몇개인지 카운트 
@@ -108,12 +109,64 @@ const MoimDetailBoardSchduleComponent = ({moimInfo, moimMemberRole, isAuth, user
   }
 
 
-console.log(moimMemberRole);
+  
+  const moimScheduleSettingMenu = ['일정 수정','일정 삭제']; 
+  const settingMenuRef = useRef(null); //  settingMenu 요소를 참조 
+  const [moimSettingIcon, setMoimSettingIcon] = useState({});  //모임일정 ⚙️ 아이콘 눌렀는지 여부 (일정이 2개 일 수도 있어서 이렇게 함)
+  const [upDateScheduleInfo, setUpDateScheduleInfo] = useState(null); // 업데이트할 모임 일정 객체
+
+   //로그인 풀리면 ⚙️닫으려고 추가
+   useEffect(()=>{ 
+    if(!isAuth){setMoimSettingIcon({});} // ⭐⭐
+  },[isAuth]);
+
+
+  // settingMenu 외의 영역을 클릭할 때 settingMenu를 닫기
+  const handleOutsideClick = (e) => {
+    if (!settingMenuRef.current || !settingMenuRef.current.contains(e.target)) {
+      setMoimSettingIcon({});  // ⭐⭐
+    }
+  };
+
+
+  // 일정 ⚙️ 아이콘 상태를 토글
+  const toggleSettingIcon = (index) => {  
+    setMoimSettingIcon((prevState) => ({  
+      ...prevState,  
+      [index]: !prevState[index],  
+    }));  
+  };  
+
+  const MoimSettingMenuHandler = (e, schedule)=>{ 
+    let menu =e.target.textContent;
+    let id = schedule.scheduleNo;
+
+    switch(menu){
+      case "일정 수정": 
+        setUpDateScheduleInfo(schedule);
+        setAddScheduleModal(true); // 모임 일정 추가/수정 모달
+      break;
+      case "일정 삭제" : 
+        const deleteSchedule = window.confirm("정말 일정을 삭제하시겠습니까?");
+        if(deleteSchedule){ 
+          axiosInstance.delete(`/deleteSchedule/${id}`) //🔥🔥[상운띠 일정 삭제 서버 연결해주셍퓨]
+          .then((response) => {
+            alert(response.data);
+            setMoimScheduleList(moimScheduleList.filter(schedule => schedule.scheduleNo !== id)); // 일정 리스트에서 삭제
+          }).catch((error) => {
+            console.log(error);
+          })
+        }
+      break;
+      default:  break;
+    }
+  }
+
 
 
 
   return(
-    <div className="moimDetail-calendar-container">
+    <div className="moimDetail-calendar-container" onClick={handleOutsideClick}>
     <div className="moimDetail-calendarBox">
       <Calendar onChange={setDate} 
                 value={date} 
@@ -145,6 +198,28 @@ console.log(moimMemberRole);
               <div className="moimDetail-calendar-schedule-body-title">
                 <span style={{color: i === 0 ? '#9087d3' : 'sandybrown', marginRight: '0.5rem', lineHeight: '2rem'}}>●</span>
                 <div>{data.scheduleName}</div>
+                {moimMemberRole === 'leader' &&
+                  <div className='moimDetail-moimInfo-text1-RightBtn' ref={settingMenuRef} 
+                      onClick={(e) => {e.stopPropagation(); toggleSettingIcon(i);}} // ⭐⭐        
+                  >
+                    <FontAwesomeIcon 
+                      icon={faGear} 
+                      style={{color: 'lightgray'}}
+                    />
+                      
+                      { 
+                        moimSettingIcon[i] && // ⭐⭐
+                        <div className='moimDetail-moimInfo-text1-RightBtn-icon' ref={settingMenuRef}>
+                          { moimScheduleDday(date) >= 0 && // 이전 일정은 수정 불가
+                            <li onClick={(e)=>MoimSettingMenuHandler(e, data)} >일정 수정</li>
+                          }
+                          <li onClick={(e)=>MoimSettingMenuHandler(e, data)} 
+                              style={{color: 'red'}} 
+                          >일정 삭제</li>
+                        </div>
+                      }
+                  </div>
+                }      
               </div>
               <div className="moimDetail-calendar-schedule-body-contentBox">
                 {data.scheduleEndDate === null ? // 일정이 하루인지 물어봄
@@ -164,7 +239,7 @@ console.log(moimMemberRole);
                     <span>비용</span><div>{data.scheduleCost}</div>
                   </div>
               </div>
-              <div className='moimDetail-moimContent-board-schedule-content-member'><span>{data.scheduleMaxMember -1}</span> / {data.scheduleMaxMember}명</div> 
+              <div className='moimDetail-moimContent-board-schedule-content-member'><span>{data.joinedMember?.length || 0}</span> / {data.scheduleMaxMember}명</div> 
             </div>
           </div>
         ))
@@ -181,8 +256,9 @@ console.log(moimMemberRole);
       )}
 
 
-      {oneDaymoimSchedule?.length < 2 && moimMemberRole === 'leader' && // 해당 날짜에 일정이 두개이상일때는 일정 추가버튼이 안보임
-        <div className="moimDetail-calendar-scheduleAdd" onClick={()=>setAddScheduleModal(true)}>
+      { // 해당 날짜에 일정이 두개이상일때, 리더가 아닐 때 , 이미 지난 날 일때는  일정 추가버튼이 안보임
+        oneDaymoimSchedule?.length < 2 && moimMemberRole === 'leader' && moimScheduleDday(date) >= 0 &&
+        <div className="moimDetail-calendar-scheduleAdd" onClick={() => { setAddScheduleModal(true); setUpDateScheduleInfo(null); }}>
           <span>+</span>모임 일정 추가하기
         </div>
       }
@@ -199,6 +275,7 @@ console.log(moimMemberRole);
       moment={moment}
       moimInfo={moimInfo}
       markedDates = {markedDates}
+      upDateScheduleInfo={upDateScheduleInfo}
     />
 
 
