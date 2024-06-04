@@ -3,7 +3,9 @@
   width: 1050px;
   display: flex;
   flex-direction: column;
+  position: relative
 }
+
 
 .moimDetail-headerBox{
   /* border-bottom: 1px solid rgba(0,0,0,.08); */
@@ -125,7 +127,8 @@
 .moimDetail-moimInfo-text1-RightBtn-icon{
   background-color: white;
   position: absolute;
-  top: 0;
+  /* top: 0; */
+  z-index: 10;
   right: 0;
   display: flex;
   flex-direction: column;
@@ -224,59 +227,10 @@
 
 
 
-.moimDetail-moimMenu-box, .moimDetail-moimMenu-box-moblie{
-  width: 100%;
-  /* border-top: 1px solid rgba(0,0,0,.08); */
-  border-bottom: 1px solid rgba(0,0,0,.08);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0.2rem 0 0 !important;
-  padding-bottom: 0.3rem;
-}
-
-.moimDetail-moimMenu-box-moblie{
-  margin: 0;
-  /* padding: 0.5rem 0 0 0; */
-  position: sticky;
-  top: 5.53rem;
-  z-index: 10;
-  background-color: white;
-  /* border: 1px solid red; */
-}
-
-.moimDetail-moimMenu{
-  width: 25%;
-  padding: 0.3rem 0 0.5rem;
-  cursor: pointer;
-  color: #afafaf;
-}
-
-.moimDetail-moimMenu-ck{
-  color: #6a60a9;
-  font-weight: bold;
-  /* background-color: #6a60a9;
-  border-radius: 1rem 1rem 0 0 ;
-  border-radius: 10px 10px 0 0 ; */
-}
-
-.moimDetail-moimContentBox{
-  /* border: 1px solid salmon; */
-  width: 100%;
-  display: flex;
-  /* justify-content: center; */
-  /* padding: 0 1rem; */
-}
-
-
-
 
 @media screen and (max-width: 1069px){
   .MoimDetail-container{
     width: 100%;
-  }
-  .moimDetail-headerBox{
-    padding-left: 0.5rem;
   }
   .moimDetail-moimInfo-textBox{
     width: 44%;
@@ -336,23 +290,6 @@
     align-items: center;
     justify-content: center; /* 내용을 수직으로 가운데 정렬 */
   }
-  .moimDetail-moimMenu{
-    width: 25%;
-  }
-  .moimDetail-headerBox{
-    position: sticky;
-    top: 3.3rem;
-    z-index: 10;
-    background-color: white;
-   }
-
-  .moimDetail-moimMenu{
-    padding: 0.5rem 0;
-  }
-  /* .moimDetail-moimMenu-ck{
-    background-color: white;
-    color: #6a60a9;
-  } */
   .moimDetail-moimMenu-notShow{ /*모임메뉴가 홈이 아니면 모임 기본 정보 안보여줌*/
     display: none;
   }

@@ -29,13 +29,15 @@ import AddComm from './Community/AddComm';
 import CommDetail from './Community/CommDetail';
 // import MoimDetailBoardCommComponent from './Moim/MoimDetailComponent/MoimDetailInnerComponent/MoimDetail-BoardCommComponent';
 
-import MoimBoard from './Moim/MoimMenu/Moim-board';
-import MoimGallery from './Moim/MoimMenu/Moim-gallery';
-import MoimChat from './Moim/MoimMenu/Moim-chat';
-import MoimHome from './Moim/MoimMenu/Moim-home';
+import MoimBoard from './Moim/MoimDetail/Moim-board';
+import MoimGallery from './Moim/MoimDetail/Moim-gallery';
+import MoimChat from './Moim/MoimDetail/Moim-chat';
+import MoimHome from './Moim/MoimDetail/Moim-home';
 import PostComm from './Community/PostComm';
 import MoimDetailBoardCommComponent from './Moim/MoimDetailInnerComponent/MoimDetail-BoardCommComponent';
 import MoimDetailBoardScheduleDetail from './Moim/MoimDetailInnerComponent/MoimDetail-BoardSchdule-Detail';
+import MoimDetailBoardScheduleDetailMember from './Moim/MoimDetailInnerComponent/MoimDetail-BoardSchedule-Detail-Member';
+import MoimDetailBoardCommDetail from './Moim/MoimDetailInnerComponent/MoimDetail-BoardComm-Detail';
 
 
 function App() {
@@ -132,12 +134,11 @@ function App() {
                                                                  setMoimInfo={setMoimInfo} currentPage={currentPage} 
                                                                  setCurrentPage={setCurrentPage}/>}/>                           
 
-          <Route path = '/moim/:id/write' element={<MoimDetailBoardCommComponent isAuth={isAuth} userInfo={userInfo} moimInfo={moimInfo} 
-                                                                 setMoimInfo={setMoimInfo}/>}/>
+          <Route path = '/moim/:id/write' element={<MoimDetailBoardCommComponent isAuth={isAuth} userInfo={userInfo}/>}/>
+          <Route path = '/moim/:id/comm/:no' element={<MoimDetailBoardCommDetail isAuth={isAuth} userInfo={userInfo}/>}/>                                                                 
           <Route path='/moim/:id/schedule/:no' element={<MoimDetailBoardScheduleDetail isAuth={isAuth} userInfo={userInfo} moimInfo={moimInfo} 
                                                                  setMoimInfo={setMoimInfo}/>}/>   
-          {/* <Route path='/moim/:id/schedule/:no/member' element={<MoimDetailBoardScheduleDetail isAuth={isAuth} userInfo={userInfo} moimInfo={moimInfo} 
-                                                                 setMoimInfo={setMoimInfo}/>}/>                                                                                                  */}
+          <Route path='/moim/:id/schedule/:no/member' element={<MoimDetailBoardScheduleDetailMember/>}/>                                                                                                 
           <Route path='/addMoim' element={<AddMoim userInfo={userInfo}/>}/> 
 
           <Route path ='/faq' element={<Faq userInfo={userInfo} currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>

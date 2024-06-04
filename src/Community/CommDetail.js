@@ -3,6 +3,9 @@ import './CommDetail.css';
 import { useEffect, useState } from 'react';
 import axiosInstance from '../axiosInstance';
 import CommReply from './CommReply';
+import * as DOMPurify from "dompurify";
+import QuillEditor from './QuillEditor';
+import 'react-quill/dist/quill.snow.css';
 
 const CommDetail = ({ isAuth, userInfo }) => {
   const { id } = useParams();
@@ -12,6 +15,7 @@ const CommDetail = ({ isAuth, userInfo }) => {
   const [replyLength, setReplyLength] = useState([]);
   const navigate = useNavigate();
   const [updateReplyCnt, setUpdateReplyCnt] = useState(false);
+  
 
   useEffect(() => {
     axiosInstance.get(`/comm/${id}`)
@@ -46,15 +50,9 @@ const CommDetail = ({ isAuth, userInfo }) => {
     }
   },[updateReplyCnt])
 
-  const changeHandler = (e) => {
-    setUpdateComm({
-      ...updateComm,
-      content: e.target.value
-    });
-  }
-
   const handleUpdate = () => {
-    if (!updateComm.content.trim()) {
+    // ⭐⭐⭐⭐ 다 지운 빈 값은 밑에 코드처럼 하면 되는데 스페이바 누른거면 또 안됨... 스페이스바 누르거나 빈 값일 경우 수정할 내용을 입력해주세요 라고 띄우기 @@!!
+    if (updateComm?.content === '<p><br></p>') {
       alert('수정할 내용을 입력해주세요.');
       return;
     }
@@ -68,7 +66,7 @@ const CommDetail = ({ isAuth, userInfo }) => {
         console.log(error);
       })
   };
-console.log(replyLength)
+console.log(updateComm);
   return (
     <div className='CommDetail'>
       <div>
@@ -117,17 +115,23 @@ console.log(replyLength)
 
       <div className='postContent'>
         {update ? (
-          <textarea
+          <>
+          {/* <textarea
             value={updateComm.content || ''}
             onChange={changeHandler}
             style={{ width: "100%", minHeight: "50vh", padding: "10px", borderRadius: "10px", outlineColor: "#8F7BE0" }}
-          />
+          /> */}
+          <QuillEditor update={update} updatecomm={updateComm} setUpdateComm={setUpdateComm}/>
+          </>
         ) : (
-          <div>{comm.content}</div>
+          <div
+          dangerouslySetInnerHTML={{
+            __html: DOMPurify.sanitize(String(comm?.content))
+          }}></div>
         )}
       </div>
 
-      <div className='postBtn'>
+      <div className='commListBtn'>
         <button onClick={() => navigate(-1)}>목록</button>
       </div>
 

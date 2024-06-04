@@ -3,13 +3,13 @@
   /* border: 1px solid salmon; */
   display: flex;
   flex-direction: column;
-  gap: 1.3rem;
-  padding: 0 1rem;
+  gap: 2rem;
+  padding: 1.5rem;
   overflow-y: scroll;
 }
 
 .moimDetail-calendar-scheduleAdd-infoBox::-webkit-scrollbar {
-  width: 0.5rem; /* 스크롤바의 너비 설정 */
+  width: 0.7rem; /* 스크롤바의 너비 설정 */
   border: none;
 }
 
@@ -17,6 +17,11 @@
   background-color: #ebebeb; /* 스크롤바의 색상 설정 */
   border-radius: 5px; /* 스크롤바의 모서리 둥글게 설정 */
   height: 5rem; /* 스크롤바의 길이 */
+  margin-right: 0.5rem; /* 스크롤바 오른쪽 여백 추가 */
+}
+
+.moimDetail-calendar-scheduleAdd-infoBox::-webkit-scrollbar-track {
+  margin-right: -0.5rem !important; /* 스크롤바 트랙의 오른쪽 마진 조정 */
 }
 
 
@@ -29,39 +34,43 @@
 
 /* 모달 창 바디 내부 div 덩어리 */
 .moimDetail-calendar-scheduleAdd-info3{
-  /* border: 1px solid salmon; */
-  display: flex;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); 
   gap: 1.5rem;
 }
 /* 참여 비용 및 참여 인원 div 덩어리 */
-.moimDetail-calendar-scheduleAdd-info3 div{
+.moimDetail-calendar-scheduleAdd-info3 .moimDetail-calendar-scheduleAdd-info{
   width: 100%;
+  /* border: 1px solid red; */
 }
+
 
 /* 모달 창 바디 내부 div 덩어리 카테고리 name */
 .scheduleAdd-top-title{
-  color: #303030;
-  font-size: 14px;
-  font-weight: 500;
+  /* color: #303030; */
+  /* font-size: 14px; ❤️ */
+  /* font-weight: 500; */
   margin: 0 0.4rem 0.3rem 0 ;
   /* margin-bottom: 0.3rem; */
 }
 
 /* ⭐일정 날짜, 일정 시간을 제외한 나머지 입력박스*/
 .moimDetail-calendar-scheduleAdd-info-input{
-  /* width: 100%; */
-  /* background-color: #f5f1ff; */
+  width: 100%;
+  color: #2e2e2e;
   background-color: white;
   border: 1px solid #e4e5ed;
   border-radius: 5px;
   height: 2rem;
   text-indent: 0.5rem; /*들여쓰기*/
-  font-size: small;
+  /* font-size: small; ❤️ */
 }
 
 .moimDetail-calendar-scheduleAdd-info-input::placeholder{
-  /* color: #acacac; */
-  font-size: small;
+  /* color: red; */
+  font-size: 85%; 
+  /* font-size: small; ❤️ */
   /* font-weight: 300; */
 }
 
@@ -73,7 +82,8 @@
 /* 일정 날짜 , 일정 시간 placeholder */
 .moimDetail-calendar-scheduleAdd-info2 label, .moimDetail-calendar-scheduleAdd-infoText {
   color: #acacac;
-  font-size: 12px;
+  font-size: small;
+  /* font-size: 12px; ❤️ */
 }
 
 /* 부트스트랩 스위치 설정 */
@@ -88,6 +98,7 @@
   outline: 0;
   box-shadow: 0 0 0 0.2rem rgba(65, 13, 253, 0.25) !important;
 }
+
 
 
 /* ✅ 데이트 피커박스 (상세 설정값은 react-datepicker.css에서함) */
@@ -128,13 +139,20 @@
 .moimDetail-calendar-scheduleAdd-info-inner-datePickerBox input::placeholder
 , .moimDetail-calendar-schedule-title{
   color: #757575;
-  font-size: small;
+  /* font-size: small;  */
 }
 
 
 
 
 /* ✅ 타임피커 */
+
+.moimDetail-calendar-schedule-timeContainer{
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+
 .moimDetail-calendar-schedule-timeBox {
   position: relative;
   white-space: pre; /*스페이스 공백도 적용되게 */
@@ -149,7 +167,7 @@
   width: 100%;
   height: 2rem;
   /* text-indent: 0.5rem; */
-  font-size: small;
+  font-size: 85%; 
 }
 
 /* 타임피커는 직접만든거라 focus(open됐을때 상태) 스타일을 따로 적용해줌 */
@@ -159,7 +177,8 @@
 
 /* 입력했을때 글색상 변화 (button이라 placeHolder가 없어서 넣음) */
 .timePicker-colored{
-  color: black;
+font-size: medium;
+  color: #2e2e2e;
 }
 
 /* 타임피커 드롭박스 설정값 */
@@ -229,7 +248,7 @@ width: 45%;
   padding: 0.3rem 0;
   cursor: pointer;
   user-select: none;
-  font-size: small;
+  font-size: 85%; 
 }
 
 .moimDetail-calendar-schedule-timeBox-item-time li:hover{
@@ -263,7 +282,7 @@ width: 45%;
   border-radius: 5px;
   width: 10rem;
   height: 2rem;
-  font-size: small;
+  /* font-size: small;❤️ */
 }
 
 
@@ -299,8 +318,13 @@ width: 45%;
   border-radius: 5px;
   padding: 0.5rem;
   /* text-indent: 0.5rem; 들여쓰기 */
-  font-size: small;
+  /* font-size: small;❤️ */
 }  
+
+.moimDetail-calendar-scheduleAdd-info textarea::placeholder{
+  /* color: red; */
+  font-size: 85%;
+}
 
 .moimDetail-calendar-scheduleAdd-info textarea::-webkit-scrollbar {
   width: 0.5rem; /* 스크롤바의 너비 설정 */
@@ -333,6 +357,27 @@ width: 45%;
   border: 1px solid #eaebee;
   color: #7a7a7a;
 }
+
+
+
+
+@media screen and (max-width: 550px){
+/* ✅모달 창 바디 div */
+.moimDetail-calendar-scheduleAdd-infoBox{
+  padding: 1rem;
+}
+}
+
+@media screen and (max-width: 480px){
+  .moimDetail-calendar-scheduleAdd-info3{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+}
+
+
+
 
 
 

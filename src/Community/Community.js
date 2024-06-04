@@ -11,6 +11,7 @@ import view from "../Img/comm_view.png";
 import reply from "../Img/comm_reply.png";
 import { useNavigate } from "react-router-dom";
 import dog from "../Img/깡총강쥐.png";
+import * as DOMPurify from "dompurify";
 
 const Community = ({ isAuth, currentPage, setCurrentPage }) => {
   const page = 10;
@@ -36,10 +37,6 @@ const Community = ({ isAuth, currentPage, setCurrentPage }) => {
       .then((response) => {
         setComm(response.data);
         setFilteredData(response.data);
-        // setTypeBtn('전체보기');
-        // setSearch(false);
-        // setSearchKeyWord('');
-        // setClickedIcon('list');
       }).catch((error) => {
         console.log(error);
       })
@@ -270,7 +267,9 @@ const Community = ({ isAuth, currentPage, setCurrentPage }) => {
                               <div className="card-body">
                                 <div>{data.postname}</div>
                                 <div><img src={dog} alt="" /></div>
-                                <div>{data.content}</div>
+                                <div dangerouslySetInnerHTML={{
+            __html: DOMPurify.sanitize(String(data?.content)),
+          }}></div>
                               </div>
                               <div className="card-footer">
                                 <div className="card-footer inner2">

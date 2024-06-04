@@ -3,6 +3,7 @@ import MoimDetailHeader from "../MoimDetailComponent/MoimDetail-Header";
 import { useEffect, useState } from "react";
 import axiosInstance from "../../axiosInstance";
 import MoimDetailBoard from "../MoimDetailComponent/MoimDetail-Board";
+import './Moim-home.css';
 
 const MoimBoard = ({isAuth, userInfo, moimInfo, setMoimInfo,currentPage ,setCurrentPage})=>{
  
@@ -13,6 +14,8 @@ const MoimBoard = ({isAuth, userInfo, moimInfo, setMoimInfo,currentPage ,setCurr
   // 모임멤버 리스트
   const [moimMemberList,setMoimMemberList] = useState(null);
   const [showLoginModal, setShowLoginModal] = useState(false); 
+  const [moimMemberInfo, setMoimMemberInfo] = useState();
+
 
   // 모임정보 받아오는 effect
   useEffect(()=>{
@@ -47,6 +50,8 @@ useEffect(()=>{
     return;
   }
 
+  setMoimMemberInfo(matchingMember);
+
   switch(matchingMember.memberRole) {
     case 'leader' : setMoimMemberRole('leader'); break;
     case 'manager' : setMoimMemberRole('manager'); break;
@@ -56,12 +61,15 @@ useEffect(()=>{
 },[isAuth, userInfo, moimMemberList]);
 
   return(
-    <div className='MoimDetail-container' style={{overflowX: 'hidden'}}>
+    <div className='MoimDetail-container'>
       <MoimDetailHeader moimCategory = {moimInfo.category} moimName = {moimInfo.moimname} moimMenuCk={moimMenuCk} id={id}/>
       
-      <MoimDetailBoard moimInfo={moimInfo} currentPage={currentPage} setCurrentPage={setCurrentPage} id={id}
-                                                      moimMemberRole={moimMemberRole} isAuth={isAuth} userInfo={userInfo}
-      />
+      <div style={{overflowX: "hidden"}}>
+        <MoimDetailBoard moimInfo={moimInfo} currentPage={currentPage} setCurrentPage={setCurrentPage} id={id}
+                         moimMemberRole={moimMemberRole} isAuth={isAuth} userInfo={userInfo} moimMemberInfo={moimMemberInfo}
+
+        />
+      </div>
     </div>
   )
 }

@@ -142,6 +142,13 @@
 }
 
 
+.moimDetail-calendar-container .moimDetail-moimInfo-text1-RightBtn-icon li{
+  font-size: medium;
+  font-weight: normal;
+}
+
+
+
 
 @media screen and (max-width: 875px){
   .moimDetail-calendar-container{

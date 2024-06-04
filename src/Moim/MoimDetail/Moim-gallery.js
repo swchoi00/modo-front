@@ -1,14 +1,13 @@
-
 import { useParams } from "react-router-dom";
 import MoimDetailHeader from "../MoimDetailComponent/MoimDetail-Header";
 import { useEffect, useState } from "react";
 import axiosInstance from "../../axiosInstance";
 
-const MoimChat = ({isAuth, userInfo, moimInfo, setMoimInfo,currentPage ,setCurrentPage})=>{
+const MoimGallery = ({isAuth, userInfo, moimInfo, setMoimInfo,currentPage ,setCurrentPage})=>{
 
   
   const {id} = useParams(); 
-  const moimMenuCk = '채팅';
+  const moimMenuCk = '갤러리';
   // 모임장, 매니저, 모임원 여부
   const [moimMemberRole, setMoimMemberRole] = useState(null);
   // 모임멤버 리스트
@@ -28,11 +27,12 @@ const MoimChat = ({isAuth, userInfo, moimInfo, setMoimInfo,currentPage ,setCurre
 
 
   return(
-    <div className='MoimDetail-container' style={{overflowX: 'hidden'}}>
+    <div className='MoimDetail-container'> {/*  style={{overflowX: 'hidden'}} */}
       <MoimDetailHeader moimCategory = {moimInfo.category} moimName = {moimInfo.moimname} moimMenuCk={moimMenuCk} id={id}/>
-      <div style={{height: '20rem',display:'flex' ,justifyContent: 'center', alignItems: 'center'}}>😉 채팅기능은 준비중이에요 😉</div>
+      <div style={{height: '20rem',display:'flex' ,justifyContent: 'center', alignItems: 'center'}}>😉 갤러리는 준비중이에요 😉</div>
     </div>
   )
 }
 
-export default MoimChat;
+export default MoimGallery;
+

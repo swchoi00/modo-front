@@ -10,6 +10,23 @@
   /* border: 1px solid #a0a096; */
   /* font-family: Arial, Helvetica, sans-serif; */
   /* line-height: 1.125em; */
+  font-size: medium;
+}
+
+/* 입력 값 들어가는 input창 */
+.react-datepicker__input-container input{
+  font-size: medium !important;
+  color: #2e2e2e !important; 
+}
+
+.react-datepicker__input-container input::placeholder{
+  font-size: 85% !important;
+}
+
+/* 입력 값 들어가는 input창 클릭해서 달력이 떴을때*/
+.react-datepicker-ignore-onclickoutside{
+  font-size: medium !important;
+  color: #2e2e2e !important; 
 }
 
 .react-calendar--doubleView {
@@ -22,7 +39,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid red;
+  /* border: 1px solid red; */
   /* margin: -0.5em; */
 }
 
@@ -136,7 +153,7 @@
   width: 1.9rem;
   height: 1.9rem; 
   line-height: 1.9rem;
-  font-size: medium;
+  font-size: medium; 
 }
 
 /* ⭐⭐⭐ 일정 마크 (임시) */

@@ -1,0 +1,77 @@
+.moimDetail-headerContainer{
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  background-color: white;
+  top: 4.5rem;
+  z-index: 20;
+}
+
+.moimDetail-headerBox{
+  /* border-bottom: 1px solid rgba(0,0,0,.08); */
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0;
+  gap:1rem;
+  z-index: 100;
+}
+
+
+.moimDetail-header-category{
+  padding: 0 0.7rem;
+  border-radius: 5px;
+  color: white;
+  background: linear-gradient(130deg, #6a60a9,#9087d3, #b5afe6);
+}
+
+.moimDetail-header-title{
+  color: #7E7E7E;
+}
+
+.moimDetail-moimMenuBox{
+  width: 100%;
+  /* border-bottom: 1px solid rgba(0,0,0,.08); */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 0.3rem;
+  margin: 0;
+  position: sticky;
+  top: 5.53rem;
+  z-index: 10;
+  background-color: white;
+}
+
+
+.moimDetail-moimMenu{
+  width: 25%;
+  padding: 0.3rem 0 0.5rem;
+  cursor: pointer;
+  color: #afafaf;
+}
+
+.moimDetail-moimMenu-ck{
+  color: #6a60a9;
+  font-weight: bold;
+}
+
+
+
+@media screen and (max-width: 1069px){
+  .moimDetail-headerBox{
+    padding-left: 0.5rem;
+    padding: 0.3rem 0 0.3rem 0.5rem !important;
+  }
+
+}
+
+
+@media screen and (max-width: 875px){
+  .moimDetail-headerContainer{
+    position: sticky;
+    top: 3.3rem;
+    z-index: 10;
+   }
+
+}

@@ -120,6 +120,15 @@ font-weight: 500;
   }
 }
 
+/* @media screen and (max-width: 875px){
+  .footer-container{
+    display: none;
+  }
+  .footer-box2-mobile{
+    display: none;
+  }
+} */
+
 @media screen and (min-width: 781px){
   .footer-box2-mobile{
     display: none;

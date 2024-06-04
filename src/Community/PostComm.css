@@ -11,6 +11,10 @@
   margin: 3rem 0;
 }
 
+.PostComm .category-postName {
+  display: flex;
+}
+
 .PostComm .post select{
   width: 15%;
   border: 1px solid lightgray;
@@ -38,4 +42,18 @@
   border: none;
   background-color: rgb(164, 114, 255);
   color: white;
+}
+
+@media screen and (max-width: 600px){
+  .PostComm .category-postName {
+  flex-direction: column;
+}
+.PostComm .post select {
+  width: 100%;
+  text-align: left;
+  padding-left: 0.8rem;
+}
+.PostComm .post input {
+  width: 100%;
+}
 }
