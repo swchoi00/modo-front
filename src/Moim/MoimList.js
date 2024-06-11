@@ -64,7 +64,7 @@ const MoimList = ({isAuth, moimList, userInfo,setUserInfo}) =>{
   };
 
 console.log(moimList);
-
+// console.log(moimList[0]?.moimPhoto.moimPhotoUrl);
   return(
     <div className='moim-list-box'>
       
@@ -79,7 +79,8 @@ console.log(moimList);
             <div className='moim-content-box' key={data.id} onClick={()=>navigate(`/moim/${data.id}/home`)}>
               <div className='moim-content-box-img'
                 style={{
-                  backgroundImage: `url(https://raw.githubusercontent.com/Jella-o312/modo-image/main/moim-img/moim${imageNumber}.png)` // ⭐보안 정책 때문에 컴퓨터 내부에 있는 파일로 테스트 불가
+                  backgroundImage: `url(https://raw.githubusercontent.com/Jella-o312/modo-image/main/moim-img/moim${imageNumber}.png)` 
+                  // backgroundImage: `url(${data.moimPhoto.moimPhotoUrl})`
                   , opacity: '0.85'
                 }}>
                 <div className='moim-content-box-categoryBack'>

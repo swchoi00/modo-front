@@ -130,7 +130,7 @@ const updateDescriptionHandler = (e)=>{
 
 // 모임 수정 서버 작업
 const editDesCriptionHandler = ()=>{
-
+console.log(imsiMoimInfo);
   // 빈 값 넣기 방지
   let Descripton = imsiMoimInfo.description.trim(); // trim ->공백제거 (스페이스바)
   if(countDescription === 0 || Descripton.length === 0) { // 스페이스바만 넣어서 저장하는거 방지
@@ -194,7 +194,7 @@ const moimManagerHandler=(memberId, memberName, memberRole)=>{
           {moimDescription ? (// 모임 설명 수정 여부
               <div className='moimDetail-moimContent-home-description-edit'>
                 <textarea placeholder='모임에 대해 자세히 알려주세요!'
-                          value={imsiMoimInfo.description}
+                          value={imsiMoimInfo.description || ''}
                           onChange={updateDescriptionHandler}
                           maxLength="1500"
                 />

@@ -1,0 +1,5 @@
+.input-area {
+  width: 100%;
+  resize: vertical; /* 수직 방향으로만 크기 조절 가능 */
+  text-wrap: wrap; /* 텍스트 자동 줄바꿈 */
+}
