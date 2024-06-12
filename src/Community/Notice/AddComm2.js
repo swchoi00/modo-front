@@ -16,7 +16,7 @@ const AddComm = ({ userInfo, currentPage, setCurrentPage }) => {
         <button className='notice-write-btn' onClick={()=> navigate('/noticeWrite')}>글 작성</button>
       </div>
        {/* )}  */}
-       <span></span>
+       {/* <span></span> */}
       <Accordion className='accordionBox'>
 
         {
@@ -26,9 +26,9 @@ const AddComm = ({ userInfo, currentPage, setCurrentPage }) => {
               return (
                 <Accordion.Item eventKey={i} key={data.id} className='accordion'>
                   <Accordion.Header className='accordionBtn'>
-                    <div className='titleBox'>
+                    <div className='titleBox' style={{display:'flex', flexDirection: 'column', gap: '0.5rem'}}>
+                      <div className='createDate' style={{textAlign: 'left', color:'gray', fontSize: 'small'}}>{data.createDate}</div>
                       <div className='notice-title'>{data.title}</div>
-                      {/* <div className='createDate'>{data.createDate}</div> */}
                     </div>
                   </Accordion.Header>
                   <Accordion.Body className='contentBox'>

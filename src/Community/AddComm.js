@@ -39,11 +39,24 @@ const AddComm = ({ userInfo }) => {
   //     });
   // };
 
+  const isContentEmpty = (content) => {
+    // HTML 태그를 모두 제거한 후 공백을 제거하여 내용이 있는지 확인
+    const text = content.replace(/<\/?[^>]+(>|$)/g, '').trim();
+    return text === '';
+  };
+
   const handleSubmit = async () => {
-    if (commInfo.postname === '' || commInfo.categories === '' || commInfo.content === '') {
+    if (commInfo.postname === '' || commInfo.categories === '' || isContentEmpty(commInfo.content)) {
       alert('제목, 카테고리, 내용은 필수 입력 항목입니다.');
       return;
     }
+
+
+  // const handleSubmit = async () => {
+  //   if (commInfo.postname === '' || commInfo.categories === '' || commInfo.content === '') {
+  //     alert('제목, 카테고리, 내용은 필수 입력 항목입니다.');
+  //     return;
+  //   }
 
     try {
       // 이미지 URL 목록과 게시글 정보를 함께 서버로 전송
@@ -61,7 +74,7 @@ const AddComm = ({ userInfo }) => {
   };
 
   console.log(commInfo);
-  console.log(uploadedImages);
+  // console.log(uploadedImages);
   return (
     <div className="AddComm">
       <h3 className='title'>글쓰기</h3>
