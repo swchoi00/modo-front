@@ -113,6 +113,8 @@ function App() {
   // 게시글 리스트 페이지네이션 용 
   const [currentPage, setCurrentPage] = useState(1);
 
+  // 모임 페이지 특정 위치 이동용
+  const [moimPageRef, setMoimPageRef] = useState(false);
 
 
 
@@ -126,9 +128,10 @@ function App() {
           <Route path='/moim' element={<Moim isAuth={isAuth} userInfo={userInfo} setUserInfo={setUserInfo}/>}/>
           {/* ↓ 모임상세페이지 URL값 , 나중에 유저정보 보내줘야함*/}
           <Route path = '/moim/:id/home' element={<MoimHome isAuth={isAuth} userInfo={userInfo} setUserInfo={setUserInfo} 
-                                                         moimInfo={moimInfo} setMoimInfo={setMoimInfo} />}/>
+                                                         moimInfo={moimInfo} setMoimInfo={setMoimInfo} setMoimPageRef={setMoimPageRef}/>}/>
           <Route path= '/moim/:id/board' element={<MoimBoard isAuth={isAuth} userInfo={userInfo} moimInfo={moimInfo} setMoimInfo={setMoimInfo}
                                                               currentPage={currentPage} setCurrentPage={setCurrentPage}
+                                                              setMoimPageRef={setMoimPageRef} moimPageRef={moimPageRef}
                                                   />}/>                
           <Route path= '/moim/:id/gallery' element={<MoimGallery isAuth={isAuth} userInfo={userInfo} moimInfo={moimInfo} 
                                                                  setMoimInfo={setMoimInfo} currentPage={currentPage} 
@@ -137,7 +140,7 @@ function App() {
                                                                  setMoimInfo={setMoimInfo} currentPage={currentPage} 
                                                                  setCurrentPage={setCurrentPage}/>}/>                           
 
-          <Route path = '/moim/:id/write' element={<MoimDetailBoardCommComponent isAuth={isAuth} userInfo={userInfo}/>}/>
+          <Route path = '/moim/:id/write' element={<MoimDetailBoardCommComponent isAuth={isAuth} userInfo={userInfo}  setMoimPageRef={setMoimPageRef}/>}/>
           <Route path = '/moim/:id/comm/:no' element={<MoimDetailBoardCommDetail isAuth={isAuth} userInfo={userInfo}/>}/>                                                                 
           <Route path='/moim/:id/schedule/:no' element={<MoimDetailBoardScheduleDetail isAuth={isAuth} userInfo={userInfo} moimInfo={moimInfo} 
                                                                  setMoimInfo={setMoimInfo}/>}/>   

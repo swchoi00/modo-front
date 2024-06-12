@@ -12,7 +12,10 @@ import axiosInstance from '../../axiosInstance';
 //⭐일정 추가/수정 모달
 const MoimDetailBoardSheduleModal = ({addScheduleModal,setAddScheduleModal, Ckdate, moment, moimInfo,markedDates, upDateScheduleInfo})=>{
   
-
+// 일정 시작시간 넣는 임시 스테이트
+const [scheduleTime, setScheduleTime] = useState({hour:'', minute:''});
+// 일정 종료 시간 넣는 임시 스테이트
+const [endscheduleTime, setEndScheduleTime] = useState({hour:'', minute:''});
 
 // 일정추가 모달이 닫힐 때 기존 입력 값 초기화
 const endScheduleModal = () => {
@@ -60,8 +63,8 @@ if(upDateScheduleInfo){ // 일정 수정인 경우
     scheduleName: upDateScheduleInfo.scheduleName,
     scheduleStartDate : upDateScheduleInfo.scheduleStartDate,
     scheduleEndDate : upDateScheduleInfo.scheduleEndDate,  
-    scheduleStartTime : '',
-    scheduleEndTime : '',
+    scheduleStartTime : upDateScheduleInfo.scheduleStartTime,
+    scheduleEndTime : upDateScheduleInfo.scheduleEndTime,
     scheduleAddress : upDateScheduleInfo.scheduleAddress,
     scheduleCost: upDateScheduleInfo.scheduleCost,
     scheduleMaxMember: upDateScheduleInfo.scheduleMaxMember,
@@ -70,6 +73,10 @@ if(upDateScheduleInfo){ // 일정 수정인 경우
   if(upDateScheduleInfo.scheduleEndDate !== null){
     setScheduleTerm(true);
   }
+  const [startHour, starMinute] = upDateScheduleInfo.scheduleStartTime.split(':');
+  const [endHour, endMinute] = upDateScheduleInfo.scheduleEndTime.split(':');
+  setScheduleTime({hour: startHour, minute: starMinute});
+  setEndScheduleTime({hour: endHour, minute: endMinute});
 }
 },[upDateScheduleInfo]); // 일정 수정일 때만 작동됨 (일정 수정 정보가 있을 때만)
 
@@ -103,19 +110,13 @@ const scheduleSwitchHandler= (e) => {
 // 일정 추가 모달이 켜지고 꺼질때마다 
 // 사용자가 모임디테일페이지에서 날짜를 바꾸면 해당날짜로 일정 시작 날을 바꿔줌
 useEffect(() => {
-    // 처음에 사용자가 선택한 날짜로 값을 보여주기 위해
-    setAddScheduleInfo((data) => ({
-      ...data, scheduleStartDate: Ckdate
-    }));
+  // 처음에 사용자가 선택한 날짜로 값을 보여주기 위해
+  setAddScheduleInfo((data) => ({
+    ...data, scheduleStartDate: Ckdate
+  }));
 }, [addScheduleModal, Ckdate]);
 
-// useEffect(() => {
-//   // 처음에 사용자가 선택한 날짜로 값을 보여주기 위해
-//   const formattedDate = Ckdate.toISOString().slice(0, 10); // yyyy-MM-dd 형식으로 변환
-//   setAddScheduleInfo((data) => ({
-//     ...data, scheduleStartDate: formattedDate
-//   }));
-// }, [addScheduleModal, Ckdate]);
+
 
 
 
@@ -152,10 +153,8 @@ const startDateCheckHandler = (date)=>{
 }
 
 
-// 일정 시작시간 넣는 임시 스테이트
-const [scheduleTime, setScheduleTime] = useState({hour:'', minute:''});
-// 일정 종료 시간 넣는 임시 스테이트
-const [endscheduleTime, setEndScheduleTime] = useState({hour:'', minute:''});
+
+
 
 
 // 타임피커 시간 , 분 데이터
@@ -240,7 +239,7 @@ useEffect(() => {
 const addScheduleSubmitCheck = Object.entries(addScheduleInfo).every(([key, value]) => 
   key === 'scheduleEndDate' || key === 'scheduleDescription' || key === 'scheduleNo' || value !== '');
 
-
+console.log(addScheduleInfo);
 
 const addMoimscheduleSubmitHandler= ()=>{
   if(addScheduleInfo.scheduleMaxMember < 1){
@@ -262,7 +261,7 @@ const addMoimscheduleSubmitHandler= ()=>{
 // console.log(addScheduleInfo);
 // console.log(moimInfo.Id);
 // console.log(addScheduleSubmitCheck);
-console.log(upDateScheduleInfo);
+// console.log(upDateScheduleInfo);
 
   return(
     <>

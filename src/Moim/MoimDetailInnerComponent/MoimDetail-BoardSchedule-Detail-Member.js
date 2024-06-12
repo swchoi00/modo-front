@@ -86,8 +86,8 @@ const backBtnHandler = ()=>{
 
       <div className="moimSchedule-joinMember-bodyBox">
       {
-            // moimScheduleInfo?.joinedMember?.map((data,i)=>(
-              imsiMember2.map((data,i)=>(
+            moimScheduleInfo?.joinedMember?.map((data,i)=>(
+              // imsiMember2.map((data,i)=>(
               <div className='moimDetail-moimContent-home-member-content-modal' key={i} style={{paddingLeft: '0.3rem'}}>
                   <div className='moimDetail-moimContent-home-member-content-img-modal' style={{backgroundImage: `url(${face})`}}>
                     {data.memberRole === 'leader' && <img className='moimDetail-moimLeaderIcon' src={leaderIcon} alt=''/>}
@@ -100,13 +100,6 @@ const backBtnHandler = ()=>{
                 </div>
             ))
           }
-        {/* {moimScheduleInfo?.joinedMember?.map((data, i)=>(
-          <div className="memberBox" key={i}>
-            <div className='moimScheduleDetail-MemberBox-member' style={{backgroundImage: `url(${face})`, width: '2rem'}} ></div>
-            <div>{data.member.nickname}</div>
-          </div>
-        )) 
-        }  */}
       </div>
       
     </div>

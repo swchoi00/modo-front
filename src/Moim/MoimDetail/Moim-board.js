@@ -5,7 +5,7 @@ import axiosInstance from "../../axiosInstance";
 import MoimDetailBoard from "../MoimDetailComponent/MoimDetail-Board";
 import './Moim-home.css';
 
-const MoimBoard = ({isAuth, userInfo, moimInfo, setMoimInfo,currentPage ,setCurrentPage})=>{
+const MoimBoard = ({isAuth, userInfo, moimInfo, setMoimInfo,currentPage ,setCurrentPage, setMoimPageRef, moimPageRef})=>{
  
   const {id} = useParams(); 
   const moimMenuCk = '게시판';
@@ -67,6 +67,7 @@ useEffect(()=>{
       <div style={{overflowX: "hidden"}}>
         <MoimDetailBoard moimInfo={moimInfo} currentPage={currentPage} setCurrentPage={setCurrentPage} id={id}
                          moimMemberRole={moimMemberRole} isAuth={isAuth} userInfo={userInfo} moimMemberInfo={moimMemberInfo}
+                         setMoimPageRef={setMoimPageRef} moimPageRef={moimPageRef}
 
         />
       </div>

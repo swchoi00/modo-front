@@ -13,7 +13,7 @@ import MoimDetailHome from '../MoimDetailComponent/MoimDetail-Home';
 import axiosInstance from '../../axiosInstance';
 import MoimDetailHeader from '../MoimDetailComponent/MoimDetail-Header';
 
-const MoimHome = ({isAuth, userInfo, setUserInfo, moimInfo, setMoimInfo,currentPage, setCurrentPage, moimCommAfter,setMoimCommAfter})=>{
+const MoimHome = ({isAuth, userInfo, setUserInfo, moimInfo, setMoimInfo, setMoimPageRef})=>{
 
 
   // APP에서 지정한 url → /moim/detail/:id 변수이름을 'id'로 저장해야 url파라미터 값을 제대로 가져올 수 있음
@@ -142,29 +142,6 @@ useEffect(()=>{
     setActiveIndex(selectedIndex);
   };
 
-  // const moimDetailMenu = ['홈', '게시판', '갤러리', '채팅'];
- 
-  // const moimMenuCkHandler = (e) =>{
-  //   setMoimMenuCk(e.target.textContent); // value로 뽑으니까 값이 안나와서 textContent로 변경
-  // }
-
-  // 상세 페이지 메뉴 바꼈을때마다 화면 최상단으로 바꾸기
-  // useEffect(() => {
-  //   if (!moimCommAfter && window.innerWidth <= 875) {
-  //     window.scroll(0, 0);
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps 
-  // }, [moimMenuCk]); // moimCommAfter를 의존성 배열에 포함하면 위치 이동이 안됨....
-  
-
-  // 😡임시 모임디테일 페이지 내에서 게시판, 갤러리, 채팅등으로 이동 시 새로고침했을때 페이지 유지를 위함
-  // useEffect(() => {
-  //   // 컴포넌트가 마운트될 때 로컬 스토리지에서 값을 가져옴
-  //   const savedMenuCk = localStorage.getItem('moimMenuCk');
-  //   if (savedMenuCk) {
-  //     setMoimMenuCk(savedMenuCk);
-  //   }
-  // }, []);
 
   useEffect(() => {
     // 컴포넌트가 언마운트될 때 현재 메뉴 상태를 로컬 스토리지에 저장
@@ -175,15 +152,6 @@ useEffect(()=>{
     };
   }, [moimMenuCk]);
 
-
- 
-
-  // 모임 게시글 작성 후 페이지 이동을 위해 생성
-  // useEffect(()=>{
-  //   if(moimCommAfter){
-  //     setMoimMenuCk('게시판');
-  //   }
-  // },[moimCommAfter,setMoimMenuCk]);
 
 
   // 모임기본 메뉴
@@ -349,7 +317,10 @@ useEffect(()=>{
 
       <div className='moimDetail-moimContentBox'>
       <MoimDetailHome moimInfo={moimInfo} setMoimInfo={setMoimInfo} moimMemberRole={moimMemberRole} 
-                                                 moimMemberList={moimMemberList} setMoimMemberList={setMoimMemberList}/>
+                      moimMemberList={moimMemberList} setMoimMemberList={setMoimMemberList}
+                      setMoimPageRef={setMoimPageRef}
+
+      />
       </div>
       
       <LoginPzModal showLoginModal={showLoginModal} setShowLoginModal={setShowLoginModal}/>

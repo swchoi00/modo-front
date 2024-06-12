@@ -4,11 +4,46 @@ import { faThumbsUp as likedIcon } from '@fortawesome/free-solid-svg-icons';
 import { faThumbsUp as unLikedIcon } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const MoimDetailBoardCommReply = ({isAuth, userInfo, id, setUpdateReplyCnt})=>{
+const MoimDetailBoardCommReply = ({isAuth, userInfo, id, no, setUpdateReplyCnt})=>{
   const [postReply, setPostReply] = useState({content: ''});
   const [getReply, setGetReply] = useState([]);
   const [update, setUpdate] = useState(false);
+  const [moimMemberInfo, setMoimMemberInfo] = useState(); // 모임 멤버 정보
+  const [moimMemberRole, setMoimMemberRole] = useState(null); // 모임장, 매니저, 모임원 여부
+  const [moimMemberList,setMoimMemberList] = useState(null); // 모임멤버 리스트
+   
+  //모임 멤버 가져오는거
+    useEffect(()=>{
+      axiosInstance.get(`/getMoimMemberList/${id}`)
+      .then((response)=>{
+        setMoimMemberList(response.data);
+      }).catch((error)=>{
+        console.log(error);
+      }
+    )
+    },[id,setMoimMemberList]);
+  
+  
+    // 모임 role확인
+    useEffect(()=>{
+      const matchingMember = moimMemberList?.find(memberInfo => memberInfo.member.id === userInfo.id);
+      if(!matchingMember){ //로그인 안하거나, 회원이 아닌 경우
+        setMoimMemberRole('notMember');
+        return;
+      }
+  
+      setMoimMemberInfo(matchingMember); // 모임 멤버 엔티티 저장
+  
+      switch(matchingMember.memberRole) {
+        case 'leader' : setMoimMemberRole('leader'); break;
+        case 'manager' : setMoimMemberRole('manager'); break;
+        case 'member' : setMoimMemberRole('member'); break;
+        default:  break;
+      }
+    },[isAuth, userInfo, moimMemberList]);
+  
 
+  
   const changeHandler = (e) => {
     const { value } = e.target;
 
@@ -25,6 +60,7 @@ const MoimDetailBoardCommReply = ({isAuth, userInfo, id, setUpdateReplyCnt})=>{
   }
 
   
+  
   // useEffect(() => {
   //   axiosInstance.get(`/commReply/${id}/list`)
   //     .then((response) => {
@@ -35,15 +71,16 @@ const MoimDetailBoardCommReply = ({isAuth, userInfo, id, setUpdateReplyCnt})=>{
   //     });
   // }, [id]);
 
-
+console.log(moimMemberInfo);
   const handleReplySubmit = () => {
     if (isAuth) {
       if (!postReply.content.trim()) {
         alert("댓글을 작성해주세요.");
       }
       else {
-        const updateCommReply = { ...postReply, member: { username: userInfo.username } }
-        axiosInstance.post(`/commReply/${id}`, updateCommReply)
+        const updateCommReply = { ...postReply, moimMember: moimMemberInfo };
+        console.log(updateCommReply);
+        axiosInstance.post(`/moimReply/${id}`, updateCommReply)
           .then((response) => {
             alert(response.data);
             setPostReply({ ...postReply, content: '' });
@@ -60,7 +97,7 @@ const MoimDetailBoardCommReply = ({isAuth, userInfo, id, setUpdateReplyCnt})=>{
   };
 
   const fetchNewReply = () => {
-    axiosInstance.get(`/commReply/${id}/list`)
+    axiosInstance.get(`/commReply/${no}/list`)
       .then((response) => {
         setGetReply(response.data);
       })
