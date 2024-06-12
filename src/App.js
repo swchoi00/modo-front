@@ -27,17 +27,20 @@ import InquiryFormDetail from './Home/FAQ/InquiryForm/InquiryFormDetail';
 import Community from './Community/Community';
 import AddComm from './Community/AddComm';
 import CommDetail from './Community/CommDetail';
+import AddComm2 from './Community/Notice/AddComm2';
 // import MoimDetailBoardCommComponent from './Moim/MoimDetailComponent/MoimDetailInnerComponent/MoimDetail-BoardCommComponent';
 
 import MoimBoard from './Moim/MoimDetail/Moim-board';
 import MoimGallery from './Moim/MoimDetail/Moim-gallery';
 import MoimChat from './Moim/MoimDetail/Moim-chat';
 import MoimHome from './Moim/MoimDetail/Moim-home';
-import PostComm from './Community/PostComm';
 import MoimDetailBoardCommComponent from './Moim/MoimDetailInnerComponent/MoimDetail-BoardCommComponent';
 import MoimDetailBoardScheduleDetail from './Moim/MoimDetailInnerComponent/MoimDetail-BoardSchdule-Detail';
 import MoimDetailBoardScheduleDetailMember from './Moim/MoimDetailInnerComponent/MoimDetail-BoardSchedule-Detail-Member';
 import MoimDetailBoardCommDetail from './Moim/MoimDetailInnerComponent/MoimDetail-BoardComm-Detail';
+import NoticeWrite from './Community/Notice/NoticeWrite';
+import Inquiry from './Community/Inquiry/Inquiry';
+import InquiryWrite from './Community/Inquiry/InquiryWrite';
 
 
 function App() {
@@ -110,6 +113,8 @@ function App() {
   // 게시글 리스트 페이지네이션 용 
   const [currentPage, setCurrentPage] = useState(1);
 
+  // 모임 페이지 특정 위치 이동용
+  const [moimPageRef, setMoimPageRef] = useState(false);
 
 
 
@@ -123,9 +128,10 @@ function App() {
           <Route path='/moim' element={<Moim isAuth={isAuth} userInfo={userInfo} setUserInfo={setUserInfo}/>}/>
           {/* ↓ 모임상세페이지 URL값 , 나중에 유저정보 보내줘야함*/}
           <Route path = '/moim/:id/home' element={<MoimHome isAuth={isAuth} userInfo={userInfo} setUserInfo={setUserInfo} 
-                                                         moimInfo={moimInfo} setMoimInfo={setMoimInfo} />}/>
+                                                         moimInfo={moimInfo} setMoimInfo={setMoimInfo} setMoimPageRef={setMoimPageRef}/>}/>
           <Route path= '/moim/:id/board' element={<MoimBoard isAuth={isAuth} userInfo={userInfo} moimInfo={moimInfo} setMoimInfo={setMoimInfo}
                                                               currentPage={currentPage} setCurrentPage={setCurrentPage}
+                                                              setMoimPageRef={setMoimPageRef} moimPageRef={moimPageRef}
                                                   />}/>                
           <Route path= '/moim/:id/gallery' element={<MoimGallery isAuth={isAuth} userInfo={userInfo} moimInfo={moimInfo} 
                                                                  setMoimInfo={setMoimInfo} currentPage={currentPage} 
@@ -134,7 +140,7 @@ function App() {
                                                                  setMoimInfo={setMoimInfo} currentPage={currentPage} 
                                                                  setCurrentPage={setCurrentPage}/>}/>                           
 
-          <Route path = '/moim/:id/write' element={<MoimDetailBoardCommComponent isAuth={isAuth} userInfo={userInfo}/>}/>
+          <Route path = '/moim/:id/write' element={<MoimDetailBoardCommComponent isAuth={isAuth} userInfo={userInfo}  setMoimPageRef={setMoimPageRef}/>}/>
           <Route path = '/moim/:id/comm/:no' element={<MoimDetailBoardCommDetail isAuth={isAuth} userInfo={userInfo}/>}/>                                                                 
           <Route path='/moim/:id/schedule/:no' element={<MoimDetailBoardScheduleDetail isAuth={isAuth} userInfo={userInfo} moimInfo={moimInfo} 
                                                                  setMoimInfo={setMoimInfo}/>}/>   
@@ -145,7 +151,7 @@ function App() {
           <Route path ='/faqDetail/:id' element={<FaqDetails currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
           <Route path ='/faq_write' element={<Faq_write userInfo={userInfo} />} />
 
-          <Route path ='/notice' element={<Notice userInfo={userInfo} currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
+          {/* <Route path ='/notice' element={<Notice userInfo={userInfo} currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/> */}
           <Route path ='/noticeDetail/:id' element={<NoticeDetails notice={notice} currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
           <Route path ='/notice_write' element={<Notice_write userInfo={userInfo}/>} />
 
@@ -163,7 +169,13 @@ function App() {
           <Route path='/community' element={<Community currentPage={currentPage} setCurrentPage={setCurrentPage} isAuth={isAuth}/>}/>
           <Route path='/addComm' element={<AddComm userInfo={userInfo}/>} />
           <Route path='/comm/:id' element={<CommDetail isAuth={isAuth} userInfo={userInfo}/>} />
-          <Route path='/addCommTest' element={<PostComm userInfo={userInfo}/>} />
+
+                {/* Notice 로 바꿔야함 */}
+          <Route path='/notice' element={<AddComm2 currentPage={currentPage} setCurrentPage={setCurrentPage} userInfo={userInfo}/>} />
+          <Route path='/noticeWrite' element={<NoticeWrite userInfo={userInfo}/>} />
+
+          <Route path='/inquiry' element={<Inquiry userInfo={userInfo}/>} />
+          <Route path='/inquiryWrite' element={<InquiryWrite userInfo={userInfo}/>} />
         </Routes>
       </div>
       

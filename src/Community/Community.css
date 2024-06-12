@@ -48,7 +48,7 @@
 
 
 /* 버튼 */
-.Community .typBtn-box {
+.Community .typeBtn-box {
   border: none;
   width: 100%;
   display: flex;
@@ -58,7 +58,7 @@
   margin: 2rem 0 60px 0;
 }
 
-.Community .typBtn-box .typeBtn {
+.Community .typeBtn-box .typeBtn {
   border: none;
   border-radius: 5px;
   width: 7rem;
@@ -70,7 +70,7 @@
   cursor: pointer;
 }
 
-.Community .typBtn-box .clicked {
+.Community .typeBtn-box .clicked {
   border: none;
   border-radius: 5px;
   width: 7rem;
@@ -189,7 +189,7 @@
 }
 
 .Community .card-header .inner1,
-.card-body>div:nth-child(1) {
+.card-body .postName {
   font-weight: 600;
 }
 
@@ -198,7 +198,7 @@
   margin: 10px 0;
 }
 
-.Community .card-body > div:nth-child(1) {
+.Community .card-body .postName {
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
@@ -208,7 +208,28 @@
   white-space: pre-wrap;
 }
 
-.Community .card-body > div:nth-child(3){
+.Community .card-body .contentBox {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.Community .card-body .imgContentBox {
+  display: flex;
+  flex-direction: column;
+}
+
+.Community .card-body .contentBox .content{
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+.Community .card-body .imgContentBox .imgContent{
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -218,17 +239,29 @@
   white-space: pre-wrap;
 }
 
-.Community .card-body img {
+.Community .card-body .quillImg {
   width: 100%;
-  aspect-ratio: 1.5;
+  height: 13rem;
   margin: 12px 0;
-  background-size: cover;
+  /* border: 1px solid lightgray; */
+  box-shadow: 0px 0px 15px -4px rgba(0, 0, 0, 0.3);
   border-radius: 13px;
   position: relative;
+  overflow: hidden;
+}
+
+.Community .card-body .quillImg img {
+  width: 100%;
+  height: 100%;
+  /* height: auto; */
+  object-fit: cover;
+  border-radius: 13px;
 }
 
 .Community .card-footer {
   height: 5rem;
+  padding-bottom: 0.5rem;
+  align-items: end;
 }
 
 .Community .card-footer .inner2 {
@@ -252,6 +285,7 @@
   color: #8F7BE0;
 }
 
+/* 게시글없을때 */
 .Community .noData {
   width: 1040px;
   margin: auto;
@@ -301,10 +335,16 @@
 }
 
 @media screen and (max-width: 800px) {
+
+  .Community .typeBtn-box {
+    margin: 2rem 0 0 0;
+  }
+
   .Community .tbl {
     margin: 30px auto 0 auto;
     font-size: 0.8rem;
   }
+
 
   .Community .tbl .th,
   .Community .tbl .td .no,

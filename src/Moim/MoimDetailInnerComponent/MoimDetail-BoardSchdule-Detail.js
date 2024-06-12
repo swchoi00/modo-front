@@ -8,6 +8,9 @@ import imsiImg from '../../Img/깡총강쥐.png';
 import moment from 'moment';
 import 'moment/locale/ko';  // 요일 한글로 구하려면 필요
 import face from '../../HomeComponent/ReviewComponent/face.svg';
+import MoimDetailBoardScheduleReply from './MoimDetail-BoardSchedule-Reply';
+import leaderIcon from '../../Img/moimDetail_leaderIcon.svg';
+import managerIcon from '../../Img/moimDetail_managerIcon.svg';
 
 
 const MoimDetailBoardScheduleDetail = ({isAuth, userInfo, moimInfo, setMoimInfo})=>{
@@ -22,6 +25,9 @@ const MoimDetailBoardScheduleDetail = ({isAuth, userInfo, moimInfo, setMoimInfo}
   const [participationBtn, setParticipationBtn] = useState('');// 모임 일정 참여 버튼 값
   const [moimMemberInfo, setMoimMemberInfo] = useState(); // 모임 멤버 정보
   const navigate = useNavigate();
+  const [joinNow, setJoinNow] = useState(false); // 모임 참여 중 여부
+
+
   // 모임정보 받아오는 effect
   useEffect(()=>{
     axiosInstance.get(`/moimInfo/${id}`)
@@ -74,12 +80,15 @@ const MoimDetailBoardScheduleDetail = ({isAuth, userInfo, moimInfo, setMoimInfo}
     }).catch((error)=>{
       console.log(error);
     });
-  },[setMoimScheduleInfo]);
+  },[no, setMoimScheduleInfo, participationBtn]);
 
 
   useEffect(() => {
     const today = new Date().toLocaleDateString(); //오늘 년월일만 추출
     const scheduleDate = new Date(moimScheduleInfo?.scheduleStartDate).toLocaleDateString(); // 일정 날짜 년월일만 추출;
+    if(moimScheduleInfo?.joinedMember?.some(member => member.id === moimMemberInfo?.id)){
+      setJoinNow(true);
+    }
 
     if (scheduleDate < today) { // 일정이 오늘 이전에 있었던건지 확인
       setParticipationBtn('지난 일정이에요');
@@ -110,21 +119,27 @@ const MoimDetailBoardScheduleDetail = ({isAuth, userInfo, moimInfo, setMoimInfo}
     '지난 일정이에요': '#8c8c8c'
   };
 
-  console.log(moimScheduleInfo.joinedMember);
 
 
 const scheduleHandler = ()=>{
   let id = moimMemberInfo.id;
   axiosInstance.post(`/moimScheduleJoin/${id}`, moimScheduleInfo)
   .then((response)=>{
-    console.log(response.data);
+    if(participationBtn === "일정 참여하기"){
+      setParticipationBtn("참여 취소하기");
+      setJoinNow(true);
+    }else{
+      setParticipationBtn("일정 참여하기");
+      setJoinNow(false);
+    }
   }).catch((error)=>{
     console.log(error);
   })
 }
 
-const imsiMember = ['a', 'b', 'c', 'd', 'e', 'f', 'g'];
-  
+
+
+
 
   return(
     <div className='MoimDetail-container' style={{alignItems:'center'}}>
@@ -141,11 +156,11 @@ const imsiMember = ['a', 'b', 'c', 'd', 'e', 'f', 'g'];
         {/* 모임일정 이름, 참여자 수*/}
         <div className='moimScheduleDetail-container-header'>
           <div className='moimScheduleDetail-title'>{moimScheduleInfo.scheduleName}</div>
-          <div className={`moimScheduleDetail-memberCount ${moimScheduleInfo.scheduleMaxMember === 19 ? 'moimSchedule-memberCount-full': ''}`}
+          {/* <div className={`moimScheduleDetail-memberCount ${moimScheduleInfo.scheduleMaxMember === 19 ? 'moimSchedule-memberCount-full': ''}`}
                style={{color : `${moimScheduleInfo.scheduleMaxMember === 1 ? 'red' : 'black'}`}}
           >
             {moimScheduleInfo.joinedMember?.length} / {moimScheduleInfo.scheduleMaxMember}
-          </div>
+          </div> */}
         </div>
         {/* 모임일정 사진 */}
         <div className='moimScheduleDetail-img' style={{backgroundImage: `url(${imsiImg})`}}/>
@@ -173,35 +188,48 @@ const imsiMember = ['a', 'b', 'c', 'd', 'e', 'f', 'g'];
           <span>비용</span><div>{moimScheduleInfo.scheduleCost}</div>
         </div>
 
+
         <hr/>
 
+
+        {/* 모임일정 설명 */}
+        {moimScheduleInfo?.scheduleDescription !== null &&
+          <>
+            <div className='moimScheduleDetail-Box'><span>일정 설명</span></div>
+            <div className='moimScheduleDetail-infoText'>
+              <pre>
+              {moimScheduleInfo.scheduleDescription}
+              </pre>
+            </div>
+    
+            <hr/>
+          </>
+        }
+
+                
         {/* 모임일정 참여멤버*/}
-        <div className='moimScheduleDetail-Box'><span>참여멤버</span></div>
+        <div className='moimScheduleDetail-Box' style={{gap: '0.3rem'}}>
+          <span>참여멤버</span> 
+          <span className={`moimScheduleDetail-memberCount ${moimScheduleInfo.scheduleMaxMember === 19 ? 'moimSchedule-memberCount-full': ''}`}
+               style={{color : `${moimScheduleInfo.scheduleMaxMember === 1 ? 'red' : '#5e5e5e'}`}}
+          >
+            ({moimScheduleInfo.joinedMember?.length} / {moimScheduleInfo.scheduleMaxMember})
+          </span>
+        </div>
         <div className='moimScheduleDetail-MemberBox'>
           <div className='moimScheduleDetail-MemberBox-memberBox'>
-            {
-              imsiMember.slice(0, 5).map((data, i) => (
-                // <div className='moimScheduleDetail-MemberBox-img' key={i}>
-                  <div className='moimScheduleDetail-MemberBox-member' style={{backgroundImage: `url(${face})`}} key={i}></div>
-                // </div> 
-              ))
-            }
-            {
-              imsiMember.length > 0 ?
-            <div className='moimScheduleDetail-MemberBox-memberCount'>{imsiMember.length}명</div>
-            :
-            <div style={{width: '100%', paddingBottom: '1rem'}}>참여한 멤버가 없어요 🥲</div>
-            }
-          </div>
-          { imsiMember.length > 5 && <span style={{fontSize: 'large', fontWeight: '800', color:'#9087d3'}}>…</span>}
-            { imsiMember.length > 0 && <div style={{marginLeft: 'auto', cursor: 'pointer'}} onClick={()=>navigate(`/moim/${id}/schedule/${no}/member`)}>더 보기</div>} 
-
-            {/* 
+            
             {
               moimScheduleInfo.joinedMember?.slice(0, 5).map((data, i) => (
                 // <div className='moimScheduleDetail-MemberBox-img' key={i}>
-                  <div className='moimScheduleDetail-MemberBox-member' style={{backgroundImage: `url(${face})`}} key={i}></div>
+                  // <div className='moimScheduleDetail-MemberBox-member' style={{backgroundImage: `url(${face})`}} key={i}></div>
                 // </div> 
+
+                  <div className='moimDetail-moimContent-home-member-content-img-modal' key={i}style={{backgroundImage: `url(${face})`}}>
+                    {data.memberRole === 'leader' && <img className='moimDetail-moimLeaderIcon' src={leaderIcon} alt=''/>}
+                    {data.memberRole === 'manager' && <img className='moimDetail-moimManagerIcon' src={managerIcon} alt=''/>}
+                  </div>
+
               ))
             }
             {
@@ -213,31 +241,43 @@ const imsiMember = ['a', 'b', 'c', 'd', 'e', 'f', 'g'];
           </div>
 
             { moimScheduleInfo.joinedMember?.length > 5 && <span style={{fontSize: 'large', fontWeight: '800', color:'#9087d3'}}>…</span>}
-            { imsiMember.length > 0 && <div style={{marginLeft: 'auto'}} onClick={()=>navigate(`/moim/${id}/schedule/${no}/member`)}>더 보기</div>}  */}
+            { moimScheduleInfo.joinedMember?.length > 0 && <div style={{marginLeft: 'auto', cursor: 'pointer'}} onClick={()=>navigate(`/moim/${id}/schedule/${no}/member`)}>더 보기</div>} 
         </div>
         
         <hr/>
         
-        {/* 모임일정 설명 */}
-        <div className='moimScheduleDetail-Box'><span>일정 설명</span></div>
-        <div className='moimScheduleDetail-infoText'>
-          <pre>
-          {moimScheduleInfo.scheduleDescription}
-          </pre>
-        </div>
-
-
-
+        
         {/* 일정 참여 버튼 */}
         <div className='moimScheduleDetail-btn'
              style={{color: typeColors[participationBtn], 
                      backgroundColor: typeBack[participationBtn],
-                     border: participationBtn==='참여 취소하기' && '0.2rem solid #9087d3',
+                     border: '0.2rem solid',
+                     borderColor: typeColors[participationBtn],
+                     cursor: (participationBtn === "지난 일정이에요" || participationBtn === "참여 인원이 다 찼어요") ? 'default' : 'pointer'
                     }}
-              onClick={scheduleHandler}
+                    onClick={(participationBtn === "지난 일정이에요" || participationBtn === "참여 인원이 다 찼어요") ? null : scheduleHandler}
         >
           {participationBtn}
         </div>
+
+        
+        {/* 모임일정 설명 */}
+        {
+          joinNow &&
+          <>
+            <div className='moimScheduleDetail-Box'>
+              <span>댓글 5</span>
+            </div>
+            <div className='moimScheduleDetail-infoText'>
+              <MoimDetailBoardScheduleReply /> 
+            </div>
+          </>
+        }
+        
+
+
+
+        
 
       
       

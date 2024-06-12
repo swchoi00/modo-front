@@ -11,9 +11,15 @@ import { Button, Collapse, Modal, OverlayTrigger, Tooltip } from 'react-bootstra
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../../axiosInstance';
 import imsiImg from '../../Img/깡총강쥐.png';
+import { useNavigate } from 'react-router-dom';
+import moment from 'moment';
+import 'moment/locale/ko';  // 요일 한글로 구하려면 필요
+import MoimDetailHomeNoticeModal from '../MoimDetailInnerComponent/MoimDetail-Home-Notice-Modal';
 
-const MoimDetailHome = ({moimInfo,setMoimInfo,moimMemberRole,moimMemberList, setMoimMemberList}) =>{
+
+const MoimDetailHome = ({moimInfo,setMoimInfo,moimMemberRole,moimMemberList, setMoimMemberList, setMoimPageRef}) =>{
  
+  const navigate = useNavigate();
   // 모임 소개 수정용 스테이트 및 이펙트
   const [imsiMoimInfo, setImsiMoimInfo] = useState(null);
   useEffect (()=>{
@@ -67,20 +73,65 @@ const imsiBoardData = [
     date : '2023 / 10 / 05'
   }
   ];
+
   
 
-
+const [moimScheduleList, setMoimScheduleList] = useState(null);
 const [memberListModal, setMemberListModal] = useState(false); // 모임 멤버 설정 모달 여부
 const [memberKickOut, setMemberKickOut] = useState(false); // 모임 멤버 강퇴 모달 여부
 const [memberKickOutName, setMemberKickOutName] = useState(null); // 강퇴할 모임 멤버 정보
+moment.locale('ko');
+const dateFormat = "M월 D일 (ddd)";
+const [moimNoticeModal, setMoimNoticeModal] = useState(false);
 
-// 모임 강퇴 멤버 정보 저장 및 강퇴 모달 띄우는 핸들러
+
+  // 모임 스케쥴 리스트 가져옴 (오늘 포함한 앞으로 일정, 지난 일정은 포함하지 않음)
+  useEffect(() => {
+    let id = moimInfo.id;
+    axiosInstance.get(`/getMoimSchedule/${id}/list`)
+    .then((response) => {
+        const today = moment().startOf('day'); // 오늘 날짜의 시작 부분(자정)을 가져옵니다.
+        
+        // 받아온 일정 목록 중 오늘 이후의 일정 필터링
+        const filteredSchedules = response.data.filter(schedule => {
+            const scheduleStartDate = moment(schedule.scheduleStartDate);
+            // 오늘 이후의 일정만 필터링
+            return scheduleStartDate.isSameOrAfter(today);
+        });
+        
+        // 최신 날짜 순으로 정렬 (최근날짜 기준)
+        filteredSchedules.sort((a, b) => moment(a.scheduleStartDate) - moment(b.scheduleStartDate)); 
+        setMoimScheduleList(filteredSchedules);
+
+    }).catch((error) => {
+        console.log(error);
+    });
+  }, [moimInfo.id, setMoimScheduleList]);
+
+
+  //Dday 계산
+  const moimScheduleDday = (date) => {
+    // 오늘 날짜
+    const today = moment().startOf('day');
+    // 선택한 날짜
+    const selectedDate = moment(date).startOf('day');
+    // 오늘 날짜와 선택한 날짜의 차이를 계산하여 반환
+    const remainingDays = selectedDate.diff(today, 'days');
+    return remainingDays;
+  };
+
+
+console.log(moimScheduleList);
+
+
+// 🔥모임 강퇴 멤버 정보 저장 및 강퇴 모달 띄우는 핸들러
 const memberKickOutModalHandler = (memberId, memberName)=>{
   setMemberKickOutName({'id' : memberId, 'name': memberName});
   setMemberKickOut(true);
 }
 
 const memberKickOutHandler = (()=>{
+  console.log("🔥🔥");
   axiosInstance.delete(`/quitMoim/${memberKickOutName.id}`)
   .then(()=>{
     setMemberKickOut(false); // 강퇴 확인 모달창 닫음
@@ -130,7 +181,7 @@ const updateDescriptionHandler = (e)=>{
 
 // 모임 수정 서버 작업
 const editDesCriptionHandler = ()=>{
-
+console.log(imsiMoimInfo);
   // 빈 값 넣기 방지
   let Descripton = imsiMoimInfo.description.trim(); // trim ->공백제거 (스페이스바)
   if(countDescription === 0 || Descripton.length === 0) { // 스페이스바만 넣어서 저장하는거 방지
@@ -194,7 +245,7 @@ const moimManagerHandler=(memberId, memberName, memberRole)=>{
           {moimDescription ? (// 모임 설명 수정 여부
               <div className='moimDetail-moimContent-home-description-edit'>
                 <textarea placeholder='모임에 대해 자세히 알려주세요!'
-                          value={imsiMoimInfo.description}
+                          value={imsiMoimInfo.description || ''}
                           onChange={updateDescriptionHandler}
                           maxLength="1500"
                 />
@@ -259,7 +310,7 @@ const moimManagerHandler=(memberId, memberName, memberRole)=>{
                   </Collapse>
                 </div>
                 ):( // 모임설명이 없는데 리더가 아닌 경우
-                  <div className='moimDetail-moimContent-home-description-non'>
+                  <div style={{marginTop: '1rem', textAlign: 'center'}}>
                     아직 모임 설명이 없어요 🥲
                   </div>
                 )
@@ -276,18 +327,27 @@ const moimManagerHandler=(memberId, memberName, memberRole)=>{
         <div className="moimDetail-moimContent-home-header">
           <h6>모임 일정</h6>
           {/* 😡임시😡 ↓ 모임장만 보이게 해야함 */}
-          <FontAwesomeIcon icon={faEllipsisVertical} size="lg"/>
+          {/* <FontAwesomeIcon icon={faEllipsisVertical} size="lg"/> */}
         </div>
         <div className='moimDetail-moimContent-home-schedule-contentBox'>
           {
-            imsiScheduleData.map((data, i)=>(
-              <div className='moimDetail-moimContent-home-schedule-content' key={i}>
-                <div className='moimDetail-moimContent-home-schedule-content-header-dDay'>D-2</div>
+            moimScheduleList?.slice(0,2).map((data, i)=>(
+              <div className='moimDetail-moimContent-home-schedule-content' key={i} style={{cursor: 'pointer'}} onClick={() =>navigate(`/moim/${moimInfo.id}/schedule/${data.scheduleNo}`)}>
+                <div className='moimDetail-moimContent-home-schedule-content-header-dDay'>
+                  {moimScheduleDday(data.scheduleStartDate) === 0 ? 'Today' :
+                  moimScheduleDday(data.scheduleStartDate) < 0 ? `D+${Math.abs(moimScheduleDday(data.scheduleStartDate))}` : 
+                  `D-${moimScheduleDday(data.scheduleStartDate)}`}
+                </div>
                 {/* 모임일정 기간 및 모임제목*/}
                 <div className='moimDetail-moimContent-home-schedule-content-headerBox'>
-                  <div className='moimDetail-moimContent-home-schedule-content-header-title'>{data.title}</div>
+                  <div className='moimDetail-moimContent-home-schedule-content-header-title'>{data.scheduleName}</div>
                   <div className='moimDetail-moimContent-home-schedule-content-header-date'>
-                    {data.startDate} {data.startDay} {data.endDate!== '' && '~'} {data.endDate} {data.endDay}
+                  {data.scheduleEndDate === null ? // 일정이 하루인지 물어봄
+                    <>{moment(data.scheduleStartDate).format(dateFormat, 'ko')}</>
+                  :
+                    <>{moment(data.scheduleStartDate).format(dateFormat, 'ko')} ~ {moment(data.scheduleEndDate).format(dateFormat, 'ko')} </>
+                  }
+                    {/* {data.startDate} {data.startDay} {data.endDate!== '' && '~'} {data.endDate} {data.endDay} */}
                   </div>
                 </div>
                 {/* 임시 이미지 */}
@@ -296,26 +356,33 @@ const moimManagerHandler=(memberId, memberName, memberRole)=>{
                       style={{backgroundImage: `url(${imsiImg})`, backgroundSize: 'cover', backgroundPosition: 'center'}}
                   />
                   <div className='moimDetail-moimContent-home-schedule-content-info'>
-                    {data.endDate === '' ?
+                    {data.scheduleEndDate === null ?
                       <div className='moimDetail-moimContent-home-schedule-content-info-data'>
-                        <span>일시</span><p>{data.startDate} {data.startDay} {data.startTime} {/*~ {data.endTime}*/}</p>
+                        <span>일시</span><p>{moment(data.scheduleStartDate).format(dateFormat, 'ko')} &nbsp;{data.scheduleStartTime} ~ {data.scheduleEndTime}</p>
                       </div>
                     :
                       <div className='moimDetail-moimContent-home-schedule-content-info-data'>
-                        <span>일시</span><p>{data.startDate} {data.startDay} {data.startTime} ~ {data.endDate} {data.endDay} {/*{data.endTime}*/}</p>
+                        <span>일시</span><p>{moment(data.scheduleStartDate).format(dateFormat, 'ko')} ~ {moment(data.scheduleEndDate).format(dateFormat, 'ko')} &nbsp;{data.scheduleStartTime} ~ {data.scheduleEndTime}</p>
                       </div>
                     }
                     <div className='moimDetail-moimContent-home-schedule-content-info-data'>
-                      <span>위치</span><p>{data.place}</p>
+                      <span>위치</span><p>{data.scheduleAddress}</p>
                     </div>
                     <div className='moimDetail-moimContent-home-schedule-content-info-data'>
-                      <span>비용</span><p>{data.price}</p>
+                      <span>비용</span><p>{data.scheduleCost}</p>
                     </div>
                   </div> 
-                  <div className='moimDetail-moimContent-home-schedule-content-info-member'><span>{data.joinMember}</span> / {data.maxMamber}명</div> 
+                  <div className='moimDetail-moimContent-home-schedule-content-info-member'><span>{data.joinedMember?.length || 0}</span> / {data.scheduleMaxMember}명</div> 
                 </div> 
               </div>
             ))
+          }
+          {moimScheduleList?.length === 1 && // 스케쥴이 1개만 있는 경우 간격 맞추기용으로 빈 공간 채움
+            <div className='moimDetail-moimContent-home-schedule-content scheduleMockup' style={{ boxShadow: 'none' }}/>
+          }
+          {
+            moimScheduleList?.length === 0 && // 모임 스케쥴 없을 때
+            <div className='moimDetail-moimContent-moimSchedule-non'>아직 모임 일정이 없어요 🥲</div>
           }
         </div>
       </div>
@@ -326,8 +393,12 @@ const moimManagerHandler=(memberId, memberName, memberRole)=>{
       <div className='moimDetail-moimContent-home-boardBox'>
         <div className="moimDetail-moimContent-home-header">
           <h6>꼭 읽어주세요!</h6>
-          {/* 😡임시😡 ↓ 모임장만 보이게 해야함 */}
-          <FontAwesomeIcon icon={faEllipsisVertical} size="lg"/>
+          { moimMemberRole !== 'notMember' || moimMemberRole !== 'leader' &&
+            <span onClick={() => {navigate('/moim/1/board'); setMoimPageRef('comm');}} style={{cursor:'pointer'}}>더 보기</span>
+          }
+          { moimMemberRole === 'leader' &&
+            <span onClick={() =>setMoimNoticeModal(true)} style={{cursor:'pointer'}}>공지 설정</span>
+          }
         </div>
         <div className='moimDetail-moimContent-home-board-contentBox'>
           {
@@ -394,14 +465,6 @@ const moimManagerHandler=(memberId, memberName, memberRole)=>{
               </div>
             ))
           }
-          {/* 멤버가 4명 이상인 경우 멤버 더 보기 버튼 활성화 (hover 시 tooltip버튼 활성화) */}
-          {/* {imsiMemberData.length > 4 && (
-            <OverlayTrigger placement="top" overlay={<Tooltip>멤버 더 보기</Tooltip>}>
-              <div className='moimDetail-moimContent-home-member-content2' onClick={() => setIsMoreMember(true)}>
-                <div>+</div>
-              </div>
-            </OverlayTrigger>
-          )} */}
         </div>
       </div>
 
@@ -478,7 +541,7 @@ const moimManagerHandler=(memberId, memberName, memberRole)=>{
         </Modal.Body>
       </Modal>
 
-
+      <MoimDetailHomeNoticeModal moimNoticeModal={moimNoticeModal} setMoimNoticeModal={setMoimNoticeModal} id={moimInfo.id}/>
 
     </div>
   )

@@ -54,10 +54,12 @@
   color: #5e5e5e;
   display: flex;
   text-align: left;
+  word-wrap: break-word !important; /* 문자 단위로 줄 바꿈 */
 }
 
 .moimScheduleDetail-infoText pre{
   white-space: pre-wrap; /* 줄 바꿈을 허용하여 텍스트를 표시 */
+  word-wrap: break-word !important; /* 문자 단위로 줄 바꿈 */
 }
 
 
@@ -78,8 +80,9 @@
 }
 
 .moimScheduleDetail-MemberBox-member, .moimScheduleDetail-MemberBox-memberCount{
-  width: 15%;
-  /* height: 2.5rem; */
+  /* width: 15%; */
+  width: 2.9rem;
+  height: 2.9rem;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -109,6 +112,7 @@
   font-weight: bold;
   color: white;
   cursor: pointer;
+  margin-bottom: 0.5rem;
 }
 
 @media screen and (max-width: 440px){
