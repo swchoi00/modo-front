@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axiosInstance from '../../axiosInstance';
 
-const MoimDetailBoardCommComponent = ({isAuth, userInfo})=>{
+const MoimDetailBoardCommComponent = ({isAuth, userInfo, setMoimPageRef})=>{
   const navigate = useNavigate();
   const [moimInfo, setMoimInfo] = useState();
   const {id} = useParams(); // URL 파라미터인 id 값을 가져옴 (반환되는 값이 객체형태여서 객체 형태인 {id로 받아줘야함})
@@ -62,7 +62,7 @@ const MoimDetailBoardCommComponent = ({isAuth, userInfo})=>{
     axiosInstance.post('/moimCommInsert', updatedMoimCommInfo)
     .then((response)=>{
       alert(response.data);
-      // setMoimCommAfter(true);
+      setMoimPageRef("comm");
       navigate(-1); // 이전 페이지로 
     }).catch((error)=>{
       console.log(error);

@@ -152,7 +152,9 @@ const MoimDetailBoardSchduleComponent = ({moimInfo, moimMemberRole, isAuth, user
           axiosInstance.delete(`/deleteSchedule/${id}`) //🔥🔥[상운띠 일정 삭제 서버 연결해주셍퓨]
           .then((response) => {
             alert(response.data);
-            setMoimScheduleList(moimScheduleList.filter(schedule => schedule.scheduleNo !== id)); // 일정 리스트에서 삭제
+            const updatedScheduleList = moimScheduleList.filter(schedule => schedule.scheduleNo !== id);
+            setMoimScheduleList(updatedScheduleList); // 일정 리스트에서 삭제
+            updateMarkedDates(updatedScheduleList); // 마커 업데이트
           }).catch((error) => {
             console.log(error);
           })

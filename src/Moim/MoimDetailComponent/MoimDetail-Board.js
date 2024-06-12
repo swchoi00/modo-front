@@ -3,16 +3,22 @@ import { faPen } from '@fortawesome/free-solid-svg-icons';
 import './MoimDetail-Board.css';
 import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import MoimDetailBoardSchduleComponent from '../MoimDetailInnerComponent/MoimDetail-BoardSchduleComponent';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import '../../Community/Community.css';
 import PaginationComponent from '../../Pagination/PaginationComponent';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../../axiosInstance';
 
-const MoimDetailBoard = ({moimInfo, currentPage, setCurrentPage, moimMemberRole, isAuth, userInfo, id, moimMemberInfo}) =>{
+const MoimDetailBoard = ({moimInfo, currentPage, setCurrentPage, moimMemberRole, isAuth, userInfo, id, moimMemberInfo,  setMoimPageRef, moimPageRef}) =>{
 
-
-
+  const moimBoardRef = useRef(null);
+  // 홈, 글쓰기 후 게시판 위치로 이동하기
+  useEffect(()=>{
+    if (moimPageRef === 'comm' && moimBoardRef.current) {
+      moimBoardRef.current.scrollIntoView({ behavior: 'auto' });
+      setMoimPageRef(false);
+    }
+  },[moimPageRef])
 
 
 
@@ -59,7 +65,7 @@ const MoimDetailBoard = ({moimInfo, currentPage, setCurrentPage, moimMemberRole,
 
 
 
-console.log(showMoimCommList);
+// console.log(showMoimCommList);
 
                       
 
@@ -67,7 +73,7 @@ console.log(showMoimCommList);
     <div className="moimDetailBoard-container">
       <div className='moimDetailBoard-schedule-Box'>
         <div className="moimDetailBoard-header" style={{marginTop: '1.8rem'}}>
-            <h6>모임일정 <span style={{color: 'salmon'}}>(리스트로 보기 버튼 만들어)</span></h6>
+            <h6>모임일정</h6>
             {/* 😡임시😡 ↓ 모임장만 보이게 해야함 */}
             <FontAwesomeIcon icon={faEllipsisVertical} size="lg"/>
         </div>
@@ -89,7 +95,7 @@ console.log(showMoimCommList);
               <FontAwesomeIcon icon={faPen} size="xs"/>  글 쓰기
             </div>
         </div>
-        <div className='moimDetailBoard-contentBox'>
+        <div className='moimDetailBoard-contentBox'  ref={moimBoardRef}>
           <div className='moimDetailBoard-comm-categotyBox'>
             {
               moimCommCate.map((cate)=>(
@@ -121,10 +127,8 @@ console.log(showMoimCommList);
                       .map((data, i) => {
                         return (
                           <div key={i} className="td" onClick={()=>navigate(`/moim/${moimInfo.id}/comm/${data.postno}`)}>
-                            <li className="no">{data.postno}</li>
-                            {/* { moimCommCateCheck=== '전체' && 
-                              <li className="item category" style={{ color: typeColors[data.category], fontWeight: 'bold' }}>{data.category}</li>
-                            } */}
+                            {/* <li className="no">{data.postno}</li> */}
+                            <li className="no">{i+1}</li>
                             <li className="item category" style={{ color: typeColors[data.categories], fontWeight: 'bold' }}>{data.categories}</li>
                             <li className="item postTitle">{data.postname} &nbsp;[{data.views}]</li>
                             <li className="item author">{data.member.nickname}</li>
