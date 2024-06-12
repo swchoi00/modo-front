@@ -15,58 +15,88 @@ const CommDetail = ({ isAuth, userInfo }) => {
   const [replyLength, setReplyLength] = useState([]);
   const navigate = useNavigate();
   const [updateReplyCnt, setUpdateReplyCnt] = useState(false);
-  
+  const [uploadedImages, setUploadedImages] = useState([]);
 
   useEffect(() => {
     axiosInstance.get(`/comm/${id}`)
       .then((response) => {
         setComm(response.data);
         setUpdateComm(response.data);
-      })
+         // 게시물 내용에서 이미지 URL 추출
+         const content = response.data.content;
+         const tempDiv = document.createElement('div');
+         tempDiv.innerHTML = content;
+         const imgs = tempDiv.getElementsByTagName('img');
+         const imgUrls = Array.from(imgs).map(img => img.src);
+         setUploadedImages(imgUrls);
+       })
       .catch((error) => {
         console.log(error);
       });
-
-      axiosInstance.get(`/commReply/${id}/list`)
-      .then((response) => {
-        setReplyLength(response.data); 
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
   }, [id]);
 
-  useEffect(()=>{
-    if(updateReplyCnt){
+  useEffect(() => {
+    if (updateReplyCnt) {
       axiosInstance.get(`/commReply/${id}/list`)
         .then((response) => {
-          setReplyLength(response.data); 
+          setReplyLength(response.data);
           setUpdateReplyCnt(false);
         })
         .catch((error) => {
           console.log(error);
         });
     }
-  },[updateReplyCnt])
+  }, [updateReplyCnt])
 
-  const handleUpdate = () => {
-    // ⭐⭐⭐⭐ 다 지운 빈 값은 밑에 코드처럼 하면 되는데 스페이바 누른거면 또 안됨... 스페이스바 누르거나 빈 값일 경우 수정할 내용을 입력해주세요 라고 띄우기 @@!!
-    if (updateComm?.content === '<p><br></p>') {
-      alert('수정할 내용을 입력해주세요.');
-      return;
-    }
-    axiosInstance.put(`/comm_update/${id}`, updateComm)
-      .then((response) => {
-        alert(response.data);
+  const commDetailHandler = (e) => {
+    let menu = e.target.textContent;
+
+    switch (menu) {
+      case "수정":
+        setUpdate(true);
+        break;
+      case "취소":
         setUpdate(false);
-        setComm(updateComm); 
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-  };
-console.log(updateComm);
+        break;
+      case "수정완료":
+        // ⭐⭐⭐⭐ 다 지운 빈 값은 밑에 코드처럼 하면 되는데 스페이바 누른거면 또 안됨... 스페이스바 누르거나 빈 값일 경우 수정할 내용을 입력해주세요 라고 띄우기 @@!!
+        if (updateComm?.content === '<p><br></p>') {
+          alert('수정할 내용을 입력해주세요.');
+          return;
+        }
+        axiosInstance.put(`/comm_update/${id}`, updateComm)
+          .then((response) => {
+            alert(response.data);
+            setUpdate(false);
+            setComm(updateComm);
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+        break;
+      case "삭제":
+        const deleteComm = window.confirm("정말 삭제하시겠습니까?");
+        if (deleteComm) {
+          axiosInstance.delete(`/comm_delete/${id}`, {
+            data: { images: uploadedImages },
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          })
+            .then((response) => {
+              alert(response.data);
+              navigate('/community');
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }
+        break;
+      default:
+        break;
+    }
+  }
+
   return (
     <div className='CommDetail'>
       <div>
@@ -91,22 +121,13 @@ console.log(updateComm);
           {userInfo.nickname === comm.author ? (
             update ? (
               <>
-                <button className='delete' onClick={handleUpdate}>수정완료</button>
-                <button className='update' onClick={() => setUpdate(false)}>취소</button>
+                <button className='delete' onClick={(e) => commDetailHandler(e)}>수정완료</button>
+                <button className='update' onClick={(e) => commDetailHandler(e)}>취소</button>
               </>
             ) : (
               <>
-                <button className='update' onClick={() => setUpdate(true)}>수정</button>
-                <button className='delete' onClick={() => {
-                  axiosInstance.delete(`/comm_delete/${id}`)
-                    .then((response) => {
-                      alert(response.data);
-                      navigate('/community');
-                    })
-                    .catch((error) => {
-                      console.log(error);
-                    })
-                }}>삭제</button>
+                <button className='update' onClick={(e) => commDetailHandler(e)}>수정</button>
+                <button className='delete' onClick={(e) => commDetailHandler(e)}>삭제</button>
               </>
             )
           ) : null}
@@ -115,19 +136,12 @@ console.log(updateComm);
 
       <div className='postContent'>
         {update ? (
-          <>
-          {/* <textarea
-            value={updateComm.content || ''}
-            onChange={changeHandler}
-            style={{ width: "100%", minHeight: "50vh", padding: "10px", borderRadius: "10px", outlineColor: "#8F7BE0" }}
-          /> */}
-          <QuillEditor update={update} updatecomm={updateComm} setUpdateComm={setUpdateComm}/>
-          </>
+          <QuillEditor update={update} updatecomm={updateComm} setUpdateComm={setUpdateComm} setUploadedImages={setUploadedImages} />
         ) : (
-          <div
-          dangerouslySetInnerHTML={{
-            __html: DOMPurify.sanitize(String(comm?.content))
-          }}></div>
+          <div className='ql-editor'
+            dangerouslySetInnerHTML={{
+              __html: DOMPurify.sanitize(String(comm?.content))
+            }}></div>
         )}
       </div>
 
@@ -135,7 +149,7 @@ console.log(updateComm);
         <button onClick={() => navigate(-1)}>목록</button>
       </div>
 
-      <CommReply isAuth={isAuth} userInfo={userInfo} id={id} setUpdateReplyCnt={setUpdateReplyCnt}/>
+      <CommReply isAuth={isAuth} userInfo={userInfo} id={id} setUpdateReplyCnt={setUpdateReplyCnt} />
     </div>
   );
 }

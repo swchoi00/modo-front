@@ -1,21 +1,21 @@
-.PostComm {
+.InquiryWrite {
   width: 1040px;
-  margin: 3% 3%;
+  margin: 5% 5%;
 }
 
-.PostComm .title {
+.InquiryWrite .title {
   font-weight: 800;
 }
 
-.PostComm .post {
+.InquiryWrite .post {
   margin: 3rem 0;
 }
 
-.PostComm .category-postName {
+.InquiryWrite .category-postName {
   display: flex;
 }
 
-.PostComm .post select{
+.InquiryWrite .post select{
   width: 15%;
   border: 1px solid lightgray;
   border-bottom: none;
@@ -24,7 +24,7 @@
   height: 2.5rem;
 }
 
-.PostComm .post input{
+.InquiryWrite .post input{
   width: 85%;
   border: 1px solid lightgray;
   border-bottom: none;
@@ -33,7 +33,13 @@
   height: 2.5rem;
 }
 
-.submit-comm-btn{
+.InquiryWrite .content {
+  width: 100%;
+  height: 30rem;
+  padding: 10px;
+}
+
+.InquiryWrite .submit-comm-btn{
   width: 100%;
   margin-top: 1rem;
   padding: 0.7rem;
@@ -45,15 +51,15 @@
 }
 
 @media screen and (max-width: 600px){
-  .PostComm .category-postName {
+  .InquiryWrite .category-postName {
   flex-direction: column;
 }
-.PostComm .post select {
+.InquiryWrite .post select {
   width: 100%;
   text-align: left;
   padding-left: 0.8rem;
 }
-.PostComm .post input {
+.InquiryWrite .post input {
   width: 100%;
 }
 }

@@ -72,46 +72,53 @@ const CommReply = ({ isAuth, userInfo, id, setUpdateReplyCnt }) => {
       });
   }
 
-  const handleUpdate = (rno) => {
-    const updatedReply = getReply.find(reply => reply.rno === rno);
+  const commDetailReplyHandler = (e, rno) => {
+    let menu = e.target.textContent;
 
-    if (!updatedReply || !updatedReply.content.trim()) {
-      alert('수정할 내용을 입력해주세요.');
-      return;
-    }
+    switch (menu) {
+      case "수정":
+        setUpdate(rno);
+        break;
 
-    axiosInstance.put(`/commReply_update/${rno}`, { content: updatedReply.content })
-      .then((response) => {
-        alert(response.data);
+      case "취소":
         setUpdate(false);
-        fetchNewReply(); // 수정 후 댓글 목록 업데이트
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+        fetchNewReply();
+        break;
 
-  };
+      case "수정완료":
+        const updatedReply = getReply.find(reply => reply.rno === rno);
+        if (!updatedReply || !updatedReply.content.trim()) {
+          alert('수정할 내용을 입력해주세요.');
+          return;
+        }
+        axiosInstance.put(`/commReply_update/${rno}`, { content: updatedReply.content })
+          .then((response) => {
+            alert(response.data);
+            setUpdate(false);
+            fetchNewReply(); // 수정 후 댓글 목록 업데이트
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+        break;
 
-  const handleCancle = () => {
-    setUpdate(false);
-    fetchNewReply();
+      case "삭제":
+        const deleteReply = window.confirm("정말 삭제하시겠습니까?");
+        if (deleteReply) {
+          axiosInstance.delete(`/commReply/${rno}`)
+            .then((response) => {
+              alert(response.data);
+              fetchNewReply(); // 댓글 삭제 후 목록 업데이트
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }
+        break;
+
+      default: break;
+    }
   }
-
-
-
-  // const handleLikeClick = (rno) => {
-  //   // getReply 배열을 업데이트합니다. rno가 일치하는 객체만 likedReply를 업데이트합니다.
-  //   const updatedReplies = getReply.map(reply => 
-  //     reply.rno === rno ? {
-  //       ...reply,
-  //       likedReply: reply.likedReply.includes(userInfo.id) 
-  //         ? reply.likedReply.filter(id => id !== userInfo.id) 
-  //         : [...reply.likedReply, userInfo.id]
-  //     } : reply
-  //   );
-  //   // 업데이트된 배열로 상태를 설정합니다.
-  //   setGetReply(updatedReplies); // -> 이거 말고 제일 하단에 서버에 업데이트 요청하기
-  // };
 
   const handleLikeClick = (rno) => {
     const isLiked = getReply.find(reply => reply.rno === rno).likedReply.includes(userInfo.id);
@@ -139,10 +146,6 @@ const CommReply = ({ isAuth, userInfo, id, setUpdateReplyCnt }) => {
         console.error('Error:', error);
       });
   };
-
-
-  console.log(userInfo.id);
-  console.log(getReply);
 
   return (
     <div className='CommReply'>
@@ -183,29 +186,13 @@ const CommReply = ({ isAuth, userInfo, id, setUpdateReplyCnt }) => {
                   {userInfo.nickname === reply.member.nickname ? (
                     update === reply.rno ? (
                       <>
-                        <button className='delete' onClick={() => handleUpdate(reply.rno)}>수정완료</button>
-                        <button className='update' onClick={() => handleCancle()}>취소</button>
+                        <button className='delete' onClick={(e) => commDetailReplyHandler(e, reply.rno)}>수정완료</button>
+                        <button className='update' onClick={(e) => commDetailReplyHandler(e)}>취소</button>
                       </>
                     ) : (
                       <>
-                        <button className='update' onClick={() => setUpdate(reply.rno)}>수정</button>
-                        <button
-                          className='delete'
-                          onClick={() => {
-                            // 댓글 삭제
-                            axiosInstance
-                              .delete(`/commReply/${reply.rno}`)
-                              .then((response) => {
-                                alert(response.data);
-                                fetchNewReply(); // 댓글 삭제 후 목록 업데이트
-                              })
-                              .catch((error) => {
-                                console.log(error);
-                              });
-                          }}
-                        >
-                          삭제
-                        </button>
+                        <button className='update' onClick={(e) => commDetailReplyHandler(e, reply.rno)}>수정</button>
+                        <button className='delete' onClick={(e) => commDetailReplyHandler(e, reply.rno)}>삭제</button>
                       </>
                     )
                   ) : (

@@ -27,17 +27,20 @@ import InquiryFormDetail from './Home/FAQ/InquiryForm/InquiryFormDetail';
 import Community from './Community/Community';
 import AddComm from './Community/AddComm';
 import CommDetail from './Community/CommDetail';
+import AddComm2 from './Community/Notice/AddComm2';
 // import MoimDetailBoardCommComponent from './Moim/MoimDetailComponent/MoimDetailInnerComponent/MoimDetail-BoardCommComponent';
 
 import MoimBoard from './Moim/MoimDetail/Moim-board';
 import MoimGallery from './Moim/MoimDetail/Moim-gallery';
 import MoimChat from './Moim/MoimDetail/Moim-chat';
 import MoimHome from './Moim/MoimDetail/Moim-home';
-import PostComm from './Community/PostComm';
 import MoimDetailBoardCommComponent from './Moim/MoimDetailInnerComponent/MoimDetail-BoardCommComponent';
 import MoimDetailBoardScheduleDetail from './Moim/MoimDetailInnerComponent/MoimDetail-BoardSchdule-Detail';
 import MoimDetailBoardScheduleDetailMember from './Moim/MoimDetailInnerComponent/MoimDetail-BoardSchedule-Detail-Member';
 import MoimDetailBoardCommDetail from './Moim/MoimDetailInnerComponent/MoimDetail-BoardComm-Detail';
+import NoticeWrite from './Community/Notice/NoticeWrite';
+import Inquiry from './Community/Inquiry/Inquiry';
+import InquiryWrite from './Community/Inquiry/InquiryWrite';
 
 
 function App() {
@@ -145,7 +148,7 @@ function App() {
           <Route path ='/faqDetail/:id' element={<FaqDetails currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
           <Route path ='/faq_write' element={<Faq_write userInfo={userInfo} />} />
 
-          <Route path ='/notice' element={<Notice userInfo={userInfo} currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
+          {/* <Route path ='/notice' element={<Notice userInfo={userInfo} currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/> */}
           <Route path ='/noticeDetail/:id' element={<NoticeDetails notice={notice} currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
           <Route path ='/notice_write' element={<Notice_write userInfo={userInfo}/>} />
 
@@ -163,7 +166,13 @@ function App() {
           <Route path='/community' element={<Community currentPage={currentPage} setCurrentPage={setCurrentPage} isAuth={isAuth}/>}/>
           <Route path='/addComm' element={<AddComm userInfo={userInfo}/>} />
           <Route path='/comm/:id' element={<CommDetail isAuth={isAuth} userInfo={userInfo}/>} />
-          <Route path='/addCommTest' element={<PostComm userInfo={userInfo}/>} />
+
+                {/* Notice 로 바꿔야함 */}
+          <Route path='/notice' element={<AddComm2 currentPage={currentPage} setCurrentPage={setCurrentPage} userInfo={userInfo}/>} />
+          <Route path='/noticeWrite' element={<NoticeWrite userInfo={userInfo}/>} />
+
+          <Route path='/inquiry' element={<Inquiry userInfo={userInfo}/>} />
+          <Route path='/inquiryWrite' element={<InquiryWrite userInfo={userInfo}/>} />
         </Routes>
       </div>
       

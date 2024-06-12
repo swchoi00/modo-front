@@ -46,7 +46,7 @@ const Header = ( {isAuth, setIsAuth, userInfo, setUserInfo} ) =>{
           {/* <Link className='nav-aTag' to = {"/uploadTest"}>멘토링</Link> */}
           <Link className='nav-aTag' to = {"/community"}>커뮤니티</Link>
           <Link className='nav-aTag' to = {"/faq"}>FAQ</Link>
-          <Link className='nav-aTag' to = {"/addCommTest"}>공지사항</Link>
+          <Link className='nav-aTag' to = {"/notice"}>공지사항</Link>
         </div>
 
         <div className='nav-searchBar'>        

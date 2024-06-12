@@ -83,7 +83,7 @@ const Community = ({ isAuth, currentPage, setCurrentPage }) => {
 
   const searchInputChangeHandler = (e) => {
     if (e.code === 'Enter') {
-      setSearchKeyWord(e.target.value);  
+      setSearchKeyWord(e.target.value);
       searchFilterHandler();
     }
     if (searchKeyWord === '') {
@@ -102,7 +102,7 @@ const Community = ({ isAuth, currentPage, setCurrentPage }) => {
       setFilteredData(filteredBySearch);
       setTypeBtn('전체보기');
     }
-    if(searchKeyWord === '') {
+    if (searchKeyWord === '') {
       setSearch(false);
       setFilteredData(comm);
       setTypeBtn('전체보기');
@@ -117,16 +117,30 @@ const Community = ({ isAuth, currentPage, setCurrentPage }) => {
     setTypeBtn("전체보기");
   }
 
-  useEffect(()=>{
-    if(searchKeyWord?.length === 0){
+  useEffect(() => {
+    if (searchKeyWord?.length === 0) {
       setFilteredData(comm);
     }
   }, [searchKeyWord])
 
+  const fetchFirstImage = (content) => {
+    const parser = new DOMParser();
+    // content 문자열을 HTML로 파싱한 후 첫 번째 이미지 태그를 추출
+    const doc = parser.parseFromString(content, 'text/html');
+    const img = doc.querySelector('img');
+    // 이미지 태그가 존재하면 이를 반환하고, 존재하지 않으면 null을 반환
+    return img ? img.outerHTML : null;
+  };
 
-
-  console.log(search);
-  console.log(searchKeyWord);
+  const removeImagesFromContent = (content) => {
+    const parser = new DOMParser();
+    // content 문자열을 HTML로 파싱한 후 모든 이미지 태그를 제거
+    const doc = parser.parseFromString(content, 'text/html');
+    const images = doc.querySelectorAll('img');
+    // 모든 이미지 태그를 제거한 후 나머지 content를 반환
+    images.forEach(img => img.parentNode.removeChild(img));
+    return doc.body.innerHTML;
+  };
 
   return (
     <div className="Community">
@@ -138,7 +152,7 @@ const Community = ({ isAuth, currentPage, setCurrentPage }) => {
             className='search-input'
             placeholder='제목 + 내용 검색하기'
             value={searchKeyWord}
-            onChange={searchInputChangeHandler} 
+            onChange={searchInputChangeHandler}
             onKeyUp={searchInputChangeHandler}
           />
           <span>
@@ -164,7 +178,7 @@ const Community = ({ isAuth, currentPage, setCurrentPage }) => {
           </span>
         </div>
 
-        <div className="typBtn-box">
+        <div className="typeBtn-box">
           {
             type.map((show, i) => {
               return (
@@ -252,8 +266,10 @@ const Community = ({ isAuth, currentPage, setCurrentPage }) => {
                       (
 
                         filteredData.map((data, i) => {
+                          const firstImage = fetchFirstImage(data?.content); // content에서 첫 번째 이미지를 추출
+                          const contentWithoutImages = removeImagesFromContent(data?.content); // content에서 모든 이미지를 제거한 텍스트만 추출
+                          
                           return (
-
                             <div className="card-type" key={i} onClick={() => navigate(`/comm/${data.postno}`)}>
                               <div className="card-header">
                                 <div className="card-header inner1">
@@ -265,11 +281,18 @@ const Community = ({ isAuth, currentPage, setCurrentPage }) => {
                                 </div>
                               </div>
                               <div className="card-body">
-                                <div>{data.postname}</div>
-                                <div><img src={dog} alt="" /></div>
-                                <div dangerouslySetInnerHTML={{
-            __html: DOMPurify.sanitize(String(data?.content)),
-          }}></div>
+                                <div className="postName">{data.postname}</div>
+                                <div className={`${firstImage ? 'imgContentBox' : 'contentBox '} `}>
+                                {firstImage && (
+                                  <div className="quillImg" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(firstImage)}}></div>
+                                )}
+                                <div className={` ${firstImage ? 'imgContent' : 'content'}`} dangerouslySetInnerHTML={{
+                                  __html: DOMPurify.sanitize(contentWithoutImages),
+                                }}></div>
+                                </div>
+                                {/* <div dangerouslySetInnerHTML={{
+                                  __html: DOMPurify.sanitize(String(data?.content)),
+                                }}></div> */}
                               </div>
                               <div className="card-footer">
                                 <div className="card-footer inner2">

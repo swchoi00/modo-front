@@ -57,6 +57,12 @@
   display: flex;
 }
 
+.CommReply .nickName-date img {
+  height: 22px;
+  margin-right: 5px;
+}
+
+
 .CommReply .nickName {
   font-weight: 500;
 }
