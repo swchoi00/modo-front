@@ -129,7 +129,7 @@ const MoimDetailBoardCommDetail = ({isAuth, userInfo})=>{
               <div>{comm.uploadDate}</div>
               <div style={{ margin: '0 7px', color: '#e6e6e6' }}> | </div>
               <div><img src="/static/media/face.786407e39b657bdecd13bdabee73e67b.svg" alt="face icon" /></div>
-              <div>{comm.member.nickname}</div>
+              <div>{comm.moimMember.member.nickname}</div>
             </div>
             <div className='view-reply'>
               <div>조회수 {comm.views}</div>
@@ -138,7 +138,7 @@ const MoimDetailBoardCommDetail = ({isAuth, userInfo})=>{
             </div>
           </div>
           <div className='post-delete-update'>
-            {userInfo.username === comm.member.username ? (
+            {userInfo.username === comm.moimMember.member.username ? (
               update ? (
                 <>
                   <button className='delete' onClick={handleUpdate} style={{border: '1px solid #9087d3', backgroundColor: '#9087d3', color: 'white'}}>수정완료</button>

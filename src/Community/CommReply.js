@@ -179,7 +179,7 @@ const CommReply = ({ isAuth, userInfo, id, setUpdateReplyCnt }) => {
                       onChange={changeHandler}
                     />
                   ) : (
-                    <div className='Content'>{reply.content}</div>
+                    <div className='Content'><pre style={{wordWrap: 'break-word', whiteSpace: 'pre-wrap'}}>{reply.content}</pre></div>
                   )
                 }
                 <div className='reply-update-delete'>

@@ -10,9 +10,10 @@ const MoimDetailBoardCommComponent = ({isAuth, userInfo, setMoimPageRef})=>{
   const navigate = useNavigate();
   const [moimInfo, setMoimInfo] = useState();
   const {id} = useParams(); // URL 파라미터인 id 값을 가져옴 (반환되는 값이 객체형태여서 객체 형태인 {id로 받아줘야함})
-  const commCategory = ['공지', '자유', '가입인사'];
+  const commCategory = ['자유', '가입인사'];
+  const commLeaderCategory = ['공지', '자유', '가입인사'];
+  const [moimMemberInfo, setMoimMemberInfo] = useState(); // 모임 멤버 정보
   const [moimCommInfo, setMoimCommInfo] = useState({
-    // member: {id : userInfo.id, username : userInfo.username}, 
     categories: '',
     postname: '',
     content: '',
@@ -32,7 +33,20 @@ const MoimDetailBoardCommComponent = ({isAuth, userInfo, setMoimPageRef})=>{
     });
   },[id,setMoimInfo]);
   
-  
+   //모임 멤버 리스트 가져와서 모임 멤버 객체 찾기
+   useEffect(()=>{
+    axiosInstance.get(`/getMoimMemberList/${id}`)
+    .then((response)=>{
+      if(isAuth){
+        setMoimMemberInfo(response.data?.find(memberInfo => memberInfo.member.id === userInfo.id));
+      }
+    }).catch((error)=>{
+      console.log(error);
+    }
+  )
+  },[id,isAuth]);
+
+
   
   
   const changeHandler = (e) => {
@@ -58,7 +72,7 @@ const MoimDetailBoardCommComponent = ({isAuth, userInfo, setMoimPageRef})=>{
 
   
   const moimCommContentHandler = ()=>{
-    const updatedMoimCommInfo = {...moimCommInfo, moim: moimInfo, authorid : userInfo.id}; // 모임정보 저장해주기
+    const updatedMoimCommInfo = {...moimCommInfo, moim: moimInfo, authorid : moimMemberInfo.id}; // 모임정보 저장해주기
     axiosInstance.post('/moimCommInsert', updatedMoimCommInfo)
     .then((response)=>{
       alert(response.data);
@@ -69,7 +83,7 @@ const MoimDetailBoardCommComponent = ({isAuth, userInfo, setMoimPageRef})=>{
     });
   }
   
-  console.log(moimCommInfo);
+  console.log(moimMemberInfo);
   return(
     <div className='MoimDetail-container'>
 
@@ -90,12 +104,11 @@ const MoimDetailBoardCommComponent = ({isAuth, userInfo, setMoimPageRef})=>{
           <select className='MoimDetailBoard-Comm-WriteBox-category' name="categories"  onChange={changeHandler} style={{ color: selectedColor }}>
             <option defaultValue={''} hidden >카테고리</option>
             {
-              commCategory.map((data, i)=>{
-                return(
-                  <option key={i}>{data}</option>
-                );
-              })
+              (moimMemberInfo?.memberRole === 'member' ? commCategory: commLeaderCategory).map((data, i)=>( // 리더,매니저랑 멤버의 게시글 차이
+                <option key={i}>{data}</option>
+              ))  
             }
+            
           </select>
           <input placeholder='제목을 입력해주세요 (최대 30글자)' name='postname'
                  value={moimCommInfo.postname} onChange={changeHandler}

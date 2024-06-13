@@ -65,7 +65,7 @@ const MoimDetailBoard = ({moimInfo, currentPage, setCurrentPage, moimMemberRole,
 
 
 
-// console.log(showMoimCommList);
+console.log(showMoimCommList);
 
                       
 
@@ -131,7 +131,7 @@ const MoimDetailBoard = ({moimInfo, currentPage, setCurrentPage, moimMemberRole,
                             <li className="no">{i+1}</li>
                             <li className="item category" style={{ color: typeColors[data.categories], fontWeight: 'bold' }}>{data.categories}</li>
                             <li className="item postTitle">{data.postname} &nbsp;[{data.views}]</li>
-                            <li className="item author">{data.member.nickname}</li>
+                            <li className="item author">{data.moimMember.member.nickname}</li>
                             <li className="item date">{data.uploadDate}</li>
                             <li className="view">{data.views}</li>
                           </div>

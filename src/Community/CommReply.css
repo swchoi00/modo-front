@@ -22,9 +22,10 @@
   padding: 3px 10px;
   vertical-align: bottom;
   border: 1px solid rgb(214, 213, 213);
+  border-radius: 5px;
 }
 
-.replyInput:focus{
+.CommReply .replyInput:focus, .getReply textarea:focus {
   outline: none;
   border: 1px solid #8F7BE0;
 }
@@ -76,6 +77,26 @@
   margin-top: 10px;
   text-align: left;
 }
+
+.getReply textarea{
+  width: 100%;
+  border-color:#d6d5d5;
+  resize: none;
+  border-radius: 5px;
+}
+
+.getReply textarea::-webkit-scrollbar , .CommReply .replyInput::-webkit-scrollbar{
+  width: 0.7rem; /* 스크롤바의 너비 설정 */
+  border: none;
+}
+
+.getReply textarea::-webkit-scrollbar-thumb , .CommReply .replyInput::-webkit-scrollbar-thumb{
+  background-color: #ebebeb; /* 스크롤바의 색상 설정 */
+  border-radius: 5px; /* 스크롤바의 모서리 둥글게 설정 */
+  height: auto; /* 스크롤바의 길이 */
+  margin-right: 0.5rem; /* 스크롤바 오른쪽 여백 추가 */
+}
+
 
 .CommReply .isAuthTrue > button {
   border: none;

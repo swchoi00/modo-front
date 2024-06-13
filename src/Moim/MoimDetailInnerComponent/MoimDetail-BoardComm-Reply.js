@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "../../axiosInstance";
-import { faThumbsUp as likedIcon } from '@fortawesome/free-solid-svg-icons';
+import { faDongSign, faThumbsUp as likedIcon } from '@fortawesome/free-solid-svg-icons';
 import { faThumbsUp as unLikedIcon } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const MoimDetailBoardCommReply = ({isAuth, userInfo, id, no, setUpdateReplyCnt})=>{
-  const [postReply, setPostReply] = useState({content: ''});
+  const [postReply, setPostReply] = useState({content: '', moimCommNo : no});
   const [getReply, setGetReply] = useState([]);
   const [update, setUpdate] = useState(false);
   const [moimMemberInfo, setMoimMemberInfo] = useState(); // 모임 멤버 정보
@@ -61,24 +61,26 @@ const MoimDetailBoardCommReply = ({isAuth, userInfo, id, no, setUpdateReplyCnt})
 
   
   
-  // useEffect(() => {
-  //   axiosInstance.get(`/commReply/${id}/list`)
-  //     .then((response) => {
-  //       setGetReply(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }, [id]);
+  useEffect(() => {
+    axiosInstance.get(`/moimReply/${no}/list`)
+      .then((response) => {
+        setGetReply(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [no]);
 
-console.log(moimMemberInfo);
+
+
+
   const handleReplySubmit = () => {
     if (isAuth) {
       if (!postReply.content.trim()) {
         alert("댓글을 작성해주세요.");
       }
       else {
-        const updateCommReply = { ...postReply, moimMember: moimMemberInfo };
+        const updateCommReply = { ...postReply, moimMember: {id : moimMemberInfo.id} };
         console.log(updateCommReply);
         axiosInstance.post(`/moimReply/${id}`, updateCommReply)
           .then((response) => {
@@ -97,7 +99,7 @@ console.log(moimMemberInfo);
   };
 
   const fetchNewReply = () => {
-    axiosInstance.get(`/commReply/${no}/list`)
+    axiosInstance.get(`/moimReply/${no}/list`)
       .then((response) => {
         setGetReply(response.data);
       })
@@ -106,15 +108,15 @@ console.log(moimMemberInfo);
       });
   }
 
-  const handleUpdate = (rno) => {
-    const updatedReply = getReply.find(reply => reply.rno === rno);
+  const handleUpdate = (reply) => {
+    // const updatedReply = getReply.find(reply => reply.rno === rno);
 
-    if (!updatedReply || !updatedReply.content.trim()) {
+    if (!reply || !reply.content.trim()) {
       alert('수정할 내용을 입력해주세요.');
       return;
     }
 
-    axiosInstance.put(`/commReply_update/${rno}`, { content: updatedReply.content })
+    axiosInstance.put(`/moimReply_update/${reply.rno}`, { content: reply.content })
       .then((response) => {
         alert(response.data);
         setUpdate(false);
@@ -177,29 +179,29 @@ console.log(moimMemberInfo);
         {
           getReply.map((reply, i) => (
             <div className='getReply' key={i}>
-              <div className='getReply-leftBox'>
+              <div className='getReply-leftBox' style={{width: '100%'}}>
                 <div className='nickName-date'>
                   <img src="/static/media/face.786407e39b657bdecd13bdabee73e67b.svg" alt='프로필이미지' />
-                  <div className='nickName'>{reply.member.nickname}</div>
-                  <div className='date'>| {reply.createDate}</div>
+                  <div className='nickName'>{reply.moimMember?.member?.nickname}</div>
+                  <div className='date'>| {reply.createDate.split(' ')[0]}</div> {/* 원래 이거 {reply.createDate} */}
                 </div>
                 {
                   update === reply.rno ? (
                     <textarea
                       defaultValue={reply.content}
                       className='Content'
-                      style={{ width: "100%", outlineColor: "#8F7BE0" }}
+                 
                       onChange={changeHandler}
                     />
                   ) : (
-                    <div className='Content'>{reply.content}</div>
+                    <div className='Content'><pre style={{wordWrap: 'break-word', whiteSpace: 'pre-wrap'}}>{reply.content}</pre></div>
                   )
                 }
                 <div className='reply-update-delete'>
-                  {userInfo.nickname === reply.member.nickname ? (
+                  {userInfo?.nickname === reply?.moimMember?.member.nickname ? (
                     update === reply.rno ? (
                       <>
-                        <button className='delete' onClick={() => handleUpdate(reply.rno)}>수정완료</button>
+                        <button className='delete' onClick={() => handleUpdate(reply)}>수정완료</button>
                         <button className='update' onClick={() => handleCancle()}>취소</button>
                       </>
                     ) : (
@@ -209,8 +211,7 @@ console.log(moimMemberInfo);
                           className='delete'
                           onClick={() => {
                             // 댓글 삭제
-                            axiosInstance
-                              .delete(`/commReply/${reply.rno}`)
+                            axiosInstance.delete(`/moimReply/${reply.rno}`)
                               .then((response) => {
                                 alert(response.data);
                                 fetchNewReply(); // 댓글 삭제 후 목록 업데이트
@@ -229,15 +230,16 @@ console.log(moimMemberInfo);
                   )}
                 </div>
               </div>
+              {/*  좋아요 버튼 
               <div>
                 <FontAwesomeIcon
-                  icon={reply.likedReply.includes(userInfo.id) ? likedIcon : unLikedIcon}
+                  icon={reply?.likedReply.includes(userInfo.id) ? likedIcon : unLikedIcon}
                   size="lg"
                   style={{ color: reply.likedReply.includes(userInfo.id) ? '#8F7BE0' : 'gray', cursor: 'pointer' }}
                   onClick={() => handleLikeClick(reply.rno)}
                 />
                 <div className='likeCnt'>{reply.liked ? reply.likedReply.length + 1 : reply.likedReply.length}</div>
-              </div>
+              </div> */}
             </div>
           ))}
       </div>
