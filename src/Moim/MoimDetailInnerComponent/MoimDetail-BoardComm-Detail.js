@@ -97,8 +97,7 @@ const MoimDetailBoardCommDetail = ({isAuth, userInfo})=>{
     let answer = window.confirm("게시글을 삭제하시겠습니까?");
     if(answer){
       axiosInstance.delete(`/deleteMoimComm/${comm.postno}`)
-      .then((response) => {
-        alert(response.data);
+      .then(() => {
         navigate(-1);
       })
       .catch((error) => {
@@ -107,6 +106,7 @@ const MoimDetailBoardCommDetail = ({isAuth, userInfo})=>{
     }
   }
 
+  console.log(comm);
 
 
   return(
