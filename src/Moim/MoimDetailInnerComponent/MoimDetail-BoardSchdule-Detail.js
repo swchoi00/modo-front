@@ -139,7 +139,7 @@ const scheduleHandler = ()=>{
 
 
 
-
+console.log(moimScheduleInfo);
 
   return(
     <div className='MoimDetail-container' style={{alignItems:'center'}}>
@@ -269,7 +269,7 @@ const scheduleHandler = ()=>{
               <span>댓글 5</span>
             </div>
             <div className='moimScheduleDetail-infoText'>
-              <MoimDetailBoardScheduleReply /> 
+              <MoimDetailBoardScheduleReply no={no} moimMemberInfo={moimMemberInfo}  /> 
             </div>
           </>
         }

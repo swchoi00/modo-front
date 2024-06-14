@@ -7,15 +7,11 @@ import { faX } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 
 
-const MoimDetailBoardScheduleReply = ()=>{
+const MoimDetailBoardScheduleReply = ({no, moimMemberInfo})=>{
 
   // 작성 중인 댓글 저장
   const [replyText, setReplyText] = useState();
 
-  const updateReply = (e)=>{
-    let dd = e.target.value;
-    setReplyText(dd);
-  }
 
 
   const imsiDB = [
@@ -61,10 +57,11 @@ const MoimDetailBoardScheduleReply = ()=>{
   },
   ]
 
+
   //⭐⭐
   const scheduleReplyhandler = ()=>{
-    console.log(replyText);
     // 여기에 스케쥴번호, moimMember, replyText 서버에 보내서 저장해줘야함
+    console.log(replyText);
   }
 
   return(
@@ -83,7 +80,8 @@ const MoimDetailBoardScheduleReply = ()=>{
                 </div>
                 {
                   // ⭐댓글 글쓴이와 moimMember가 일치하는 경우 수정/삭제 가능하게 해야함
-                <div className='settingBtn'>
+                <div className='settingBtn'> 
+                  {/* 여기에 작성자 혹은 매니저나, 리더만 삭제 할 수 있어 */}
                   <button><FontAwesomeIcon icon={faX} size='sm'style={{color: '#acacac'}}/></button>
                 </div>
                 }
@@ -99,7 +97,7 @@ const MoimDetailBoardScheduleReply = ()=>{
       <div className='schedule-reply-editBox'>
         <textarea placeholder='댓글을 적어주세요 :)'
                   value={replyText||''}
-                  onChange={updateReply}
+                  onChange={(e)=>setReplyText(e.target.value)}
                   maxLength="500"
         />
         <div onClick={scheduleReplyhandler} style={{cursor:'pointer'}}>게시</div>
