@@ -14,6 +14,36 @@ const MoimDetailBoardScheduleDetailMember = ()=>{
   const [moimScheduleInfo, setMoimScheduleInfo] = useState(false); // 모임 일정
   const navigate = useNavigate();
 
+
+// 🔒보안관련 (로그인 안했거나, 모임멤버 아닌경우 페이지 침입방지)
+useEffect(() => {
+  axiosInstance.get(`/getMoimMemberList/${id}`)
+      .then((response) => {
+        let page = window.location.href;
+        let userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+        let moimMemberList = response.data;
+        let matchingMember = moimMemberList?.find(memberInfo => memberInfo.member.id === userInfo?.id); // 모임 멤버 확인
+        // setMoimMemberInfo(matchingMember); //모임 멤버 객체 저장 (모임 멤버라면 값 들어가고 아니면 iundifind)
+        // console.log(matchingMember);
+    
+        // 😡😡😡나중에 주소 바꿔줘야함
+        if (page !== `http://localhost:3000/moim/${id}/home`) { // 모임 메인 화면이 아닌 페이지를 url로 들어올 경우 (모임 메인 화면은 비회원도 볼 수 있음)
+          if(userInfo){ //로그인 상태
+              if(!matchingMember){ //모임멤버 아닌 경우
+                alert("모임 가입 후 이용해주세요");
+                navigate(`/moim/${id}/home`);
+              }
+          }else{ // 로그인 안한 상태
+            alert("로그인 후 이용해주세요😉");
+            navigate('/login');
+          }
+        }
+      }).catch((error) => {
+          console.log(error);
+      });
+}, [id]);
+
+
   // 모임 스케쥴 정보 가져오기
   useEffect(()=>{
     axiosInstance.get(`/getMoimScheduleDetail/${no}`)
@@ -25,49 +55,6 @@ const MoimDetailBoardScheduleDetailMember = ()=>{
   },[setMoimScheduleInfo]);
 
 console.log(moimScheduleInfo);
-
-const imsiMember2 = [
-  {
-  member: {nickname: '예닝'},
-  memberRole:"leader"
-  },
-  {
-    member: {nickname: '예닝2'},
-    memberRole:"manager"
-  },
-  {
-    member: {nickname: '예닝3'},
-    memberRole:"manager"
-  },
-  {
-    member: {nickname: '예닝3'},
-    memberRole:"member"
-  },
-  {
-    member: {nickname: '예닝3'},
-    memberRole:"member"
-  },
-  {
-    member: {nickname: '예닝3'},
-    memberRole:"member"
-  },
-  {
-    member: {nickname: '예닝3'},
-    memberRole:"member"
-  },
-  {
-    member: {nickname: '예닝3'},
-    memberRole:"member"
-  },
-  {
-    member: {nickname: '예닝3'},
-    memberRole:"member"
-  },
-  {
-    member: {nickname: '예닝3'},
-    memberRole:"member"
-  },
-]
 
 
 const backBtnHandler = ()=>{
@@ -94,7 +81,8 @@ const backBtnHandler = ()=>{
                     {data.memberRole === 'manager' && <img className='moimDetail-moimManagerIcon' src={managerIcon} alt=''/>}
                   </div>
                   <div className='moimDetail-moimContent-home-member-content-text'>
-                    <div>{data.member.nickname}</div>
+                    {/* <div>{data.member.nickname}</div> //나중에 바꿔야함 */} 
+                    <div>{data}</div>
                     <span>{data.profileText}프로필 상태 글</span>
                   </div>
                 </div>

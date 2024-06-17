@@ -2,6 +2,7 @@ import './MoimDetail-Home.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import face from '../../HomeComponent/ReviewComponent/face.svg';
@@ -75,14 +76,14 @@ const imsiBoardData = [
   ];
 
   
-
+const [moimNoticeList, setMoimNoticeList] = useState(null);
 const [moimScheduleList, setMoimScheduleList] = useState(null);
 const [memberListModal, setMemberListModal] = useState(false); // 모임 멤버 설정 모달 여부
 const [memberKickOut, setMemberKickOut] = useState(false); // 모임 멤버 강퇴 모달 여부
 const [memberKickOutName, setMemberKickOutName] = useState(null); // 강퇴할 모임 멤버 정보
 moment.locale('ko');
 const dateFormat = "M월 D일 (ddd)";
-const [moimNoticeModal, setMoimNoticeModal] = useState(false);
+const [moimNoticeModal, setMoimNoticeModal] = useState(false); // 공지 설정 모달
 
 
   // 모임 스케쥴 리스트 가져옴 (오늘 포함한 앞으로 일정, 지난 일정은 포함하지 않음)
@@ -121,17 +122,28 @@ const [moimNoticeModal, setMoimNoticeModal] = useState(false);
   };
 
 
-console.log(moimScheduleList);
+// ⭐⭐수정해야함⭐⭐모임 게시글 가져옴
+useEffect(()=>{
+  axiosInstance.get(`/getMoimCommList/${moimInfo.id}`)
+  .then((response)=>{
+    let moimList = response.data;
+    // 여기서 comm.noticeCheck(true) 인것만 filter해서 setMoimNoticeList로 저장
+    // setMoimNoticeList(moimList.filter(data => data.noticeCheck === true));
+    setMoimNoticeList(moimList.filter(data => data.noticeCheck)); // 이게 공지 여부 체크한 것들
+
+  }).catch((error)=>{
+    console.log(error);
+  });
+},[moimInfo, setMoimNoticeModal]);
 
 
-// 🔥모임 강퇴 멤버 정보 저장 및 강퇴 모달 띄우는 핸들러
+// 모임 강퇴 멤버 정보 저장 및 강퇴 모달 띄우는 핸들러
 const memberKickOutModalHandler = (memberId, memberName)=>{
   setMemberKickOutName({'id' : memberId, 'name': memberName});
   setMemberKickOut(true);
 }
 
 const memberKickOutHandler = (()=>{
-  console.log("🔥🔥");
   axiosInstance.delete(`/quitMoim/${memberKickOutName.id}`)
   .then(()=>{
     setMemberKickOut(false); // 강퇴 확인 모달창 닫음
@@ -327,7 +339,10 @@ const moimManagerHandler=(memberId, memberName, memberRole)=>{
         <div className="moimDetail-moimContent-home-header">
           <h6>모임 일정</h6>
           {/* 😡임시😡 ↓ 모임장만 보이게 해야함 */}
-          {/* <FontAwesomeIcon icon={faEllipsisVertical} size="lg"/> */}
+          {
+            moimMemberRole === 'leader' &&
+            <FontAwesomeIcon icon={faPlus} size="lg" style={{color: "gray", cursor:'pointer'}} onClick={()=>navigate(`/moim/${moimInfo.id}/board`)}/>
+          }
         </div>
         <div className='moimDetail-moimContent-home-schedule-contentBox'>
           {
@@ -393,15 +408,15 @@ const moimManagerHandler=(memberId, memberName, memberRole)=>{
       <div className='moimDetail-moimContent-home-boardBox'>
         <div className="moimDetail-moimContent-home-header">
           <h6>꼭 읽어주세요!</h6>
-          { moimMemberRole !== 'notMember' || moimMemberRole !== 'leader' &&
+          { moimMemberRole !== 'notMember' && moimMemberRole !== 'leader' &&
             <span onClick={() => {navigate('/moim/1/board'); setMoimPageRef('comm');}} style={{cursor:'pointer'}}>더 보기</span>
           }
           { moimMemberRole === 'leader' &&
-            <span onClick={() =>setMoimNoticeModal(true)} style={{cursor:'pointer'}}>공지 설정</span>
+            <FontAwesomeIcon icon={faPlus} size="lg" style={{color: "gray", cursor:'pointer'}} onClick={() =>setMoimNoticeModal(true)}/>
           }
         </div>
         <div className='moimDetail-moimContent-home-board-contentBox'>
-          {
+          {/* {
             imsiBoardData.map((data, i)=>(
               <div className='moimDetail-moimContemt-home-board-content' key={i}>
                 <div className='moimDetail-moimContemt-home-board-content-cate'>[{data.category}]</div>
@@ -409,6 +424,20 @@ const moimManagerHandler=(memberId, memberName, memberRole)=>{
                 <span>{data.date}</span>
               </div>
             ))
+          } */}
+          {
+            moimNoticeList?.length > 0 ?
+            (
+              moimNoticeList.map((data, i)=>(
+                <div className='moimDetail-moimContemt-home-board-content' key={i}>
+                  <div className='moimDetail-moimContemt-home-board-content-cate'>[공지]</div>
+                  <div className='moimDetail-moimContemt-home-board-content-title'>{data.postname}</div>
+                  <span>{data.uploadDate}</span>
+                </div>
+              ))
+            )
+            :
+            <div className='moimDetail-moimContent-moimSchedule-non'>아직 대표 공지사항이 없어요 🥲</div>
           }
         </div>
       </div>

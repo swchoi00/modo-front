@@ -62,7 +62,7 @@ useEffect(()=>{
 
   return(
     <div className='MoimDetail-container'>
-      <MoimDetailHeader moimCategory = {moimInfo.category} moimName = {moimInfo.moimname} moimMenuCk={moimMenuCk} id={id}/>
+      <MoimDetailHeader moimCategory = {moimInfo.category} moimName = {moimInfo.moimname} moimMenuCk={moimMenuCk} id={id} moimInfo={moimInfo}/>
       
       <div style={{overflowX: "hidden"}}>
         <MoimDetailBoard moimInfo={moimInfo} currentPage={currentPage} setCurrentPage={setCurrentPage} id={id}

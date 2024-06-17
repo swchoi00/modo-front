@@ -28,6 +28,34 @@ const MoimDetailBoardScheduleDetail = ({isAuth, userInfo, moimInfo, setMoimInfo}
   const [joinNow, setJoinNow] = useState(false); // 모임 참여 중 여부
 
 
+  // 🔒보안관련 (로그인 안했거나, 모임멤버 아닌경우 페이지 침입방지)
+  useEffect(() => {
+    axiosInstance.get(`/getMoimMemberList/${id}`)
+        .then((response) => {
+          let page = window.location.href;
+          let userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+          let moimMemberList = response.data;
+          let matchingMember = moimMemberList?.find(memberInfo => memberInfo.member.id === userInfo?.id); // 모임 멤버 확인
+          setMoimMemberInfo(matchingMember); //모임 멤버 객체 저장 (모임 멤버라면 값 들어가고 아니면 iundifind)
+          // console.log(matchingMember);
+      
+          // 😡😡😡나중에 주소 바꿔줘야함
+          if (page !== `http://localhost:3000/moim/${id}/home`) { // 모임 메인 화면이 아닌 페이지를 url로 들어올 경우 (모임 메인 화면은 비회원도 볼 수 있음)
+            if(userInfo){ //로그인 상태
+                if(!matchingMember){ //모임멤버 아닌 경우
+                  alert("모임 가입 후 이용해주세요");
+                  navigate(`/moim/${id}/home`);
+                }
+            }else{ // 로그인 안한 상태
+              alert("로그인 후 이용해주세요😉");
+              navigate('/login');
+            }
+          }
+        }).catch((error) => {
+            console.log(error);
+        });
+}, [id,isAuth]);
+
   // 모임정보 받아오는 effect
   useEffect(()=>{
     axiosInstance.get(`/moimInfo/${id}`)
@@ -40,30 +68,20 @@ const MoimDetailBoardScheduleDetail = ({isAuth, userInfo, moimInfo, setMoimInfo}
   },[id,setMoimInfo]);
 
 
-  
-  //모임 멤버 가져오는거
-  useEffect(()=>{
-    axiosInstance.get(`/getMoimMemberList/${id}`)
-    .then((response)=>{
-      setMoimMemberList(response.data);
-    }).catch((error)=>{
-      console.log(error);
-    }
-  )
-  },[id,setMoimMemberList]);
+
 
 
   // 모임 role확인
   useEffect(()=>{
-    const matchingMember = moimMemberList?.find(memberInfo => memberInfo.member.id === userInfo.id);
-    if(!matchingMember){ //로그인 안하거나, 회원이 아닌 경우
-      setMoimMemberRole('notMember');
-      return;
-    }
+    // const matchingMember = moimMemberList?.find(memberInfo => memberInfo.member.id === userInfo.id);
+    // if(!matchingMember){ //로그인 안하거나, 회원이 아닌 경우
+    //   setMoimMemberRole('notMember');
+    //   return;
+    // }
 
-    setMoimMemberInfo(matchingMember);
+    // setMoimMemberInfo(matchingMember);
 
-    switch(matchingMember.memberRole) {
+    switch(moimMemberInfo?.memberRole) {
       case 'leader' : setMoimMemberRole('leader'); break;
       case 'manager' : setMoimMemberRole('manager'); break;
       case 'member' : setMoimMemberRole('member'); break;

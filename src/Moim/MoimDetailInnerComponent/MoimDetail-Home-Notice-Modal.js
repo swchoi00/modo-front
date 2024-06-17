@@ -80,9 +80,12 @@ const MoimDetailHomeNoticeModal = ({moimNoticeModal, setMoimNoticeModal, id})=>{
         <div className='guide'>
           * 꼭 읽어주세요는 최대 5개 설정 가능해요 <br/>
           * 카테고리가 <b style={{color: '#fe6363'}}>[공지]</b> 로 분류된 것만 공지 할 수 있어요
+          {
+            moimCommList?.length !== 0 &&
           <div className='noticeMoimCommAdd' 
               onClick={() =>navigate(`/moim/${id}/write`)}
             ><FontAwesomeIcon icon={faPen} size="xs"/> 글 쓰기</div>
+          }
         </div>
 
           <div className='NoticeCommBox'>
@@ -132,11 +135,10 @@ const MoimDetailHomeNoticeModal = ({moimNoticeModal, setMoimNoticeModal, id})=>{
           </div>
           
           
-
-        
-        
-        
-        <button className='SubmitBtn' onClick={moimNoticeHandler}>저장하기</button>
+        {
+          moimCommList?.length !== 0 &&
+          <button className='SubmitBtn' onClick={moimNoticeHandler}>저장하기</button>
+        }
 
         
       </div>

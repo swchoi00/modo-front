@@ -41,6 +41,7 @@ import MoimDetailBoardCommDetail from './Moim/MoimDetailInnerComponent/MoimDetai
 import NoticeWrite from './Community/Notice/NoticeWrite';
 import Inquiry from './Community/Inquiry/Inquiry';
 import InquiryWrite from './Community/Inquiry/InquiryWrite';
+import MoimDetailHeader from './Moim/MoimDetailComponent/MoimDetail-Header';
 
 
 function App() {
@@ -121,7 +122,7 @@ function App() {
   return (
     <div className="App" style={{scrollBehavior: 'unset'}}>
       <Header userInfo={userInfo} isAuth={isAuth} setIsAuth={setIsAuth} setUserInfo= {setUserInfo}/>
-
+      
       <div className='App-Body'>
         <Routes>
           <Route path ='/'element={<Main />}/> 

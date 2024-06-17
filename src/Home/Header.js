@@ -30,7 +30,7 @@ const Header = ( {isAuth, setIsAuth, userInfo, setUserInfo} ) =>{
       nickname : ''
     });
     setIsAuth(false);
-    // navigate('/');
+    navigate('/');
   }
 
 

@@ -4,18 +4,19 @@ import managerIcon from '../../Img/moimDetail_managerIcon.svg';
 import face from '../../HomeComponent/ReviewComponent/face.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faX } from '@fortawesome/free-solid-svg-icons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import axiosInstance from '../../axiosInstance';
 
 
 const MoimDetailBoardScheduleReply = ({no, moimMemberInfo})=>{
 
   // 작성 중인 댓글 저장
   const [replyText, setReplyText] = useState();
-
+  const [replyList, setReplyList] = useState();
 
 
   const imsiDB = [
-    { name: '김모씨',
+    { moimMember : '김모씨',
       memberRole : 'leader',
       content: '얄리얄리얄라셩, 얄라리 얄라',
       date : '2024/06/12'
@@ -57,11 +58,38 @@ const MoimDetailBoardScheduleReply = ({no, moimMemberInfo})=>{
   },
   ]
 
+  
+// ⭐⭐[상운] 스케쥴 댓글리스트 가져오기 핸들러
+useEffect(()=>{
+  axiosInstance.get(`/moimScheduleReply/${no}`)
+  .then((response)=>{
+    setReplyList(response.data);  // 댓글 리스트 저장
+  }).catch((error)=>{
+    console.log(error);
+  })
+},[replyList, no])
 
-  //⭐⭐
+
+console.log(replyList);
+
+
+  //⭐⭐ [상운] 댓글 저장 핸들러
   const scheduleReplyhandler = ()=>{
     // 여기에 스케쥴번호, moimMember, replyText 서버에 보내서 저장해줘야함
-    console.log(replyText);
+    let nullCheck = replyText?.trim().length === 0; // 빈값 제거 후 댓글 길이가 0이 아닌지 확인
+    console.log(nullCheck);
+    if(nullCheck || replyText === undefined){ // 빈값인 경우
+      alert("댓글을 적어주세요");
+      return;
+    }else{
+      const moimScheduleReply = {content : replyText, moimMember: {id: moimMemberInfo.id}}
+      axiosInstance.post(`/moimScheduleReply/${no}/`, moimScheduleReply)
+      .then((response)=>{ // 서버에서 해당 스케쥴 (no)에 해당하는 reply 리스트 리턴해줌
+        setReplyList(response.data); // 댓글 리스트 업데이트
+      }).catch((error)=>{
+        console.log(error);
+      })
+    }
   }
 
   return(
@@ -76,12 +104,14 @@ const MoimDetailBoardScheduleReply = ({no, moimMemberInfo})=>{
                     {data.memberRole === 'leader' && <img className='moimDetail-moimLeaderIcon' src={leaderIcon} alt=''/>}
                     {data.memberRole === 'manager' && <img className='moimDetail-moimManagerIcon' src={managerIcon} alt=''/>}
                   </div>
-                  <div className='nickname'>{data.name}</div>
+                  {/* <div className='nickname'>{data.moimMember.member.nickname}</div> */}
+                  {/* 모임멤버 이름 가져와야함 */}
+                  <div className='nickname'>{data.moimMember}</div>
                 </div>
                 {
-                  // ⭐댓글 글쓴이와 moimMember가 일치하는 경우 수정/삭제 가능하게 해야함
+                  // ⭐⭐댓글 글쓴이와 moimMember가 일치하는 경우 수정/삭제 가능하게 해야함
                 <div className='settingBtn'> 
-                  {/* 여기에 작성자 혹은 매니저나, 리더만 삭제 할 수 있어 */}
+                  {/* 여기에 작성자 혹은 매니저나, 리더만 삭제 할 수 있음 */}
                   <button><FontAwesomeIcon icon={faX} size='sm'style={{color: '#acacac'}}/></button>
                 </div>
                 }

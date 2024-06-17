@@ -21,7 +21,36 @@ const MoimDetailBoardCommComponent = ({isAuth, userInfo, setMoimPageRef})=>{
   });
   const [selectedColor, setSelectedColor] = useState('#666');
   
-  
+  // 🔒보안관련 (로그인 안했거나, 모임멤버 아닌경우 페이지 침입방지)
+  useEffect(() => {
+    axiosInstance.get(`/getMoimMemberList/${id}`)
+        .then((response) => {
+          let page = window.location.href;
+          let userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+          let moimMemberList = response.data;
+          let matchingMember = moimMemberList?.find(memberInfo => memberInfo.member.id === userInfo?.id); // 모임 멤버 확인
+          setMoimMemberInfo(matchingMember); //모임 멤버 객체 저장 (모임 멤버라면 값 들어가고 아니면 iundifind)
+          // console.log(matchingMember);
+      
+          // 😡😡😡나중에 주소 바꿔줘야함
+          if (page !== `http://localhost:3000/moim/${id}/home`) { // 모임 메인 화면이 아닌 페이지를 url로 들어올 경우 (모임 메인 화면은 비회원도 볼 수 있음)
+            if(userInfo){ //로그인 상태
+                if(!matchingMember){ //모임멤버 아닌 경우
+                  alert("모임 가입 후 이용해주세요");
+                  navigate(`/moim/${id}/home`);
+                }
+            }else{ // 로그인 안한 상태
+              alert("로그인 후 이용해주세요😉");
+              navigate('/login');
+            }
+          }
+        }).catch((error) => {
+            console.log(error);
+        });
+}, [id,isAuth]);
+
+
+
   // 모임정보 받아오는 effect
   useEffect(()=>{
     axiosInstance.get(`/moimInfo/${id}`)
@@ -33,21 +62,7 @@ const MoimDetailBoardCommComponent = ({isAuth, userInfo, setMoimPageRef})=>{
     });
   },[id,setMoimInfo]);
   
-   //모임 멤버 리스트 가져와서 모임 멤버 객체 찾기
-   useEffect(()=>{
-    axiosInstance.get(`/getMoimMemberList/${id}`)
-    .then((response)=>{
-      if(isAuth){
-        setMoimMemberInfo(response.data?.find(memberInfo => memberInfo.member.id === userInfo.id));
-      }
-    }).catch((error)=>{
-      console.log(error);
-    }
-  )
-  },[id,isAuth]);
 
-
-  
   
   const changeHandler = (e) => {
     setMoimCommInfo({
@@ -72,6 +87,7 @@ const MoimDetailBoardCommComponent = ({isAuth, userInfo, setMoimPageRef})=>{
 
   
   const moimCommContentHandler = ()=>{
+    console.log(moimMemberInfo);
     const updatedMoimCommInfo = {...moimCommInfo, moim: moimInfo, authorid : moimMemberInfo.id}; // 모임정보 저장해주기
     axiosInstance.post('/moimCommInsert', updatedMoimCommInfo)
     .then((response)=>{
@@ -83,7 +99,7 @@ const MoimDetailBoardCommComponent = ({isAuth, userInfo, setMoimPageRef})=>{
     });
   }
   
-  console.log(moimMemberInfo);
+
   return(
     <div className='MoimDetail-container'>
 

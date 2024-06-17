@@ -1,7 +1,7 @@
 .moim-noticeModal-container{
   width: 100%;
   /* border: 1px solid red; */
-  height: 85vh;
+  height: 82vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -72,7 +72,8 @@
 
 .NoticeCommBox .tbl .tr {
   /* border: 1px solid salmon; */
-  max-height: 60vh;
+  /* height: 50vh; */
+  max-height: 50vh;
   overflow-y: scroll;
   border-bottom: 2px solid lightgray;
 }
@@ -118,7 +119,6 @@
   width: 1.3rem;
   height: 1.3rem;
   accent-color: #9087d3;
-
 }
 
 
@@ -132,8 +132,8 @@
   border: 1px solid #9087d3;
   font-weight: 500;
   margin-top: 1rem;
-  /* position: absolute; */
-  /* bottom: 2rem; */
+  position: absolute;
+  bottom: 1rem;
 }
 
 
@@ -171,7 +171,7 @@
   .moim-noticeModal-container .SubmitBtn{
     width: 100%;
     padding: 0.3rem 0;
-    border-radius: 0 0 0.4rem ;
+    border-radius: 0 0 0.45rem 0.45rem;
     background-color: #9087d3;
     color: white;
     border: 1px solid #9087d3;
@@ -182,7 +182,7 @@
   }
   .NoticeCommBox .tbl .tr {
     /* border: 1px solid salmon; */
-    max-height: 69%;
+    /* max-height: 69%; */
     overflow-y: scroll;
     border-bottom: 2px solid lightgray;
   }
