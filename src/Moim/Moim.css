@@ -82,11 +82,10 @@
   /* border: 1px solid salmon; */
   width: 100%;
   margin: 3rem 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.199);
+  /* border-bottom: 1px solid rgba(0, 0, 0, 0.199); */
 }
 
-.moim-myMoim-title{
-  /* width: 100vw; */
+.moim-myMoim-title, .moim-myMoim-title2{
   display: flex;
 	flex-basis: 100%;
 	align-items: center;
@@ -96,19 +95,29 @@
 }
 
 
-.moim-myMoim-title::before,
-.moim-myMoim-title::after {
+.moim-myMoim-title2{
+  background: linear-gradient(to top, #f2f1fb 50%, transparent 50%); /* 아래에서 위로 그라데이션 적용 */
+}
+
+.moim-myMoim-title::before,.moim-myMoim-title::after,
+.moim-myMoim-title2::before,.moim-myMoim-title2::after {
 	content: "";
 	flex-grow: 1;
-	background: rgba(0, 0, 0, 0.199);
 	height: 1px;
 	font-size: 0px;
 	line-height: 0px;
 }
 
+.moim-myMoim-title::before,
+.moim-myMoim-title::after{
+	background: rgba(0, 0, 0, 0.199);
+}
+
+
 .moim-myMoim-empty{
-  margin: 2rem 0 3rem;
+  padding: 2rem 0 3rem;
   color: rgb(126, 126, 126);
+  /* background-color:  #f2f1fb; */
 }
 
 
@@ -269,10 +278,11 @@
 
 
 
-
-
-
-
+@media screen and (max-width: 785px){
+  .moim-banner-icon{
+    display: none;
+  }
+}
 
 
 @media screen and (min-width: 781px){
@@ -297,18 +307,6 @@
     left: 50%; /* 부모의 50% 위치에서 시작 */
     transform: translateX(-50%); /* 자기 자신의 50%를 왼쪽으로 이동하여 정확한 가운데 정렬 */
   }
-
-  .moim-banner-searchBar span{
-    display: none;
-  }
-  .moim-banner-icon{
-    position: absolute;
-    z-index: 2;
-    width: 30%;
-    height: 53%;
-    top: 40%;
-    transform: translateX(160px);
-  }
   .moim-body-categoryBox{
     padding-bottom: 3rem;
   }
@@ -326,14 +324,6 @@
   }
   .moim-banner-searchBox{
     width: 17.5rem;
-  }
-  .moim-banner-icon{
-    position: absolute;
-    z-index: 2;
-    width: 30%;
-    height: 53%;
-    top: 40%;
-    transform: translateX(138px);
   }
 }
 

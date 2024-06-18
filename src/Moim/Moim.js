@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import MoimList from './MoimList';
 import MoimAddBtn from './MoimComponent/MoimAddBtn';
 import axiosInstance from '../axiosInstance';
+import MoimMyMoim from './Moim-MyMoim';
 
 
 
@@ -85,6 +86,7 @@ const Moim = ({isAuth, userInfo,setUserInfo}) =>{
     });
   },[]);
 
+const imsiData = [];
 
   return(
     <div className="Moim-container"  >
@@ -100,11 +102,18 @@ const Moim = ({isAuth, userInfo,setUserInfo}) =>{
         </div>
       </div>
 
-      <div className='moim-myMoim' >
-        <div className='moim-myMoim-title'>&nbsp;&nbsp;&nbsp;마이 소모임&nbsp;&nbsp;&nbsp;</div>
-        <div className='moim-myMoim-empty'>아직 참여 중인 모임이 없어요 🥲</div>
-        {/* ⭐⭐참여중인 모임이 있을때는 컴포넌트로 보여주면 좋을듯 (이미 여기 코드가 너무 많음...)           
-        */}
+      <div className='moim-myMoim' style={{borderBottom: moimList?.length === 0 && '1px solid rgba(0, 0, 0, 0.199)'}}>
+        {moimList?.length === 0 ?
+          <>
+            <div className='moim-myMoim-title'>&nbsp;&nbsp;&nbsp;마이 소모임&nbsp;&nbsp;&nbsp;</div>
+            <div className='moim-myMoim-empty'>아직 참여 중인 모임이 없어요 🥲</div>
+          </>
+          :
+          <>
+          <div className='moim-myMoim-title2'>마이 소모임</div>
+            <MoimMyMoim isAuth={isAuth} moimList={moimList} userInfo={userInfo} setUserInfo={setUserInfo}/>
+          </>
+        }
       </div>
 
 

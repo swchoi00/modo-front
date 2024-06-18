@@ -121,8 +121,6 @@ const MoimDetailBoardScheduleDetail = ({isAuth, userInfo, moimInfo, setMoimInfo}
 
 
 
-
-
   const typeColors = {
     '일정 참여하기': 'white',
     '참여 취소하기': '#9087d3',
@@ -142,7 +140,7 @@ const MoimDetailBoardScheduleDetail = ({isAuth, userInfo, moimInfo, setMoimInfo}
 const scheduleHandler = ()=>{
   let id = moimMemberInfo.id;
   axiosInstance.post(`/moimScheduleJoin/${id}`, moimScheduleInfo)
-  .then((response)=>{
+  .then(()=>{
     if(participationBtn === "일정 참여하기"){
       setParticipationBtn("참여 취소하기");
       setJoinNow(true);
