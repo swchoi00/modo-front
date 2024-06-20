@@ -2,7 +2,7 @@ import './Inquiry.css';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import InquiryWrite from './InquiryWrite';
 import InquiryDetail from './InquiryDetatil';
 
@@ -12,6 +12,9 @@ const Inquiry = ({ userInfo, currentPage, setCurrentPage }) => {
   const [clickedTypeBtn, setClickedTypeBtn] = useState('문의하기');
   const typeMenu = ['문의하기', '문의내역확인'];
 
+  useEffect(()=>{
+    window.scrollTo(0, 0);
+  },[clickedTypeBtn]);
 
   return (
     <div className="Inquiry">
