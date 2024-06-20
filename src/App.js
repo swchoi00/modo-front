@@ -127,7 +127,7 @@ function App() {
   return (
     <div className="App" style={{scrollBehavior: 'unset'}}>
       <Header userInfo={userInfo} isAuth={isAuth} setIsAuth={setIsAuth} setUserInfo= {setUserInfo}/>
-
+      
       <div className='App-Body'>
         <Routes>
           <Route path ='/'element={<Main />}/> 

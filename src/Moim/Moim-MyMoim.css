@@ -1,0 +1,210 @@
+.myMoim-container{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f2f1fb;
+}
+
+.myMoim-carouselBox{
+  width: 1050px;
+  display: flex;
+}
+
+/* 얘가 케러셀 덩어리 */
+.myMoim-carousel{ 
+  width: 100%;
+  margin: 1.5rem 0 2.5rem  ;
+}
+
+.myMoim-carousel-listBox{
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 2rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.myMoim-carousel .itembox{
+  /* border: 1px solid red; */
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.myMoim-carousel  .img{
+  width: 100%;
+  aspect-ratio: 1.5;
+  background-size: cover;
+  border-radius: 13px;
+  opacity: 0.85;
+}
+
+.myMoim-carousel  .categoryBox{
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 40%;
+  display: flex;
+  justify-content: space-between;
+
+  border-top-left-radius:15px ;
+  border-top-right-radius:15px ;
+  background: linear-gradient(
+     #0000005e,
+     #00000042 ,
+     #0000002a,
+     #0000001a, 
+     #0000000e,
+     #53535302)
+}
+
+.myMoim-carousel  .category{
+  display: inline-block;
+  width: 100%;
+  color: white;
+  text-align: left;
+  padding: 0.4rem 0.7rem;
+}
+
+.myMoim-carousel  .title{
+  font-size: large;
+  font-weight: bold;
+  padding-top: 0.45rem;
+  color: #494949;
+  text-align: left;
+}
+
+.myMoim-carousel .info, .myMoim-carousel .cate{
+  color: #9c9c9c;
+  font-size: small;
+  padding-top: 0.2rem;
+  text-align: left;
+}
+
+
+/* 인디케이터 위치 */
+.myMoim-carousel .carousel-indicators{
+  bottom: -2.6rem; 
+}
+
+.myMoim-carousel  .carousel-indicators button {
+  background-color: #c9c8cf; /* 인디케이터 색상 */
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.myMoim-container .carousel-indicators .active {
+  background-color: #8f77e6; /* 활성화된 인디케이터 색상 */
+}
+
+
+
+/* 캐러셀 커스텀 버튼 */
+.myMoim-carousel .custom-prev-icon, .myMoim-carousel .custom-next-icon{
+  color: #8f77e6;
+}
+
+/* 캐러셀 컨트롤 다음 버튼 */
+.myMoim-carousel .carousel-control-next{
+  position: absolute;
+  transform: translateX(6rem);
+  width: 3%;
+}
+
+/* 캐러셀 컨트롤 이전 버튼 */
+.myMoim-carousel .carousel-control-prev{
+  position: absolute;
+  transform: translateX(-6rem);
+  width: 3%;
+}
+
+
+.myMoim-carousel .imgBox{
+  display: flex;
+  width: 100%;
+  position: relative;
+}
+
+
+@media screen and (max-width: 1280px){
+  .myMoim-carousel .carousel-control-next{
+    transform: translateX(4rem);
+  }
+  .myMoim-carousel .carousel-control-prev{
+    transform: translateX(-4rem);
+  }
+}
+
+@media screen and (max-width: 1210px){
+  .myMoim-carousel .carousel-control-next{
+    transform: translateX(2.7rem);
+  }
+  .myMoim-carousel .carousel-control-prev{
+    transform: translateX(-2.7rem);
+  }
+}
+
+@media screen and (max-width: 1160px){
+  .myMoim-carouselBox{
+    width: 90%;
+  }
+}
+
+
+
+@media screen and (max-width: 900px){
+  .myMoim-carousel-listBox{
+    grid-template-columns: repeat(2,2fr);
+    gap: 1rem;
+  }
+  .myMoim-carousel  .itembox{
+    flex-direction: row;
+    width: 100%;
+    padding: 0 1rem;
+    gap: 1rem;
+  }
+  .myMoim-carousel  .imgBox{
+    height: 8rem;
+    width: auto;
+    aspect-ratio: 1/1;
+  }
+  .myMoim-carousel .carousel-control-next, .myMoim-carousel .carousel-control-prev{
+    display: none !important;
+  }
+}
+
+
+@media screen and (min-width: 731px){
+  .myMoim-carousel .cate{
+  display: none;
+ }
+}
+
+@media screen and (max-width: 731px){
+  .myMoim-carouselBox{
+    width: 100%;
+  }
+  .myMoim-carousel .imgBox{
+    height: 6rem;
+    width: auto;
+    aspect-ratio: 1/1;
+  }
+  .myMoim-carousel .category{
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 650px){
+  .myMoim-carousel-listBox{
+    display: flex;
+    flex-direction: column;
+  }
+  .myMoim-carousel .imgBox{
+    height: 5rem;
+  }
+}
+
+

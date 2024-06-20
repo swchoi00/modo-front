@@ -31,7 +31,6 @@ function Login( {userInfo, setUserInfo, setIsAuth} ) {
             [id] : value,
         })
 
-        console.log(loginData);
     }
 
     const LoginBtnHandler = (e) => {

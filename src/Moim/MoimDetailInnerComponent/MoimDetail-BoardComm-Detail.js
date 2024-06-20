@@ -8,17 +8,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import MoimDetailBoardCommReply from "./MoimDetail-BoardComm-Reply";
 
 const MoimDetailBoardCommDetail = ({isAuth, userInfo})=>{
-  const imsi = { 
-    uthorid : 1,
-    categories : "가입인사",
-    content : "asd",
-    member : { username: '(n)wwww7741@naver.com', nickname: '예닝', role: 'MEMBER'},
-    moim : {id: 1, moimname: 'ㅁㄴ'},
-    postname : "asd",
-    postno : 1,
-    uploadDate : "2024-05-31",
-    views : 0
-  };
 
   const {id} = useParams(); 
   const {no} = useParams(); 
@@ -27,9 +16,41 @@ const MoimDetailBoardCommDetail = ({isAuth, userInfo})=>{
   const [update, setUpdate] = useState(false);
   const [commReply, setCommReply] = useState([]);
   const navigate = useNavigate();
-  const [updateReplyCnt, setUpdateReplyCnt] = useState(false);
+  const [updateReplyCnt, setUpdateReplyCnt] = useState();
   const [moimInfo, setMoimInfo] = useState();
+  const [moimMemberInfo, setMoimMemberInfo] = useState(); // 모임 멤버 정보
   
+
+
+  // 🔒보안관련 (로그인 안했거나, 모임멤버 아닌경우 페이지 침입방지)
+  useEffect(() => {
+    axiosInstance.get(`/getMoimMemberList/${id}`)
+        .then((response) => {
+          let page = window.location.href;
+          let userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+          let moimMemberList = response.data;
+          let matchingMember = moimMemberList?.find(memberInfo => memberInfo.member.id === userInfo?.id); // 모임 멤버 확인
+          setMoimMemberInfo(matchingMember); //모임 멤버 객체 저장 (모임 멤버라면 값 들어가고 아니면 iundifind)
+          // console.log(matchingMember);
+      
+          // 😡😡😡나중에 주소 바꿔줘야함
+          if (page !== `http://localhost:3000/moim/${id}/home`) { // 모임 메인 화면이 아닌 페이지를 url로 들어올 경우 (모임 메인 화면은 비회원도 볼 수 있음)
+            if(userInfo){ //로그인 상태
+                if(!matchingMember){ //모임멤버 아닌 경우
+                  alert("모임 가입 후 이용해주세요");
+                  navigate(`/moim/${id}/home`);
+                }
+            }else{ // 로그인 안한 상태
+              alert("로그인 후 이용해주세요😉");
+              navigate('/login');
+            }
+          }
+        }).catch((error) => {
+            console.log(error);
+        });
+}, [id,isAuth]);
+
+
 
   // 모임정보 받아오는 effect
   useEffect(()=>{
@@ -51,14 +72,6 @@ const MoimDetailBoardCommDetail = ({isAuth, userInfo})=>{
       .then((response) => {
         setComm(response.data);
         setUpdateComm(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-      axiosInstance.get(`/moimReply/${id}/list`)
-      .then((response) => {
-        setCommReply(response.data); 
       })
       .catch((error) => {
         console.log(error);
@@ -97,8 +110,7 @@ const MoimDetailBoardCommDetail = ({isAuth, userInfo})=>{
     let answer = window.confirm("게시글을 삭제하시겠습니까?");
     if(answer){
       axiosInstance.delete(`/deleteMoimComm/${comm.postno}`)
-      .then((response) => {
-        alert(response.data);
+      .then(() => {
         navigate(-1);
       })
       .catch((error) => {
@@ -107,6 +119,7 @@ const MoimDetailBoardCommDetail = ({isAuth, userInfo})=>{
     }
   }
 
+  console.log(commReply);
 
 
   return(
@@ -129,16 +142,16 @@ const MoimDetailBoardCommDetail = ({isAuth, userInfo})=>{
               <div>{comm.uploadDate}</div>
               <div style={{ margin: '0 7px', color: '#e6e6e6' }}> | </div>
               <div><img src="/static/media/face.786407e39b657bdecd13bdabee73e67b.svg" alt="face icon" /></div>
-              <div>{comm.member.nickname}</div>
+              <div>{comm.moimMember.member.nickname}</div>
             </div>
             <div className='view-reply'>
               <div>조회수 {comm.views}</div>
               <div style={{ margin: '0 7px', color: '#e6e6e6' }}>|</div>
-              <div>댓글 {commReply.length} </div>
+              <div>댓글 {updateReplyCnt} </div>
             </div>
           </div>
           <div className='post-delete-update'>
-            {userInfo.username === comm.member.username ? (
+            {userInfo.username === comm.moimMember.member.username ? (
               update ? (
                 <>
                   <button className='delete' onClick={handleUpdate} style={{border: '1px solid #9087d3', backgroundColor: '#9087d3', color: 'white'}}>수정완료</button>
@@ -150,7 +163,9 @@ const MoimDetailBoardCommDetail = ({isAuth, userInfo})=>{
                   <button className='delete' onClick={deleteHandler}>삭제</button>
                 </>
               )
-            ) : null}
+            ) : moimMemberInfo?.memberRole === 'leader' && <button className='delete' onClick={deleteHandler}>삭제</button>
+            
+            }
           </div>
         </div>
       }

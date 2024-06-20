@@ -45,6 +45,23 @@
   align-items: center;
 }
 
+
+.moimDetail-moimInfo-imageBox .carousel-indicators button{
+  display: none; 
+}
+
+
+
+.moimDetail-moimInfo-imageBox .carousel-control-prev{
+  position: absolute;
+  transform: translateX(-25%);
+}
+
+.moimDetail-moimInfo-imageBox .carousel-control-next {
+  position: absolute;
+  transform: translateX(25%);
+}
+
 .moimDetail-moimInfo-carousel{
   /* border: 1px solid seagreen; */
   width: 100%;

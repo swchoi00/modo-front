@@ -2,6 +2,7 @@ import './MoimDetail-Home.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import face from '../../HomeComponent/ReviewComponent/face.svg';
@@ -26,86 +27,40 @@ const MoimDetailHome = ({moimInfo,setMoimInfo,moimMemberRole,moimMemberList, set
     setImsiMoimInfo(moimInfo);
   },[moimInfo]);
 
-const imsiScheduleData = [
-{
-  id : 1,
-  title : '🏸정기민턴🏸',
-  startDate: '12/13',
-  endDate : '',
-  startDay : '(수)',
-  endDay : '',
-  dDay : 2,
-  startTime : '16:00',
-  endTime : '20:00',
-  place : '계양 실내 배드민턴장',
-  price : '입장료 5,000원',
-  joinMember : 19,
-  maxMamber : 25
-},
-{
-  id : 2,
-  title : '🏆연말 배드민턴 대회🏆',
-  startDate: '12/23',
-  endDate : '12/24',
-  startDay : '(토)',
-  endDay : '(일)',
-  dDay : 12,
-  startTime : '14:00',
-  endTime : '12:00',
-  place : '계양구 구민체육관 2관',
-  price : '입장료 30,000원',
-  joinMember : 29,
-  maxMamber : 40
-}
-];
-
-const imsiBoardData = [
-  {
-    id : 1,
-    category : '공지',
-    title : '정기모임 실내 배드민턴 입장료 인상 3,000 ➔ 5,000 💸',
-    date : '2023 / 10 / 01'
-  },
-  {
-    id : 2,
-    category : '공지',
-    title : '🥸 신입 멤버들을 위한 쾌적한 SMASH 생활 (주의사항 및 시설이용 안내)🥸',
-    date : '2023 / 10 / 05'
-  }
-  ];
-
   
-
+const [moimNoticeList, setMoimNoticeList] = useState(null);
 const [moimScheduleList, setMoimScheduleList] = useState(null);
 const [memberListModal, setMemberListModal] = useState(false); // 모임 멤버 설정 모달 여부
 const [memberKickOut, setMemberKickOut] = useState(false); // 모임 멤버 강퇴 모달 여부
 const [memberKickOutName, setMemberKickOutName] = useState(null); // 강퇴할 모임 멤버 정보
 moment.locale('ko');
 const dateFormat = "M월 D일 (ddd)";
-const [moimNoticeModal, setMoimNoticeModal] = useState(false);
+const [moimNoticeModal, setMoimNoticeModal] = useState(false); // 공지 설정 모달
 
 
   // 모임 스케쥴 리스트 가져옴 (오늘 포함한 앞으로 일정, 지난 일정은 포함하지 않음)
   useEffect(() => {
     let id = moimInfo.id;
-    axiosInstance.get(`/getMoimSchedule/${id}/list`)
-    .then((response) => {
-        const today = moment().startOf('day'); // 오늘 날짜의 시작 부분(자정)을 가져옵니다.
-        
-        // 받아온 일정 목록 중 오늘 이후의 일정 필터링
-        const filteredSchedules = response.data.filter(schedule => {
-            const scheduleStartDate = moment(schedule.scheduleStartDate);
-            // 오늘 이후의 일정만 필터링
-            return scheduleStartDate.isSameOrAfter(today);
-        });
-        
-        // 최신 날짜 순으로 정렬 (최근날짜 기준)
-        filteredSchedules.sort((a, b) => moment(a.scheduleStartDate) - moment(b.scheduleStartDate)); 
-        setMoimScheduleList(filteredSchedules);
-
-    }).catch((error) => {
-        console.log(error);
-    });
+    if(id){ // 랜더링 때문에 랜더링이 늦으면 가끔 get 오류 떠서 이렇게 처리함
+      axiosInstance.get(`/getMoimSchedule/${id}/list`)
+      .then((response) => {
+          const today = moment().startOf('day'); // 오늘 날짜의 시작 부분(자정)을 가져옵니다.
+          
+          // 받아온 일정 목록 중 오늘 이후의 일정 필터링
+          const filteredSchedules = response.data.filter(schedule => {
+              const scheduleStartDate = moment(schedule.scheduleStartDate);
+              // 오늘 이후의 일정만 필터링
+              return scheduleStartDate.isSameOrAfter(today);
+          });
+          
+          // 최신 날짜 순으로 정렬 (최근날짜 기준)
+          filteredSchedules.sort((a, b) => moment(a.scheduleStartDate) - moment(b.scheduleStartDate)); 
+          setMoimScheduleList(filteredSchedules);
+  
+      }).catch((error) => {
+          console.log(error);
+      });
+    }
   }, [moimInfo.id, setMoimScheduleList]);
 
 
@@ -121,17 +76,26 @@ const [moimNoticeModal, setMoimNoticeModal] = useState(false);
   };
 
 
-console.log(moimScheduleList);
+// 모임 게시글 가져옴
+useEffect(()=>{
+  axiosInstance.get(`/getMoimCommList/${moimInfo.id}`)
+  .then((response)=>{
+    let moimList = response.data;
+    // 여기서 comm.noticeCheck(true) 인것만 filter해서 setMoimNoticeList로 저장
+    setMoimNoticeList(moimList.filter(data => data.noticeCheck)); // 이게 공지 여부 체크한 것들
+  }).catch((error)=>{
+    console.log(error);
+  });
+},[moimInfo, setMoimNoticeModal]);
 
 
-// 🔥모임 강퇴 멤버 정보 저장 및 강퇴 모달 띄우는 핸들러
+// 모임 강퇴 멤버 정보 저장 및 강퇴 모달 띄우는 핸들러
 const memberKickOutModalHandler = (memberId, memberName)=>{
   setMemberKickOutName({'id' : memberId, 'name': memberName});
   setMemberKickOut(true);
 }
 
 const memberKickOutHandler = (()=>{
-  console.log("🔥🔥");
   axiosInstance.delete(`/quitMoim/${memberKickOutName.id}`)
   .then(()=>{
     setMemberKickOut(false); // 강퇴 확인 모달창 닫음
@@ -194,10 +158,11 @@ console.log(imsiMoimInfo);
     return;
   }
   
+  console.log(imsiMoimInfo);
   axiosInstance.post('/updateMoimInfo', imsiMoimInfo)
   .then((response) => {
-    setMoimDescription(false); // 수정모달창 끄기
     setMoimInfo(imsiMoimInfo); 
+    setMoimDescription(false); // 수정모달창 끄기
     alert(response.data);
   })
   .catch((error) => {
@@ -327,7 +292,10 @@ const moimManagerHandler=(memberId, memberName, memberRole)=>{
         <div className="moimDetail-moimContent-home-header">
           <h6>모임 일정</h6>
           {/* 😡임시😡 ↓ 모임장만 보이게 해야함 */}
-          {/* <FontAwesomeIcon icon={faEllipsisVertical} size="lg"/> */}
+          {
+            moimMemberRole === 'leader' &&
+            <FontAwesomeIcon icon={faPlus} size="lg" style={{color: "gray", cursor:'pointer'}} onClick={()=>navigate(`/moim/${moimInfo.id}/board`)}/>
+          }
         </div>
         <div className='moimDetail-moimContent-home-schedule-contentBox'>
           {
@@ -351,7 +319,7 @@ const moimManagerHandler=(memberId, memberName, memberRole)=>{
                   </div>
                 </div>
                 {/* 임시 이미지 */}
-                <div className='ddd'>
+                <div className='moimDetail-moimContent-home-schedule-content-innerBox'>
                   <div className='moimDetail-moimContent-home-schedule-content-img' 
                       style={{backgroundImage: `url(${imsiImg})`, backgroundSize: 'cover', backgroundPosition: 'center'}}
                   />
@@ -393,22 +361,27 @@ const moimManagerHandler=(memberId, memberName, memberRole)=>{
       <div className='moimDetail-moimContent-home-boardBox'>
         <div className="moimDetail-moimContent-home-header">
           <h6>꼭 읽어주세요!</h6>
-          { moimMemberRole !== 'notMember' || moimMemberRole !== 'leader' &&
+          { moimMemberRole !== 'notMember' && moimMemberRole !== 'leader' &&
             <span onClick={() => {navigate('/moim/1/board'); setMoimPageRef('comm');}} style={{cursor:'pointer'}}>더 보기</span>
           }
           { moimMemberRole === 'leader' &&
-            <span onClick={() =>setMoimNoticeModal(true)} style={{cursor:'pointer'}}>공지 설정</span>
+            <FontAwesomeIcon icon={faPlus} size="lg" style={{color: "gray", cursor:'pointer'}} onClick={() =>setMoimNoticeModal(true)}/>
           }
         </div>
         <div className='moimDetail-moimContent-home-board-contentBox'>
           {
-            imsiBoardData.map((data, i)=>(
-              <div className='moimDetail-moimContemt-home-board-content' key={i}>
-                <div className='moimDetail-moimContemt-home-board-content-cate'>[{data.category}]</div>
-                <div className='moimDetail-moimContemt-home-board-content-title'>{data.title}</div>
-                <span>{data.date}</span>
-              </div>
-            ))
+            moimNoticeList?.length > 0 ?
+            (
+              moimNoticeList.map((data, i)=>(
+                <div className='moimDetail-moimContemt-home-board-content' key={i} onClick={()=>navigate(`/moim/${moimInfo.id}/comm/${data.postno}`)}>
+                  <div className='moimDetail-moimContemt-home-board-content-cate'>[공지]</div>
+                  <div className='moimDetail-moimContemt-home-board-content-title'>{data.postname}</div>
+                  <span>{data.uploadDate}</span>
+                </div>
+              ))
+            )
+            :
+            <div className='moimDetail-moimContent-moimSchedule-non'>아직 대표 공지사항이 없어요 🥲</div>
           }
         </div>
       </div>
@@ -541,7 +514,10 @@ const moimManagerHandler=(memberId, memberName, memberRole)=>{
         </Modal.Body>
       </Modal>
 
-      <MoimDetailHomeNoticeModal moimNoticeModal={moimNoticeModal} setMoimNoticeModal={setMoimNoticeModal} id={moimInfo.id}/>
+      <MoimDetailHomeNoticeModal moimNoticeModal={moimNoticeModal} setMoimNoticeModal={setMoimNoticeModal} 
+                                 id={moimInfo.id} setMoimNoticeList={setMoimNoticeList}
+      
+      />
 
     </div>
   )

@@ -40,18 +40,18 @@
 }
 
 
-.carousel-indicators button{
+.banner-container .carousel-indicators button{
   display: none;
 }
 
 
 
-.carousel-control-prev{
+.banner-container .carousel-control-prev{
   position: absolute;
   transform: translateX(-25%);
 }
 
-.carousel-control-next {
+.banner-container .carousel-control-next {
   position: absolute;
   transform: translateX(25%);
 }
