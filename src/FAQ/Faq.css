@@ -1,0 +1,113 @@
+.Faq {
+  width: 1040px;
+  margin: 5% 5%;
+}
+
+.Faq .header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.Faq .title {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.Faq .title h3 {
+  font-weight: 600;
+}
+
+.Faq .inquiry-btn {
+  border-radius: 5px;
+  width: 80px;
+  height: 37px;
+  color: white;
+  background: linear-gradient(to right, #764dbe, #a388d3);
+  border: none;
+}
+
+.Faq .search-box {
+  margin: 2rem 0;
+  padding-bottom: 10px;
+  width: 100%;
+  border-bottom: 2px solid black;
+}
+
+.Faq .search-box input {
+  padding-left: 10px;
+  width: 96%;
+  border: none;
+  outline: none;
+}
+
+.Faq .category-btn {
+  margin: 3.5rem 0;
+}
+
+.Faq .category-btn button {
+  width: 20%;
+  height: 40px;
+  padding: 0;
+}
+
+.Faq .category-btn .btnNotClicked {
+  border: 1px solid lightgray;
+  background-color: white;
+  color: rgb(170, 170, 170);
+}
+
+.Faq .category-btn .btnClicked {
+  border: none;
+  background-color: #8F7BE0;
+  color: white;
+}
+
+.Faq .category-btn .accordion {
+  border: none;
+}
+
+.Faq .paging nav {
+  margin: 70px auto 0 auto;
+  color: #8F7BE0;
+}
+
+@media screen and (max-width: 980px) {
+  .Faq .category-btn {
+    margin: 2rem 0;
+  }
+
+  .accordion-box .accordion-box-inner-header .accordion-title .accordion-title-inner-FAQ :nth-child(2) {
+    margin-left: 1rem;
+  }
+}
+
+@media screen and (max-width: 560px) {
+  .Faq .search-box input {
+    width: 94%;
+  }
+}
+
+@media screen and (max-width: 531px) {
+  .accordion-box .accordion-box-inner-header .accordion-title .accordion-title-inner-inquiry .category-title .title {
+    max-width: 20rem;
+  }
+}
+
+@media screen and (max-width: 487px) {
+  .accordion-box .accordion-box-inner-header .accordion-title .accordion-title-inner-inquiry .category-title .title {
+    max-width: 15rem;
+  }
+}
+
+@media screen and (max-width: 396px) {
+  .accordion-box .accordion-box-inner-header .accordion-title .accordion-title-inner-inquiry .category-title .title {
+    max-width: 13rem;
+  }
+}
+
+@media screen and (max-width: 377px) {
+  .Faq .search-box input {
+    width: 93%;
+  }
+}

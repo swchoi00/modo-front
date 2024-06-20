@@ -30,6 +30,10 @@
 
 .Community .search-input {
   margin: 0;
+  width: 85%;
+  height: 2.7rem;
+  border: none;
+  outline: none;
 }
 
 .Community .icon-typeBtn-box {

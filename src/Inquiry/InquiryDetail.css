@@ -1,0 +1,11 @@
+.InquiryDetail .noInquiry {
+  margin-top: 2rem;
+  padding: 7rem 0px;
+  background-color: rgb(242, 238, 248);
+  color: gray;
+}
+
+.InquiryDetail .paging nav {
+  margin: 70px auto 0 auto;
+  color: #8F7BE0;
+}

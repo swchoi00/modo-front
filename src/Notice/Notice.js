@@ -1,26 +1,39 @@
-import './AddComm2.css';
+import './Notice.css';
 import Accordion from 'react-bootstrap/Accordion';
 import noticeMockData from './noticeMockData';
 import { useNavigate } from 'react-router-dom';
-import PaginationComponent from '../../Pagination/PaginationComponent';
+import PaginationComponent from '../Pagination/PaginationComponent';
+import { useEffect, useState } from 'react';
+import axiosInstance from '../axiosInstance';
 
 // Notice 관리자만 작성가능
-const AddComm = ({ userInfo, currentPage, setCurrentPage }) => {
+const Notice = ({ currentPage, setCurrentPage }) => {
   const page = 10;
   const navigate = useNavigate();
+  const [noticeList, setNoticeList] = useState([]);
+
+  useEffect(() => {
+    axiosInstance.get("/notice")
+    .then((response) => {
+        setNoticeList([
+            ...noticeMockData,
+            ...response.data
+        ]);
+    })
+    .catch((error) => {
+        console.log(error);
+    })
+}, []);
+
+
   return (
     <div className='Notice'>
       <h4 className='title'>공지사항</h4>
-      {/* {userInfo.role === "ADMIN" && ( */}
-      <div className='adminBtn'>
-        <button className='notice-write-btn' onClick={()=> navigate('/noticeWrite')}>글 작성</button>
-      </div>
-       {/* )}  */}
-       {/* <span></span> */}
+
       <Accordion className='accordionBox'>
 
         {
-          noticeMockData
+          noticeList
             .slice((currentPage - 1) * page, currentPage * page)
             .map((data, i) => {
               return (
@@ -61,4 +74,4 @@ const AddComm = ({ userInfo, currentPage, setCurrentPage }) => {
   );
 }
 
-export default AddComm;
+export default Notice;

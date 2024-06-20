@@ -30,7 +30,7 @@ const Header = ( {isAuth, setIsAuth, userInfo, setUserInfo} ) =>{
       nickname : ''
     });
     setIsAuth(false);
-    // navigate('/');
+    navigate('/');
   }
 
 
@@ -43,7 +43,6 @@ const Header = ( {isAuth, setIsAuth, userInfo, setUserInfo} ) =>{
 
         <div className='nav-menu'>
           <Link className='nav-aTag' to = {"/moim"} >소모임</Link>
-          {/* <Link className='nav-aTag' to = {"/uploadTest"}>멘토링</Link> */}
           <Link className='nav-aTag' to = {"/community"}>커뮤니티</Link>
           <Link className='nav-aTag' to = {"/faq"}>FAQ</Link>
           <Link className='nav-aTag' to = {"/notice"}>공지사항</Link>

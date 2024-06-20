@@ -1,11 +1,12 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import ReactQuill, { Quill } from 'react-quill';
 import axiosInstance from '../axiosInstance';
 import loadingGif from "../Img/loading.gif";
 import 'react-quill/dist/quill.snow.css';
+import ImageResize from 'quill-image-resize';
+Quill.register('modules/imageResize', ImageResize);
 
-export default function QuillEditor({ commInfo, setCommInfo, update, updatecomm, setUpdateComm, setUploadedImages }) {
-
+export default function QuillEditor({ commInfo, setCommInfo, update, updatecomm, setUpdateComm, setUploadedImages, contentRef }) {
   const quillRef = useRef(null);
 
   const handleQuillChange = (content) => {
@@ -13,9 +14,8 @@ export default function QuillEditor({ commInfo, setCommInfo, update, updatecomm,
       setUpdateComm((comm) => ({
         ...comm,
         content
-      }))
-    }
-    else {
+      }));
+    } else {
       setCommInfo((comm) => ({
         ...comm,
         content
@@ -47,18 +47,10 @@ export default function QuillEditor({ commInfo, setCommInfo, update, updatecomm,
 
         const imageUrl = response.data;
         quillEditor.deleteText(range.index, 1);
-        // 이미지 삽입
         quillEditor.insertEmbed(range.index, 'image', imageUrl);
-
-        // quillEditor.insertText(range.index + 1, ' ', 'user');
         quillEditor.insertText(range.index + 1, '\n', 'user');
 
-        // 커서 이동
-        quillEditor.setSelection(range.index + 2);
-
-        // 업로드된 이미지 URL을 상태에 저장
         setUploadedImages((prev) => [...prev, imageUrl]);
-
       } catch (error) {
         quillEditor.deleteText(range.index, 1);
         console.error('Image upload failed:', error);
@@ -68,7 +60,7 @@ export default function QuillEditor({ commInfo, setCommInfo, update, updatecomm,
 
   useEffect(() => {
     const quillEditor = quillRef.current.getEditor();
-  
+
     const handleTextChange = (delta, oldDelta, source) => {
       if (source === 'user') {
         delta.ops.forEach(op => {
@@ -82,13 +74,19 @@ export default function QuillEditor({ commInfo, setCommInfo, update, updatecomm,
         });
       }
     };
-  
+
     quillEditor.on('text-change', handleTextChange);
-  
+
     return () => {
       quillEditor.off('text-change', handleTextChange);
     };
   }, [quillRef, setUploadedImages]);
+
+  useEffect(() => {
+    if (quillRef.current) {
+      contentRef.current = quillRef.current.getEditor().root;
+    }
+  }, [quillRef, contentRef]);
 
   const modules = useMemo(() => ({
     toolbar: {
@@ -99,12 +97,15 @@ export default function QuillEditor({ commInfo, setCommInfo, update, updatecomm,
         [{ align: [] }],
         ['link', 'image'],
       ],
-
       handlers: {
         image: imageHandler,
       },
-    }
-  }), []);
+    },
+    imageResize: {
+      displaySize: true,
+      modules: ['Resize', 'DisplaySize', 'Toolbar'],
+    },
+  }), [imageHandler]);
 
   const formats = [
     'header',
@@ -113,14 +114,13 @@ export default function QuillEditor({ commInfo, setCommInfo, update, updatecomm,
     'link',
     'image',
     'align',
-    "color",
-    "background",
+    'color',
+    'background',
     'height',
     'width'
   ];
 
   return (
-
     <ReactQuill
       ref={quillRef}
       style={{ width: "100%", height: "70vh", border: "none" }}
@@ -132,6 +132,5 @@ export default function QuillEditor({ commInfo, setCommInfo, update, updatecomm,
       onChange={handleQuillChange}
       preserveWhitespace
     />
-
   )
 }

@@ -39,7 +39,7 @@ let noticeMockData = [
       `
   },
   {
-      id: "공지7",
+      id: "7",
       member: { username: 'admin', nickname: '관리자' },
       createDate: "2024-06-08",
       title: "서버 점검 일정을 안내해 드립니다.",
@@ -52,7 +52,7 @@ let noticeMockData = [
       `
   },
   {
-      id: "공지6",
+      id: "6",
       member: { username: 'admin', nickname: '관리자' },
       createDate: "2024-06-07",
       title: "새로운 모임 카테고리가 추가되었습니다.",
@@ -65,7 +65,7 @@ let noticeMockData = [
       `
   },
   {
-      id: "공지5",
+      id: "5",
       member: { username: 'admin', nickname: '관리자' },
       createDate: "2024-06-06",
       title: "회원 등급 시스템이 도입되었습니다.",
@@ -78,7 +78,7 @@ let noticeMockData = [
       `
   },
   {
-      id: "공지4",
+      id: "4",
       member: { username: 'admin', nickname: '관리자' },
       createDate: "2024-06-05",
       title: "사이트 이용 가이드가 업데이트되었습니다.",
@@ -91,7 +91,7 @@ let noticeMockData = [
       `
   },
   {
-      id: "공지3",
+      id: "3",
       member: { username: 'admin', nickname: '관리자' },
       createDate: "2024-06-04",
       title: "모바일 앱 출시 소식을 전해드립니다.",
@@ -104,7 +104,7 @@ let noticeMockData = [
       `
   },
   {
-      id: "공지2",
+      id: "2",
       member: { username: 'admin', nickname: '관리자' },
       createDate: "2024-06-03",
       title: "사이트 개선사항을 안내해 드립니다.",
@@ -117,7 +117,7 @@ let noticeMockData = [
       `
   },
   {
-      id: "공지1",
+      id: "1",
       member: { username: 'admin', nickname: '관리자' },
       createDate: "2024-06-02",
       title: "사이트 오픈을 축하합니다.",
