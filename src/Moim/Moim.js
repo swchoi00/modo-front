@@ -5,15 +5,17 @@ import { useEffect, useState } from 'react';
 import MoimList from './MoimList';
 import MoimAddBtn from './MoimComponent/MoimAddBtn';
 import axiosInstance from '../axiosInstance';
+import MoimMyMoim from './Moim-MyMoim';
 
 
 
 const Moim = ({isAuth, userInfo,setUserInfo}) =>{
-
+  
   const moimShowType = ['전체보기', '카테고리'];
   const [moimShowTypeBtn, setMoimShowTypeBtn] = useState('전체보기');
+  const [moimList, setMoimList] = useState([]); // 모임 리스트 저장 스테이트
+  const [myMoim, setMyMoim] = useState([]);
   
-
   const moimCateType = [
     {
       title : '주제별',
@@ -71,19 +73,21 @@ const Moim = ({isAuth, userInfo,setUserInfo}) =>{
     setMoimSortTypeCheck(sort);
   }
   
-  // 모임 리스트 저장 스테이트
-  const [moimList, setMoimList] = useState([]); 
   
   //모임 리스트 받아오는 이펙트
   useEffect (()=>{
     axiosInstance.get("/moimList")
     .then((response) => {
       setMoimList(response.data);
+      if(isAuth){
+        setMyMoim(response.data.filter(moim =>moim.members.some(data => data.member.id === userInfo.id)));
+      }
     })
     .catch((error) => {
         console.log(error);
     });
-  },[]);
+  },[isAuth]);
+
 
 
   return(
@@ -100,11 +104,18 @@ const Moim = ({isAuth, userInfo,setUserInfo}) =>{
         </div>
       </div>
 
-      <div className='moim-myMoim' >
-        <div className='moim-myMoim-title'>&nbsp;&nbsp;&nbsp;마이 소모임&nbsp;&nbsp;&nbsp;</div>
-        <div className='moim-myMoim-empty'>아직 참여 중인 모임이 없어요 🥲</div>
-        {/* ⭐⭐참여중인 모임이 있을때는 컴포넌트로 보여주면 좋을듯 (이미 여기 코드가 너무 많음...)           
-        */}
+      <div className='moim-myMoim' style={{borderBottom: myMoim?.length === 0 && '1px solid rgba(0, 0, 0, 0.199)'}}>
+        {myMoim?.length === 0 ?
+          <>
+            <div className='moim-myMoim-title'>&nbsp;&nbsp;&nbsp;마이 소모임&nbsp;&nbsp;&nbsp;</div>
+            <div className='moim-myMoim-empty'>아직 참여 중인 모임이 없어요 🥲</div>
+          </>
+          :
+          <>
+          <div className='moim-myMoim-title2'>마이 소모임</div>
+            <MoimMyMoim isAuth={isAuth} myMoim={myMoim} userInfo={userInfo} setUserInfo={setUserInfo}/>
+          </>
+        }
       </div>
 
 

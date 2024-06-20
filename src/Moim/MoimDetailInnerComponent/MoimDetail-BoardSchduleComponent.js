@@ -32,14 +32,15 @@ const MoimDetailBoardSchduleComponent = ({moimInfo, moimMemberRole, isAuth, user
   // 모임 스케쥴 리스트 가져옴
   useEffect(()=>{
     let id = moimInfo.id;
-    axiosInstance.get(`/getMoimSchedule/${id}/list`)
-    .then((response)=>{
-      setMoimScheduleList(response.data);
-      updateMarkedDates(response.data);
-      console.log(response.data);
-    }).catch((error)=>{
-      console.log(error);
-    });
+    if(id){
+      axiosInstance.get(`/getMoimSchedule/${id}/list`)
+      .then((response)=>{
+        setMoimScheduleList(response.data);
+        updateMarkedDates(response.data);
+      }).catch((error)=>{
+        console.log(error);
+      });
+    }
   },[moimInfo.id, addScheduleModal, setMoimScheduleList]);
 
   

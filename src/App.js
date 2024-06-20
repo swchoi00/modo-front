@@ -15,21 +15,28 @@ import GoogleLogin from './Login/GoogleLogin';
 import NaverLogin from './Login/NaverLogin';
 import AddMoim from './Moim/MoimComponent/AddMoim';
 import MyPage from './MyPage/MyPage';
-import Faq from './Home/FAQ/Faq';
-import Notice from './Home/FAQ/Notice';
-import FaqDetails from './Home/FAQ/FaqDetails';
-import NoticeDetails from './Home/FAQ/NoticeDetails';
-import InquiryForm from './Home/FAQ/InquiryForm/InquiryForm';
-import InquiryForm_write from './Home/FAQ/InquiryForm/InquiryForm_write';
-import Notice_write from './Home/FAQ/Notice_write';
-import Faq_write from './Home/FAQ/Faq_write';
-import InquiryFormDetail from './Home/FAQ/InquiryForm/InquiryFormDetail';
+// import Faq from './Home/FAQ/Faq';
+// import Notice from './Home/FAQ/Notice';
+// import FaqDetails from './Home/FAQ/FaqDetails';
+// import NoticeDetails from './Home/FAQ/NoticeDetails';
+// import InquiryForm from './Home/FAQ/InquiryForm/InquiryForm';
+// import InquiryForm_write from './Home/FAQ/InquiryForm/InquiryForm_write';
+// import Notice_write from './Home/FAQ/Notice_write';
+// import Faq_write from './Home/FAQ/Faq_write';
+// import InquiryFormDetail from './Home/FAQ/InquiryForm/InquiryFormDetail';
+
 import Community from './Community/Community';
 import AddComm from './Community/AddComm';
 import CommDetail from './Community/CommDetail';
-import AddComm2 from './Community/Notice/AddComm2';
-// import MoimDetailBoardCommComponent from './Moim/MoimDetailComponent/MoimDetailInnerComponent/MoimDetail-BoardCommComponent';
 
+import Notice from './Notice/Notice';
+import NoticeWrite from './Notice/NoticeWrite';
+import Inquiry from './Inquiry/Inquiry';
+import InquiryDetail from './Inquiry/InquiryDetatil';
+import Faq from './FAQ/Faq';
+import InquiryWrite from './Inquiry/InquiryWrite';
+
+// import MoimDetailBoardCommComponent from './Moim/MoimDetailComponent/MoimDetailInnerComponent/MoimDetail-BoardCommComponent';
 import MoimBoard from './Moim/MoimDetail/Moim-board';
 import MoimGallery from './Moim/MoimDetail/Moim-gallery';
 import MoimChat from './Moim/MoimDetail/Moim-chat';
@@ -38,9 +45,8 @@ import MoimDetailBoardCommComponent from './Moim/MoimDetailInnerComponent/MoimDe
 import MoimDetailBoardScheduleDetail from './Moim/MoimDetailInnerComponent/MoimDetail-BoardSchdule-Detail';
 import MoimDetailBoardScheduleDetailMember from './Moim/MoimDetailInnerComponent/MoimDetail-BoardSchedule-Detail-Member';
 import MoimDetailBoardCommDetail from './Moim/MoimDetailInnerComponent/MoimDetail-BoardComm-Detail';
-import NoticeWrite from './Community/Notice/NoticeWrite';
-import Inquiry from './Community/Inquiry/Inquiry';
-import InquiryWrite from './Community/Inquiry/InquiryWrite';
+
+
 
 
 function App() {
@@ -121,7 +127,7 @@ function App() {
   return (
     <div className="App" style={{scrollBehavior: 'unset'}}>
       <Header userInfo={userInfo} isAuth={isAuth} setIsAuth={setIsAuth} setUserInfo= {setUserInfo}/>
-
+      
       <div className='App-Body'>
         <Routes>
           <Route path ='/'element={<Main />}/> 
@@ -147,17 +153,17 @@ function App() {
           <Route path='/moim/:id/schedule/:no/member' element={<MoimDetailBoardScheduleDetailMember/>}/>                                                                                                 
           <Route path='/addMoim' element={<AddMoim userInfo={userInfo}/>}/> 
 
-          <Route path ='/faq' element={<Faq userInfo={userInfo} currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
-          <Route path ='/faqDetail/:id' element={<FaqDetails currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
-          <Route path ='/faq_write' element={<Faq_write userInfo={userInfo} />} />
+          {/* <Route path ='/faq' element={<Faq userInfo={userInfo} currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/> */}
+          {/* <Route path ='/faqDetail/:id' element={<FaqDetails currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/> */}
+          {/* <Route path ='/faq_write' element={<Faq_write userInfo={userInfo} />} /> */}
 
           {/* <Route path ='/notice' element={<Notice userInfo={userInfo} currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/> */}
-          <Route path ='/noticeDetail/:id' element={<NoticeDetails notice={notice} currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
-          <Route path ='/notice_write' element={<Notice_write userInfo={userInfo}/>} />
+          {/* <Route path ='/noticeDetail/:id' element={<NoticeDetails notice={notice} currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/> */}
+          {/* <Route path ='/notice_write' element={<Notice_write userInfo={userInfo}/>} /> */}
 
-          <Route path='/inquiryForm' element={<InquiryForm userInfo={userInfo} currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/>
-          <Route path='/inquiryFormDetail/:id' element={<InquiryFormDetail userInfo={userInfo} currentPage={currentPage} setCurrentPage={setCurrentPage} />} />
-          <Route path='/inquiryForm_write' element={<InquiryForm_write userInfo={userInfo} />}/>
+          {/* <Route path='/inquiryForm' element={<InquiryForm userInfo={userInfo} currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/> */}
+          {/* <Route path='/inquiryFormDetail/:id' element={<InquiryFormDetail userInfo={userInfo} currentPage={currentPage} setCurrentPage={setCurrentPage} />} /> */}
+          {/* <Route path='/inquiryForm_write' element={<InquiryForm_write userInfo={userInfo} />}/> */}
 
           <Route path='/signUp' element={<SignUp />}></Route>
           <Route path='/login' element={<Login userInfo={userInfo} setUserInfo={setUserInfo} isAuth={isAuth} setIsAuth={setIsAuth} />}></Route>
@@ -170,12 +176,14 @@ function App() {
           <Route path='/addComm' element={<AddComm userInfo={userInfo}/>} />
           <Route path='/comm/:id' element={<CommDetail isAuth={isAuth} userInfo={userInfo}/>} />
 
-                {/* Notice 로 바꿔야함 */}
-          <Route path='/notice' element={<AddComm2 currentPage={currentPage} setCurrentPage={setCurrentPage} userInfo={userInfo}/>} />
+          <Route path='/notice' element={<Notice currentPage={currentPage} setCurrentPage={setCurrentPage} userInfo={userInfo}/>} />
           <Route path='/noticeWrite' element={<NoticeWrite userInfo={userInfo}/>} />
 
-          <Route path='/inquiry' element={<Inquiry userInfo={userInfo}/>} />
-          <Route path='/inquiryWrite' element={<InquiryWrite userInfo={userInfo}/>} />
+          <Route path='/inquiry' element={<Inquiry userInfo={userInfo} currentPage={currentPage} setCurrentPage={setCurrentPage}/>} />
+          <Route path='/inquiryWrite' element={<InquiryWrite userInfo={userInfo} />} />
+          <Route path='/inquiryDetail' element={<InquiryDetail userInfo={userInfo}/>} />
+
+          <Route path='/faq' element={<Faq userInfo={userInfo} isAuth={isAuth} currentPage={currentPage} setCurrentPage={setCurrentPage}/>} />
         </Routes>
       </div>
       

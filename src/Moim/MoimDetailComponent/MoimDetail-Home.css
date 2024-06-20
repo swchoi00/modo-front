@@ -56,7 +56,7 @@
   border-radius: 5px;
   padding: 0.7rem;
   /* text-indent: 0.5rem; 들여쓰기 */
-  font-size: small;
+  /* font-size: small; */
 }  
 
 .moimDetail-moimContent-home-description-edit textarea:focus{
@@ -222,6 +222,7 @@
   box-shadow: 0px 0px 8px -1px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
   padding: 1rem;
+  cursor: pointer;
 }
 
 .moimDetail-moimContemt-home-board-content-cate{
@@ -446,7 +447,7 @@
   .moimDetail-moimContent-home-schedule-content-header-date{
     display: none;
   }
-  .ddd{
+  .moimDetail-moimContent-home-schedule-content-innerBox{
     display: flex;
     gap: 0;
   }

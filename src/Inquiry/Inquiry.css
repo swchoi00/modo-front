@@ -1,0 +1,37 @@
+.Inquiry {
+  width: 1040px;
+  margin: 5% 5%;
+}
+
+.Inquiry .title {
+  display: flex;
+  align-items: center;
+}
+
+.Inquiry .title h3 {
+  font-weight: 600;
+  margin-left: 1.5rem;
+}
+
+.Inquiry .inquiryTypeBtn{
+  width: 100%;
+  margin-top: 2rem;
+  background-color: white;
+}
+
+.Inquiry .inquiryTypeBtn button {
+  width: 50%;
+  height: 3rem;
+  background-color: white;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px solid lightgray;
+  color: lightgray;
+}
+
+.Inquiry .inquiryTypeBtn .clicked {
+  font-weight: 700;
+  border-bottom: 2px solid black;
+  color: black;
+}

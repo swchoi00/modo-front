@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import './NoticeWrite.css';
 import { useState } from 'react';
-import axiosInstance from '../../axiosInstance';
+import axiosInstance from '../axiosInstance';
 
 const NoticeWrite = ( {userInfo} ) => {
   console.log('공지사항 작성 유저정보 : ', userInfo);

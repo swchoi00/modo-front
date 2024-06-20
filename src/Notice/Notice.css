@@ -7,35 +7,9 @@
   margin-bottom: 3%;
 }
 
-.Notice .adminBtn {
-  width: 100%;
-  text-align: right;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.Notice .notice-write-btn {
-  float: right; /* span태그가 있어야 가능 왜? 모르겠음 이거만 쓰면 accordionBox에 들어감  */
-  margin-bottom: 1rem;
-  width: 70px;
-  height: 30px;
-  border-radius: 3px;
-  border: 1px solid #6a60a9;
-  color: #6a60a9;
-}
-
-.Notice .notice-write-btn:hover {
-  float: right;
-  margin-bottom: 1rem;
-  width: 70px;
-  height: 30px;
-  border-radius: 3px;
-  background-color: #6a60a9;
-  color: white;
-}
-
 .Notice .accordionBox {
   width: 100%;
+  margin-top: 5rem;
 }
 
 .Notice .accordionBtn {

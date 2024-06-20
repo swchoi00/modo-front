@@ -239,7 +239,6 @@ useEffect(() => {
 const addScheduleSubmitCheck = Object.entries(addScheduleInfo).every(([key, value]) => 
   key === 'scheduleEndDate' || key === 'scheduleDescription' || key === 'scheduleNo' || value !== '');
 
-console.log(addScheduleInfo);
 
 const addMoimscheduleSubmitHandler= ()=>{
   if(addScheduleInfo.scheduleMaxMember < 1){

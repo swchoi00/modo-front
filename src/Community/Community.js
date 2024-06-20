@@ -10,7 +10,6 @@ import axiosInstance from "../axiosInstance";
 import view from "../Img/comm_view.png";
 import reply from "../Img/comm_reply.png";
 import { useNavigate } from "react-router-dom";
-import dog from "../Img/깡총강쥐.png";
 import * as DOMPurify from "dompurify";
 
 const Community = ({ isAuth, currentPage, setCurrentPage }) => {
@@ -132,6 +131,7 @@ const Community = ({ isAuth, currentPage, setCurrentPage }) => {
     return img ? img.outerHTML : null;
   };
 
+
   const removeImagesFromContent = (content) => {
     const parser = new DOMParser();
     // content 문자열을 HTML로 파싱한 후 모든 이미지 태그를 제거
@@ -139,8 +139,19 @@ const Community = ({ isAuth, currentPage, setCurrentPage }) => {
     const images = doc.querySelectorAll('img');
     // 모든 이미지 태그를 제거한 후 나머지 content를 반환
     images.forEach(img => img.parentNode.removeChild(img));
+   // 이미지가 존재하는 경우에만 처리
+   if (images.length > 0) {
+    const firstImageParent = images[0].parentNode;
+    // 이미지를 감싸는 p 태그가 있을 경우에만 제거
+    if (firstImageParent && firstImageParent.tagName && firstImageParent.tagName.toLowerCase() === 'p') {
+      firstImageParent.parentNode.removeChild(firstImageParent);
+    }
+  }
+
     return doc.body.innerHTML;
   };
+
+
 
   return (
     <div className="Community">
@@ -268,7 +279,7 @@ const Community = ({ isAuth, currentPage, setCurrentPage }) => {
                         filteredData.map((data, i) => {
                           const firstImage = fetchFirstImage(data?.content); // content에서 첫 번째 이미지를 추출
                           const contentWithoutImages = removeImagesFromContent(data?.content); // content에서 모든 이미지를 제거한 텍스트만 추출
-                          
+
                           return (
                             <div className="card-type" key={i} onClick={() => navigate(`/comm/${data.postno}`)}>
                               <div className="card-header">
@@ -283,16 +294,13 @@ const Community = ({ isAuth, currentPage, setCurrentPage }) => {
                               <div className="card-body">
                                 <div className="postName">{data.postname}</div>
                                 <div className={`${firstImage ? 'imgContentBox' : 'contentBox '} `}>
-                                {firstImage && (
-                                  <div className="quillImg" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(firstImage)}}></div>
-                                )}
-                                <div className={` ${firstImage ? 'imgContent' : 'content'}`} dangerouslySetInnerHTML={{
-                                  __html: DOMPurify.sanitize(contentWithoutImages),
-                                }}></div>
+                                  {firstImage && (
+                                    <div className="quillImg" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(firstImage) }}></div>
+                                  )}
+                                  <div className={` ${firstImage ? 'imgContent' : 'content'}`} dangerouslySetInnerHTML={{
+                                    __html: DOMPurify.sanitize(contentWithoutImages),
+                                  }}></div>
                                 </div>
-                                {/* <div dangerouslySetInnerHTML={{
-                                  __html: DOMPurify.sanitize(String(data?.content)),
-                                }}></div> */}
                               </div>
                               <div className="card-footer">
                                 <div className="card-footer inner2">
