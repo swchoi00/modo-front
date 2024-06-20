@@ -8,18 +8,22 @@ import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as fullHeart} from '@fortawesome/free-solid-svg-icons'; // 실선으로 된 하트 아이콘
 import { faHeart as lineHeart} from '@fortawesome/free-regular-svg-icons'; // 비어있는 하트 아이콘
 import axiosInstance from '../axiosInstance';
+import { useNavigate } from 'react-router-dom';
 
 
-const MoimMyMoim = ({isAuth, moimList, userInfo,setUserInfo}) => {
-  // 항목을 4개씩 묶음으로 나누기
-  const chunkSize = 4;
-  const chunks = [];
-  for (let i = 0; i < moimList.length; i += chunkSize) {
-    chunks.push(moimList.slice(i, i + chunkSize));
-  }
-
+const MoimMyMoim = ({isAuth, myMoim, userInfo,setUserInfo}) => {
+  
 
   const [likedMoims, setLikedMoims] = useState([]);
+  const navigate = useNavigate();
+  const chunkSize = 4; // 마이 모임 한 페이지 개수 기준
+  const chunks = [];  // 마이 모임 페이지별 저장
+
+  // 항목을 4개씩 묶음으로 나누기
+  for (let i = 0; i < myMoim.length; i += chunkSize) {
+    chunks.push(myMoim.slice(i, i + chunkSize));
+  }
+
 
 
 
@@ -57,14 +61,16 @@ const handleMoimLikeBtn = (moimId, e) => {
       <div className='myMoim-carouselBox'>
         <Carousel className='myMoim-carousel'
            interval={null} // 자동 넘어가기 방지
-           indicators={(moimList?.length > 4 ? true: false)} // 내 모임이 4개 이하면 하단에 있는 페이지 표시 ● 안보임
-           hideControls={true} // control 버튼 숨기기
+           indicators={(myMoim?.length > 4 ? true: false)} // 내 모임이 4개 이하면 하단에 있는 페이지 표시 ● 안보임
+          //  hideControls={true} // control 버튼 숨기기
            prevIcon={// 이전 버튼 아이콘 변경
+                      myMoim?.length > 4 &&
                       <span className="custom-prev-icon"> 
                         <FontAwesomeIcon icon={faAngleLeft}  size='2x'/>
-                      </span>
+                      </span> 
                     } 
            nextIcon={// 다음 버튼 아이콘 변경
+                      myMoim?.length > 4 &&
                       <span className="custom-next-icon">
                         <FontAwesomeIcon icon={faAngleRight}  size='2x'/>
                       </span>
@@ -77,14 +83,13 @@ const handleMoimLikeBtn = (moimId, e) => {
                 {chunk.map((moim, idx) => {
                   const isLiked = likedMoims.includes(moim.id); 
                   return(
-                    <div key={idx} className="itembox" style={{cursor: 'pointer'}}>
+                    <div key={idx} className="itembox" style={{cursor: 'pointer'}} onClick={()=>navigate(`/moim/${moim.id}/home`)}>
                       <div className='imgBox'>
                         <div className='img'
                           style={{backgroundImage: `url(https://raw.githubusercontent.com/Jella-o312/modo-image/main/moim-img/moim${idx}.png)`}}
                         />
                         <div className='categoryBox'>
                           <span className='category'>{moim.category}</span>
-                          {/* <span className='moim-content-box-like' onClick={(e) => handleMoimLikeBtn(data.id, e)}> */}
                           <span className='moim-content-box-like' onClick={(e) => handleMoimLikeBtn(moim.id, e)}>
                             <FontAwesomeIcon icon={isLiked ? fullHeart : lineHeart}  size='lg' style={{ color: isLiked ? '#ff2727' : 'white' }}/>
                           </span>

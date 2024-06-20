@@ -65,6 +65,7 @@ const MoimDetailBoardCommReply = ({isAuth, userInfo, id, no, setUpdateReplyCnt})
     axiosInstance.get(`/moimReply/${no}/list`)
       .then((response) => {
         setGetReply(response.data);
+        setUpdateReplyCnt(response.data.length);
       })
       .catch((error) => {
         console.log(error);
@@ -102,6 +103,7 @@ const MoimDetailBoardCommReply = ({isAuth, userInfo, id, no, setUpdateReplyCnt})
     axiosInstance.get(`/moimReply/${no}/list`)
       .then((response) => {
         setGetReply(response.data);
+        setUpdateReplyCnt(response.data.length);
       })
       .catch((error) => {
         console.log(error);

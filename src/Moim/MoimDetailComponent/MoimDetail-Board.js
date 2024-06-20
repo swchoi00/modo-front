@@ -64,15 +64,12 @@ const MoimDetailBoard = ({moimInfo, currentPage, setCurrentPage, moimMemberRole,
 
 
 
-
-console.log(showMoimCommList);
-
                       
 
   return(
     <div className="moimDetailBoard-container">
       <div className='moimDetailBoard-schedule-Box'>
-        <div className="moimDetailBoard-header" style={{marginTop: '1.8rem'}}>
+        <div className="moimDetailBoard-header" >
             <h6>모임일정</h6>
             {/* 😡임시😡 ↓ 모임장만 보이게 해야함 */}
             <FontAwesomeIcon icon={faEllipsisVertical} size="lg"/>
@@ -130,7 +127,7 @@ console.log(showMoimCommList);
                             {/* <li className="no">{data.postno}</li> */}
                             <li className="no">{i+1}</li>
                             <li className="item category" style={{ color: typeColors[data.categories], fontWeight: 'bold' }}>{data.categories}</li>
-                            <li className="item postTitle">{data.postname} &nbsp;[{data.views}]</li>
+                            <li className="item postTitle">{data.postname} &nbsp;[{data.replyCount}]</li>
                             <li className="item author">{data.moimMember.member.nickname}</li>
                             <li className="item date">{data.uploadDate}</li>
                             <li className="view">{data.views}</li>

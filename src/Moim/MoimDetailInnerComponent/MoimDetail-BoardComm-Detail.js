@@ -16,7 +16,7 @@ const MoimDetailBoardCommDetail = ({isAuth, userInfo})=>{
   const [update, setUpdate] = useState(false);
   const [commReply, setCommReply] = useState([]);
   const navigate = useNavigate();
-  const [updateReplyCnt, setUpdateReplyCnt] = useState(false);
+  const [updateReplyCnt, setUpdateReplyCnt] = useState();
   const [moimInfo, setMoimInfo] = useState();
   const [moimMemberInfo, setMoimMemberInfo] = useState(); // 모임 멤버 정보
   
@@ -76,14 +76,6 @@ const MoimDetailBoardCommDetail = ({isAuth, userInfo})=>{
       .catch((error) => {
         console.log(error);
       });
-
-      axiosInstance.get(`/moimReply/${id}/list`)
-      .then((response) => {
-        setCommReply(response.data); 
-      })
-      .catch((error) => {
-        console.log(error);
-      });
   }, [no,setComm]);
 
 
@@ -127,7 +119,7 @@ const MoimDetailBoardCommDetail = ({isAuth, userInfo})=>{
     }
   }
 
-  console.log(comm);
+  console.log(commReply);
 
 
   return(
@@ -155,7 +147,7 @@ const MoimDetailBoardCommDetail = ({isAuth, userInfo})=>{
             <div className='view-reply'>
               <div>조회수 {comm.views}</div>
               <div style={{ margin: '0 7px', color: '#e6e6e6' }}>|</div>
-              <div>댓글 {commReply.length} </div>
+              <div>댓글 {updateReplyCnt} </div>
             </div>
           </div>
           <div className='post-delete-update'>

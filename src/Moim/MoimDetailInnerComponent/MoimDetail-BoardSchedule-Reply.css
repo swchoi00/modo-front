@@ -5,6 +5,7 @@
 
 .schedule-replyList-box{
   background-color: #f4f4fc;
+  /* height: 28rem; */
   max-height: 28rem;
   overflow-y: scroll;
   display: flex;

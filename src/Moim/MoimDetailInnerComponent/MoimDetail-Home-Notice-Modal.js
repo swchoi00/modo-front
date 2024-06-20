@@ -6,33 +6,35 @@ import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 
-const MoimDetailHomeNoticeModal = ({moimNoticeModal, setMoimNoticeModal, id})=>{
+const MoimDetailHomeNoticeModal = ({moimNoticeModal, setMoimNoticeModal, id, setMoimNoticeList})=>{
   const navigate = useNavigate();
   const [moimCommList, setMoimCommList] = useState([]);
   const [checkCommList, setCheckCommList] = useState([]); // key={i} 값 리스트 저장 (인덱스값)
   
-  
   // 게시글 리스트 가져오기 / 게시글 체크 여부 확인 후 체크된거 있으면, checkCommList 업데이트
   useEffect(()=>{
-    axiosInstance.get(`/getMoimCommList/${id}`)
-    .then((response)=>{
-      setMoimCommList(response.data.filter(item => item.categories === "공지"));
+    if(moimNoticeModal){
+      axiosInstance.get(`/getMoimCommList/${id}`)
+      .then((response) => {
+        console.log(response.data);
+        setMoimCommList(response.data.filter(item => item.categories === "공지"));
+        // 이미 체크해둔 공지가 있는지 확인
+        let checkNotice = response.data.filter(item => item.noticeCheck === true); // noticeCheck가 true인 것만 필터링
+        if (checkNotice?.length > 0) {
+          setCheckCommList(checkNotice.map(item => item.postno)); // 체크된 moimComm 엔티티에서 postno만 추출
+        } else {
+          setCheckCommList([]);
+        }
+        
+      }).catch((error) => {
+        console.log(error);
+      });
+    }
+}, [moimNoticeModal]);
 
-      // 이미 체크해둔 공지가 있는지 확인
-      let checkNotice = response.data.filter(item => item.noticeCheck === true); // 게시글 컬럼 중 noticeCheck가 true인것만 리턴 
-      if(checkNotice?.length >0){
-        setCheckCommList(response. data.map(item => item.postno)); // 체크된 moimComm 엔티티에서 postno만 추출
-      }else{
-        setCheckCommList([]);
-      }
-      
-    }).catch((error)=>{
-      console.log(error);
-    });
-  },[moimNoticeModal]);
 
 
-
+// 공지할 게시글 체크 할때마다 작동하는 핸들러
   const checkCommHandler = (i)=>{
   let isCheck = checkCommList.includes(i);
 
@@ -54,15 +56,15 @@ const MoimDetailHomeNoticeModal = ({moimNoticeModal, setMoimNoticeModal, id})=>{
   const moimNoticeHandler=()=>{
     axiosInstance.post(`/moimNoticeInsert/${id}`, checkCommList)
     .then((response)=>{
-      alert(response.data);
-      navigate(-1);
+      alert("공지 업데이트 완료!");
+      let CommList = response.data; // 업데이트 된 모임게시글 리스트 받아옴
+      setMoimNoticeList(CommList.filter(data => data.noticeCheck));
+      setMoimNoticeModal(false);
     }).catch((error)=>{
       console.log(error);
     });
   }
 
-
-  console.log(checkCommList);
 
   return(
     <Modal

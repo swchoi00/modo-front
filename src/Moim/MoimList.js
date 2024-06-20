@@ -63,8 +63,7 @@ const MoimList = ({isAuth, moimList, userInfo,setUserInfo}) =>{
     return Math.floor(Math.random() * 18);
   };
 
-console.log(moimList);
-// console.log(moimList[0]?.moimPhoto.moimPhotoUrl);
+
   return(
     <div className='moim-list-box'>
       

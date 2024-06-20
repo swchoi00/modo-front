@@ -96,7 +96,9 @@
 
 
 .moim-myMoim-title2{
-  background: linear-gradient(to top, #f2f1fb 50%, transparent 50%); /* 아래에서 위로 그라데이션 적용 */
+  padding-bottom: 0.7rem;
+  /* background-color: #f2f1fb;
+  background: linear-gradient(to top, #f2f1fb 50%, transparent 50%); 아래에서 위로 그라데이션 적용 */
 }
 
 .moim-myMoim-title::before,.moim-myMoim-title::after,

@@ -20,8 +20,6 @@ const MoimDetailHeader = ({ moimCategory, moimName, moimMenuCk }) => {
               let moimMemberList = response.data;
               let matchingMember = moimMemberList?.find(memberInfo => memberInfo.member.id === userInfo?.id); // 모임 멤버 확인
           
-              console.log(matchingMember);
-          
               // 😡😡😡나중에 주소 바꿔줘야함
               if (page !== `http://localhost:3000/moim/${id}/home`) { // 모임 메인 화면이 아닌 페이지를 url로 들어올 경우 (모임 메인 화면은 비회원도 볼 수 있음)
                 if(userInfo){ //로그인 상태

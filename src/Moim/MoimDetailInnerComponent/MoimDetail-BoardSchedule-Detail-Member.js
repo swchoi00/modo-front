@@ -9,9 +9,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 const MoimDetailBoardScheduleDetailMember = ()=>{
-  const {id} = useParams(); 
-  const {no} = useParams(); 
-  const [moimScheduleInfo, setMoimScheduleInfo] = useState(false); // 모임 일정
+  const {id,no} = useParams(); 
+  const [moimScheduleInfo, setMoimScheduleInfo] = useState(); // 모임 일정
+  const [moimMemberList,setMoimMemberList] = useState();
   const navigate = useNavigate();
 
 
@@ -44,17 +44,32 @@ useEffect(() => {
 }, [id]);
 
 
-  // 모임 스케쥴 정보 가져오기
-  useEffect(()=>{
-    axiosInstance.get(`/getMoimScheduleDetail/${no}`)
-    .then((response)=>{
-      setMoimScheduleInfo(response.data);
-    }).catch((error)=>{
+// 스케쥴, 참여 멤버 가져오기
+useEffect(() => {
+  axiosInstance.get(`/getMoimScheduleDetail/${no}`)
+    .then((response) => {
+      setMoimScheduleInfo(response.data); // 모임 스케쥴 정보 저장
+      // 모임 스케쥴 참여 멤버 가져오기
+      axiosInstance.get(`/getMoimSheduleMemberList/${no}`)
+        .then((response) => {
+          // memberRole을 기준으로 정렬 (leader -> manager -> member)
+          const sortedMembers = response.data.sort((a, b) => {
+            if (a.memberRole === 'leader') return -1;
+            if (a.memberRole === 'manager' && b.memberRole !== 'leader') return -1;
+            return 1;
+          });
+          // 정렬된 데이터를 상태에 저장
+          setMoimMemberList(sortedMembers);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    })
+    .catch((error) => {
       console.log(error);
     });
-  },[setMoimScheduleInfo]);
+}, [no]);
 
-console.log(moimScheduleInfo);
 
 
 const backBtnHandler = ()=>{
@@ -66,15 +81,14 @@ const backBtnHandler = ()=>{
       <div className="moimSchedule-joinMember-headerBox">
         <div className='backBtn-title' style={{display:"flex", gap: '1rem'}}>
         <FontAwesomeIcon icon={faArrowLeft} size='lg'style={{color: 'gray', cursor: 'pointer', paddingTop: '0.2rem'}} onClick={backBtnHandler}/>
-        <h5 className="title">모임 일정 참여 멤버 ({moimScheduleInfo.joinedMember?.length} / {moimScheduleInfo.scheduleMaxMember}명)</h5>
+        <h5 className="title">모임 일정 참여 멤버 ({moimScheduleInfo?.joinedMember?.length} / {moimScheduleInfo?.scheduleMaxMember}명)</h5>
         </div>
         <div className="moimName">{moimScheduleInfo?.scheduleName} </div>
       </div>
 
       <div className="moimSchedule-joinMember-bodyBox">
       {
-            moimScheduleInfo?.joinedMember?.map((data,i)=>(
-              // imsiMember2.map((data,i)=>(
+            moimMemberList?.map((data,i)=>(
               <div className='moimDetail-moimContent-home-member-content-modal' key={i} style={{paddingLeft: '0.3rem'}}>
                   <div className='moimDetail-moimContent-home-member-content-img-modal' style={{backgroundImage: `url(${face})`}}>
                     {data.memberRole === 'leader' && <img className='moimDetail-moimLeaderIcon' src={leaderIcon} alt=''/>}
@@ -82,7 +96,7 @@ const backBtnHandler = ()=>{
                   </div>
                   <div className='moimDetail-moimContent-home-member-content-text'>
                     {/* <div>{data.member.nickname}</div> //나중에 바꿔야함 */} 
-                    <div>{data}</div>
+                    <div>{data.member.nickname}</div>
                     <span>{data.profileText}프로필 상태 글</span>
                   </div>
                 </div>
