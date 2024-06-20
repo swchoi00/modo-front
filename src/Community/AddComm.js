@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import 'react-quill/dist/quill.snow.css';
 import './AddComm.css';
 import axiosInstance from '../axiosInstance';
-import QuillEditor from './QuillEditor';
+import QuillEditor from '../quill/QuillEditor';
 import { useNavigate } from 'react-router-dom';
 
 const AddComm = ({ userInfo }) => {

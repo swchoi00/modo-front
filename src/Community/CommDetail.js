@@ -1,10 +1,10 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import './CommDetail.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import axiosInstance from '../axiosInstance';
 import CommReply from './CommReply';
 import * as DOMPurify from "dompurify";
-import QuillEditor from './QuillEditor';
+import QuillEditor from '../quill/QuillEditor';
 import 'react-quill/dist/quill.snow.css';
 
 const CommDetail = ({ isAuth, userInfo }) => {
@@ -16,6 +16,7 @@ const CommDetail = ({ isAuth, userInfo }) => {
   const navigate = useNavigate();
   const [updateReplyCnt, setUpdateReplyCnt] = useState(false);
   const [uploadedImages, setUploadedImages] = useState([]);
+  const contentRef = useRef(null);
 
   useEffect(() => {
     axiosInstance.get(`/comm/${id}`)
@@ -59,9 +60,14 @@ const CommDetail = ({ isAuth, userInfo }) => {
         setUpdate(false);
         break;
       case "수정완료":
-        // ⭐⭐⭐⭐ 다 지운 빈 값은 밑에 코드처럼 하면 되는데 스페이바 누른거면 또 안됨... 스페이스바 누르거나 빈 값일 경우 수정할 내용을 입력해주세요 라고 띄우기 @@!!
-        if (updateComm?.content === '<p><br></p>') {
-          alert('수정할 내용을 입력해주세요.');
+        const isContentEmpty = (content) => {
+          // HTML 태그를 모두 제거한 후 공백을 제거하여 내용이 있는지 확인
+          const text = content.replace(/<\/?[^>]+(>|$)/g, '').trim();
+          return text === '';
+        };
+        if (isContentEmpty(updateComm?.content)) {
+          alert('내용은 필수 입력 항목입니다. (이미지만 삽입할 수 없습니다.)');
+          contentRef.current.focus();
           return;
         }
         axiosInstance.put(`/comm_update/${id}`, updateComm)
@@ -136,7 +142,7 @@ const CommDetail = ({ isAuth, userInfo }) => {
 
       <div className='postContent'>
         {update ? (
-          <QuillEditor update={update} updatecomm={updateComm} setUpdateComm={setUpdateComm} setUploadedImages={setUploadedImages} />
+          <QuillEditor update={update} updatecomm={updateComm} setUpdateComm={setUpdateComm} setUploadedImages={setUploadedImages} contentRef={contentRef}/>
         ) : (
           <div className='ql-editor'
             dangerouslySetInnerHTML={{

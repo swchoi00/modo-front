@@ -2,9 +2,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faList} from '@fortawesome/free-solid-svg-icons';
 import '../MoimDetail/Moim-home.css';
 import './MoimDetail-BoardCommComponent.css'
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axiosInstance from '../../axiosInstance';
+import QuillEditor from '../../quill/QuillEditor';
 
 const MoimDetailBoardCommComponent = ({isAuth, userInfo, setMoimPageRef})=>{
   const navigate = useNavigate();
@@ -20,6 +21,8 @@ const MoimDetailBoardCommComponent = ({isAuth, userInfo, setMoimPageRef})=>{
     views: 0,
   });
   const [selectedColor, setSelectedColor] = useState('#666');
+  const contentRef = useRef(null);
+  const [uploadedImages, setUploadedImages] = useState([]);
   
   // 🔒보안관련 (로그인 안했거나, 모임멤버 아닌경우 페이지 침입방지)
   useEffect(() => {
@@ -88,6 +91,16 @@ const MoimDetailBoardCommComponent = ({isAuth, userInfo, setMoimPageRef})=>{
   
   const moimCommContentHandler = ()=>{
     console.log(moimMemberInfo);
+    const isContentEmpty = (content) => {
+      // HTML 태그를 모두 제거한 후 공백을 제거하여 내용이 있는지 확인
+      const text = content.replace(/<\/?[^>]+(>|$)/g, '').trim();
+      return text === '';
+    };
+    if (isContentEmpty(moimCommInfo?.content)) {
+      alert('내용은 필수 입력 항목입니다. (이미지만 삽입할 수 없습니다.)');
+      contentRef.current.focus();
+      return;
+    }
     const updatedMoimCommInfo = {...moimCommInfo, moim: moimInfo, authorid : moimMemberInfo.id}; // 모임정보 저장해주기
     axiosInstance.post('/moimCommInsert', updatedMoimCommInfo)
     .then((response)=>{
@@ -131,9 +144,7 @@ const MoimDetailBoardCommComponent = ({isAuth, userInfo, setMoimPageRef})=>{
           />
         </div>
         <div className='MoimDetailBoard-Comm-WriteBox-body'>
-          <textarea placeholder='내용을 입력해주세요' name='content'
-                    value={moimCommInfo.content} onChange={changeHandler}
-          />
+          <QuillEditor moimCommInfo={moimCommInfo} setMoimCommInfo={setMoimCommInfo} setUploadedImages={setUploadedImages} contentRef={contentRef}/>
         </div>
       </div>
       

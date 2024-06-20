@@ -6,12 +6,37 @@ import 'react-quill/dist/quill.snow.css';
 import ImageResize from 'quill-image-resize';
 Quill.register('modules/imageResize', ImageResize);
 
-export default function QuillEditor({ commInfo, setCommInfo, update, updatecomm, setUpdateComm, setUploadedImages, contentRef }) {
+export default function QuillEditor({
+  update,
+  commInfo,
+  setCommInfo,
+  updatecomm,
+  setUpdateComm,
+
+  setUploadedImages,
+  contentRef,
+
+  moimCommUpdate,
+  updateMoimComm,
+  setUpdateMoimComm,
+  moimCommInfo,
+  setMoimCommInfo
+}) {
   const quillRef = useRef(null);
 
   const handleQuillChange = (content) => {
     if (update) {
       setUpdateComm((comm) => ({
+        ...comm,
+        content
+      }));
+    } else if (moimCommUpdate) {
+      setUpdateMoimComm((comm) => ({
+        ...comm,
+        content
+      }));
+    } else if (moimCommInfo) {
+      setMoimCommInfo((comm) => ({
         ...comm,
         content
       }));
@@ -120,6 +145,30 @@ export default function QuillEditor({ commInfo, setCommInfo, update, updatecomm,
     'width'
   ];
 
+  // value 설정 로직
+  // const editorValue = update
+  // ? updatecomm?.content || ''
+  // : moimCommUpdate
+  // ? updateMoimComm?.content || ''
+  // : moimCommInfo
+  // ? moimCommInfo?.content || ''
+  // : commInfo?.content || '';
+
+  const editorValue = () => {
+    if (update) {
+      return updatecomm?.content || '';
+    } else if (moimCommUpdate) {
+      return updateMoimComm?.content || '';
+    } else if (moimCommInfo) {
+      return moimCommInfo?.content || '';
+    } else {
+      return commInfo?.content || '';
+    }
+  };
+  
+  const quillEditorValue = editorValue();
+  
+  
   return (
     <ReactQuill
       ref={quillRef}
@@ -128,9 +177,9 @@ export default function QuillEditor({ commInfo, setCommInfo, update, updatecomm,
       modules={modules}
       formats={formats}
       placeholder="내용을 입력해주세요"
-      value={update ? updatecomm.content : commInfo.content}
+      value={quillEditorValue}
       onChange={handleQuillChange}
       preserveWhitespace
     />
-  )
+  );
 }
