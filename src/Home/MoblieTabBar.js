@@ -32,10 +32,10 @@ const MoblieTabBar = ({pageNow})=>{
       </Link> */}
 
       
-      <Link className={`TabBar-box ${pageNow === '/search' ? 'tabBar-active' : ''}`} to={'/search'}>
+      {/* <Link className={`TabBar-box ${pageNow === '/search' ? 'tabBar-active' : ''}`} to={'/search'}>
         <span><FontAwesomeIcon className='TabBar-img' icon={faSearch} /></span>
         <div className='TabBar-title'>검색</div>
-      </Link>
+      </Link> */}
 
       <Link className={`TabBar-box ${pageNow === '/frBoard' ? 'tabBar-active' : ''}`} to={'/community'}>
         <span><FontAwesomeIcon className='TabBar-img' icon={faList} /></span>

@@ -15,10 +15,10 @@ const Main = ()=>{
       <div className="main-container-box">
         <Banner/>
 
-        <div className='main-mobile-searchBar'> 
+        {/* <div className='main-mobile-searchBar'> 
           <input className='main-mobile-search-input' placeholder='관심사 검색하기'/> 
           <span><FontAwesomeIcon icon={faSearch} style={{color:'#d4b5f5'}} size='lg'/></span>
-        </div>
+        </div> */}
 
         <ServiceCategories />
 

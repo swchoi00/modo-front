@@ -48,10 +48,10 @@ const Header = ( {isAuth, setIsAuth, userInfo, setUserInfo} ) =>{
           <Link className='nav-aTag' to = {"/notice"}>공지사항</Link>
         </div>
 
-        <div className='nav-searchBar'>        
-          <input className='nav-search-input' placeholder='관심사 검색하기'/>
+        <div className='nav-searchBar nav-search-input'>        
+          {/* <input className='nav-search-input' placeholder='관심사 검색하기'/>
           <span><FontAwesomeIcon icon={faSearch} style={{color:'#9c9c9c'}}/></span>    
-          
+           */}
         </div>
 
         <div className='nav-joinLogin'>

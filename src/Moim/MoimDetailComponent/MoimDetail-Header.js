@@ -58,7 +58,7 @@ const MoimDetailHeader = ({ moimCategory, moimName, moimMenuCk }) => {
     return (
         <div className="moimDetail-headerContainer">
             <div className='moimDetail-headerBox'>
-                <div className='moimDetail-header-beforeBtn'>{/* 목록 */}
+                <div className='moimDetail-header-beforeBtn' onClick={()=>navigate('/moim')} style={{cursor:'pointer'}}>{/* 목록 */}
                     <FontAwesomeIcon icon={faList} size='lg' style={{ color: '#6a60a9' }} />
                 </div>
                 <div className='moimDetail-header-category'>{moimCategory}</div>
