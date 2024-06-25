@@ -1,0 +1,77 @@
+.AdminModal {
+  width: 100%;
+}
+
+.AdminModal .modal-header-inner {
+  display: flex;
+  width: 100%;
+}
+
+.AdminModal .modal-header-inner .modal-category {
+  color: #6A60A9;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.AdminModal .modal-input,
+.AdminModal .modal-select {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #9087d3;
+  outline-color: #9087d3;
+}
+
+.AdminModal .modal-title-wrapper {
+  display: flex;
+  width: 100%;
+}
+
+.AdminModal .modal-title {
+  color: #6A60A9;
+  font-size: 18px;
+  font-weight: 700;
+  margin-right: 10px;
+}
+
+.AdminModal .modal-input-title {
+  width: 80%;
+  border: 2px solid #9087d3;
+  outline-color: #9087d3;
+  padding: 10px;
+}
+
+.AdminModal .modal-body-title {
+  color: #6A60A9;
+  font-size: 18px;
+  font-weight: 700;
+  margin-right: 10px;
+}
+
+.AdminModal .modal-textarea-wrapper {
+  margin-top: 5px;
+}
+
+.AdminModal .modal-textarea {
+  width: 100%;
+  height: 30vh;
+  border: 2px solid #9087d3;
+  outline-color: #9087d3;
+  padding: 10px;
+}
+
+.AdminModal .submitBtn {
+  width: 100%;
+}
+
+.AdminModal .submitBtn button {
+  border: none;
+  background-color: #6A60A9;
+  width: 200px;
+  margin: auto;
+}
+
+.custom-modal .modal-content {
+  width: 67rem;
+  height: 40rem;
+  margin-top: 10rem;
+}

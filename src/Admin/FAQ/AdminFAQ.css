@@ -1,0 +1,82 @@
+.AdminFAQ {
+  width: 100%;
+  height: 100%;
+  padding: 3rem 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.AdminFAQ .title-search-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 3rem;
+  flex-direction: column;
+}
+
+.AdminFAQ .title-search-box h2 {
+  color: gray;
+  font-weight: 600;
+  text-align: left;
+  margin-bottom: 3rem;
+}
+
+.AdminFAQ .search-box {
+  padding-bottom: 0.5rem;
+  width: 35rem;
+  text-align: left;
+  border-bottom: 2px solid lightgray;
+}
+
+.AdminFAQ input {
+  padding-left: 10px;
+  width: 80%;
+  outline: none;
+  border: none;
+}
+
+.AdminFAQ select {
+  outline: none;
+  border: none;
+}
+
+.AdminFAQ .table-container {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.AdminFAQ input[type="checkbox"] {
+  accent-color: #9087d3;
+  height: 1rem;
+}
+
+.AdminFAQ .insert-delete-btn {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.AdminFAQ .table-container .insertBtn{
+  border: none;
+  background-color: #6A60A9;
+  color: white;
+  width: 6rem;
+  height: 2rem;
+  border-radius: 7px;
+  margin-right: 1rem;
+}
+
+.AdminFAQ .table-container .deleteBtn{
+  border: none;
+  background-color: gray;
+  color: white;
+  width: 6rem;
+  height: 2rem;
+  border-radius: 7px;
+}
+
+/* 페이징 */
+.AdminFAQ .paging {
+  margin: auto;
+  padding-top: 1rem;
+}

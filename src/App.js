@@ -36,6 +36,8 @@ import InquiryDetail from './Inquiry/InquiryDetatil';
 import Faq from './FAQ/Faq';
 import InquiryWrite from './Inquiry/InquiryWrite';
 
+import Admin from './Admin/Admin';
+
 // import MoimDetailBoardCommComponent from './Moim/MoimDetailComponent/MoimDetailInnerComponent/MoimDetail-BoardCommComponent';
 import MoimBoard from './Moim/MoimDetail/Moim-board';
 import MoimGallery from './Moim/MoimDetail/Moim-gallery';
@@ -49,6 +51,7 @@ import MoimDetailBoardCommDetail from './Moim/MoimDetailInnerComponent/MoimDetai
 
 
 
+
 function App() {
 
   // 모바일 하단 탭바 사용을 위한 현재 웹화면 경로 추적 코드
@@ -57,7 +60,7 @@ function App() {
 
 
   useEffect(() => {
-    setPageNow(location.pathname);  
+    setPageNow(location.pathname);
   }, [location.pathname]);
 
   useEffect(() => {
@@ -81,32 +84,32 @@ function App() {
     `, 'color: #a472ff');
   }, []);
 
-  
+
 
   const [userInfo, setUserInfo] = useState({
-    username : '',
-    nickname : ''
+    username: '',
+    nickname: ''
   });
 
   const [moimInfo, setMoimInfo] = useState({});
 
 
   const [notice, setNotice] = useState({
-    title : '',
-    content : '',
-    member : userInfo.username
+    title: '',
+    content: '',
+    member: userInfo.username
   });
 
   const [inquiryForm, setInquiryForm] = useState({
-    title : '',
-    content : '',
-    member : userInfo.username
+    title: '',
+    content: '',
+    member: userInfo.username
   });
 
   const [isAuth, setIsAuth] = useState(false); // 로그인 상태 확인
 
   useEffect(() => {
-    
+
     const storedJwt = sessionStorage.getItem('jwt');
     setIsAuth(storedJwt !== null);
 
@@ -122,36 +125,37 @@ function App() {
   // 모임 페이지 특정 위치 이동용
   const [moimPageRef, setMoimPageRef] = useState(false);
 
-
+  const isAdminPage = location.pathname.startsWith('/modoAdmin');
 
   return (
-    <div className="App" style={{scrollBehavior: 'unset'}}>
-      <Header userInfo={userInfo} isAuth={isAuth} setIsAuth={setIsAuth} setUserInfo= {setUserInfo}/>
-      
+    <div className="App" style={{ scrollBehavior: 'unset' }}>
+
+      {!isAdminPage && <Header userInfo={userInfo} isAuth={isAuth} setIsAuth={setIsAuth} setUserInfo={setUserInfo} />}
+
       <div className='App-Body'>
         <Routes>
-          <Route path ='/'element={<Main />}/> 
-          <Route path='/moim' element={<Moim isAuth={isAuth} userInfo={userInfo} setUserInfo={setUserInfo}/>}/>
+          <Route path='/' element={<Main />} />
+          <Route path='/moim' element={<Moim isAuth={isAuth} userInfo={userInfo} setUserInfo={setUserInfo} />} />
           {/* ↓ 모임상세페이지 URL값 , 나중에 유저정보 보내줘야함*/}
-          <Route path = '/moim/:id/home' element={<MoimHome isAuth={isAuth} userInfo={userInfo} setUserInfo={setUserInfo} 
-                                                         moimInfo={moimInfo} setMoimInfo={setMoimInfo} setMoimPageRef={setMoimPageRef}/>}/>
-          <Route path= '/moim/:id/board' element={<MoimBoard isAuth={isAuth} userInfo={userInfo} moimInfo={moimInfo} setMoimInfo={setMoimInfo}
-                                                              currentPage={currentPage} setCurrentPage={setCurrentPage}
-                                                              setMoimPageRef={setMoimPageRef} moimPageRef={moimPageRef}
-                                                  />}/>                
-          <Route path= '/moim/:id/gallery' element={<MoimGallery isAuth={isAuth} userInfo={userInfo} moimInfo={moimInfo} 
-                                                                 setMoimInfo={setMoimInfo} currentPage={currentPage} 
-                                                                 setCurrentPage={setCurrentPage}/>}/>   
-          <Route path= '/moim/:id/chat' element={<MoimChat isAuth={isAuth} userInfo={userInfo} moimInfo={moimInfo} 
-                                                                 setMoimInfo={setMoimInfo} currentPage={currentPage} 
-                                                                 setCurrentPage={setCurrentPage}/>}/>                           
+          <Route path='/moim/:id/home' element={<MoimHome isAuth={isAuth} userInfo={userInfo} setUserInfo={setUserInfo}
+            moimInfo={moimInfo} setMoimInfo={setMoimInfo} setMoimPageRef={setMoimPageRef} />} />
+          <Route path='/moim/:id/board' element={<MoimBoard isAuth={isAuth} userInfo={userInfo} moimInfo={moimInfo} setMoimInfo={setMoimInfo}
+            currentPage={currentPage} setCurrentPage={setCurrentPage}
+            setMoimPageRef={setMoimPageRef} moimPageRef={moimPageRef}
+          />} />
+          <Route path='/moim/:id/gallery' element={<MoimGallery isAuth={isAuth} userInfo={userInfo} moimInfo={moimInfo}
+            setMoimInfo={setMoimInfo} currentPage={currentPage}
+            setCurrentPage={setCurrentPage} />} />
+          <Route path='/moim/:id/chat' element={<MoimChat isAuth={isAuth} userInfo={userInfo} moimInfo={moimInfo}
+            setMoimInfo={setMoimInfo} currentPage={currentPage}
+            setCurrentPage={setCurrentPage} />} />
 
-          <Route path = '/moim/:id/write' element={<MoimDetailBoardCommComponent isAuth={isAuth} userInfo={userInfo}  setMoimPageRef={setMoimPageRef}/>}/>
-          <Route path = '/moim/:id/comm/:no' element={<MoimDetailBoardCommDetail isAuth={isAuth} userInfo={userInfo}/>}/>                                                                 
-          <Route path='/moim/:id/schedule/:no' element={<MoimDetailBoardScheduleDetail isAuth={isAuth} userInfo={userInfo} moimInfo={moimInfo} 
-                                                                 setMoimInfo={setMoimInfo}/>}/>   
-          <Route path='/moim/:id/schedule/:no/member' element={<MoimDetailBoardScheduleDetailMember/>}/>                                                                                                 
-          <Route path='/addMoim' element={<AddMoim userInfo={userInfo}/>}/> 
+          <Route path='/moim/:id/write' element={<MoimDetailBoardCommComponent isAuth={isAuth} userInfo={userInfo} setMoimPageRef={setMoimPageRef} />} />
+          <Route path='/moim/:id/comm/:no' element={<MoimDetailBoardCommDetail isAuth={isAuth} userInfo={userInfo} />} />
+          <Route path='/moim/:id/schedule/:no' element={<MoimDetailBoardScheduleDetail isAuth={isAuth} userInfo={userInfo} moimInfo={moimInfo}
+            setMoimInfo={setMoimInfo} />} />
+          <Route path='/moim/:id/schedule/:no/member' element={<MoimDetailBoardScheduleDetailMember />} />
+          <Route path='/addMoim' element={<AddMoim userInfo={userInfo} />} />
 
           {/* <Route path ='/faq' element={<Faq userInfo={userInfo} currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/> */}
           {/* <Route path ='/faqDetail/:id' element={<FaqDetails currentPage={currentPage} setCurrentPage={setCurrentPage}/>}/> */}
@@ -171,24 +175,26 @@ function App() {
           <Route path='/oauth/kakao' element={<KakaoLogin setUserInfo={setUserInfo} isAuth={isAuth} setIsAuth={setIsAuth} />}></Route>
           <Route path='/oauth/google' element={<GoogleLogin setUserInfo={setUserInfo} isAuth={isAuth} setIsAuth={setIsAuth} />}></Route>
           <Route path='/oauth/naver' element={<NaverLogin setUserInfo={setUserInfo} isAuth={isAuth} setIsAuth={setIsAuth} />}></Route>
-        
-          <Route path='/community' element={<Community currentPage={currentPage} setCurrentPage={setCurrentPage} isAuth={isAuth}/>}/>
-          <Route path='/addComm' element={<AddComm userInfo={userInfo}/>} />
-          <Route path='/comm/:id' element={<CommDetail isAuth={isAuth} userInfo={userInfo}/>} />
 
-          <Route path='/notice' element={<Notice currentPage={currentPage} setCurrentPage={setCurrentPage} userInfo={userInfo}/>} />
-          <Route path='/noticeWrite' element={<NoticeWrite userInfo={userInfo}/>} />
+          <Route path='/community' element={<Community currentPage={currentPage} setCurrentPage={setCurrentPage} isAuth={isAuth} />} />
+          <Route path='/addComm' element={<AddComm userInfo={userInfo} />} />
+          <Route path='/comm/:id' element={<CommDetail isAuth={isAuth} userInfo={userInfo} />} />
 
-          <Route path='/inquiry' element={<Inquiry userInfo={userInfo} currentPage={currentPage} setCurrentPage={setCurrentPage}/>} />
+          <Route path='/notice' element={<Notice currentPage={currentPage} setCurrentPage={setCurrentPage} userInfo={userInfo} />} />
+          <Route path='/noticeWrite' element={<NoticeWrite userInfo={userInfo} />} />
+
+          <Route path='/inquiry' element={<Inquiry userInfo={userInfo} currentPage={currentPage} setCurrentPage={setCurrentPage} />} />
           <Route path='/inquiryWrite' element={<InquiryWrite userInfo={userInfo} />} />
-          <Route path='/inquiryDetail' element={<InquiryDetail userInfo={userInfo}/>} />
+          <Route path='/inquiryDetail' element={<InquiryDetail userInfo={userInfo} />} />
 
-          <Route path='/faq' element={<Faq userInfo={userInfo} isAuth={isAuth} currentPage={currentPage} setCurrentPage={setCurrentPage}/>} />
+          <Route path='/faq' element={<Faq userInfo={userInfo} isAuth={isAuth} currentPage={currentPage} setCurrentPage={setCurrentPage} />} />
+
+          <Route path='/modoAdmin' element={<Admin userInfo={userInfo} isAuth={isAuth} currentPage={currentPage} setCurrentPage={setCurrentPage} />} />
         </Routes>
       </div>
-      
-      <Footer/>
-      <MoblieTabBar pageNow={pageNow} />
+      {!isAdminPage && <Footer />}
+
+      <MoblieTabBar pageNow={pageNow} isAdminPage={isAdminPage}/>
 
 
     </div>

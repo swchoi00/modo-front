@@ -1,0 +1,72 @@
+.AdminMoim {
+  width: 100%;
+  height: 100%;
+  padding: 3rem 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.AdminMoim .title-search-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 3rem;
+  flex-direction: column;
+}
+
+.AdminMoim .title-search-box h2 {
+  color: gray;
+  font-weight: 600;
+  text-align: left;
+  margin-bottom: 3rem;
+}
+
+.AdminMoim .search-box {
+  padding-bottom: 0.5rem;
+  width: 35rem;
+  text-align: left;
+  border-bottom: 2px solid lightgray;
+}
+
+.AdminMoim input {
+  padding-left: 10px;
+  width: 75%;
+  outline: none;
+  border: none;
+}
+
+.AdminMoim select {
+  outline: none;
+  border: none;
+}
+
+.AdminMoim .table-container {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.AdminMoim input[type="checkbox"] {
+  accent-color: #9087d3;
+  height: 1rem;
+}
+
+.AdminMoim .deleteBtn {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.AdminMoim .table-container button{
+  border: none;
+  background-color: gray;
+  color: white;
+  width: 6rem;
+  height: 2rem;
+  border-radius: 7px;
+}
+
+/* 페이징 */
+.AdminMoim .paging {
+  margin: auto;
+  padding-top: 1rem;
+}

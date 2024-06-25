@@ -1,0 +1,72 @@
+.AdminComm {
+  width: 100%;
+  height: 100%;
+  padding: 3rem 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.AdminComm .title-search-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 3rem;
+  flex-direction: column;
+}
+
+.AdminComm .title-search-box h2 {
+  color: gray;
+  font-weight: 600;
+  text-align: left;
+  margin-bottom: 3rem;
+}
+
+.AdminComm .search-box {
+  padding-bottom: 0.5rem;
+  width: 35rem;
+  text-align: left;
+  border-bottom: 2px solid lightgray;
+}
+
+.AdminComm input {
+  padding-left: 10px;
+  width: 77%;
+  outline: none;
+  border: none;
+}
+
+.AdminComm select {
+  outline: none;
+  border: none;
+}
+
+.AdminComm .table-container {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.AdminComm input[type="checkbox"] {
+  accent-color: #9087d3;
+  height: 1rem;
+}
+
+.AdminComm .deleteBtn {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.AdminComm .table-container button{
+  border: none;
+  background-color: gray;
+  color: white;
+  width: 6rem;
+  height: 2rem;
+  border-radius: 7px;
+}
+
+/* 페이징 */
+.AdminComm .paging {
+  margin: auto;
+  padding-top: 1rem;
+}
