@@ -1,77 +1,148 @@
-.AdminModal {
+.AdminModal-header {
   width: 100%;
 }
 
-.AdminModal .modal-header-inner {
+.AdminModal-header .modal-header-inner {
   display: flex;
   width: 100%;
 }
 
-.AdminModal .modal-header-inner .modal-category {
-  color: #6A60A9;
+.AdminModal-header .modal-header-inner .modal-category {
+  /* color: #6A60A9; */
   font-size: 18px;
   font-weight: 700;
 }
 
-.AdminModal .modal-input,
-.AdminModal .modal-select {
+.AdminModal-header .modal-header-inner .modal-inquiry-category {
+  color: #6A60A9;
+  font-size: 18px;
+  font-weight: 700;
+  width: auto;
+  margin-right: 0.5rem;
+}
+
+.AdminModal-header .modal-comm-input,
+.AdminModal-header .modal-inquiry-input {
+  width: auto;
+  border: none;
+  outline: none;
+  font-weight: 700;
+}
+
+.AdminModal-header .modal-input {
   width: 100%;
-  padding: 10px;
-  border: 2px solid #9087d3;
+  padding: 5px;
+  /* border: none; */
+  /* border: 2px solid #9087d3; */
+  border: 1px solid lightgray;
   outline-color: #9087d3;
 }
 
-.AdminModal .modal-title-wrapper {
+.AdminModal-header .modal-header-inner .modal-category,
+.AdminModal-header .modal-select {
+  width: 10%;
+  padding: 5px;
+  margin-right: 5px;
+  border: none;
+  outline: none;
+  /* border: 2px solid #9087d3; */
+  /* color: #6A60A9; */
+  /* outline-color: #9087d3; */
+}
+
+.AdminModal-header .modal-title-wrapper {
   display: flex;
   width: 100%;
 }
 
-.AdminModal .modal-title {
+.AdminModal-header .modal-title {
   color: #6A60A9;
   font-size: 18px;
   font-weight: 700;
-  margin-right: 10px;
+  width: 5%;
+  padding: 5px;
+  margin-right: 5px;
 }
 
-.AdminModal .modal-input-title {
-  width: 80%;
-  border: 2px solid #9087d3;
-  outline-color: #9087d3;
-  padding: 10px;
-}
-
-.AdminModal .modal-body-title {
+.AdminModal-body .modal-body-title {
   color: #6A60A9;
   font-size: 18px;
   font-weight: 700;
-  margin-right: 10px;
+  margin-left: 0.5rem;
 }
 
-.AdminModal .modal-textarea-wrapper {
+.AdminModal-body .modal-body-answer-title {
+  color: #6A60A9;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  margin-left: 0.5rem;
+}
+
+.AdminModal-body .modal-textarea-wrapper {
   margin-top: 5px;
 }
 
-.AdminModal .modal-textarea {
+.AdminModal-body .modal-comm-textarea {
   width: 100%;
-  height: 30vh;
-  border: 2px solid #9087d3;
+  height: 45vh;
+  padding: 10px;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  border: none;
+  resize: none;
+}
+
+.AdminModal-body .modal-textarea {
+  width: 100%;
+  height: 45vh;
+  border: 1px solid lightgray;
   outline-color: #9087d3;
   padding: 10px;
+  resize: none;
 }
 
-.AdminModal .submitBtn {
+.AdminModal-body .modal-inquiry-user-textarea {
   width: 100%;
+  height: auto;
+  border: none;
+  /* border: 1px solid lightgray; */
+  outline: none;
+  padding: 0 10px;
+  resize: none;
+  margin-bottom: 1rem;
 }
 
-.AdminModal .submitBtn button {
+.AdminModal-body .modal-inquiry-admin-textarea {
+  width: 100%;
+  height: 20vh;
+  border: 1px solid lightgray;
+  outline-color: #9087d3;
+  padding: 10px;
+  resize: none;
+}
+
+.AdminModal-footer{
+  width: 100%;
+  display: flex;
+}
+
+.AdminModal-footer .submitBtn{
   border: none;
   background-color: #6A60A9;
-  width: 200px;
+  color: white;
+  width: 7rem;
+  height: 2rem;
+  border-radius: 7px;
   margin: auto;
 }
 
+/* .custom-modal {
+  height: auto;
+} */
+
 .custom-modal .modal-content {
   width: 67rem;
-  height: 40rem;
+  /* height: 40rem; */
   margin-top: 10rem;
 }

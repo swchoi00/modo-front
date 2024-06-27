@@ -50,24 +50,42 @@
   height: 1rem;
 }
 
-.AdminInquiry .answerChk {
-  
+.AdminInquiry .show-modal {
+  color: black;
 }
+
+.AdminInquiry .show-modal:hover {
+  color: #6A60A9;
+}
+
+.AdminInquiry .answerChk button {
+  width: 6rem;
+  height: 2rem;
+  border-radius: 7px;
+}
+
+/* .test1 {
+  width: 6rem;
+  height: 2rem;
+  border-radius: 7px;
+  color: white;
+  background-color: #6A60A9;
+  border: 1px solid #6A60A9;
+}
+
+.test2 {
+  width: 6rem;
+  height: 2rem;
+  border-radius: 7px;
+  color: #6A60A9;
+  background-color: white;
+  border: 1px solid #6A60A9;
+} */
 
 .AdminInquiry .insert-delete-btn {
   margin-top: 2rem;
   display: flex;
   justify-content: flex-end;
-}
-
-.AdminInquiry .table-container .insertBtn{
-  border: none;
-  background-color: #6A60A9;
-  color: white;
-  width: 6rem;
-  height: 2rem;
-  border-radius: 7px;
-  margin-right: 1rem;
 }
 
 .AdminInquiry .table-container .deleteBtn{

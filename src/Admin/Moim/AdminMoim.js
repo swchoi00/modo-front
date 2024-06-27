@@ -6,15 +6,14 @@ import Table from 'react-bootstrap/Table';
 import './AdminMoim.css';
 import PaginationComponent from '../../Pagination/PaginationComponent';
 
-function AdminMoim({ selectedMenu, currentPage, setCurrentPage }) {
+function AdminMoim({ currentPage, setCurrentPage }) {
   const page = 10;
   const [moimList, setMoimList] = useState([]);
   const [checkList, setCheckList] = useState([]);
   const [allChecked, setAllChecked] = useState(false);
-  const [modal, setModal] = useState(false);
 
   useEffect(() => {
-    axiosInstance.get('/getMoimList')
+    axiosInstance.get('/moimList')
       .then((response) => {
         setMoimList(response.data);
       }).catch((error) => {
@@ -50,12 +49,13 @@ function AdminMoim({ selectedMenu, currentPage, setCurrentPage }) {
     setAllChecked(!allChecked);
   }
 
+  // ⭐⭐⭐ 1:1문의 선택한 번호<List> 삭제하기
   const removeHandler = () => {
-    axiosInstance.delete('/deleteNoticeList', checkList)
+    axiosInstance.delete('/deleteMoimList', checkList)
       .then((response) => {
         alert(response.data);
 
-        axiosInstance.get('/getMoimList')
+        axiosInstance.get('/moimList')
           .then((response) => {
             setMoimList(response.data);
           }).catch((error) => {
@@ -141,7 +141,7 @@ function AdminMoim({ selectedMenu, currentPage, setCurrentPage }) {
           </tbody>
         </Table>
         <div className='deleteBtn'>
-          <button>삭제</button>
+          <button onClick={removeHandler}>삭제</button>
         </div>
       </div>
       {

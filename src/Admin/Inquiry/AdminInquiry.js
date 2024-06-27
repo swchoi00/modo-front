@@ -5,22 +5,36 @@ import { faSearch as searchIcon } from '@fortawesome/free-solid-svg-icons';
 import Table from 'react-bootstrap/Table';
 import './AdminInquiry.css';
 import PaginationComponent from '../../Pagination/PaginationComponent';
+import AdminModal from '../modal/AdminModal';
 
-function AdminInquiry({ selectedMenu, currentPage, setCurrentPage }) {
+function AdminInquiry({ userInfo, selectedMenu, currentPage, setCurrentPage }) {
   const page = 10;
   const [inquiryList, setInquiryList] = useState([]);
   const [checkList, setCheckList] = useState([]);
   const [allChecked, setAllChecked] = useState(false);
   const [modal, setModal] = useState(false);
+  const [selectedInquiry, setSelectedInquiry] = useState(null);
 
+  // ⭐⭐⭐ 1:1문의 전체리스트 받아오기
+  // useEffect(() => {
+  //   axiosInstance.get('/getIquiryList')
+  //     .then((response) => {
+  //       setInquiryList(response.data);
+  //     }).catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, []);
   useEffect(() => {
-    axiosInstance.get('/getIquiryList')
+    const encodedUsername = encodeURIComponent(userInfo.username);
+
+    axiosInstance.get(`/myInquiryForm/${encodedUsername}`)
       .then((response) => {
         setInquiryList(response.data);
       }).catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [userInfo.username]);
+
 
   useEffect(() => {
     if (inquiryList.length > 0 && checkList.length === inquiryList.length) {
@@ -50,11 +64,13 @@ function AdminInquiry({ selectedMenu, currentPage, setCurrentPage }) {
     setAllChecked(!allChecked);
   }
 
+  // ⭐⭐⭐ 1:1문의 선택한 번호<List> 삭제하기
   const removeHandler = () => {
     axiosInstance.delete('/deleteNoticeList', checkList)
       .then((response) => {
         alert(response.data);
 
+        // ⭐⭐⭐ 1:1문의 전체리스트 받아오기
         axiosInstance.get('/getIquiryList')
           .then((response) => {
             setInquiryList(response.data);
@@ -62,6 +78,17 @@ function AdminInquiry({ selectedMenu, currentPage, setCurrentPage }) {
             console.log(error);
           });
 
+      }).catch((error) => {
+        console.log(error);
+      });
+  }
+
+  const openModalHandler = (e, id) => {
+    e.stopPropagation();
+    axiosInstance.get(`/inquiryFormDetail/${id}`)
+      .then((response) => {
+        setSelectedInquiry(response.data);
+        setModal(true);
       }).catch((error) => {
         console.log(error);
       });
@@ -107,6 +134,8 @@ function AdminInquiry({ selectedMenu, currentPage, setCurrentPage }) {
             </tr>
           </thead>
           <tbody>
+            {/* <button className='test2'>답변완료</button>
+            <button className='test1'>답변 전</button> */}
             {
               inquiryList
                 .slice((currentPage - 1) * page, currentPage * page)
@@ -129,12 +158,22 @@ function AdminInquiry({ selectedMenu, currentPage, setCurrentPage }) {
                       <td>{data.id}</td>
                       <td>{data.category}</td>
                       <td>{data.title}</td>
-                      <td>내용보기</td>
-                      <td>{data.adminName}</td>
+                      <td onClick={(e) => openModalHandler(e, data.id)}>
+                        <a className='show-modal'>내용보기</a>
+                      </td>
+                      <td>{data.writerName}</td>
                       <td>{data.createDate}</td>
                       <td>
                         <div className='answerChk'>
-                          {data.answer ? '답변 완료' : '답변 전'}
+                          <button
+                            onClick={(e) => { openModalHandler(e, data.id);}}
+                            style={{
+                              color: data.answer ? '#6A60A9' : 'white',
+                              backgroundColor: data.answer ? 'white' : '#6A60A9',
+                              border: data.answer ? '1px solid #6A60A9' : '1px solid #6A60A9',
+                            }}>
+                            {data.answer ? '답변완료' : '답변 전'}
+                          </button>
                         </div>
                       </td>
                     </tr>
@@ -144,8 +183,15 @@ function AdminInquiry({ selectedMenu, currentPage, setCurrentPage }) {
           </tbody>
         </Table>
         <div className='insert-delete-btn'>
-          <button className='insertBtn'>글쓰기</button>
-          <button className='deleteBtn'>삭제</button>
+          {
+            modal === true &&
+            <AdminModal
+              setModal={setModal}
+              selectedMenu={selectedMenu}
+              data={selectedInquiry}
+            />
+          }
+          <button className='deleteBtn' onClick={removeHandler}>삭제</button>
         </div>
       </div>
       {

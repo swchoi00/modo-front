@@ -50,8 +50,9 @@ function AdminMember({ selectedMenu, currentPage, setCurrentPage }) {
     setAllChecked(!allChecked);
   }
 
+  // ⭐⭐⭐ 회원 선택한 번호<List> 삭제하기
   const removeHandler = () => {
-    axiosInstance.delete('/deleteNoticeList', checkList)
+    axiosInstance.delete('/deleteMemberList', checkList)
       .then((response) => {
         alert(response.data);
 
@@ -138,7 +139,7 @@ function AdminMember({ selectedMenu, currentPage, setCurrentPage }) {
           </tbody>
         </Table>
         <div className='deleteBtn'>
-          <button>삭제</button>
+          <button onClick={removeHandler}>삭제</button>
         </div>
       </div>
 

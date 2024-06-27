@@ -50,6 +50,14 @@
   height: 1rem;
 }
 
+.AdminFAQ .show-modal {
+  color: black;
+}
+
+.AdminFAQ .show-modal:hover {
+  color: #6A60A9;
+}
+
 .AdminFAQ .insert-delete-btn {
   margin-top: 2rem;
   display: flex;

@@ -14,15 +14,13 @@ function AdminFAQ({ selectedMenu, setSelectedMenu, currentPage, setCurrentPage }
   const [checkList, setCheckList] = useState([]);
   const [allChecked, setAllChecked] = useState(false);
   const [modal, setModal] = useState(false);
+  const [selectedFAQ, setSelectedFAQ] = useState(null);
 
   useEffect(() => {
-    axiosInstance.get('/getFAQList')
+    axiosInstance.get('/faq')
       .then((response) => {
-        setFAQList(faqMockData.concat(response.data));
-        // setFAQList(
-        //   ...faqMockData,
-        //   ...response.data
-        // );
+        // setFAQList(faqMockData.concat(response.data));
+        setFAQList(response.data);
       }).catch((error) => {
         console.log(error);
       });
@@ -56,12 +54,13 @@ function AdminFAQ({ selectedMenu, setSelectedMenu, currentPage, setCurrentPage }
     setAllChecked(!allChecked);
   }
 
+  // ⭐⭐⭐ FAQ 선택한 번호<List> 삭제하기
   const removeHandler = () => {
     axiosInstance.delete('/deleteFAQList', checkList)
       .then((response) => {
         alert(response.data);
 
-        axiosInstance.get('/getFAQList')
+        axiosInstance.get('/faq')
           .then((response) => {
             setFAQList(faqMockData.concat(response.data));
             // setFAQList(
@@ -72,6 +71,17 @@ function AdminFAQ({ selectedMenu, setSelectedMenu, currentPage, setCurrentPage }
             console.log(error);
           });
 
+      }).catch((error) => {
+        console.log(error);
+      });
+  }
+
+  const openModalHandler = (e, id) => {
+    e.stopPropagation();
+    axiosInstance.get(`/faqDetails/${id}`)
+      .then((response) => {
+        setSelectedFAQ(response.data);
+        setModal(true);
       }).catch((error) => {
         console.log(error);
       });
@@ -137,7 +147,9 @@ function AdminFAQ({ selectedMenu, setSelectedMenu, currentPage, setCurrentPage }
                       <td>{data.id}</td>
                       <td>{data.category}</td>
                       <td>{data.title}</td>
-                      <td>내용보기</td>
+                      <td onClick={(e) => openModalHandler(e, data.id)}>
+                        <a className='show-modal'>내용보기</a>
+                      </td>
                       <td>{data.createDate}</td>
                     </tr>
                   )
@@ -148,9 +160,13 @@ function AdminFAQ({ selectedMenu, setSelectedMenu, currentPage, setCurrentPage }
         <div className='insert-delete-btn'>
         {
             modal === true &&
-            <AdminModal setModal={setModal} selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu}/>
+            <AdminModal
+              setModal={setModal}
+              selectedMenu={selectedMenu}
+              data={selectedFAQ}
+            />
           }
-          <button className='insertBtn' onClick={() => setModal(true)}>글쓰기</button>
+          <button className='insertBtn' onClick={() => { setSelectedFAQ(null); setModal(true);}}>글쓰기</button>
           <button className='deleteBtn' onClick={removeHandler}>삭제</button>
         </div>
       </div>

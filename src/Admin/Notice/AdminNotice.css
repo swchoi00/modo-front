@@ -50,6 +50,14 @@
   height: 1rem;
 }
 
+.AdminNotice .show-modal {
+  color: black;
+}
+
+.AdminNotice .show-modal:hover {
+  color: #6A60A9;
+}
+
 .AdminNotice .insert-delete-btn {
   margin-top: 2rem;
   display: flex;

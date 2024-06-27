@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './Admin.css';
 import axiosInstance from '../axiosInstance';
 import AdminSidebar from './sidebar/AdminSidebar';
@@ -9,8 +9,8 @@ import AdminFAQ from './FAQ/AdminFAQ';
 import AdminInquiry from './Inquiry/AdminInquiry';
 import AdminNotice from './Notice/AdminNotice';
 
-const Admin = ({ isAuth, userInfo, currentPage, setCurrentPage }) => {
-  const [selectedMenu, setSelectedMenu] = useState('login');
+const Admin = ({isAuth, setIsAuth, userInfo, setUserInfo, currentPage, setCurrentPage }) => {
+  const [selectedMenu, setSelectedMenu] = useState(() => localStorage.getItem('selectedMenu') || 'login');
   const sidebarMenu = ['회원관리', '모임 관리', '커뮤니티 관리', 'FAQ 관리', '1:1문의 관리', '공지사항 관리'];
 
   const [loginData, setLoginData] = useState({
@@ -18,9 +18,12 @@ const Admin = ({ isAuth, userInfo, currentPage, setCurrentPage }) => {
     password: ''
   });
 
+  useEffect(() => {
+    localStorage.setItem('selectedMenu', selectedMenu);
+  }, [selectedMenu]);
+
   const changeHandler = (e) => {
     setLoginData({
-      ...loginData,
       [e.target.name]: e.target.value
     })
   }
@@ -44,10 +47,10 @@ const Admin = ({ isAuth, userInfo, currentPage, setCurrentPage }) => {
 
         <div className='header'>
           <div>관리자 페이지</div>
-          {
+          {/* {
           userInfo.role === "ADMIN" && (
             <button onClick={() => setSelectedMenu('login')}>로그아웃</button>
-          )}
+          )} */}
         </div>
         {
           selectedMenu === 'login' &&
@@ -57,9 +60,9 @@ const Admin = ({ isAuth, userInfo, currentPage, setCurrentPage }) => {
               <div className='log'>
                 <div className='idpw'>
                   <div>아이디</div>
-                  <input type='text' name='id' onChange={changeHandler} />
+                  <input type='text' name='username' onChange={changeHandler} />
                   <div>비밀번호</div>
-                  <input type='password' name='pw' onChange={changeHandler} />
+                  <input type='password' name='password' onChange={changeHandler} />
                 </div>
                 <button type='submit' className='loginBtn' onClick={loginBtnHandler}>로그인 하기</button>
               </div>
@@ -84,7 +87,7 @@ const Admin = ({ isAuth, userInfo, currentPage, setCurrentPage }) => {
         }
         {
           selectedMenu === '1:1문의 관리' &&
-          <AdminInquiry selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} currentPage={currentPage} setCurrentPage={setCurrentPage} />
+          <AdminInquiry userInfo={userInfo} selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} currentPage={currentPage} setCurrentPage={setCurrentPage} />
         }
         {
           selectedMenu === '공지사항 관리' &&

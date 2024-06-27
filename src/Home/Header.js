@@ -23,6 +23,7 @@ const Header = ( {isAuth, setIsAuth, userInfo, setUserInfo} ) =>{
   };
 
   const logoutHandler = () => {
+    sessionStorage.removeItem('selectedMenu');
     sessionStorage.removeItem('jwt');
     sessionStorage.removeItem('userInfo');
     setUserInfo({

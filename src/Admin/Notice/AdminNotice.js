@@ -8,22 +8,23 @@ import PaginationComponent from '../../Pagination/PaginationComponent';
 import noticeMockData from '../../Notice/noticeMockData';
 import AdminModal from '../modal/AdminModal';
 
-function AdminNotice({ selectedMenu, setSelectedMenu, currentPage, setCurrentPage }) {
+function AdminNotice({ selectedMenu, currentPage, setCurrentPage }) {
   const page = 10;
   const [noticeList, setNoticeList] = useState([]);
   const [checkList, setCheckList] = useState([]);
   const [allChecked, setAllChecked] = useState(false);
   const [modal, setModal] = useState(false);
+  const [selectedNotice, setSelectedNotice] = useState(null);  // 선택된 게시물 상태 추가
 
-    useEffect(() => {
-      axiosInstance.get('/notice')
-        .then((response) => {
-          // setNoticeList(response.data);
-          setNoticeList(noticeMockData.concat(response.data));
-        }).catch((error) => {
-          console.log(error);
-        });
-    }, []);
+  useEffect(() => {
+    axiosInstance.get('/notice')
+      .then((response) => {
+        setNoticeList(response.data);
+        // setNoticeList(noticeMockData.concat(response.data));
+      }).catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   useEffect(() => {
     if (noticeList.length > 0 && checkList.length === noticeList.length) {
@@ -53,14 +54,14 @@ function AdminNotice({ selectedMenu, setSelectedMenu, currentPage, setCurrentPag
     setAllChecked(!allChecked);
   }
 
+  // ⭐⭐⭐ 공지사항 선택한 번호<List> 삭제하기
   const removeHandler = () => {
     axiosInstance.delete('/deleteNoticeList', checkList)
       .then((response) => {
         alert(response.data);
 
-        axiosInstance.get('/getNoticeList')
+        axiosInstance.get('/notice')
           .then((response) => {
-            // setNoticeList(response.data);
             setNoticeList(noticeMockData.concat(response.data));
           }).catch((error) => {
             console.log(error);
@@ -71,13 +72,22 @@ function AdminNotice({ selectedMenu, setSelectedMenu, currentPage, setCurrentPag
       });
   }
 
-  console.log(noticeList);
-  console.log(checkList);
+  const openModalHandler = (e, id) => {
+    e.stopPropagation();
+    axiosInstance.get(`/noticeDetail/${id}`)
+      .then((response) => {
+        setSelectedNotice(response.data);
+        setModal(true);
+      }).catch((error) => {
+        console.log('오류');
+        console.log(error);
+      });
+  }
 
   return (
     <div className="AdminNotice">
       <div className='title-search-box'>
-        <h2>Notice 관리</h2>
+        <h2>공지사항 관리</h2>
         <div className='search-box'>
           <select>
             <option>전체</option>
@@ -130,7 +140,9 @@ function AdminNotice({ selectedMenu, setSelectedMenu, currentPage, setCurrentPag
                       </td>
                       <td>{data.id}</td>
                       <td>{data.title}</td>
-                      <td>내용보기</td>
+                      <td onClick={(e) => openModalHandler(e, data.id)}>
+                        <a className='show-modal'>내용보기</a>
+                      </td>
                       <td>{data.createDate}</td>
                     </tr>
                   )
@@ -139,11 +151,15 @@ function AdminNotice({ selectedMenu, setSelectedMenu, currentPage, setCurrentPag
           </tbody>
         </Table>
         <div className='insert-delete-btn'>
-        {
+          {
             modal === true &&
-            <AdminModal setModal={setModal} selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu}/>
+            <AdminModal
+              setModal={setModal}
+              selectedMenu={selectedMenu}
+              data={selectedNotice}
+            />
           }
-          <button className='insertBtn' onClick={() => setModal(true)}>글쓰기</button>
+          <button className='insertBtn' onClick={() => { setSelectedNotice(null); setModal(true); }}>글쓰기</button>
           <button className='deleteBtn' onClick={removeHandler}>삭제</button>
         </div>
       </div>

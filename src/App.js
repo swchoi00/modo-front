@@ -49,9 +49,6 @@ import MoimDetailBoardScheduleDetailMember from './Moim/MoimDetailInnerComponent
 import MoimDetailBoardCommDetail from './Moim/MoimDetailInnerComponent/MoimDetail-BoardComm-Detail';
 
 
-
-
-
 function App() {
 
   // 모바일 하단 탭바 사용을 위한 현재 웹화면 경로 추적 코드
@@ -70,7 +67,6 @@ function App() {
       setUserInfo(userInfoObject);
       setIsAuth(true);
     }
-
     console.log(`%c
     💜 Welcome 💜
     
@@ -189,7 +185,7 @@ function App() {
 
           <Route path='/faq' element={<Faq userInfo={userInfo} isAuth={isAuth} currentPage={currentPage} setCurrentPage={setCurrentPage} />} />
 
-          <Route path='/modoAdmin' element={<Admin userInfo={userInfo} isAuth={isAuth} currentPage={currentPage} setCurrentPage={setCurrentPage} />} />
+          <Route path='/modoAdmin' element={<Admin userInfo={userInfo} isAuth={isAuth} setIsAuth={setIsAuth} setUserInfo={setUserInfo}  currentPage={currentPage} setCurrentPage={setCurrentPage} />} />
         </Routes>
       </div>
       {!isAdminPage && <Footer />}

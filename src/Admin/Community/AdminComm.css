@@ -50,6 +50,14 @@
   height: 1rem;
 }
 
+.AdminComm .show-modal {
+  color: black;
+}
+
+.AdminComm .show-modal:hover {
+  color: #6A60A9;
+}
+
 .AdminComm .deleteBtn {
   margin-top: 2rem;
   display: flex;

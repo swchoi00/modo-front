@@ -2,7 +2,6 @@ import './AdminSidebar.css';
 
 function AdminSidebar({ isAuth, userInfo, selectedMenu, setSelectedMenu, sidebarMenu }) {
 
-
   const navClickHandler = (navMenu) => {
     // if(!isAuth) {
     //   alert('로그인 후 이용가능합니다.');

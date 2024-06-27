@@ -5,6 +5,7 @@ import { faSearch as searchIcon } from '@fortawesome/free-solid-svg-icons';
 import Table from 'react-bootstrap/Table';
 import './AdminComm.css';
 import PaginationComponent from '../../Pagination/PaginationComponent';
+import AdminModal from '../modal/AdminModal';
 
 function AdminComm({ selectedMenu, currentPage, setCurrentPage }) {
   const page = 10;
@@ -12,9 +13,10 @@ function AdminComm({ selectedMenu, currentPage, setCurrentPage }) {
   const [checkList, setCheckList] = useState([]);
   const [allChecked, setAllChecked] = useState(false);
   const [modal, setModal] = useState(false);
+  const [selectedComm, setSelectedComm] = useState(null);
 
   useEffect(() => {
-    axiosInstance.get('/getCommunityList')
+    axiosInstance.get('/comm_getList')
       .then((response) => {
         setCommList(response.data);
       }).catch((error) => {
@@ -50,18 +52,30 @@ function AdminComm({ selectedMenu, currentPage, setCurrentPage }) {
     setAllChecked(!allChecked);
   }
 
+  // ⭐⭐⭐ 커뮤니티 선택한 번호<List> 삭제하기
   const removeHandler = () => {
     axiosInstance.delete('/deleteCommunityList', checkList)
       .then((response) => {
         alert(response.data);
 
-        axiosInstance.get('/getCommunityList')
-      .then((response) => {
-        setCommList(response.data);
+        axiosInstance.get('/comm_getList')
+          .then((response) => {
+            setCommList(response.data);
+          }).catch((error) => {
+            console.log(error);
+          });
+
       }).catch((error) => {
         console.log(error);
       });
+  }
 
+  const openModalHandler = (e, id) => {
+    e.stopPropagation();
+    axiosInstance.get(`/comm/${id}`)
+      .then((response) => {
+        setSelectedComm(response.data);
+        setModal(true);
       }).catch((error) => {
         console.log(error);
       });
@@ -90,7 +104,7 @@ function AdminComm({ selectedMenu, currentPage, setCurrentPage }) {
           <thead>
             <tr>
               <th>
-              <input
+                <input
                   className='checkBox'
                   type='checkbox'
                   onChange={allCheckHandler}
@@ -128,7 +142,9 @@ function AdminComm({ selectedMenu, currentPage, setCurrentPage }) {
                       <td>{data.postno}</td>
                       <td>{data.categories}</td>
                       <td>{data.postname} [{data.replies.length}]</td>
-                      <td>내용보기</td>
+                      <td onClick={(e) => openModalHandler(e, data.postno)}>
+                        <a className='show-modal'>내용보기</a>
+                      </td>
                       <td>{data.uploadDate}</td>
                       <td>{data.views}</td>
                     </tr>
@@ -138,7 +154,15 @@ function AdminComm({ selectedMenu, currentPage, setCurrentPage }) {
           </tbody>
         </Table>
         <div className='deleteBtn'>
-          <button>삭제</button>
+          {
+            modal === true &&
+            <AdminModal
+              setModal={setModal}
+              selectedMenu={selectedMenu}
+              data={selectedComm}
+            />
+          }
+          <button onClick={removeHandler}>삭제</button>
         </div>
       </div>
       {
