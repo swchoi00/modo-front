@@ -57,8 +57,6 @@ const MoimDetailBoard = ({moimInfo, currentPage, setCurrentPage, moimMemberRole,
   const typeColors = {
     '공지': '#FC3232',
     '자유': '#6F6C6C',
-    // '일정투표': '#7E57C2',
-    // '가입인사': '#FFC727'
     '가입인사': '#7E57C2'
   };
 
@@ -72,7 +70,7 @@ const MoimDetailBoard = ({moimInfo, currentPage, setCurrentPage, moimMemberRole,
         <div className="moimDetailBoard-header" >
             <h6>모임일정</h6>
             {/* 😡임시😡 ↓ 모임장만 보이게 해야함 */}
-            <FontAwesomeIcon icon={faEllipsisVertical} size="lg"/>
+            {/* <FontAwesomeIcon icon={faEllipsisVertical} size="lg"/> */}
         </div>
         <div className='moimDetailBoard-contentBox'>
           <MoimDetailBoardSchduleComponent moimInfo={moimInfo} moimMemberRole={moimMemberRole} isAuth={isAuth} userInfo={userInfo} /> 
@@ -142,7 +140,7 @@ const MoimDetailBoard = ({moimInfo, currentPage, setCurrentPage, moimMemberRole,
 
             </div>
             {
-              showMoimCommList?.length !== 0 &&
+              showMoimCommList?.length !== 0 && showMoimCommList?.length > 10 ?
               <div className="paging">
                 <PaginationComponent
                   currentPage={currentPage}
@@ -152,6 +150,7 @@ const MoimDetailBoard = ({moimInfo, currentPage, setCurrentPage, moimMemberRole,
                   color="secondary"
                 />
               </div>
+              :  null
             }
           </div>
         </div>

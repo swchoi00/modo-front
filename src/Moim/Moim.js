@@ -27,7 +27,6 @@ const Moim = ({isAuth, userInfo,setUserInfo}) =>{
   const [filterCity, setFilterCity] = useState(''); // 필터링 지역 설정을 위한 임시 저장소
   const [filterTown, setFilterTown] = useState(''); // city값에 따라 필터링된 town 목록 저장소
   const [mymoimOpen,setMymoimOpen] = useState(false); // 마이 소모임 보기 여부
-  const moimList2 = [];// 검색 모임 없을 때 테스트용 (임시)
 
   // 모임 결과 보기용
   const moimSortTypeHandler = (sort) => {
@@ -265,14 +264,14 @@ const tryAddMoimHandler = ()=>{
       </div>
       
       {
-        filterMoimList?.length === 0 ?
+        filterMoimList?.length !== 0 ?
+        <MoimList isAuth={isAuth} moimList={filterMoimList} userInfo={userInfo} setUserInfo={setUserInfo}/>
+        :
         <div className='noResultBox'>
           <img src={sorryIcon} alt=""/>
           <span>검색한 모임이 존재하지 않아요 🥲<br/>새로 모임을 만들어 보는 건 어떨까요?</span>
           <button onClick={tryAddMoimHandler}>모임 만들러 가기</button>
         </div>
-        :
-        <MoimList isAuth={isAuth} moimList={filterMoimList} userInfo={userInfo} setUserInfo={setUserInfo}/>
       }
       <MoimAddBtn isAuth={isAuth}/>
 

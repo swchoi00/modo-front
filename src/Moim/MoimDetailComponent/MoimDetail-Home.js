@@ -324,7 +324,7 @@ const moimManagerHandler=(memberId, memberName, memberRole)=>{
                       style={{backgroundImage: `url(${imsiImg})`, backgroundSize: 'cover', backgroundPosition: 'center'}}
                   />
                   <div className='moimDetail-moimContent-home-schedule-content-info'>
-                    {data.scheduleEndDate === null ?
+                    {data.scheduleEndDate === undefined ?
                       <div className='moimDetail-moimContent-home-schedule-content-info-data'>
                         <span>일시</span><p>{moment(data.scheduleStartDate).format(dateFormat, 'ko')} &nbsp;{data.scheduleStartTime} ~ {data.scheduleEndTime}</p>
                       </div>

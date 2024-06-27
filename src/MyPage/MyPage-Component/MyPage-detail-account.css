@@ -1,0 +1,173 @@
+#myPageAccount {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5rem;
+  align-items: center;
+}
+
+
+#myPageAccount .profileImg{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#myPageAccount .imgBox{
+  position: relative;
+  border-radius: 50rem;
+  width: 17%;
+  aspect-ratio: 1/1;
+  height: auto;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  cursor: pointer;
+}
+
+#myPageAccount .imgBox span{
+  border: 1px solid lightgrey;
+  background-color: white;
+  border-radius: 50%;
+  width: 22%;
+  aspect-ratio: 1/1;
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+#myPageAccount .imgUpdate{
+  margin: 1rem 0;
+  display: flex;
+  gap: 1rem;
+}
+
+#myPageAccount .imgUpdate button{
+  border: none;
+  padding: 0.3rem 1.5rem;
+  border-radius: 0.4rem;
+  color: gray;
+}
+
+#myPageAccount .profileInfo{
+  width: 60%; /*나중에 반응형 숫자 바꿔야함*/
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  align-items: flex-start;
+}
+
+
+#myPageAccount .nicknameBox{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+#myPageAccount .title{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#myPageAccount .title h5{
+  margin: 0;
+}
+
+#myPageAccount .title span{
+  cursor: pointer;
+  font-weight: 600;
+}
+
+#myPageAccount .updateBtn{
+  color: #a472ff;
+}
+
+#myPageAccount .cancleBtn{
+  color: gray;
+  margin-left: 1rem;
+}
+
+#myPageAccount .titleValue{
+  text-align: left;
+  color: #575757;
+}
+
+#myPageAccount .updateInput{
+  border: 1px solid #e4e5ed;
+  border-radius: 0.3rem;
+  padding: 0.4rem 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#myPageAccount .updateInput input{
+  flex:1;
+  border: none;
+  outline: none;
+}
+
+#myPageAccount .updateInput button{
+  border: none;
+  outline: none;
+  color: #b4b4b4;
+  font-size: small;
+}
+
+
+#myPageAccount .passwordUpdateBox{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 0.2rem;
+}
+
+#myPageAccount .password b{
+  display: block;
+  width: 100%;
+  font-weight: 500;
+  text-align: left;
+  margin-bottom: 0.3rem;
+}
+
+#myPageAccount .password .showPwd{
+  border: none;
+  outline: none;
+  color: #b4b4b4;
+  font-size: small;
+}
+
+#myPageAccount .regexText{
+  display: block;
+  font-size: small;
+  color: rgb(255, 37, 37);
+  text-align: left;
+  padding: 0.2rem 0 0 0.5rem;
+}
+
+
+@media screen and (max-width: 1050px){
+  #myPageAccount .profileInfo{
+    width: 80%; 
+  }
+  #myPageAccount .imgBox{
+    width: 8rem;
+  }
+}
+
+@media screen and (max-width: 600px){
+  #myPageAccount {
+    gap: 4rem;
+  }
+  #myPageAccount .profileInfo{
+    width: 100%; 
+  }
+}

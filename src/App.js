@@ -45,6 +45,7 @@ import MoimDetailBoardCommComponent from './Moim/MoimDetailInnerComponent/MoimDe
 import MoimDetailBoardScheduleDetail from './Moim/MoimDetailInnerComponent/MoimDetail-BoardSchdule-Detail';
 import MoimDetailBoardScheduleDetailMember from './Moim/MoimDetailInnerComponent/MoimDetail-BoardSchedule-Detail-Member';
 import MoimDetailBoardCommDetail from './Moim/MoimDetailInnerComponent/MoimDetail-BoardComm-Detail';
+import MyPageDetail from './MyPage/MyPage-detail';
 
 
 
@@ -54,6 +55,20 @@ function App() {
   // 모바일 하단 탭바 사용을 위한 현재 웹화면 경로 추적 코드
   const location = useLocation();
   const [pageNow, setPageNow] = useState(location.pathname);
+  const [userInfo, setUserInfo] = useState({});
+  const [moimInfo, setMoimInfo] = useState({});
+  const [notice, setNotice] = useState({
+    title : '',
+    content : '',
+    member : userInfo.username
+  });
+  const [inquiryForm, setInquiryForm] = useState({
+    title : '',
+    content : '',
+    member : userInfo.username
+  });
+  const [isAuth, setIsAuth] = useState(false); // 로그인 상태 확인
+
 
 
   useEffect(() => {
@@ -81,29 +96,12 @@ function App() {
     `, 'color: #a472ff');
   }, []);
 
+
+  // 유저 정보 바뀔 때 마다 sessrion에 저장된 값 업데이트
+  useEffect(()=>{
+    sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
+  },[userInfo])
   
-
-  const [userInfo, setUserInfo] = useState({
-    username : '',
-    nickname : ''
-  });
-
-  const [moimInfo, setMoimInfo] = useState({});
-
-
-  const [notice, setNotice] = useState({
-    title : '',
-    content : '',
-    member : userInfo.username
-  });
-
-  const [inquiryForm, setInquiryForm] = useState({
-    title : '',
-    content : '',
-    member : userInfo.username
-  });
-
-  const [isAuth, setIsAuth] = useState(false); // 로그인 상태 확인
 
   useEffect(() => {
     
@@ -121,6 +119,13 @@ function App() {
 
   // 모임 페이지 특정 위치 이동용
   const [moimPageRef, setMoimPageRef] = useState(false);
+
+  // 마이페이지에서 문의 관련 작업 할 때 사용
+  const [inquiryList, setInquiryList] = useState(false);
+  // 마이페이지에서 상세 페이지 작업 할 때 사용
+  const [myPageDetail, setMyPageDetail] = useState({'title' : '', 'type' : ''});
+
+
 
 
 
@@ -147,7 +152,7 @@ function App() {
                                                                  setCurrentPage={setCurrentPage}/>}/>                           
 
           <Route path = '/moim/:id/write' element={<MoimDetailBoardCommComponent isAuth={isAuth} userInfo={userInfo}  setMoimPageRef={setMoimPageRef}/>}/>
-          <Route path = '/moim/:id/comm/:no' element={<MoimDetailBoardCommDetail isAuth={isAuth} userInfo={userInfo}/>}/>                                                                 
+          <Route path = '/moim/:id/comm/:no' element={<MoimDetailBoardCommDetail isAuth={isAuth} userInfo={userInfo} setMoimPageRef={setMoimPageRef}/>} />                                                                 
           <Route path='/moim/:id/schedule/:no' element={<MoimDetailBoardScheduleDetail isAuth={isAuth} userInfo={userInfo} moimInfo={moimInfo} 
                                                                  setMoimInfo={setMoimInfo}/>}/>   
           <Route path='/moim/:id/schedule/:no/member' element={<MoimDetailBoardScheduleDetailMember/>}/>                                                                                                 
@@ -167,7 +172,9 @@ function App() {
 
           <Route path='/signUp' element={<SignUp />}></Route>
           <Route path='/login' element={<Login userInfo={userInfo} setUserInfo={setUserInfo} isAuth={isAuth} setIsAuth={setIsAuth} />}></Route>
-          <Route path='/myPage' element={<MyPage userInfo={userInfo} setUserInfo={setUserInfo}></MyPage>}></Route>
+          <Route path='/myPage' element={<MyPage isAuth={isAuth}userInfo={userInfo} setInquiryList={setInquiryList} setMyPageDetail={setMyPageDetail}/>}></Route>
+          <Route path='/myPage/detail' element={<MyPageDetail userInfo={userInfo} setUserInfo={setUserInfo} myPageDetail={myPageDetail} setMyPageDetail={setMyPageDetail}
+                                                              isAuth={isAuth} currentPage={currentPage} setCurrentPage={setCurrentPage} />}></Route>
           <Route path='/oauth/kakao' element={<KakaoLogin setUserInfo={setUserInfo} isAuth={isAuth} setIsAuth={setIsAuth} />}></Route>
           <Route path='/oauth/google' element={<GoogleLogin setUserInfo={setUserInfo} isAuth={isAuth} setIsAuth={setIsAuth} />}></Route>
           <Route path='/oauth/naver' element={<NaverLogin setUserInfo={setUserInfo} isAuth={isAuth} setIsAuth={setIsAuth} />}></Route>
@@ -179,7 +186,8 @@ function App() {
           <Route path='/notice' element={<Notice currentPage={currentPage} setCurrentPage={setCurrentPage} userInfo={userInfo}/>} />
           <Route path='/noticeWrite' element={<NoticeWrite userInfo={userInfo}/>} />
 
-          <Route path='/inquiry' element={<Inquiry userInfo={userInfo} currentPage={currentPage} setCurrentPage={setCurrentPage}/>} />
+          <Route path='/inquiry' element={<Inquiry userInfo={userInfo} currentPage={currentPage} setCurrentPage={setCurrentPage} 
+                                 inquiryList={inquiryList} setInquiryList={setInquiryList}/>} />
           <Route path='/inquiryWrite' element={<InquiryWrite userInfo={userInfo} />} />
           <Route path='/inquiryDetail' element={<InquiryDetail userInfo={userInfo}/>} />
 

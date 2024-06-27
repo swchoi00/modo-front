@@ -41,6 +41,7 @@ const Community = ({ isAuth, currentPage, setCurrentPage }) => {
       })
   }, [])
 
+
   const typeHandler = (show) => {
     let category = show
     setTypeBtn(category);

@@ -9,6 +9,7 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import {faPen} from '@fortawesome/free-solid-svg-icons'; 
 import { Link, useNavigate } from 'react-router-dom';
 import face from '../HomeComponent/ReviewComponent/face.svg';
+import userIcon from '../Img/userIcon.svg';
 
 const Header = ( {isAuth, setIsAuth, userInfo, setUserInfo} ) =>{
 
@@ -25,6 +26,7 @@ const Header = ( {isAuth, setIsAuth, userInfo, setUserInfo} ) =>{
   const logoutHandler = () => {
     sessionStorage.removeItem('jwt');
     sessionStorage.removeItem('userInfo');
+    sessionStorage.removeItem('myPage');
     setUserInfo({
       username : '',
       nickname : ''
@@ -58,7 +60,10 @@ const Header = ( {isAuth, setIsAuth, userInfo, setUserInfo} ) =>{
 
           {isAuth ? 
           <>
-          <Link className='nav-aTag' to={"/myPage"}>{userInfo.nickname}님</Link>
+          <Link className='nav-aTag' to={"/myPage"}>
+            <img src={userIcon} alt=""/>
+            {userInfo.nickname}님
+          </Link>
           <button className='nav-logoutBtn' onClick={logoutHandler}>로그아웃</button>
           </>
           :  

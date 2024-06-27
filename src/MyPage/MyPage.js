@@ -1,82 +1,154 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../axiosInstance";
+import './MyPage.css';
+import sorryIcon from '../Img/sorryIcon.svg';
+import { is } from "date-fns/locale";
 
-function MyPage({ userInfo, setUserInfo }) {
-    const navigate = useNavigate();
+function MyPage({ isAuth, userInfo, setInquiryList, setMyPageDetail }) {
+  const navigate = useNavigate();
+  const [activityData, setActivityData] = useState({'moim': 0, 'likemoim': userInfo?.likedMoim?.length || 0, 'moimComm': 0, 'comm' : 0});
 
-    const oauthHandler = (field) => {
-        if(userInfo.oauth !== "MODO") {
-            alert(`소셜 로그인을 통해 가입한 경우 ${field} 변경이 불가능합니다`);
-        }
+
+  
+  // 내 활동에 들어가는 값 가져오기
+  useEffect (()=>{
+    if(isAuth){
+      // 모임 리스트 받아서 내 모임 찾기
+      axiosInstance.get("/moimList")
+      .then((response) => {
+        let myMoim = (response.data.filter(moim =>moim.members.some(data => data.member.id === userInfo.id)));
+        setActivityData(activityData =>({...activityData, 'moim' : myMoim.length})); // 내 모임 수 업데이트
+      })
+      .catch((error) => {
+          console.log(error);
+      });
+  
+      // 내가 쓴 모임게시글 가져오기 
+      axiosInstance.get(`/myMoimCommList/${userInfo.id}`)
+      .then((response) => {
+        let myMoimComm = response.data;
+        setActivityData(activityData =>({...activityData, 'moimComm' : myMoimComm.length}));
+      })
+      .catch((error) => {
+          console.log(error);
+      });
+  
+      // 내가 쓴 게시글 가져오기 (userInfo.id 로 하는게 아니라 닉네임으로 구분)
+      axiosInstance.get("/comm_getList")
+        .then((response) => {
+          let myComm = response.data.filter(comm => comm.author === userInfo.nickname);
+          setActivityData(activityData =>({...activityData, 'comm' : myComm.length})); // 내 모임 수 업데이트
+        }).catch((error) => {
+          console.log(error);
+      })
     }
-    
-    const [newInfoData, setNewInfoData] = useState({
-        id : userInfo.id,
-        username : userInfo.username,
-        password : "",
-        nickname : userInfo.nickname
-    })
+  },[userInfo,isAuth]);
 
-    const infoChangeHandler = (e) => {
-        const { id, value } = e.target;
-        // 새로운 값이 비어 있다면 기존 userInfo의 값을 유지하도록 설정
-        setNewInfoData({
-            ...newInfoData,
-            [id]: value === "" ? userInfo[id] : value
-        });
-    }
-    
-    const submitUpdate = () => {
-        axiosInstance.post('/updateInfo', newInfoData)
-            .then((response) => {
-                alert(response.data);
-                navigate('/');
-            }).catch((error) => {
-                alert('오류 발생');
-            });
-    }
-    
 
-    console.log(newInfoData);
+
+
+
+  // 내 활동, 내 모임 일정 관련 핸들러
+  const detailPageHandler = (isTitle, isValue)=>{
+    setMyPageDetail({'title' : isTitle, 'type' : isValue});
+    navigate('/myPage/detail');
+  }
+
+
+  // 내 문의 관련 핸들러
+  const inquiryHandler = (e)=>{
+    let value = e.target.textContent;
+    if(value === "1:1 문의하기"){
+      navigate('/inquiry');
+    }else{
+      setInquiryList(true); // 이게 inquiry 컴포넌트에서 페이지 보여주는 핸들러
+      navigate('/inquiry');
+    }
+  }
 
     return (
-        <div style={{ marginTop: "5%" }}>
-            <h3>마이페이지 회원정보수정 테스트중</h3>
+      <>
+      {
+        isAuth ?
+        <div className="myPage-Container">
+          <h3>마이페이지</h3>
 
-            <div className="infoWrapper">
-                <div className="itemContainer">
-                    <div className="item-title">닉네임</div>
-                    <input type="text" id="nickname" placeholder={userInfo.nickname} onChange={infoChangeHandler}></input>
-                </div>
+          {/* 유저정보 */}
+          <div className="userInfoBox">
+            <div className="userInfoLeft">
+              <div className='userImg'
+                  style={{
+                    backgroundImage: `url(https://raw.githubusercontent.com/Jella-o312/modo-image/main/etc/face.svg)` 
+                    // backgroundImage: `url(https://raw.githubusercontent.com/Jella-o312/modo-image/main/etc/userImgNone.svg)` 
+                  }}
+              />
+              <div className="userNameBox">
+                <div>{userInfo.nickname}</div>
+                <span>{userInfo.username}</span>
+              </div>
+            </div>
+            <div className="userSettingBtn" onClick={()=>detailPageHandler('계정설정','계정설정')}>계정설정</div>
+          </div>
 
-                <div className="itemContainer">
-                    <div className="item-title">아이디(이메일)</div>
-                    <input 
-                        type="text" 
-                        id="username"
-                        placeholder={userInfo.username}
-                        onClick={() => oauthHandler('아이디(이메일)')} 
-                        readOnly={userInfo.oauth !== "MODO"}
-                        onChange={userInfo.oauth === "MODO" ? infoChangeHandler : undefined}>
-                    </input>
-                </div>
+          <hr/>
 
-                <div className="itemContainer">
-                    <div className="item-title">비밀번호</div>
-                    <input 
-                        type="text" 
-                        id="password" 
-                        placeholder="•••••••" 
-                        onClick={() => oauthHandler('비밀번호')} 
-                        readOnly={userInfo.oauth !== "MODO"} 
-                        onChange={userInfo.oauth === "MODO" ? infoChangeHandler : undefined}>
-                    </input>
-                </div>
+          {/* 내 활동 */}
+          <h5>내 활동</h5>
+          <div className="userActivityBox">
+            <div className="activity" onClick={()=>detailPageHandler('내 활동', '참여모임')}>
+              <div>참여모임</div>
+              <span>{activityData.moim}</span>
+            </div>
+            <div className="activity" onClick={()=>detailPageHandler('내 활동', '관심모임')}>
+              <div>관심모임</div>
+              <span>{activityData.likemoim}</span>
+            </div>
+            <div className="activity" onClick={()=>detailPageHandler('내 활동','모임 글')}>
+              <div>모임 글</div>
+              <span>{activityData.moimComm}</span>
+            </div>
+            <div className="activity" onClick={()=>detailPageHandler('내 활동','커뮤니티 글')}>
+              <div>커뮤니티 글</div>
+              <span style={{color: '#FFC000'}}>{activityData.comm}</span>
+            </div>
+          </div>
+          
+          <hr/>
+
+          {/* 모임 일정 및 문의 */}
+          <div className="moimSchedule-inquiryBox">
+            <div className="moimScheduleBox">
+              <h5>내 모임 일정</h5>
+              <div className="scheduleList">
+                <span onClick={()=>detailPageHandler('내 모임 일정', '참여 중 모임 일정')}>참여 중 모임 일정</span>
+                <span onClick={()=>detailPageHandler('내 모임 일정', '지난 모임 일정')}>지난 모임 일정</span>
+              </div>
             </div>
 
-            <button style={{marginTop : "10px"}} onClick={submitUpdate}>수정완료</button>
+            <hr className="line"/>
+            
+            <div className="inquiryBox">
+              <h5>내 문의</h5>
+              <div className="inquiryList">
+                <span onClick={inquiryHandler}>1:1 문의하기</span>
+                <span onClick={inquiryHandler}>문의 내역 보기</span>
+              </div>
+            </div>
+          </div>
+
+          <div style={{color:'red'}}>로그아웃 버튼만들기</div>
+
+
         </div>
+        :
+        <div className="loginNeedPage">
+          <h5>로그인 후 이용해주세요</h5>
+          <img src={sorryIcon} alt=""  style={{width: '8rem'}}/>
+          <button onClick={()=>navigate('/login')}>로그인 하러가기</button>
+        </div>
+      }
+      </>
     )
 }
 

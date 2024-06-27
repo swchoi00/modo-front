@@ -1,0 +1,208 @@
+.myPage-Container{
+  width: 1050px;
+  /* display: flex;
+  flex-direction: column; */
+}
+
+.myPage-Container h3{
+  margin: 4rem 0 3rem;
+  text-align: left;
+  user-select:none;
+}
+
+.myPage-Container .userInfoBox{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 2rem;
+}
+
+.myPage-Container .userInfoLeft{
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.myPage-Container .userImg{
+  border-radius: 50px;
+  width: 4rem;
+  height: auto;
+  aspect-ratio: 1/1; /*1:1 비율 유지*/
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+
+.myPage-Container .userNameBox{
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.myPage-Container .userNameBox div{
+  color: #2e2e2e;
+  font-size: large;
+  font-weight: 600;
+}
+
+.myPage-Container .userNameBox span{
+  color: #797979;
+  font-size: 90%;
+}
+
+
+.myPage-Container .userSettingBtn{
+  background-color: #F2F2F2;
+  color: #7F7F7F;
+  padding: 0.2rem 1rem;
+  border-radius: 3rem;
+  cursor: pointer;
+}
+
+.myPage-Container h5{
+  text-align: left;
+  padding-bottom: 0.8rem ;
+  margin: 0;
+  user-select:none;
+}
+
+.myPage-Container hr{
+  margin: 2rem 0;
+  border: 1px solid rgba(0, 0, 0, .08);
+}
+
+.myPage-Container .userActivityBox{
+  display: flex;
+  gap: 4rem;
+  padding-bottom: 2rem;
+  /* justify-content: space-around; */
+}
+
+.myPage-Container .activity{
+  box-shadow: 0px 0px 10px -4px rgba(0, 0, 0, 0.2);
+  /* border: 1px solid red; */
+  border-radius: 0.8rem;
+  width: 13%;
+  aspect-ratio: 1/1;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+}
+
+.myPage-Container .activity span{
+  font-size: x-large;
+  font-weight: 5 00;
+  color: #6a60a9;
+}
+
+
+.myPage-Container .moimSchedule-inquiryBox{
+    /* border: 1px solid red; */
+    display: flex;
+  }
+
+  .myPage-Container .moimScheduleBox, .myPage-Container .inquiryBox{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .myPage-Container .scheduleList , .myPage-Container .inquiryList{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding-left: 0.3rem;
+  }
+
+  .myPage-Container .moimSchedule-inquiryBox span{
+    cursor: pointer;
+  }
+
+  .loginNeedPage {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .loginNeedPage h5{
+    margin-bottom: 2rem;
+  }
+
+  .loginNeedPage button{
+    border: none;
+    outline: none;
+    background-color: #6a60a9;
+    color: white;
+    padding: 0.3rem 1.5rem;
+    border-radius: 3rem;
+    margin-top: 1rem;
+  }
+  
+  
+  @media screen and (max-width: 1050px) {
+    .myPage-Container{
+      width: 100%;
+      padding: 0 1rem;
+    }
+  }
+
+    @media screen and (min-width: 876px) {
+      .myPage-Container .line{
+        display: none;
+      }
+    }
+
+  @media screen and (max-width: 875px) {
+    .myPage-Container h3{
+      margin: 1rem 0 2rem;
+      text-align: left;
+    }
+    .myPage-Container .moimSchedule-inquiryBox{
+      flex-direction: column;
+    }
+    .myPage-Container .userActivityBox{
+      gap: 2rem;
+    }
+    .myPage-Container .activity{
+      width: 15%;
+    }
+  }
+
+  @media screen and (max-width: 750px) {
+    .myPage-Container .userActivityBox{
+      gap: 2rem;
+      justify-content: space-between;
+      }
+      
+      .myPage-Container .activity{
+        width: 100%;
+        gap: 1rem;
+      }
+  }
+  
+  @media screen and (max-width: 580px) {
+    .myPage-Container .userActivityBox{
+      gap: 1rem;
+    }
+    .myPage-Container .userImg{
+      width: 3rem;
+    }
+    .myPage-Container .userInfoLeft{
+      gap: 1rem;
+    }
+  }
+
+  @media screen and (max-width: 520px) {
+    .myPage-Container .activity{
+      gap: 0;
+    }
+  }

@@ -1,0 +1,92 @@
+#myPageActivity{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding-left: 2rem;
+}
+
+#myPageActivity .categoryBox {
+  display: flex;
+  gap: 1rem;
+}
+
+#myPageActivity .categoryBox span{
+  color: gray;
+  width: 13%;
+  font-size: 105%;
+  padding: 0.5rem 0;
+  cursor: pointer;
+}
+
+#myPageActivity .categoryBox .check{
+  color: white;
+  font-weight: 500;
+  background-color: #6a60a9;
+  border-radius: 2rem;
+}
+
+#myPageActivity .contentBox{
+  width: 100%;
+  display: flex;
+}
+
+
+#myPageActivity .noResultBox{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 3.5rem 0;
+  gap: 1rem;
+  align-items: center;
+  /* background-color: #f8f8f8; */
+}
+
+#myPageActivity .noResultBox img{
+  width: 8rem;
+}
+
+#myPageActivity .noResultBox span{
+  color: #808080;
+}
+
+
+
+@media screen and (max-width: 1050px) {
+  #myPageActivity{
+    padding-left: 0;
+  }
+}
+
+
+@media screen and (max-width: 800px) {
+  #myPageActivity .contentBox .tbl{
+    margin-top: 0;
+  }
+
+  #myPageActivity .contentBox .th{
+    display: none;
+  }
+
+  #myPageActivity .categoryBox span{
+    width: 25%;
+  }
+  
+  #myPageActivity .categoryBox {
+    gap: 0.5rem;
+    justify-content: space-between;
+  }
+
+  #myPageActivity{
+    gap: 0.7rem;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  #myPageActivity .categoryBox span{
+    padding: 0.3rem 0;
+  }
+  #myPageActivity .categoryBox {
+    gap: 0;
+  }
+}

@@ -90,7 +90,6 @@ const MoimDetailBoardCommComponent = ({isAuth, userInfo, setMoimPageRef})=>{
 
   
   const moimCommContentHandler = ()=>{
-    console.log(moimMemberInfo);
     const isContentEmpty = (content) => {
       // HTML 태그를 모두 제거한 후 공백을 제거하여 내용이 있는지 확인
       const text = content.replace(/<\/?[^>]+(>|$)/g, '').trim();
@@ -114,44 +113,54 @@ const MoimDetailBoardCommComponent = ({isAuth, userInfo, setMoimPageRef})=>{
   
 
   return(
-    <div className='MoimDetail-container'>
+    <div className='MoimDetail-container '>
 
       <div className='moimDetail-headerBox'>
-        <div className='moimDetail-header-beforeBtn'>{/* 목록 */}
+        <div className='moimDetail-header-beforeBtn' onClick={()=>navigate('/moim')} style={{cursor:'pointer'}}>
           <FontAwesomeIcon icon={faList} size='lg'style={{color: '#6a60a9'}}/>
         </div>
         {moimInfo &&
           <>
             <div className='moimDetail-header-category'>{moimInfo.category}</div>
-            <div className='moimDetail-header-title'>{moimInfo.moimname}</div>
+            <div className='moimDetail-header-title' onClick={()=>navigate(`/moim/${id}/home`)} style={{cursor:'pointer'}}>{moimInfo.moimname}</div>
           </>
         }
       </div>
 
-      <div className='MoimDetailBoard-Comm-WriteBox'>
-        <div className='MoimDetailBoard-Comm-WriteBox-Header'>
-          <select className='MoimDetailBoard-Comm-WriteBox-category' name="categories"  onChange={changeHandler} style={{ color: selectedColor }}>
-            <option defaultValue={''} hidden >카테고리</option>
-            {
-              (moimMemberInfo?.memberRole === 'member' ? commCategory: commLeaderCategory).map((data, i)=>( // 리더,매니저랑 멤버의 게시글 차이
-                <option key={i}>{data}</option>
-              ))  
-            }
-            
-          </select>
-          <input placeholder='제목을 입력해주세요 (최대 30글자)' name='postname'
-                 value={moimCommInfo.postname} onChange={changeHandler}
-          />
-        </div>
-        <div className='MoimDetailBoard-Comm-WriteBox-body'>
+
+      <div className="AddComm moimCommCustomMargin" style={{width: '100%', margin: '0'}}>
+        <div className='post' style={{marginTop: '1rem'}}>
+          <div className='category-postName'>
+            <select
+              name='categories'
+              onChange={changeHandler}
+              style={{ color: moimCommInfo.categories ? '#000000' : '#666' }}
+              >
+              <option value='' hidden>카테고리</option>
+              {(moimMemberInfo?.memberRole === 'member' ? commCategory: commLeaderCategory).map((data, i)=>( // 리더,매니저랑 멤버의 게시글 차이
+                  <option key={i}>{data}</option>
+              ))}
+            </select>
+            <input
+              name='postname'
+              value={moimCommInfo.postname}
+              placeholder='제목을 입력해주세요 (최대 30글자)'
+              onChange={changeHandler}
+              // ref={postnameRef}
+            />
+          </div>
+          <div className='quill'>
           <QuillEditor moimCommInfo={moimCommInfo} setMoimCommInfo={setMoimCommInfo} setUploadedImages={setUploadedImages} contentRef={contentRef}/>
+          </div>
         </div>
+      
+        <button className='MoimDetailBoard-Comm-WriteBox-btn'
+                disabled={!moimCommSubmitCheck}
+                onClick={moimCommContentHandler}
+                style={{width:'100%'}}
+        >완료</button>
       </div>
       
-      <button className='MoimDetailBoard-Comm-WriteBox-btn'
-              disabled={!moimCommSubmitCheck}
-              onClick={moimCommContentHandler}
-      >완료</button>
 
     </div>
   )

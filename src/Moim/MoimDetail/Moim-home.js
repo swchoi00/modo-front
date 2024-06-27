@@ -222,7 +222,7 @@ useEffect(()=>{
     <div className='MoimDetail-container' onClick={handleOutsideClick}>
 
       {/* 모임 헤더*/}
-    <MoimDetailHeader moimCategory = {moimInfo.category} moimName = {moimInfo.moimname} moimMenuCk={moimMenuCk} id={id} userInfo={userInfo}/>
+    <MoimDetailHeader isAuth={isAuth} moimCategory = {moimInfo.category} moimName = {moimInfo.moimname} moimMenuCk={moimMenuCk} id={id} userInfo={userInfo}/>
       
       <div className={`moimDetail-moimInfoBox ${moimMenuCk !== '홈' ? 'moimDetail-moimMenu-notShow' : ''}`}>
         <div className='moimDetail-moimInfo-imageBox'>

@@ -7,7 +7,7 @@ import MoimDetailBoardCommReply from "./MoimDetail-BoardComm-Reply";
 import QuillEditor from "../../quill/QuillEditor";
 import * as DOMPurify from "dompurify";
 
-const MoimDetailBoardCommDetail = ({ isAuth, userInfo }) => {
+const MoimDetailBoardCommDetail = ({ isAuth, userInfo,setMoimPageRef }) => {
 
   const { id } = useParams();
   const { no } = useParams();
@@ -147,11 +147,11 @@ const MoimDetailBoardCommDetail = ({ isAuth, userInfo }) => {
   return (
     <div className='CommDetail' style={{ marginTop: '0' }}>
       <div className='moimDetail-headerBox' style={{ marginBottom: '1rem' }}>
-        <div className='moimDetail-header-beforeBtn'>{/* 목록 */}
+        <div className='moimDetail-header-beforeBtn'  onClick={()=>navigate(`/moim`)} style={{cursor:'pointer'}}>
           <FontAwesomeIcon icon={faList} size='lg' style={{ color: '#6a60a9' }} />
         </div>
         <div className='moimDetail-header-category'>{moimInfo?.category}</div>
-        <div className='moimDetail-header-title'>{moimInfo?.moimname}</div>
+        <div className='moimDetail-header-title'  onClick={()=>navigate(`/moim/${id}/home`)} style={{cursor:'pointer'}}>{moimInfo?.moimname}</div>
       </div>
       {
         comm &&
@@ -204,8 +204,8 @@ const MoimDetailBoardCommDetail = ({ isAuth, userInfo }) => {
         )}
       </div>
 
-      <div className='commListBtn' style={{ borderTop: '1px solid rgb(243, 242, 242)' }}>
-        <button onClick={() => navigate(-1)}>목록</button>
+      <div className='commListBtn' style={{ borderTop: moimCommUpdate ? '': '1px solid rgb(243, 242, 242)' }}>
+        <button onClick={() => {navigate(`/moim/${moimInfo.id}/board`); setMoimPageRef("comm");}}>목록</button>
       </div>
 
       <MoimDetailBoardCommReply isAuth={isAuth} userInfo={userInfo} id={id} no={no} setUpdateReplyCnt={setUpdateReplyCnt} />
