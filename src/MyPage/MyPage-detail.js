@@ -8,7 +8,7 @@ import MyPageDetailActivity from './MyPage-Component/MyPage-detail-activity';
 import MyPageDetailSchedule from './MyPage-Component/MyPage-detail-schedule';
 import sorryIcon from '../Img/sorryIcon.svg';
 
-const MyPageDetail = ({userInfo, setUserInfo, myPageDetail,setMyPageDetail, isAuth, currentPage, setCurrentPage})=>{
+const MyPageDetail = ({userInfo, setUserInfo, myPageDetail,setMyPageDetail, isAuth, setIsAuth, currentPage, setCurrentPage})=>{
   // **myPageDetail이건 상세 페이지 (내 활동 : 내 모임, 관심모임, 모임 글, 커뮤니티 글/ 내 모임 일정 : 참여 중 모임, 지난 모임 구분용)
   // myPageDetail에 값이 없으면 마이페이지로 들어온거임
   const navigate = useNavigate();
@@ -39,7 +39,7 @@ const MyPageDetail = ({userInfo, setUserInfo, myPageDetail,setMyPageDetail, isAu
         
         <div className='myPageBodyBox'>
           {
-            myPageDetail?.title === '계정설정' ? <MyPageDetailAccount userInfo={userInfo} setUserInfo={setUserInfo} pageType={myPageDetail.type}/>
+            myPageDetail?.title === '계정설정' ? <MyPageDetailAccount userInfo={userInfo} setUserInfo={setUserInfo}setIsAuth={setIsAuth}/>
             :
             myPageDetail?.title === '내 활동' ? <MyPageDetailActivity userInfo={userInfo} setMyPageDetail={setMyPageDetail}pageType={myPageDetail.type} isAuth={isAuth} setUserInfo={setUserInfo} currentPage={currentPage} setCurrentPage={setCurrentPage}/>
             :

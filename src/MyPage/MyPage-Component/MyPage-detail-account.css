@@ -153,6 +153,10 @@
   padding: 0.2rem 0 0 0.5rem;
 }
 
+.deleteAccountBtn{
+  cursor: pointer;
+  color: gray;
+}
 
 @media screen and (max-width: 1050px){
   #myPageAccount .profileInfo{

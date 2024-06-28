@@ -172,9 +172,9 @@ function App() {
 
           <Route path='/signUp' element={<SignUp />}></Route>
           <Route path='/login' element={<Login userInfo={userInfo} setUserInfo={setUserInfo} isAuth={isAuth} setIsAuth={setIsAuth} />}></Route>
-          <Route path='/myPage' element={<MyPage isAuth={isAuth}userInfo={userInfo} setInquiryList={setInquiryList} setMyPageDetail={setMyPageDetail}/>}></Route>
+          <Route path='/myPage' element={<MyPage isAuth={isAuth} userInfo={userInfo} setIsAuth={setIsAuth} setUserInfo= {setUserInfo} setInquiryList={setInquiryList} setMyPageDetail={setMyPageDetail}/>}></Route>
           <Route path='/myPage/detail' element={<MyPageDetail userInfo={userInfo} setUserInfo={setUserInfo} myPageDetail={myPageDetail} setMyPageDetail={setMyPageDetail}
-                                                              isAuth={isAuth} currentPage={currentPage} setCurrentPage={setCurrentPage} />}></Route>
+                                                              setIsAuth={setIsAuth} isAuth={isAuth} currentPage={currentPage} setCurrentPage={setCurrentPage} />}></Route>
           <Route path='/oauth/kakao' element={<KakaoLogin setUserInfo={setUserInfo} isAuth={isAuth} setIsAuth={setIsAuth} />}></Route>
           <Route path='/oauth/google' element={<GoogleLogin setUserInfo={setUserInfo} isAuth={isAuth} setIsAuth={setIsAuth} />}></Route>
           <Route path='/oauth/naver' element={<NaverLogin setUserInfo={setUserInfo} isAuth={isAuth} setIsAuth={setIsAuth} />}></Route>

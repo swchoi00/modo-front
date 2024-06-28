@@ -5,7 +5,7 @@ import './MyPage.css';
 import sorryIcon from '../Img/sorryIcon.svg';
 import { is } from "date-fns/locale";
 
-function MyPage({ isAuth, userInfo, setInquiryList, setMyPageDetail }) {
+function MyPage({ isAuth, userInfo, setIsAuth, setUserInfo, setInquiryList, setMyPageDetail }) {
   const navigate = useNavigate();
   const [activityData, setActivityData] = useState({'moim': 0, 'likemoim': userInfo?.likedMoim?.length || 0, 'moimComm': 0, 'comm' : 0});
 
@@ -65,6 +65,19 @@ function MyPage({ isAuth, userInfo, setInquiryList, setMyPageDetail }) {
       setInquiryList(true); // 이게 inquiry 컴포넌트에서 페이지 보여주는 핸들러
       navigate('/inquiry');
     }
+  }
+
+  //로그아웃 핸들러
+  const logoutHandler = () => {
+    sessionStorage.removeItem('jwt');
+    sessionStorage.removeItem('userInfo');
+    sessionStorage.removeItem('myPage');
+    setUserInfo({
+      username : '',
+      nickname : ''
+    });
+    setIsAuth(false);
+    navigate('/');
   }
 
     return (
@@ -137,7 +150,7 @@ function MyPage({ isAuth, userInfo, setInquiryList, setMyPageDetail }) {
             </div>
           </div>
 
-          <div style={{color:'red'}}>로그아웃 버튼만들기</div>
+          <div className="logoutBtn" onClick={logoutHandler}>로그아웃</div>
 
 
         </div>

@@ -146,6 +146,13 @@
     border-radius: 3rem;
     margin-top: 1rem;
   }
+
+  .logoutBtn {
+    cursor: pointer;
+    margin-top: 4rem;
+    text-align: left;
+    color: gray;
+  }
   
   
   @media screen and (max-width: 1050px) {

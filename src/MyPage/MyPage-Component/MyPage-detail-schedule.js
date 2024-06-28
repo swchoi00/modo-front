@@ -63,6 +63,7 @@ const MyPageDetailSchedule = ({ userInfo, setMyPageDetail, pageType }) => {
     return groups;
   };
 
+  // 날짜별 데이터 받아오는 작업 위에 작업 호출
   const groupedSchedules = groupByDate(filteredSchedules);
 
   //Dday 계산
@@ -91,7 +92,7 @@ const MyPageDetailSchedule = ({ userInfo, setMyPageDetail, pageType }) => {
             <div className='scheduleDate'>{date}<span>{moimScheduleDday(schedules[0].scheduleStartDate)}</span></div>
             <div className='oneDaySchedule'>
             {schedules.map((data) => (
-              <div className="scheduleBody" key={data.scheduleNo}>
+              <div className="scheduleBody" key={data.scheduleNo} onClick={()=>navigate(`/moim/${data.moim_id}/schedule/${data.scheduleNo}`)}>
                 <div className='mobliescheduleName'>{data.scheduleName}</div>
                 <div className='moblieBody'>
                   <div className="schedulePhoto" style={{ backgroundImage: `url(${imsiImg})` }} />

@@ -3,9 +3,11 @@ import { faCamera,faXmark } from '@fortawesome/free-solid-svg-icons';
 import './MyPage-detail-account.css';
 import axiosInstance from '../../axiosInstance';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // 계정 설정 페이지
-const MyPageDetailAccount = ({userInfo, setUserInfo, pageType})=>{
+const MyPageDetailAccount = ({userInfo, setUserInfo, setIsAuth})=>{
+  const navigate = useNavigate();
   const userEmail = (username) => {return username.replace(/^\([ng]\)/, '');}; // 이메일 앞에 (n) 이런거 제거하는 정규식
   const [isUpdate,setIsUpdate] = useState(false);
   const [imageUrl, setImageUrl] = useState(null);// [미리보기용] 이미지 주소 저장 경로 
@@ -140,17 +142,17 @@ const nicknameCheck = () => {
         setPwNewMsg('');
         setPwCheck({...pwCheck, 'new' : true}); // 정규식 통과하면 true값으로 변경
         setUpdateData({...updateData,[id]: value});
+        
         if(updateData.newPassword2 !== ''){ // 새로운 비밀 번호 바꼈을 때 확인 비밀번호 값과 확인 한 번 더
           if(value === updateData.newPassword2) {
             setPwNewMsg2('');
-            setPwCheck({...pwCheck, 'new2' : true}); // 정규식 통과하면 true값으로 변경
+            setPwCheck({...pwCheck, 'new' : true, 'new2' : true}); // 정규식 통과하면 true값으로 변경
             setUpdateData({...updateData,[id]: value});
           } else {
             setPwNewMsg2("*새로운 비밀번호가 일치하지 않아요");
-            setPwCheck({...pwCheck, 'new2' : false}); // 정규식 통과하면 true값으로 변경
+            setPwCheck({...pwCheck, 'new' : true, 'new2' : false}); // 정규식 통과하면 true값으로 변경
           }
         }
-
       } else {
         setPwNewMsg("*영문, 숫자, 특수문자 조합 8자 이상으로 작성해주세요");
         setPwCheck({...pwCheck, 'new' : false}); // 정규식 통과하면 true값으로 변경
@@ -168,7 +170,7 @@ const nicknameCheck = () => {
       setUpdateData({...updateData,[id]: value});
       setPwMsg("");
     }
-  }
+  };
 
 
 
@@ -198,9 +200,28 @@ const nicknameCheck = () => {
         console.log(error);
       })
     }
-
   }
 
+// 회원 탈퇴 핸들러 (상운)
+  const deleteAccountHandler = ()=>{
+    let answer = window.confirm("탈퇴하시겠습니까? 탈퇴한 계정은 복구할 수 없습니다 🥲");
+    if(answer){
+      axiosInstance.delete(`deleteAccount/${userInfo.id}`)
+      .catch((response)=>{
+        alert(response.data); // 서버에서 회원 탈퇴 완료 메세지 보내주기
+        sessionStorage.removeItem('jwt');
+        sessionStorage.removeItem('userInfo');
+        sessionStorage.removeItem('myPage');
+        setUserInfo({
+          username : '',
+          nickname : ''
+        });
+        setIsAuth(false);
+        navigate('/');
+      })
+
+    }
+  }
 
   return(
     <div id='myPageAccount'>
@@ -305,7 +326,7 @@ const nicknameCheck = () => {
       }
      </div>
 
-     <div style={{color:'red'}}>회원탈퇴 버튼만들기</div>
+     <div className='deleteAccountBtn' onClick={deleteAccountHandler}>회원탈퇴</div>
 
     </div>
   )
