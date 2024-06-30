@@ -30,7 +30,9 @@ function KakaoLogin( {setUserInfo, setIsAuth} ) {
           setIsAuth(true);
           navigate('/');
           // navigate(-2);
-        }
+        } else {
+          navigate('/1', {state : response.data});
+      }
 
       }).catch(error => {
         console.log(error);

@@ -52,17 +52,17 @@ function AdminMember({ selectedMenu, currentPage, setCurrentPage }) {
 
   // ⭐⭐⭐ 회원 선택한 번호<List> 삭제하기
   const removeHandler = () => {
-    axiosInstance.delete('/deleteMemberList', checkList)
+    axiosInstance.delete('/deleteMemberList', { data: checkList })
       .then((response) => {
         alert(response.data);
-
+  
         axiosInstance.get('/getMemberList')
           .then((response) => {
             setMemberList(response.data);
           }).catch((error) => {
             console.log(error);
           });
-
+  
       }).catch((error) => {
         console.log(error);
       });
@@ -131,7 +131,7 @@ function AdminMember({ selectedMenu, currentPage, setCurrentPage }) {
                       <td>{data.username}</td>
                       <td>{data.oauth}</td>
                       <td>{data.createDate}</td>
-                      <td>참여모임수</td>
+                      <td>{data.participatedMoimCount}</td>
                     </tr>
                   )
                 })

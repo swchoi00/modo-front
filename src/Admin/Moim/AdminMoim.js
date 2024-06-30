@@ -51,7 +51,7 @@ function AdminMoim({ currentPage, setCurrentPage }) {
 
   // ⭐⭐⭐ 1:1문의 선택한 번호<List> 삭제하기
   const removeHandler = () => {
-    axiosInstance.delete('/deleteMoimList', checkList)
+    axiosInstance.delete('/deleteMoimList', { data: checkList })
       .then((response) => {
         alert(response.data);
 

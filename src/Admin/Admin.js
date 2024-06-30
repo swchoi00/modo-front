@@ -9,7 +9,7 @@ import AdminFAQ from './FAQ/AdminFAQ';
 import AdminInquiry from './Inquiry/AdminInquiry';
 import AdminNotice from './Notice/AdminNotice';
 
-const Admin = ({isAuth, setIsAuth, userInfo, setUserInfo, currentPage, setCurrentPage }) => {
+const Admin = ({ isAuth, setIsAuth, userInfo, setUserInfo, currentPage, setCurrentPage }) => {
   const [selectedMenu, setSelectedMenu] = useState(() => localStorage.getItem('selectedMenu') || 'login');
   const sidebarMenu = ['회원관리', '모임 관리', '커뮤니티 관리', 'FAQ 관리', '1:1문의 관리', '공지사항 관리'];
 
@@ -23,34 +23,46 @@ const Admin = ({isAuth, setIsAuth, userInfo, setUserInfo, currentPage, setCurren
   }, [selectedMenu]);
 
   const changeHandler = (e) => {
-    setLoginData({
+    setLoginData((prevData) => ({
+      ...prevData,
       [e.target.name]: e.target.value
-    })
-  }
+    }));
+    console.log(loginData);
+  };
 
   // ⭐⭐⭐ 로그인 정보 서버에 보내기
-  const loginBtnHandler = () => {
-    axiosInstance.post('/????????????????', loginData)
+  const loginBtnHandler = (e) => {
+    e.preventDefault(); // 새로고침 방지
+    console.log(loginData);
+    axiosInstance.post('/adminLogin', loginData)
       .then((response) => {
-        alert(response.data);
+
+        console.log(response.data);
+        const jwt = response.headers.authorization;
+        const adminInfo = response.data.admin[0];
+        sessionStorage.setItem('jwt', jwt);
+        sessionStorage.setItem('adminInfo', JSON.stringify(adminInfo));
+        setUserInfo(response.data.admin[0]);
+        setIsAuth(true)
+
+        alert("관리자 로그인 완료");
         setSelectedMenu('회원관리');
       }).catch((error) => {
-        console.log(error);
-      });
-  }
 
+        if (error.response && error.response.status === 401) {
+          alert("관리자만 로그인 할 수 있습니다");
+        } else {
+          console.error("로그인 오류:", error);
+        }
+      });
+  };
 
   return (
     <>
       <AdminSidebar isAuth={isAuth} userInfo={userInfo} selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} sidebarMenu={sidebarMenu} />
       <div className='Admin'>
-
         <div className='header'>
           <div>관리자 페이지</div>
-          {/* {
-          userInfo.role === "ADMIN" && (
-            <button onClick={() => setSelectedMenu('login')}>로그아웃</button>
-          )} */}
         </div>
         {
           selectedMenu === 'login' &&
@@ -93,13 +105,9 @@ const Admin = ({isAuth, setIsAuth, userInfo, setUserInfo, currentPage, setCurren
           selectedMenu === '공지사항 관리' &&
           <AdminNotice selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} currentPage={currentPage} setCurrentPage={setCurrentPage} />
         }
-
-
-
-
       </div>
     </>
-  )
-}
+  );
+};
 
 export default Admin;
