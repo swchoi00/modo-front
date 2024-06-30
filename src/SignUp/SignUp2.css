@@ -1,0 +1,78 @@
+.join-container{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.join-container h3{
+  margin: 4.5rem 0 2.5rem;
+}
+
+.join-typeBox{
+  width: 20rem;
+  align-content: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.join-typeBox button{
+  height: 3.3rem;
+  width: 100%;
+  border-radius: 0.5rem;
+  letter-spacing:1px; /*⭐ 글자 간격 / 자간 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+
+
+.join-typeBox img{
+  width: 30px;
+  margin-right: 5px; 
+}
+
+.join-typeBox span{
+  font-size: 108%;
+  font-weight: 600;
+}
+
+
+.join-email{
+  background-color: white;
+  border: 0.15rem solid #766CB6;
+  background-color: #766CB6;
+}
+
+
+.join-naver {
+  background-color: #63C33D;
+  color: white;
+  letter-spacing:1px; /*⭐ 글자 간격 / 자간 */
+  border: 1px solid #63C33D;
+}
+
+.join-kakao {
+  background-color:#FCE84D;
+  color: #333333;
+  border: 1px solid #FCE84D;
+}
+
+.join-google{
+  background-color: #D84B3D;
+  color: white;
+  border: 1px solid #D84B3D;
+}
+
+
+.join-apple{
+  background-color:#333333;
+  color: #333333;
+  border: 1px solid #333333;
+}
+

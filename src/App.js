@@ -46,6 +46,8 @@ import MoimDetailBoardScheduleDetail from './Moim/MoimDetailInnerComponent/MoimD
 import MoimDetailBoardScheduleDetailMember from './Moim/MoimDetailInnerComponent/MoimDetail-BoardSchedule-Detail-Member';
 import MoimDetailBoardCommDetail from './Moim/MoimDetailInnerComponent/MoimDetail-BoardComm-Detail';
 import MyPageDetail from './MyPage/MyPage-detail';
+import SignUpPage from './SignUp/SignUp2';
+import SignUpSocial from './SignUp/SignUpSocial';
 
 
 
@@ -171,6 +173,8 @@ function App() {
           {/* <Route path='/inquiryForm_write' element={<InquiryForm_write userInfo={userInfo} />}/> */}
 
           <Route path='/signUp' element={<SignUp />}></Route>
+          <Route path='/signUpPage' element={<SignUpPage />}></Route>
+          <Route path='/signUpSocial' element={<SignUpSocial setIsAuth={setIsAuth} setUserInfo={setUserInfo}/>} />
           <Route path='/login' element={<Login userInfo={userInfo} setUserInfo={setUserInfo} isAuth={isAuth} setIsAuth={setIsAuth} />}></Route>
           <Route path='/myPage' element={<MyPage isAuth={isAuth} userInfo={userInfo} setIsAuth={setIsAuth} setUserInfo= {setUserInfo} setInquiryList={setInquiryList} setMyPageDetail={setMyPageDetail}/>}></Route>
           <Route path='/myPage/detail' element={<MyPageDetail userInfo={userInfo} setUserInfo={setUserInfo} myPageDetail={myPageDetail} setMyPageDetail={setMyPageDetail}

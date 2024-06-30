@@ -6,6 +6,11 @@ import { useEffect, useState } from 'react';
 function Login( {userInfo, setUserInfo, setIsAuth} ) {
 
     const navigate = useNavigate();
+    const [loginBtn, setLoginBtn] = useState(false);
+    const [loginData, setLoginData] = useState({
+        username : '',
+        password : ''
+    });
 
     useEffect(() => {
         const jwt = sessionStorage.getItem('jwt');
@@ -19,10 +24,6 @@ function Login( {userInfo, setUserInfo, setIsAuth} ) {
         alert('서비스 준비중입니다!');
     }
 
-    const [loginData, setLoginData] = useState({
-        username : '',
-        password : ''
-    });
 
     const idPwHandler = (e) => {
         const {id , value} = e.target;
@@ -33,8 +34,22 @@ function Login( {userInfo, setUserInfo, setIsAuth} ) {
 
     }
 
+    useEffect(()=>{
+        if(loginData.username !== '' && loginData.password !== ''){
+            setLoginBtn(true);
+        }else{
+            setLoginBtn(false);
+        }
+    },[loginData])
+
+
     const LoginBtnHandler = (e) => {
         e.preventDefault();
+
+        if(loginData.username === '' && loginData.password === ''){
+            alert("아이디 및 비밀번호를 입력해주세요");
+            return;
+        }
 
         axiosInstance.post('/login', loginData)
         .then((response => {
@@ -46,7 +61,7 @@ function Login( {userInfo, setUserInfo, setIsAuth} ) {
             sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
             setUserInfo(response.data.member[0]);
             setIsAuth(true);
-            navigate(-1);
+            navigate('/');
 
             
         }))
@@ -78,14 +93,17 @@ function Login( {userInfo, setUserInfo, setIsAuth} ) {
                 <br></br>
 
                 <div className='loginBtnWrapper'>
-                    <button className='loginBtn' onClick={LoginBtnHandler}>로그인하기</button>
+                    <button className='loginBtn' onClick={LoginBtnHandler} disabled={!loginBtn} 
+                            style={{backgroundColor: loginBtn? '#a472ff' : '#C2C2C2'}}>로그인하기</button>
                 </div>
 
                 <div className='findIdPwWrapper'>
                     <div className='findIdPw'>
-                        <Link className='findId' to={"/"}>아이디 찾기</Link>
+                        <span className='findId' onClick={() => { alert("해당 서비스는 준비 중이에요🥲"); }}>아이디 찾기</span>
+                        {/* <Link className='findId' to={"/"}>아이디 찾기</Link> */}
                         <div className='divider'>│</div>
-                        <Link className='findPw' to={"/"}>비밀번호 찾기</Link>
+                        <span className='findPw' onClick={() => { alert("해당 서비스는 준비 중이에요🥲"); }}>비밀번호 찾기</span>
+                        {/* <Link className='findPw' to={"/"}>비밀번호 찾기</Link> */}
                         <div className='divider'>│</div>
                         <Link className='signUp' to={"/signUp"}>회원가입</Link>
                     </div>

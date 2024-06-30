@@ -40,6 +40,7 @@ const MoimHome = ({isAuth, userInfo, setUserInfo, moimInfo, setMoimInfo, setMoim
     axiosInstance.get(`/moimInfo/${id}`)
     .then((response) => {
       setMoimInfo(response.data); // 모임 정보 저장
+      console.log(response.data);
     })
     .catch((error) => {
         console.log(error);
@@ -79,6 +80,12 @@ useEffect(()=>{
  // 모임 가입 핸들러
  const joinMoimHandler =()=>{
   if(isAuth && userInfo){ //(로그인 유무, 유저 정보 확인)
+    // 강퇴멤버 여부
+    // if(moimInfo.blockedMember.includes(userInfo.id)){
+    //   alert("모임에 강퇴된 멤버는 다시 가입 할 수 없어요");
+    //   navigate('/moim');
+    //   return;
+    // }
     axiosInstance.post(`/joinMoim/${id}`, userInfo.id)
     .then((response)=>{
       setMoimMemberList(response.data); // userinfo 컴포넌트에 member 정보 업데이트

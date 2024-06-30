@@ -68,7 +68,7 @@ const Header = ( {isAuth, setIsAuth, userInfo, setUserInfo} ) =>{
           </>
           :  
           <>
-          <Link className='nav-aTag' to = {"/signUp"}>회원가입</Link>
+          <Link className='nav-aTag' to = {"/signUpPage"}>회원가입</Link>
           <Link className='nav-loginBtn' to = {"/login"}>로그인</Link>
           </>
           }
@@ -109,7 +109,7 @@ const Header = ( {isAuth, setIsAuth, userInfo, setUserInfo} ) =>{
             <div className='headerSide-menu-inner1'>
               <h5>로그인 후 이용해주세요 :-)</h5>
               <Link to = {"/login"} onClick={handleMenuOpen}><button>로그인</button></Link>
-              <p>아직 회원이 아니라면? <Link className='headerSide-join' to = {"/signUp"} onClick={handleMenuOpen}>회원가입 하러가기</Link></p>
+              <p>아직 회원이 아니라면? <Link className='headerSide-join' to = {"/signUpPage"} onClick={handleMenuOpen}>회원가입 하러가기</Link></p>
             </div>
           }
           
