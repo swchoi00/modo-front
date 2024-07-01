@@ -6,13 +6,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import SignUpModal from './SignUpModal';
 import TermsContents from './TermsContents';
+import axios from 'axios';
 
 const SignUpSocial = ({setIsAuth, setUserInfo})=>{
-    const navigator = useNavigate();
+    const navigate = useNavigate();
 
     const location = useLocation(); // 소셜로그인 시도할때 서버에서 받아준 기본정보 navigator로 받아옴
-    const [snsJoinUser, setSnsJoinUser] = useState(location.state); // user 객체는 location.state안에 있음으로 해당 정보 userInfo에 넣어줌
-    
+    // const [snsJoinUser, setSnsJoinUser] = useState(location.state); // user 객체는 location.state안에 있음으로 해당 정보 userInfo에 넣어줌
+    const [snsJoinUser, setSnsJoinUser] = useState(location.state.data);
+    const [accessToken] = useState(location.state.accessToken);
+
+    console.log('Access Token:', accessToken);
+
     const [newNickname, setNewNickname] = useState('');
     const [allChecked, setAllChecked] = useState(false);
     const [termsCK, setTermsCk] = useState({terms1: false, terms2: false, terms3: false});
@@ -22,6 +27,7 @@ const SignUpSocial = ({setIsAuth, setUserInfo})=>{
     const [signUpBtn, setSignUpBtn] = useState(false); // 회원가입 버튼 가능 여부
 
 
+  
     // 약관 보기 모달 관련
     const [modalOpen, setModalOpen] = useState(false);
     const [modalTitle, setModalTitle] = useState(false);
@@ -66,7 +72,8 @@ const SignUpSocial = ({setIsAuth, setUserInfo})=>{
         alert("닉네임은 한글, 영어, 숫자를 포함한 8글자까지 가능합니다")
       }
     }
-
+    
+    console.log(snsJoinUser);
     // 전체 약관 체크
     const handleAllCheck = () => {
       const newAllChecked = !allChecked;
@@ -98,8 +105,33 @@ const SignUpSocial = ({setIsAuth, setUserInfo})=>{
     
 
 // ✅✅ 회원가입정보 서버에 보내서 저장
+  // const snsSignUpHandler = () => {
+  //   axiosInstance.post('/oauth/join', snsJoinUser)
+  //     .then((response) => {
+  //       const jwt = response.headers.authorization;
+  //       if (jwt) {
+  //         const userInfo = response.data.member[0];
+  //         sessionStorage.setItem('jwt', jwt);
+  //         sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
+  //         setUserInfo(response.data.member[0]);
+  //         setIsAuth(true);
+  //         navigator('/'); // 홈화면으로 이동
+  //       }
+  //     }).catch(error => {
+  //       console.log(error);
+  //       alert("😡로그인 실패😡");
+  //     })
+  // }
   const snsSignUpHandler = () => {
-    axiosInstance.post('/oauth/join', snsJoinUser)
+    const config = {
+      headers: {
+      'Authorization': `Bearer ${accessToken}`
+    }
+  }
+    // axiosInstance.post('/oauth/join', snsJoinUser, config)
+    axios.post(`${process.env.REACT_APP_SERVER_URL}/oauth/join`, snsJoinUser)  
+
+  
       .then((response) => {
         const jwt = response.headers.authorization;
         if (jwt) {
@@ -108,13 +140,13 @@ const SignUpSocial = ({setIsAuth, setUserInfo})=>{
           sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
           setUserInfo(response.data.member[0]);
           setIsAuth(true);
-          navigator('/'); // 홈화면으로 이동
+          navigate('/');
         }
       }).catch(error => {
         console.log(error);
         alert("😡로그인 실패😡");
-      })
-  }
+      });
+  };
 
   return (
     <div className="SignUp">

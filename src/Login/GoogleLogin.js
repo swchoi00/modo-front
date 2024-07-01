@@ -23,7 +23,8 @@ function GoogleLogin ( {setUserInfo, isAuth, setIsAuth}) {
                 setIsAuth(true);
                 navigate('/');
             }else{
-                navigate('/signUpSocial', {state : response.data});
+                // navigate('/signUpSocial', {state : response.data});
+                navigate('/signUpSocial', { state: { data: response.data, accessToken: accessToken } });
             }
         }).catch(error => {
             alert('로그인 실패')
