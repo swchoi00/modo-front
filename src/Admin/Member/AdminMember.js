@@ -196,7 +196,7 @@ function AdminMember({ selectedMenu, currentPage, setCurrentPage }) {
                       <td>{data.username}</td>
                       <td>{data.oauth}</td>
                       <td>{data.createDate}</td>
-                      <td>참여모임수</td>
+                      <td>{data.participatedMoimCount}</td>
                     </tr>
                   )
                 })

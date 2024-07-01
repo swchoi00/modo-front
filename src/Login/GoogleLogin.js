@@ -23,6 +23,8 @@ function GoogleLogin ( {setUserInfo, isAuth, setIsAuth}) {
                 // navigate(-3);
                 navigate('/');
               
+            } else {
+                navigate('/1', {state : response.data});
             }
         }).catch(error => {
             alert('로그인 실패')

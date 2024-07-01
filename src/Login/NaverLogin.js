@@ -24,7 +24,11 @@ function NaverLogin ( {setIsAuth, setUserInfo} ) {
                 setUserInfo(response.data.member[0]);
                 setIsAuth(true);
                 navigate('/');
+            } else {
+                navigate('/1', {state : response.data});
             }
+
+
         }).catch(error => {
             console.log(error);
         })
