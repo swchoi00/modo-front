@@ -30,12 +30,13 @@
 
 .AdminComm input {
   padding-left: 10px;
-  width: 77%;
+  width: 80%;
   outline: none;
   border: none;
 }
 
 .AdminComm select {
+  width: 5rem;
   outline: none;
   border: none;
 }

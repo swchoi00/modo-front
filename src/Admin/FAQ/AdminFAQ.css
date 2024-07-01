@@ -36,6 +36,7 @@
 }
 
 .AdminFAQ select {
+  width: 5rem;
   outline: none;
   border: none;
 }

@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import axiosInstance from '../../axiosInstance';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch as searchIcon } from '@fortawesome/free-solid-svg-icons';
+import { faCaretUp as up } from '@fortawesome/free-solid-svg-icons';
+import { faCaretDown as down } from '@fortawesome/free-solid-svg-icons';
 import Table from 'react-bootstrap/Table';
 import './AdminMoim.css';
 import PaginationComponent from '../../Pagination/PaginationComponent';
@@ -11,15 +13,26 @@ function AdminMoim({ currentPage, setCurrentPage }) {
   const [moimList, setMoimList] = useState([]);
   const [checkList, setCheckList] = useState([]);
   const [allChecked, setAllChecked] = useState(false);
+  const [filteredList, setFilteredList] = useState([]);
+  const [searchOption, setSearchOption] = useState('전체');
+  const [searchKeyword, setSearchKeyword] = useState('');
+  const [sortOrder, setSortOrder] = useState('asc');
+
+  const getMoimList = () => {
+    axiosInstance.get('/moimList')
+    .then((response) => {
+      const sortedData = response.data.sort((a, b) => a.id - b.id);
+      setMoimList(sortedData);
+      setFilteredList(sortedData);
+    }).catch((error) => {
+      console.log(error);
+    });
+  };
 
   useEffect(() => {
-    axiosInstance.get('/moimList')
-      .then((response) => {
-        setMoimList(response.data);
-      }).catch((error) => {
-        console.log(error);
-      });
+    getMoimList();
   }, []);
+
 
   useEffect(() => {
     if (moimList.length > 0 && checkList.length === moimList.length) {
@@ -51,38 +64,87 @@ function AdminMoim({ currentPage, setCurrentPage }) {
 
   // ⭐⭐⭐ 1:1문의 선택한 번호<List> 삭제하기
   const removeHandler = () => {
-    axiosInstance.delete('/deleteMoimList', checkList)
+    axiosInstance.delete('/deleteMoimList', {data: checkList})
       .then((response) => {
         alert(response.data);
-
-        axiosInstance.get('/moimList')
-          .then((response) => {
-            setMoimList(response.data);
-          }).catch((error) => {
-            console.log(error);
-          });
+        getMoimList();
 
       }).catch((error) => {
         console.log(error);
       });
   }
 
-  console.log(moimList);
-  console.log(checkList);
+  const searchChangeHandler = (e) => {
+    if (e.code === 'Enter') {
+      setSearchKeyword(e.target.value);
+      searchHandler();
+    }
+    setSearchKeyword(e.target.value);
+  }
+
+  const searchHandler = () => {
+    const filteredMoimList = moimList.filter(moim => {
+      if (searchOption === '전체') {
+        return Object.values(moim).some(value =>
+          String(value).toLowerCase().includes(searchKeyword.toLowerCase())
+        );
+      }
+      if (searchOption === '카테고리') {
+        return moim.category.toLowerCase().includes(searchKeyword.toLowerCase());
+      }
+      if (searchOption === '모임명') {
+        return moim.moimname.toLowerCase().includes(searchKeyword.toLowerCase());
+      }
+      if (searchOption === '모임장') {
+        return moim.leader.nickname.toLowerCase().includes(searchKeyword.toLowerCase());
+      }
+      return true;
+    });
+
+    setFilteredList(filteredMoimList);
+  }
+
+  useEffect(() => {
+    if (searchKeyword?.length === 0) {
+      setFilteredList(moimList);
+      setSearchOption('전체');
+    }
+  }, [searchKeyword])
+
+  const sortHandler = () => {
+    const sortedData = [...filteredList].sort((a, b) => {
+      if (sortOrder === 'asc') {
+        return b.id - a.id;
+      } else {
+        return a.id - b.id;
+      }
+    });
+    setFilteredList(sortedData);
+    setSortOrder(prevOrder => (prevOrder === 'asc' ? 'desc' : 'asc'));
+  }
 
   return (
     <div className="AdminMoim">
       <div className='title-search-box'>
         <h2>모임관리</h2>
         <div className='search-box'>
-          <select>
-            <option>전체</option>
-            <option>모임번호</option>
-            <option>모임명</option>
-            <option>모임 카테고리</option>
+          <select value={searchOption} onChange={(e) => setSearchOption(e.target.value)}>
+            <option value="전체">전체</option>
+            <option value="카테고리">카테고리</option>
+            <option value="모임명">모임명</option>
+            <option value="모임장">모임장</option>
           </select>
-          <input placeholder='검색 (모임번호, 모임카테고리 등)'></input>
-          <FontAwesomeIcon icon={searchIcon} size='lg' style={{ color: '#9c9c9c' }} />
+          <input
+            placeholder='검색어를 입력해주세요.'
+            value={searchKeyword}
+            onChange={searchChangeHandler}
+            onKeyUp={searchChangeHandler}
+          />
+          <FontAwesomeIcon
+            icon={searchIcon}
+            size='lg'
+            style={{ color: '#9c9c9c' }}
+            onClick={searchHandler} />
         </div>
       </div>
 
@@ -98,7 +160,10 @@ function AdminMoim({ currentPage, setCurrentPage }) {
                   checked={allChecked}
                 />
               </th>
-              <th>번호</th>
+              <th onClick={sortHandler} style={{ cursor: 'pointer' }}>
+                번호
+                <FontAwesomeIcon icon={sortOrder === 'asc' ? up : down} style={{ color: '#9c9c9c', marginLeft: '0.5rem' }} />
+              </th>
               <th>카테고리</th>
               <th>모임명</th>
               <th>간단 설명</th>
@@ -109,7 +174,7 @@ function AdminMoim({ currentPage, setCurrentPage }) {
           </thead>
           <tbody>
             {
-              moimList
+              filteredList
                 .slice((currentPage - 1) * page, currentPage * page)
                 .map((data, i) => {
                   const isChecked = checkList.includes(data.id);
@@ -132,7 +197,7 @@ function AdminMoim({ currentPage, setCurrentPage }) {
                       <td>{data.moimname}</td>
                       <td>{data.introduction}</td>
                       <td>{data.city} / {data.town}</td>
-                      <td>{data.leader.nickname}</td>
+                      <td>{data.member_id}</td>
                       <td>{data.moimMemberNum}</td>
                     </tr>
                   )
@@ -145,12 +210,12 @@ function AdminMoim({ currentPage, setCurrentPage }) {
         </div>
       </div>
       {
-        moimList?.length !== 0 &&
+        filteredList?.length !== 0 &&
         <div className="paging">
           <PaginationComponent
             currentPage={currentPage}
             itemsPerPage={page}
-            totalItems={moimList.length}
+            totalItems={filteredList.length}
             onPageChange={(page) => setCurrentPage(page)}
             color="secondary"
           />

@@ -22,7 +22,7 @@ const Faq = ({ isAuth, currentPage, setCurrentPage }) => {
   const [openIndex, setOpenIndex] = useState(null); // 현재 열려있는 아코디언 인덱스
 
   useEffect(() => {
-    axiosInstance.get("/faq")
+    axiosInstance.get("/getFAQList")
       .then((response) => {
         setQuestionsList([
           ...faqMockData,

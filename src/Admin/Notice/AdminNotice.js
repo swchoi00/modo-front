@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import axiosInstance from '../../axiosInstance';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch as searchIcon } from '@fortawesome/free-solid-svg-icons';
+import { faCaretUp as up } from '@fortawesome/free-solid-svg-icons';
+import { faCaretDown as down } from '@fortawesome/free-solid-svg-icons';
 import Table from 'react-bootstrap/Table';
 import './AdminNotice.css';
 import PaginationComponent from '../../Pagination/PaginationComponent';
@@ -15,15 +17,24 @@ function AdminNotice({ selectedMenu, currentPage, setCurrentPage }) {
   const [allChecked, setAllChecked] = useState(false);
   const [modal, setModal] = useState(false);
   const [selectedNotice, setSelectedNotice] = useState(null);  // 선택된 게시물 상태 추가
+  const [filteredList, setFilteredList] = useState([]);
+  const [searchOption, setSearchOption] = useState('전체');
+  const [searchKeyword, setSearchKeyword] = useState('');
+  const [sortOrder, setSortOrder] = useState('asc');
 
-  useEffect(() => {
-    axiosInstance.get('/notice')
+  const getNoticeList = () => {
+    axiosInstance.get('/getNoticeList')
       .then((response) => {
-        setNoticeList(response.data);
-        // setNoticeList(noticeMockData.concat(response.data));
+        const sortedData = response.data.sort((a, b) => a.id - b.id);
+        setNoticeList(sortedData);
+        setFilteredList(sortedData);
       }).catch((error) => {
         console.log(error);
       });
+  };
+
+  useEffect(() => {
+    getNoticeList();
   }, []);
 
   useEffect(() => {
@@ -56,16 +67,10 @@ function AdminNotice({ selectedMenu, currentPage, setCurrentPage }) {
 
   // ⭐⭐⭐ 공지사항 선택한 번호<List> 삭제하기
   const removeHandler = () => {
-    axiosInstance.delete('/deleteNoticeList', checkList)
+    axiosInstance.delete('/deleteNoticeList', { data: checkList })
       .then((response) => {
         alert(response.data);
-
-        axiosInstance.get('/notice')
-          .then((response) => {
-            setNoticeList(noticeMockData.concat(response.data));
-          }).catch((error) => {
-            console.log(error);
-          });
+        getNoticeList();
 
       }).catch((error) => {
         console.log(error);
@@ -79,9 +84,54 @@ function AdminNotice({ selectedMenu, currentPage, setCurrentPage }) {
         setSelectedNotice(response.data);
         setModal(true);
       }).catch((error) => {
-        console.log('오류');
         console.log(error);
       });
+  }
+
+  const searchChangeHandler = (e) => {
+    if (e.code === 'Enter') {
+      setSearchKeyword(e.target.value);
+      searchHandler();
+    }
+    setSearchKeyword(e.target.value);
+  }
+
+  const searchHandler = () => {
+    const filteredNoticeList = noticeList.filter(notice => {
+      if (searchOption === '전체') {
+        return Object.values(notice).some(value =>
+          String(value).toLowerCase().includes(searchKeyword.toLowerCase())
+        );
+      }
+      if (searchOption === '제목') {
+        return notice.title.toLowerCase().includes(searchKeyword.toLowerCase());
+      }
+      if (searchOption === '내용') {
+        return notice.content.toLowerCase().includes(searchKeyword.toLowerCase());
+      }
+      return true;
+    });
+
+    setFilteredList(filteredNoticeList);
+  }
+
+  useEffect(() => {
+    if (searchKeyword?.length === 0) {
+      setFilteredList(noticeList);
+      setSearchOption('전체');
+    }
+  }, [searchKeyword])
+
+  const sortHandler = () => {
+    const sortedData = [...filteredList].sort((a, b) => {
+      if (sortOrder === 'asc') {
+        return b.id - a.id;
+      } else {
+        return a.id - b.id;
+      }
+    });
+    setFilteredList(sortedData);
+    setSortOrder(prevOrder => (prevOrder === 'asc' ? 'desc' : 'asc'));
   }
 
   return (
@@ -89,14 +139,22 @@ function AdminNotice({ selectedMenu, currentPage, setCurrentPage }) {
       <div className='title-search-box'>
         <h2>공지사항 관리</h2>
         <div className='search-box'>
-          <select>
-            <option>전체</option>
-            <option>번호</option>
-            <option>제목</option>
-            <option>카테고리</option>
+          <select value={searchOption} onChange={(e) => setSearchOption(e.target.value)}>
+            <option value="전체">전체</option>
+            <option value="제목">제목</option>
+            <option value="내용">내용</option>
           </select>
-          <input placeholder='검색 (번호, 제목, 카테고리 등)'></input>
-          <FontAwesomeIcon icon={searchIcon} size='lg' style={{ color: '#9c9c9c' }} />
+          <input
+            placeholder='검색어를 입력해주세요.'
+            value={searchKeyword}
+            onChange={searchChangeHandler}
+            onKeyUp={searchChangeHandler}
+          />
+          <FontAwesomeIcon
+            icon={searchIcon}
+            size='lg'
+            style={{ color: '#9c9c9c' }}
+            onClick={searchHandler} />
         </div>
       </div>
 
@@ -112,7 +170,10 @@ function AdminNotice({ selectedMenu, currentPage, setCurrentPage }) {
                   checked={allChecked}
                 />
               </th>
-              <th>번호</th>
+              <th onClick={sortHandler} style={{ cursor: 'pointer' }}>
+                번호
+                <FontAwesomeIcon icon={sortOrder === 'asc' ? up : down} style={{ color: '#9c9c9c', marginLeft: '0.5rem' }} />
+              </th>
               <th>제목</th>
               <th>내용</th>
               <th>작성일</th>
@@ -120,7 +181,7 @@ function AdminNotice({ selectedMenu, currentPage, setCurrentPage }) {
           </thead>
           <tbody>
             {
-              noticeList
+              filteredList
                 .slice((currentPage - 1) * page, currentPage * page)
                 .map((data, i) => {
                   const isChecked = checkList.includes(data.id);
@@ -157,6 +218,7 @@ function AdminNotice({ selectedMenu, currentPage, setCurrentPage }) {
               setModal={setModal}
               selectedMenu={selectedMenu}
               data={selectedNotice}
+              getNoticeList={getNoticeList}
             />
           }
           <button className='insertBtn' onClick={() => { setSelectedNotice(null); setModal(true); }}>글쓰기</button>
@@ -164,12 +226,12 @@ function AdminNotice({ selectedMenu, currentPage, setCurrentPage }) {
         </div>
       </div>
       {
-        noticeList?.length !== 0 &&
+        filteredList?.length !== 0 &&
         <div className="paging">
           <PaginationComponent
             currentPage={currentPage}
             itemsPerPage={page}
-            totalItems={noticeList.length}
+            totalItems={filteredList.length}
             onPageChange={(page) => setCurrentPage(page)}
             color="secondary"
           />

@@ -4,21 +4,24 @@ import './AdminModal.css';
 import axiosInstance from '../../axiosInstance';
 import * as DOMPurify from "dompurify";
 
-function AdminModal({ setModal, selectedMenu, data }) {
+function AdminModal({ setModal, selectedMenu, data, getInquiryList, getNoticeList, getFAQList }) {
 
   const [faq, setFaq] = useState({
-    // adminName : userInfo.username,
-    title: '',
-    content: '',
-    category: ''
+    id: data && data.id ? data.id : '',
+    title: data && data.title ? data.title : '',
+    content: data && data.content ? data.content : '',
+    category: data && data.category ? data.category : ''
   });
+
   const [inquiry, setInquiry] = useState({
-    answer: ''
+    id: data && data.id ? data.id : '',
+    answer: data && data.answer ? data.answer : ''
   });
+
   const [notice, setNotice] = useState({
-    // adminName : userInfo.username,
-    title: '',
-    content: '',
+    id: data && data.id ? data.id : '',
+    title: data && data.title ? data.title : '',
+    content: data && data.content ? data.content : '',
   });
 
   const changeHandler = (e) => {
@@ -26,90 +29,76 @@ function AdminModal({ setModal, selectedMenu, data }) {
       setFaq({
         ...faq,
         [e.target.name]: e.target.value
-      })
-    }
-    if (selectedMenu === '1:1문의 관리') {
+      });
+    } else if (selectedMenu === '1:1문의 관리') {
       setInquiry({
         ...inquiry,
         [e.target.name]: e.target.value
-      })
-    }
-    if (selectedMenu === '공지사항 관리') {
+      });
+    } else if (selectedMenu === '공지사항 관리') {
       setNotice({
         ...notice,
         [e.target.name]: e.target.value
-      })
+      });
     }
   }
 
-  // ⭐⭐⭐ FAQ, 1:1문의, 공지사항 insert랑 update 합쳐서 만들어주세요
-  // 서버 CreateMoimController에 moimCommInsert 메서드 참고해서 만들어주세요!
-  // FAQ는 answer이 관리자가 답변 작성하는 컬럼입니다
-  // 주석 처리한 곳에 해당 페이지에 맞게 적어주세용
+
   const uploadHandler = () => {
-    // 글 작성 TEST
     if (selectedMenu === 'FAQ 관리') {
-      axiosInstance.post('/faq_insert', faq)
+      if(!faq.category){
+        alert("카테고리를 선택해주세요.");
+        return;
+      } else if (!faq.title){
+        alert("제목을 입력해주세요.");
+        return;
+      } else if(!faq.content){
+        alert("내용을 입력해주세요.");
+        return;
+      }
+      axiosInstance.post('/FAQSubmit', faq)
         .then((response) => {
           alert(response.data);
+          getFAQList();
         })
         .catch((error) => {
           console.log(error);
         })
     }
     if (selectedMenu === '1:1문의 관리') {
-      axiosInstance.post('/???', inquiry)
+      if(!inquiry.answer){
+        alert("답변을 입력해주세요.");
+        return;
+      }
+      axiosInstance.post('/inquirySubmit', inquiry)
         .then((response) => {
           alert(response.data);
+          getInquiryList();
         })
         .catch((error) => {
           console.log(error);
         })
     }
     if (selectedMenu === '공지사항 관리') {
-      axiosInstance.post('/notice_insert', notice)
+      if (!notice.title){
+        alert("제목을 입력해주세요.");
+        return;
+      } else if(!notice.content){
+        alert("내용을 입력해주세요.");
+        return;
+      }
+      axiosInstance.post('/noticeSubmit', notice)
         .then((response) => {
           alert(response.data);
+          getNoticeList();
         })
         .catch((error) => {
           console.log(error);
         })
-        
-      // if (selectedMenu === 'FAQ 관리') {
-      //   axiosInstance.post('/???', faq)
-      //     .then((response) => {
-      //       alert(response.data);
-      //     })
-      //     .catch((error) => {
-      //       console.log(error);
-      //     })
-      // }
-      // if (selectedMenu === '1:1문의 관리') {
-      //   axiosInstance.post('/???', inquiry)
-      //     .then((response) => {
-      //       alert(response.data);
-      //     })
-      //     .catch((error) => {
-      //       console.log(error);
-      //     })
-      // }
-      // if (selectedMenu === '공지사항 관리') {
-      //   axiosInstance.post('/???', notice)
-      //     .then((response) => {
-      //       alert(response.data);
-      //     })
-      //     .catch((error) => {
-      //       console.log(error);
-      //     })
     }
 
     setModal(false)
   }
-
-  console.log(data);
-  console.log(faq);
-  console.log(inquiry);
-  console.log(notice);
 
   return (
     <Modal
@@ -136,9 +125,10 @@ function AdminModal({ setModal, selectedMenu, data }) {
                 <select
                   className='modal-select'
                   name='category'
-                  value={data?.category || faq.category}
+                  value={faq.category}
                   onChange={changeHandler}
                 >
+                  <option value="" hidden>카테고리</option>
                   <option value="모임">모임</option>
                   <option value="커뮤니티">커뮤니티</option>
                   <option value="회원정보">회원정보</option>
@@ -147,7 +137,7 @@ function AdminModal({ setModal, selectedMenu, data }) {
                 <input
                   type='text'
                   name='title'
-                  value={data?.title || faq.title}
+                  value={faq.title}
                   className='modal-input'
                   onChange={changeHandler} />
               </div>
@@ -156,7 +146,7 @@ function AdminModal({ setModal, selectedMenu, data }) {
                 <div className='modal-inquiry-category'>[{data?.category}]</div>
                 <input
                   type='text'
-                  value={data?.title || ''}
+                  value={data?.title}
                   className='modal-inquiry-input'
                   readOnly={data}
                 />
@@ -167,7 +157,7 @@ function AdminModal({ setModal, selectedMenu, data }) {
                 <input
                   type='text'
                   name='title'
-                  value={data?.title || notice.title}
+                  value={notice.title}
                   className='modal-input'
                   onChange={changeHandler}
                 />
@@ -197,7 +187,7 @@ function AdminModal({ setModal, selectedMenu, data }) {
                   placeholder='내용을 입력해주세요'
                   className='modal-textarea'
                   name='content'
-                  value={data?.content || faq.content}
+                  value={faq.content}
                   onChange={changeHandler}
                 />
               ) : selectedMenu === '1:1문의 관리' ? (
@@ -213,7 +203,7 @@ function AdminModal({ setModal, selectedMenu, data }) {
                       placeholder='내용을 입력해주세요'
                       className='modal-inquiry-admin-textarea'
                       name='answer'
-                      value={data?.answer || inquiry.answer}
+                      value={inquiry.answer}
                       onChange={changeHandler}
                     />
                   </div>
@@ -224,7 +214,7 @@ function AdminModal({ setModal, selectedMenu, data }) {
                   placeholder='내용을 입력해주세요'
                   className='modal-textarea'
                   name='content'
-                  value={data && data?.content || notice.content}
+                  value={notice.content}
                   onChange={changeHandler}
                 />
               )
@@ -238,7 +228,7 @@ function AdminModal({ setModal, selectedMenu, data }) {
           <Modal.Footer>
             <div className='AdminModal-footer'>
 
-              <button className='submitBtn' onClick={() => uploadHandler}>작성완료</button>
+              <button className='submitBtn' onClick={() => uploadHandler()}>작성완료</button>
 
             </div>
           </Modal.Footer>

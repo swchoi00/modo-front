@@ -32,7 +32,7 @@ const Community = ({ isAuth, currentPage, setCurrentPage }) => {
   const hotIssues = [...filteredData].sort((a, b) => b.views - a.views).slice(0, 5); // 원본데이터를 변경하지않고 복제해서 새로운 배열 생성 -> 내림차순으로 정렬 -> 조회수 높은 5개의 게시글을 담음
 
   useEffect(() => {
-    axiosInstance.get("/comm_getList")
+    axiosInstance.get("/getCommList")
       .then((response) => {
         setComm(response.data);
         setFilteredData(response.data);

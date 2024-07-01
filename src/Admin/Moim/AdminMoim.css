@@ -30,12 +30,13 @@
 
 .AdminMoim input {
   padding-left: 10px;
-  width: 75%;
+  width: 80%;
   outline: none;
   border: none;
 }
 
 .AdminMoim select {
+  width: 5rem;
   outline: none;
   border: none;
 }

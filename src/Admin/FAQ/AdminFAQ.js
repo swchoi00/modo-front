@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react';
 import axiosInstance from '../../axiosInstance';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch as searchIcon } from '@fortawesome/free-solid-svg-icons';
+import { faCaretUp as up } from '@fortawesome/free-solid-svg-icons';
+import { faCaretDown as down } from '@fortawesome/free-solid-svg-icons';
 import Table from 'react-bootstrap/Table';
 import './AdminFAQ.css';
 import PaginationComponent from '../../Pagination/PaginationComponent';
-import faqMockData from '../../FAQ/faqMockData';
 import AdminModal from '../modal/AdminModal';
 
 function AdminFAQ({ selectedMenu, setSelectedMenu, currentPage, setCurrentPage }) {
@@ -15,15 +16,24 @@ function AdminFAQ({ selectedMenu, setSelectedMenu, currentPage, setCurrentPage }
   const [allChecked, setAllChecked] = useState(false);
   const [modal, setModal] = useState(false);
   const [selectedFAQ, setSelectedFAQ] = useState(null);
+  const [filteredList, setFilteredList] = useState([]);
+  const [searchOption, setSearchOption] = useState('전체');
+  const [searchKeyword, setSearchKeyword] = useState('');
+  const [sortOrder, setSortOrder] = useState('asc');
 
-  useEffect(() => {
-    axiosInstance.get('/faq')
+  const getFAQList = () => {
+    axiosInstance.get('/getFAQList')
       .then((response) => {
-        // setFAQList(faqMockData.concat(response.data));
-        setFAQList(response.data);
+        const sortedData = response.data.sort((a, b) => a.id - b.id);
+        setFAQList(sortedData);
+        setFilteredList(sortedData);
       }).catch((error) => {
         console.log(error);
       });
+  };
+
+  useEffect(() => {
+    getFAQList();
   }, []);
 
   useEffect(() => {
@@ -56,20 +66,10 @@ function AdminFAQ({ selectedMenu, setSelectedMenu, currentPage, setCurrentPage }
 
   // ⭐⭐⭐ FAQ 선택한 번호<List> 삭제하기
   const removeHandler = () => {
-    axiosInstance.delete('/deleteFAQList', checkList)
+    axiosInstance.delete('/deleteFAQList', { data: checkList })
       .then((response) => {
         alert(response.data);
-
-        axiosInstance.get('/faq')
-          .then((response) => {
-            setFAQList(faqMockData.concat(response.data));
-            // setFAQList(
-            //   ...faqMockData,
-            //   ...response.data
-            // );
-          }).catch((error) => {
-            console.log(error);
-          });
+        getFAQList();
 
       }).catch((error) => {
         console.log(error);
@@ -87,21 +87,77 @@ function AdminFAQ({ selectedMenu, setSelectedMenu, currentPage, setCurrentPage }
       });
   }
 
-  console.log(FAQList);
+  const searchChangeHandler = (e) => {
+    if (e.code === 'Enter') {
+      setSearchKeyword(e.target.value);
+      searchHandler();
+    }
+    setSearchKeyword(e.target.value);
+  }
+
+  const searchHandler = () => {
+    const filteredFAQList = FAQList.filter(FAQ => {
+      if (searchOption === '전체') {
+        return Object.values(FAQ).some(value =>
+          String(value).toLowerCase().includes(searchKeyword.toLowerCase())
+        );
+      }
+      if (searchOption === '카테고리') {
+        return FAQ.category.toLowerCase().includes(searchKeyword.toLowerCase());
+      }
+      if (searchOption === '제목') {
+        return FAQ.title.toLowerCase().includes(searchKeyword.toLowerCase());
+      }
+      if (searchOption === '내용') {
+        return FAQ.content.toLowerCase().includes(searchKeyword.toLowerCase());
+      }
+      return true;
+    });
+
+    setFilteredList(filteredFAQList);
+  }
+
+  useEffect(() => {
+    if (searchKeyword?.length === 0) {
+      setFilteredList(FAQList);
+      setSearchOption('전체');
+    }
+  }, [searchKeyword])
+
+  const sortHandler = () => {
+    const sortedData = [...filteredList].sort((a, b) => {
+      if (sortOrder === 'asc') {
+        return b.id - a.id;
+      } else {
+        return a.id - b.id;
+      }
+    });
+    setFilteredList(sortedData);
+    setSortOrder(prevOrder => (prevOrder === 'asc' ? 'desc' : 'asc'));
+  }
 
   return (
     <div className="AdminFAQ">
       <div className='title-search-box'>
         <h2>FAQ 관리</h2>
         <div className='search-box'>
-          <select>
-            <option>전체</option>
-            <option>번호</option>
-            <option>제목</option>
-            <option>카테고리</option>
+          <select value={searchOption} onChange={(e) => setSearchOption(e.target.value)}>
+            <option value="전체">전체</option>
+            <option value="카테고리">카테고리</option>
+            <option value="제목">제목</option>
+            <option value="내용">내용</option>
           </select>
-          <input placeholder='검색 (번호, 제목, 카테고리 등)'></input>
-          <FontAwesomeIcon icon={searchIcon} size='lg' style={{ color: '#9c9c9c' }} />
+          <input
+            placeholder='검색어를 입력해주세요.'
+            value={searchKeyword}
+            onChange={searchChangeHandler}
+            onKeyUp={searchChangeHandler}
+          />
+          <FontAwesomeIcon
+            icon={searchIcon}
+            size='lg'
+            style={{ color: '#9c9c9c' }}
+            onClick={searchHandler} />
         </div>
       </div>
 
@@ -117,7 +173,10 @@ function AdminFAQ({ selectedMenu, setSelectedMenu, currentPage, setCurrentPage }
                   checked={allChecked}
                 />
               </th>
-              <th>번호</th>
+              <th onClick={sortHandler} style={{ cursor: 'pointer' }}>
+                번호
+                <FontAwesomeIcon icon={sortOrder === 'asc' ? up : down} style={{ color: '#9c9c9c', marginLeft: '0.5rem' }} />
+              </th>
               <th>카테고리</th>
               <th>제목</th>
               <th>내용</th>
@@ -126,7 +185,7 @@ function AdminFAQ({ selectedMenu, setSelectedMenu, currentPage, setCurrentPage }
           </thead>
           <tbody>
             {
-              FAQList
+              filteredList
                 .slice((currentPage - 1) * page, currentPage * page)
                 .map((data, i) => {
                   const isChecked = checkList.includes(data.id);
@@ -158,25 +217,26 @@ function AdminFAQ({ selectedMenu, setSelectedMenu, currentPage, setCurrentPage }
           </tbody>
         </Table>
         <div className='insert-delete-btn'>
-        {
+          {
             modal === true &&
             <AdminModal
               setModal={setModal}
               selectedMenu={selectedMenu}
               data={selectedFAQ}
+              getFAQList={getFAQList}
             />
           }
-          <button className='insertBtn' onClick={() => { setSelectedFAQ(null); setModal(true);}}>글쓰기</button>
+          <button className='insertBtn' onClick={() => { setSelectedFAQ(null); setModal(true); }}>글쓰기</button>
           <button className='deleteBtn' onClick={removeHandler}>삭제</button>
         </div>
       </div>
       {
-        FAQList?.length !== 0 &&
+        filteredList?.length !== 0 &&
         <div className="paging">
           <PaginationComponent
             currentPage={currentPage}
             itemsPerPage={page}
-            totalItems={FAQList.length}
+            totalItems={filteredList.length}
             onPageChange={(page) => setCurrentPage(page)}
             color="secondary"
           />
