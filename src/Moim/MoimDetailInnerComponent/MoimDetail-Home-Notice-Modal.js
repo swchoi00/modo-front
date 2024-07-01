@@ -117,7 +117,7 @@ const MoimDetailHomeNoticeModal = ({moimNoticeModal, setMoimNoticeModal, id, set
                           <li className="category" style={{ color: '#FC3232', fontWeight: 'bold' }}>{data.categories}</li>
                           <li className="postTitle">
                             {}
-                            {data.postname} &nbsp;[{data.views}]
+                            {data.postname} &nbsp;[{data.replyCount}]
                           </li>
                           <li className="date">{data.uploadDate}</li>
                         </div>

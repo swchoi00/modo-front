@@ -9,6 +9,7 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import {faPen} from '@fortawesome/free-solid-svg-icons'; 
 import { Link, useNavigate } from 'react-router-dom';
 import face from '../HomeComponent/ReviewComponent/face.svg';
+import userIcon from '../Img/userIcon.svg';
 
 const Header = ( {isAuth, setIsAuth, userInfo, setUserInfo} ) =>{
 
@@ -23,8 +24,10 @@ const Header = ( {isAuth, setIsAuth, userInfo, setUserInfo} ) =>{
   };
 
   const logoutHandler = () => {
+    sessionStorage.removeItem('selectedMenu');
     sessionStorage.removeItem('jwt');
     sessionStorage.removeItem('userInfo');
+    sessionStorage.removeItem('myPage');
     setUserInfo({
       username : '',
       nickname : ''
@@ -48,22 +51,25 @@ const Header = ( {isAuth, setIsAuth, userInfo, setUserInfo} ) =>{
           <Link className='nav-aTag' to = {"/notice"}>공지사항</Link>
         </div>
 
-        <div className='nav-searchBar'>        
-          <input className='nav-search-input' placeholder='관심사 검색하기'/>
+        <div className='nav-searchBar nav-search-input'>        
+          {/* <input className='nav-search-input' placeholder='관심사 검색하기'/>
           <span><FontAwesomeIcon icon={faSearch} style={{color:'#9c9c9c'}}/></span>    
-          
+           */}
         </div>
 
         <div className='nav-joinLogin'>
 
           {isAuth ? 
           <>
-          <Link className='nav-aTag' to={"/myPage"}>{userInfo.nickname}님</Link>
+          <Link className='nav-aTag' to={"/myPage"}>
+            <img src={userIcon} alt=""/>
+            {userInfo.nickname}님
+          </Link>
           <button className='nav-logoutBtn' onClick={logoutHandler}>로그아웃</button>
           </>
           :  
           <>
-          <Link className='nav-aTag' to = {"/signUp"}>회원가입</Link>
+          <Link className='nav-aTag' to = {"/signUpPage"}>회원가입</Link>
           <Link className='nav-loginBtn' to = {"/login"}>로그인</Link>
           </>
           }
@@ -104,7 +110,7 @@ const Header = ( {isAuth, setIsAuth, userInfo, setUserInfo} ) =>{
             <div className='headerSide-menu-inner1'>
               <h5>로그인 후 이용해주세요 :-)</h5>
               <Link to = {"/login"} onClick={handleMenuOpen}><button>로그인</button></Link>
-              <p>아직 회원이 아니라면? <Link className='headerSide-join' to = {"/signUp"} onClick={handleMenuOpen}>회원가입 하러가기</Link></p>
+              <p>아직 회원이 아니라면? <Link className='headerSide-join' to = {"/signUpPage"} onClick={handleMenuOpen}>회원가입 하러가기</Link></p>
             </div>
           }
           

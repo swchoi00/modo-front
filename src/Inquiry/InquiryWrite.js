@@ -90,8 +90,7 @@ const InquiryWrite = ({ userInfo, setClickedTypeBtn }) => {
             name='content'
             value={inquiry.content}
             onChange={changeHandler}
-            placeholder='문의내용을 입력해주세요 &#13;&#10;Ex) 모임 생성을 하는데 자꾸 오류가 떠요
-                    '></textarea>
+            placeholder='문의내용을 입력해주세요' />
         </div>
       </div>
       <button className='submit-comm-btn' onClick={handleSubmit}>문의하기</button>

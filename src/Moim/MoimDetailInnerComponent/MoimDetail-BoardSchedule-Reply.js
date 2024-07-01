@@ -67,6 +67,7 @@ const deleteHandler=(rno)=>{
   .then((response)=>{
     alert(response.data);
     setReplyList(replyList.filter(data=>data.rno !== rno))
+    setReplyCnt(replyList.length -1);
   }).catch((error)=>{
     console.log(error);
   })

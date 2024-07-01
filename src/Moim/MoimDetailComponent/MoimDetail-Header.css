@@ -32,10 +32,12 @@
 .moimDetail-moimMenuBox{
   width: 100%;
   /* border-bottom: 1px solid rgba(0,0,0,.08); */
+  box-shadow: 0px 3px 8px -1px #0003;
+  box-shadow: 0 4px 4px -4px #0003;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-bottom: 0.3rem;
+  /* padding-bottom: 0.3rem; */
   margin: 0;
   position: sticky;
   top: 5.53rem;
@@ -52,8 +54,9 @@
 }
 
 .moimDetail-moimMenu-ck{
-  color: #6a60a9;
-  font-weight: bold;
+  background-color: #6a60a9;
+  color: white;
+  border-radius: 1rem 1rem 0 0;
 }
 
 

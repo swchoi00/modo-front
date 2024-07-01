@@ -225,7 +225,7 @@ const MoimDetailBoardSchduleComponent = ({moimInfo, moimMemberRole, isAuth, user
                 }      
               </div>
               <div className="moimDetail-calendar-schedule-body-contentBox">
-                {data.scheduleEndDate === null ? // 일정이 하루인지 물어봄
+                {data?.scheduleEndDate === undefined ? // 일정이 하루인지 물어봄
                   <div className='moimDetail-moimContent-board-schedule-content-data'>
                     <span>일시</span><div>{moment(data.scheduleStartDate).format(dateFormat, 'ko')} &nbsp;{data.scheduleStartTime} ~ {data.scheduleEndTime}</div>
                   </div>

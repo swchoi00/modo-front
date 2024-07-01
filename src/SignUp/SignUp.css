@@ -1,75 +1,84 @@
-
+.SignUp h3{
+    margin: 3rem 0 2rem;
+}
 
 .SignUp .signUpForm {
-    border: 1.5px solid #eee;
-    border-radius: 25px;
-    width: 400px;
-    margin: auto;
+    /* border: 1.5px solid #eee; */
+    box-shadow: 0px 0px 15px -4px rgba(0, 0, 0, 0.2);
+    background-color: white;
+    border-radius: 0.9rem;
+    /* width: 400px; */
+    width: 25rem;
+    padding: 1.5rem 2rem;
 }
 
 .SignUp .idCheck {
     border: none;
     border-radius: 4px;
     background-color: #eee;
-    width: 20%;
+    flex: 1;
     height: 35px;
     color: gray;
+    font-size: small;
 }
 
 .SignUp .idCheck:hover {
-    background-color: #6A60A9;
+    background-color: #a472ff;
     color: white;
     cursor: pointer;
 }
 
 .SignUp .inputText_check {
-    margin-left: 10%;
     border: 1px solid #eee;
     border-radius: 4px;
     padding-left: 10px;
     font-size: 0.725rem;
-    width: 55%;
+    /* width: 100%; */
+    flex: 5;
     height: 35px;
 }
 
 .SignUp .inputText_check:focus {
-    outline: 1px solid #6A60A9;
-    border-color: #6A60A9;
+    outline: 1px solid #a472ff;
+    border-color: #a472ff;
 }
 
 .SignUp .inputText {
-    margin-left: 10%;
-    margin-right: 10%;
+    /* margin-left: 10%;
+    margin-right: 10%; */
     border: 1px solid #eee;
     border-radius: 4px;
     font-size: 0.725rem;
     padding-left: 10px;
-    width: 80%;
+    width: 100%;
     height: 35px;
 }
 
 .SignUp .inputText:focus {
-    outline: 1px solid #6A60A9;
-    border-color: #6A60A9;
+    outline: 1px solid #a472ff;
+    border-color: #a472ff;
 }
 
 .SignUp .inputWrapper {
     display: flex;
     align-items: center;
     text-align: left;
-    margin-left: 9%;
+    /* margin-left: 9%; */
     margin-bottom: 5px;
     font-weight: 550;
     flex: 1;
     color: #737373;;
-
+    
 }
 
 .SignUp .listContainer {
+    /* border: 1px solid red; */
+    width: 100%;
     display: flex;
     align-items: center;
     position: relative;
     margin-bottom: 0.5rem;
+    gap: 0.3rem;
 }
 
 .SignUp .listContainer_pwCheck {
@@ -80,71 +89,31 @@
 }
 
 .SignUp .pwMsg {
-    width: 80%;
-    margin-left: 11%;
+    margin-left: 0.3rem;
     margin-top: 0;
     margin-bottom: 2rem;
-    color: red;
+    color: #a472ff;
     text-align: left;
-    font-size: 0.825rem;
-    font-weight: 600;
+    font-size: 80%;
 }
 
 .SignUp .pwMsg.success {
-    color: #6A60A9;
+    color: #a472ff;
 }
 
-.SignUp .listContainerLast {
-    margin-bottom: 2rem;
-}
 
-.inputWrapper input[type="checkbox"] {
-    display: none;
-}
 
-.inputWrapper input[type="checkbox"] + label {
-    position: relative;
-    padding-left: 30px;
-    cursor: pointer;
-    display: inline-block;
-    line-height: 20px;
-}
-
-/* 체크박스 디자인 스타일 */
-.inputWrapper input[type="checkbox"] + label::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 20px; /* 체크박스 크기 조절 */
-    height: 20px; /* 체크박스 크기 조절 */
-    border: 1px solid #eee; /* 테두리 스타일 */
-    background-color: white; /* 체크박스 배경 색상 */
-  }
-  
-  /* 체크된 상태의 체크박스 디자인 스타일 */
-.inputWrapper input[type="checkbox"]:checked + label::before {
-    content: '\2713';
-    text-align: center;
-    font-size: 16px;
-    line-height: 20px;
-    background-color: #6A69A9; /* 체크된 상태의 배경 색상 */
-    border-color: none; /* 체크된 상태의 테두리 색상 */
-    border-radius: 4px;
-    color: white;
-  }
 
  .SignUp .afterAgreeAll {
-    width: 80%;
+    width: 100%;
     border-bottom: 1px solid #eee;
-    margin-left: 10%;
-    margin-top: 1.5rem;
+    margin: 1rem 0;
  }
 
  .SignUp .showTerms {
     display: flex;
     margin-left: auto;
-    margin-right: 2rem;
+    /* margin-right: 2rem; */
     border: none;
     background-color: white;
     color: #737373;
@@ -155,25 +124,78 @@
 
  .SignUp .showPwd {
     position: absolute;
-    right: 45px; /* 필요에 따라 오른쪽 간격 조절 */
+    right: 0.2rem; /* 필요에 따라 오른쪽 간격 조절 */
     background-color: white;
-    color: #6A60A9;
+    color: #a472ff;
     font-weight: 550;
-    font-size: 0.875rem;
+    font-size: small;
     cursor: pointer;
     border: none;
     width: 3.125rem;
  }
 
-.SignUp .TermsContainer {
+ /* ⭐⭐⭐ */
+
+ .SignUp .listContainerLast {
+    margin-bottom: 2rem;
+}
+
+
+.SignUp .TermsContainer, .SignUp .TermsContainer2 {
     margin-bottom: 1rem;
 }
 
- .SignUp .AgreeTerms {
+.SignUp .TermsContainer2{
+    padding-left: 0.3rem;
+}
+
+.SignUp .termsWrapper{
+   /* border: 1px solid red; */
+}
+
+
+.SignUp .AgreeTerms {
     font-weight: 400;
     font-size: 14px;
     color: #737373;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
  }
+
+
+.checkbox-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 1rem;
+    height: 1rem;
+    color: #ccc;
+    border: 0.15rem solid #ccc;
+    border-radius: 0.4rem;
+    cursor: pointer;
+    padding: 0.03rem;
+  }
+
+.SignUp .TermsContainer input[type="checkbox"], .SignUp .TermsContainer2 input[type="checkbox"]{
+    display: none;
+}
+
+  /* 체크된 상태의 아이콘 스타일 */
+  .SignUp .TermsContainer input[type="checkbox"]:checked + .AgreeTerms .checkbox-icon
+  ,  .SignUp .TermsContainer2 input[type="checkbox"]:checked + .AgreeTerms .checkbox-icon{
+   background-color: #a472ff;
+   color: #fff;
+   border-color: #a472ff;
+  }
+
+
+
+
+
+
+
 
 .SignUp .ModoSignUp {
     display: flex;
@@ -185,18 +207,18 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 80%;
+    width: 100%;
     height: 2.5rem;
     border: none;
-    border-radius: 4px;
-    background-color: #6A60A9;
+    border-radius: 0.5rem;
+    /* background-color: #a472ff; */
     color: white;
     font-weight: 700;
     margin-bottom: 0.625rem;
     cursor: pointer;
 }
 
-.SignUp .KakaoSignUp {
+/* .SignUp .KakaoSignUp {
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -244,7 +266,7 @@
     font-weight: 1000;
     margin-bottom: 0.625rem;
     cursor: pointer;
-}
+} */
 
 .SignUp img.naver {
     width: 30px;
@@ -282,4 +304,29 @@
 
  
 
- 
+.join-all-label, .join-each-label{
+    display: flex;
+    align-items: center;
+  }
+
+  /* .join-each-check-label{
+    display: inline-block;
+    padding-top: 4px;
+    cursor: pointer;
+  } */
+
+
+
+/* 원래 ckeckBox UI 인데, 안보이게 하기(커스텀 했기 때문에) */
+.join-all-chaeck-box input[type="checkbox"] , .join-each-chaeck-box input[type="checkbox"] {
+    display: none;
+  }
+
+
+  /* 체크된 상태의 아이콘 스타일 */
+.join-all-chaeck-box input[type="checkbox"]:checked + .join-all-label .checkbox-icon
+, .join-each-chaeck-box input[type="checkbox"]:checked + .join-each-label .checkbox-icon{
+ background-color: #a472ff;
+ color: #fff;
+ border-color: #a472ff;
+}

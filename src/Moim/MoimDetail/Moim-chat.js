@@ -29,7 +29,7 @@ const MoimChat = ({isAuth, userInfo, moimInfo, setMoimInfo,currentPage ,setCurre
 
   return(
     <div className='MoimDetail-container'>
-      <MoimDetailHeader moimCategory = {moimInfo.category} moimName = {moimInfo.moimname} moimMenuCk={moimMenuCk} id={id}/>
+      <MoimDetailHeader isAuth={isAuth} moimCategory = {moimInfo.category} moimName = {moimInfo.moimname} moimMenuCk={moimMenuCk} id={id}/>
       <div style={{height: '20rem',display:'flex' ,justifyContent: 'center', alignItems: 'center'}}>😉 채팅기능은 준비중이에요 😉</div>
     </div>
   )

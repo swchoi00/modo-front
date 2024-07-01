@@ -68,7 +68,7 @@ const MoimList = ({isAuth, moimList, userInfo,setUserInfo}) =>{
     <div className='moim-list-box'>
       
        {
-        moimList.map((data) => {
+        moimList?.map((data) => {
           // ⭐ [좋아요 여부 확인] likedMoim 리스트에 해당 모임 id가 들어 있는지 확인
           const isLiked = likedMoims.includes(data.id); //🔥엔티티값이 다름 (member.likedMoim은 String, data.id는 숫자)🔥
 

@@ -6,11 +6,18 @@ import { useEffect, useState } from 'react';
 import InquiryWrite from './InquiryWrite';
 import InquiryDetail from './InquiryDetatil';
 
-const Inquiry = ({ userInfo, currentPage, setCurrentPage }) => {
+const Inquiry = ({ userInfo, currentPage, setCurrentPage, inquiryList, setInquiryList }) => {
   const navigate = useNavigate();
-
   const [clickedTypeBtn, setClickedTypeBtn] = useState('문의하기');
   const typeMenu = ['문의하기', '문의내역확인'];
+
+  useEffect(()=>{
+    if(inquiryList){
+      setClickedTypeBtn('문의내역확인');
+      setInquiryList(false);
+    }
+  },[inquiryList])
+
 
   useEffect(()=>{
     window.scrollTo(0, 0);

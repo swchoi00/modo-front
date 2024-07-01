@@ -13,7 +13,7 @@ const Notice = ({ currentPage, setCurrentPage }) => {
   const [noticeList, setNoticeList] = useState([]);
 
   useEffect(() => {
-    axiosInstance.get("/notice")
+    axiosInstance.get("/getNoticeList")
     .then((response) => {
         setNoticeList([
             ...noticeMockData,

@@ -1,0 +1,16 @@
+.termsModalBox{
+    height: 70vh;
+    overflow-y: scroll;
+}
+
+
+.termsModalBox::-webkit-scrollbar {
+    width: 0.5rem; /* 스크롤바의 너비 설정 */
+    border: none;
+  }
+  
+  .termsModalBox::-webkit-scrollbar-thumb {
+    background-color: #9087d3; /* 스크롤바의 색상 설정 */
+    border-radius: 3px; /* 스크롤바의 모서리 둥글게 설정 */
+    height: auto; /*스크롤바의 길이*/
+  }

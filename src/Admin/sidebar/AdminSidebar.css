@@ -1,0 +1,43 @@
+.AdminSidebar {
+  width: 18rem;
+  height: 100vh;
+  text-align: center;
+  background-color: #6A60A9;
+  padding: 7% 0;
+}
+
+.AdminSidebar .logo-img {
+  width: 100%;
+  margin-bottom: 40%;
+}
+
+.AdminSidebar .logo-img img {
+  width: 50%;
+}
+
+.AdminSidebar .menu {
+  margin: 0;
+  padding: 0;
+}
+
+.AdminSidebar .menu .list {
+  margin: 3rem auto;
+  list-style: none;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.AdminSidebar .menu .clickedList {
+  margin: 3rem auto;
+  width: 12rem;
+  height: 3rem;
+  line-height: 3rem;
+  color: #6A60A9;
+  background-color: white;
+  font-size: 22px;
+  font-weight: 800;
+  border-radius: 20px;
+  list-style: none;
+  cursor: pointer;
+}

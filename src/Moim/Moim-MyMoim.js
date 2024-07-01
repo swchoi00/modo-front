@@ -43,7 +43,7 @@ useEffect(() => {
 
 
 const handleMoimLikeBtn = (moimId, e) => {
-  // e.stopPropagation(); // 하트 클릭 이벤트의 상위 이벤트 전파 방지
+  e.stopPropagation(); // 하트 클릭 이벤트의 상위 이벤트 전파 방지
     // ⭐서버에서 받아둔 좋아요 모임 리스트에 좋아요 누른 모임 번호가 있으면 삭제하고 없으면 추가
     const updatedLikedMoims = likedMoims.includes(moimId) ? likedMoims.filter(id => id !== moimId) : [...likedMoims, moimId];
     // ⭐ 해당 좋아요 모임 리스트를 userInfo에 업데이트
