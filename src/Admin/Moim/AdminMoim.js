@@ -197,7 +197,7 @@ function AdminMoim({ currentPage, setCurrentPage }) {
                       <td>{data.moimname}</td>
                       <td>{data.introduction}</td>
                       <td>{data.city} / {data.town}</td>
-                      <td>{data.member_id}</td>
+                      <td>{data.leader.nickname}</td>
                       <td>{data.moimMemberNum}</td>
                     </tr>
                   )

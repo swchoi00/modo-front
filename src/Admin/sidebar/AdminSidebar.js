@@ -3,15 +3,15 @@ import './AdminSidebar.css';
 function AdminSidebar({ isAuth, userInfo, selectedMenu, setSelectedMenu, sidebarMenu }) {
 
   const navClickHandler = (navMenu) => {
-    // if(!isAuth) {
-    //   alert('로그인 후 이용가능합니다.');
-    // }
-    // else if(userInfo.role !== "ADMIN"){
-    //   alert('관리자만 이용가능합니다.');
-    // }
-    // else {
+    if(!isAuth) {
+      alert('로그인 후 이용가능합니다.');
+    }
+    else if(userInfo.role !== "ADMIN"){
+      alert('관리자만 이용가능합니다.');
+    }
+    else {
       setSelectedMenu(navMenu);
-    // }
+    }
   }
 
   return (

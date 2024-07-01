@@ -8,10 +8,21 @@ import AdminComm from './Community/AdminComm';
 import AdminFAQ from './FAQ/AdminFAQ';
 import AdminInquiry from './Inquiry/AdminInquiry';
 import AdminNotice from './Notice/AdminNotice';
+import { useNavigate } from 'react-router-dom';
 
 const Admin = ({ isAuth, setIsAuth, userInfo, setUserInfo, currentPage, setCurrentPage }) => {
-  const [selectedMenu, setSelectedMenu] = useState(() => localStorage.getItem('selectedMenu') || 'login');
+  const [selectedMenu, setSelectedMenu] = useState(() => sessionStorage.getItem('selectedMenu'));
   const sidebarMenu = ['회원관리', '모임 관리', '커뮤니티 관리', 'FAQ 관리', '1:1문의 관리', '공지사항 관리'];
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const storedAdminInfo = sessionStorage.getItem('adminInfo');
+    if (storedAdminInfo) {
+      const userInfoObject = JSON.parse(storedAdminInfo)
+      setUserInfo(userInfoObject);
+    }
+  },[]);
 
   const [loginData, setLoginData] = useState({
     username: '',
@@ -19,8 +30,22 @@ const Admin = ({ isAuth, setIsAuth, userInfo, setUserInfo, currentPage, setCurre
   });
 
   useEffect(() => {
-    localStorage.setItem('selectedMenu', selectedMenu);
+    sessionStorage.setItem('selectedMenu', selectedMenu);
+    
+
   }, [selectedMenu]);
+
+  useEffect(() => {
+    if(isAuth) {
+      if(userInfo.username !== 'admin') {
+        navigate('/');
+      }
+      
+    }
+
+  })
+
+
 
   const changeHandler = (e) => {
     setLoginData((prevData) => ({
@@ -51,11 +76,25 @@ const Admin = ({ isAuth, setIsAuth, userInfo, setUserInfo, currentPage, setCurre
 
         if (error.response && error.response.status === 401) {
           alert("관리자만 로그인 할 수 있습니다");
+          navigate('/');
+          setUserInfo({username : ''});
         } else {
           console.error("로그인 오류:", error);
         }
       });
   };
+
+  console.log(userInfo);
+
+  const adminLogoutHandler = () => {
+    sessionStorage.removeItem('jwt');
+    sessionStorage.removeItem('adminInfo');
+    setSelectedMenu('login');
+    setUserInfo({username : '', password : ''});
+  }
+
+  console.log(userInfo);
+  console.log(userInfo.role);
 
   return (
     <>
@@ -63,9 +102,13 @@ const Admin = ({ isAuth, setIsAuth, userInfo, setUserInfo, currentPage, setCurre
       <div className='Admin'>
         <div className='header'>
           <div>관리자 페이지</div>
+          {
+          userInfo.role === "ADMIN" && (
+            <button onClick={() => adminLogoutHandler()}>로그아웃</button>
+          )}
         </div>
         {
-          selectedMenu === 'login' &&
+          userInfo.username === '' &&
           <div className='login-box'>
             <h1 className='title'>로그인</h1>
             <form>
