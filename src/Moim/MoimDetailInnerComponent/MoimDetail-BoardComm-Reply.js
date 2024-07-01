@@ -135,32 +135,7 @@ const MoimDetailBoardCommReply = ({isAuth, userInfo, id, no, setUpdateReplyCnt})
     fetchNewReply();
   }
 
-  const handleLikeClick = (rno) => {
-    const isLiked = getReply.find(reply => reply.rno === rno).likedReply.includes(userInfo.id);
-    const url = isLiked
-      ? `/unlike/${rno}`
-      : `/like/${rno}`;
 
-    axiosInstance.post(url, userInfo.id)
-      .then(response => {
-        if (response.status === 200) {
-          const updatedReplies = getReply.map(reply =>
-            reply.rno === rno ? {
-              ...reply,
-              likedReply: isLiked
-                ? reply.likedReply.filter(id => id !== userInfo.id)
-                : [...reply.likedReply, userInfo.id]
-            } : reply
-          );
-          setGetReply(updatedReplies);
-        } else {
-          console.log('error');
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
-  };
 
 
   return(

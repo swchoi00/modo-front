@@ -152,11 +152,11 @@ const scheduleHandler = ()=>{
   return(
     <div className='MoimDetail-container' style={{alignItems:'center'}}>
       <div className='moimDetail-headerBox'>
-        <div className='moimDetail-header-beforeBtn'>{/* 목록 */}
+        <div className='moimDetail-header-beforeBtn' onClick={()=>navigate('/moim')} style={{cursor:'pointer'}}>
           <FontAwesomeIcon icon={faList} size='lg'style={{color: '#6a60a9'}}/>
         </div>
         <div className='moimDetail-header-category'>{moimInfo.category}</div>
-        <div className='moimDetail-header-title'>{moimInfo.moimname}</div>
+        <div className='moimDetail-header-title'  onClick={()=>navigate(`/moim/${id}/home`)} style={{cursor:'pointer'}}>{moimInfo.moimname}</div>
       </div>
 
       {/* 모임 일정 박스 */}

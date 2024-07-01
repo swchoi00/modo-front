@@ -20,17 +20,13 @@ const MoblieTabBar = ({ pageNow, isAdminPage }) => {
         <div className='TabBar-title'>소모임</div>
       </Link>
       
-      <Link className={`TabBar-box ${pageNow === '/search' ? 'tabBar-active' : ''}`} to={'/search'}>
-        <span><FontAwesomeIcon className='TabBar-img' icon={faSearch} /></span>
-        <div className='TabBar-title'>검색</div>
-      </Link>
 
       <Link className={`TabBar-box ${pageNow === '/community' ? 'tabBar-active' : ''}`} to={'/community'}>
         <span><FontAwesomeIcon className='TabBar-img' icon={faList} /></span>
         <div className='TabBar-title'>자유게시판</div>
       </Link>
 
-      <Link className={`TabBar-box ${pageNow === '/my' ? 'tabBar-active' : ''}`} to={'/myPage'}>
+      <Link className={`TabBar-box ${pageNow === '/myPage' ? 'tabBar-active' : ''}`} to={'/myPage'}>
         <span><FontAwesomeIcon className='TabBar-img' icon={faCircleUser} /></span>
         <div className='TabBar-title'>마이페이지</div>
       </Link>

@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../axiosInstance";
+import Loading from "./Loading";
 
 function NaverLogin ( {setIsAuth, setUserInfo} ) {
     
@@ -24,8 +25,8 @@ function NaverLogin ( {setIsAuth, setUserInfo} ) {
                 setUserInfo(response.data.member[0]);
                 setIsAuth(true);
                 navigate('/');
-            } else {
-                navigate('/1', {state : response.data});
+            }else{
+                navigate('/signUpSocial', {state : response.data});
             }
 
 
@@ -36,7 +37,7 @@ function NaverLogin ( {setIsAuth, setUserInfo} ) {
 
     return (
         <div>
-            로그인 처리중
+            <Loading/>
         </div>
     )
 }

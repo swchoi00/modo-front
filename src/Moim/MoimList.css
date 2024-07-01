@@ -4,10 +4,9 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr); /* 한줄에 4개 */
   gap: 2rem; /* 열 사이의 간격 */
-  
+  margin-top: 2rem;
   justify-content: center;
   align-items: center;
-  margin: 1.5rem 0;
 }
 
 

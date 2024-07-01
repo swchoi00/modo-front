@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../axiosInstance";
 import { useEffect } from "react";
+import Loading from "./Loading";
 
 function KakaoLogin( {setUserInfo, setIsAuth} ) {
 
@@ -29,10 +30,9 @@ function KakaoLogin( {setUserInfo, setIsAuth} ) {
           setUserInfo(response.data.member[0]);
           setIsAuth(true);
           navigate('/');
-          // navigate(-2);
-        } else {
-          navigate('/1', {state : response.data});
-      }
+        }else{
+          navigate('/signUpSocial', {state : response.data});
+        }
 
       }).catch(error => {
         console.log(error);
@@ -41,7 +41,7 @@ function KakaoLogin( {setUserInfo, setIsAuth} ) {
 
   return (
     <div>
-      로그인 처리중
+      <Loading/>
     </div>
   )
 }

@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../axiosInstance";
+import Loading from "./Loading";
 // import { useEffect } from "react";
 
 function GoogleLogin ( {setUserInfo, isAuth, setIsAuth}) {
@@ -20,11 +21,9 @@ function GoogleLogin ( {setUserInfo, isAuth, setIsAuth}) {
                 sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
                 setUserInfo(response.data.member[0]);
                 setIsAuth(true);
-                // navigate(-3);
                 navigate('/');
-              
-            } else {
-                navigate('/1', {state : response.data});
+            }else{
+                navigate('/signUpSocial', {state : response.data});
             }
         }).catch(error => {
             alert('로그인 실패')
@@ -36,7 +35,7 @@ function GoogleLogin ( {setUserInfo, isAuth, setIsAuth}) {
 
     return (
         <div>
-            로그인 처리중
+            <Loading/>
         </div>
     )
 }
