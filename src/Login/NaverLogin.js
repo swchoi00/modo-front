@@ -26,7 +26,7 @@ function NaverLogin ( {setIsAuth, setUserInfo} ) {
                 setIsAuth(true);
                 navigate('/');
             }else{
-                navigate('/signUpSocial', {state : response.data});
+                navigate('/signUpSocial', {state : {data : response.data, code : code, state : state}});
             }
 
 

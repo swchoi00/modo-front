@@ -203,25 +203,26 @@ const nicknameCheck = () => {
   }
 
 // 회원 탈퇴 핸들러 (상운)
-  const deleteAccountHandler = ()=>{
-    let answer = window.confirm("탈퇴하시겠습니까? 탈퇴한 계정은 복구할 수 없습니다 🥲");
-    if(answer){
-      axiosInstance.delete(`deleteAccount/${userInfo.id}`)
-      .catch((response)=>{
-        alert(response.data); // 서버에서 회원 탈퇴 완료 메세지 보내주기
-        sessionStorage.removeItem('jwt');
-        sessionStorage.removeItem('userInfo');
-        sessionStorage.removeItem('myPage');
-        setUserInfo({
-          username : '',
-          nickname : ''
-        });
-        setIsAuth(false);
-        navigate('/');
-      })
+const deleteAccountHandler = ()=>{
+  let answer = window.confirm("탈퇴하시겠습니까? 탈퇴한 계정은 복구할 수 없습니다 🥲");
+  if(answer){
+    axiosInstance.delete(`deleteAccount/${userInfo.id}`)
+    .then((response)=>{
+      alert(response.data); // 서버에서 회원 탈퇴 완료 메세지 보내주기
+      sessionStorage.removeItem('jwt');
+      sessionStorage.removeItem('userInfo');
+      sessionStorage.removeItem('myPage');
+      setUserInfo({username : '', nickname : ''});
+      setIsAuth(false);
+      navigate('/');
+    })
+    .catch((error)=>{
+      console.log(error);
+    })
 
-    }
   }
+}
+
 
   return(
     <div id='myPageAccount'>

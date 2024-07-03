@@ -15,6 +15,7 @@ const SignUpSocial = ({setIsAuth, setUserInfo})=>{
     // const [snsJoinUser, setSnsJoinUser] = useState(location.state); // user 객체는 location.state안에 있음으로 해당 정보 userInfo에 넣어줌
     const [snsJoinUser, setSnsJoinUser] = useState(location.state.data);
     const [accessToken] = useState(location.state.accessToken);
+    const [code] = useState(location.state.code);
 
     console.log('Access Token:', accessToken);
 
@@ -122,14 +123,17 @@ const SignUpSocial = ({setIsAuth, setUserInfo})=>{
   //       alert("😡로그인 실패😡");
   //     })
   // }
+
+  console.log(snsJoinUser);
+
   const snsSignUpHandler = () => {
     const config = {
       headers: {
       'Authorization': `Bearer ${accessToken}`
     }
   }
-    // axiosInstance.post('/oauth/join', snsJoinUser, config)
-    axios.post(`${process.env.REACT_APP_SERVER_URL}/oauth/join`, snsJoinUser)  
+    axiosInstance.post('/oauth/join', snsJoinUser)
+    // axios.post(`${process.env.REACT_APP_SERVER_URL}/oauth/join`, snsJoinUser)  
 
   
       .then((response) => {
