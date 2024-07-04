@@ -136,9 +136,13 @@ const MoimDetailMoimInfoModal = ({showMoimInfoSettingModal, setShowMoimInfoSetti
   // submit 버튼 활성화 여부 
   const updateCheck = moimInfo.introduction !== '' && moimInfo.city !== '' && moimInfo.town !== '' && moimInfo.category !== '';
   
+  console.log(moimInfo);
 
   const updateMoimInfo = ()=>{
+    
     axiosInstance.post('/updateMoimInfo', moimInfo)
+    // axiosInstance.post('/updateMoimInfo', {id: 1, moimname: 'ddd'})
+
     .then((response) => {
       alert(response.data);
       setMoimHashTag(''); // 현재 입력창 비우기 (input)
