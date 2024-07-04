@@ -44,6 +44,7 @@ import SignUpPage from './SignUp/SignUp2';
 import SignUpSocial from './SignUp/SignUpSocial';
 import TermsUser from './HomeComponent/TermsUser';
 import axiosInstance from './axiosInstance';
+import NotFoundPage from './NotFoundPage';
 
 
 
@@ -53,18 +54,8 @@ function App() {
   // 모바일 하단 탭바 사용을 위한 현재 웹화면 경로 추적 코드
   const location = useLocation();
   const [pageNow, setPageNow] = useState(location.pathname);
-  const [userInfo, setUserInfo] = useState({});
+  const [userInfo, setUserInfo] = useState({username: '', nickname: ''});
   const [moimInfo, setMoimInfo] = useState({});
-  const [notice, setNotice] = useState({
-    title : '',
-    content : '',
-    member : userInfo.username
-  });
-  const [inquiryForm, setInquiryForm] = useState({
-    title : '',
-    content : '',
-    member : userInfo.username
-  });
   const [isAuth, setIsAuth] = useState(false); // 로그인 상태 확인
 
 
@@ -109,9 +100,7 @@ function App() {
 
   }, []);
 
-  // useEffect(() => {
-  //   //console.log("Auth바뀜 : " + isAuth);
-  // }, [isAuth]);
+
 
   // 게시글 리스트 페이지네이션 용 
   const [currentPage, setCurrentPage] = useState(1);
@@ -138,6 +127,7 @@ function App() {
 
       <div className='App-Body'>
         <Routes>
+          <Route path="*" element={<NotFoundPage/>} />
           <Route path='/' element={<Main isAuth={isAuth} setCategoryCheck={setCategoryCheck}/>} />
           <Route path='/moim' element={<Moim isAuth={isAuth} userInfo={userInfo} setUserInfo={setUserInfo} 
                  categoryCheck={categoryCheck} setCategoryCheck={setCategoryCheck}/>} />

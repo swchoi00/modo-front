@@ -100,9 +100,9 @@ const Header = ( {isAuth, setIsAuth, userInfo, setUserInfo} ) =>{
           {
             isAuth ? 
             <div className='headerSide-menu-inner1-login'>
-              <div>{/* 🟡🟡🟡🟡디자인 보완 필요🟡🟡🟡🟡 */}
-                <img src={face} alt=''/>
-                <div><FontAwesomeIcon icon={faPen}/></div>                
+              <div style={{marginBottom: '0.5rem'}} onClick={()=>navigate('/myPage')}> 
+                <img src={userInfo?.memberImage} alt='' style={{width:'7rem'}}/>
+                {/* <div><FontAwesomeIcon icon={faPen}/></div>                 */}
               </div>
               <div>{userInfo.nickname}님</div>
             </div>
@@ -123,7 +123,8 @@ const Header = ( {isAuth, setIsAuth, userInfo, setUserInfo} ) =>{
             {/* <Link to = {"/"}>멘토링</Link> */}
             <Link to = {"/community"}>커뮤니티</Link>
             <Link to = {"/faq"}>FAQ</Link>
-            <Link to = {"/faq"}>공지사항</Link>
+            <Link to = {"/notice"}>공지사항</Link>
+            <Link to = {"/myPage"}>마이페이지</Link>
           </div>
           
           {

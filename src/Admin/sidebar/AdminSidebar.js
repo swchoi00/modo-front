@@ -1,7 +1,9 @@
+import { useNavigate } from 'react-router-dom';
 import './AdminSidebar.css';
 
 function AdminSidebar({ isAuth, userInfo, selectedMenu, setSelectedMenu, sidebarMenu }) {
 
+  const navigate = useNavigate();
   const navClickHandler = (navMenu) => {
     if(!isAuth) {
       alert('로그인 후 이용가능합니다.');
@@ -17,7 +19,7 @@ function AdminSidebar({ isAuth, userInfo, selectedMenu, setSelectedMenu, sidebar
   return (
     <div className="AdminSidebar">
 
-      <div className="logo-img">
+      <div className="logo-img" onClick={() => navigate('/')}>
         <img src={process.env.PUBLIC_URL + "./Img/modo-admin-logo.svg"} />
       </div>
       <ul className="menu">

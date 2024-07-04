@@ -22,8 +22,8 @@ const Footer = () =>{
     let email = '';
     switch (name) {
       case "예원": email = "wwww7741@naver.com"; break;
-      case "상운": email = "wwww7741@naver.com"; break;
-      case "윤희": email = "wwww7741@naver.com"; break;
+      case "상운": email = "celpic-@naver.com"; break;
+      case "윤희": email = "newyoonhee@gmail.com"; break;
       default:break;
     }
   

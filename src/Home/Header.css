@@ -305,6 +305,9 @@
   /* #HeaderMobile{
     height:  3.8rem;
   } */
+   #HeaderMobile .nav-logo{
+    width: 20%;
+   }
 }
 
 

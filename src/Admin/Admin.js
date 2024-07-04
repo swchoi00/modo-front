@@ -16,19 +16,15 @@ const Admin = ({ isAuth, setIsAuth, userInfo, setUserInfo, currentPage, setCurre
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const storedAdminInfo = sessionStorage.getItem('adminInfo');
-    if (storedAdminInfo) {
-      const userInfoObject = JSON.parse(storedAdminInfo)
-      setUserInfo(userInfoObject);
-    }
-   if (isAuth) {
-      if (userInfo.username === 'admin') {
-        setSelectedMenu('회원관리');
-        sessionStorage.setItem('selectedMenu', '회원관리');
+  
+  useEffect(()=>{
+    if (isAuth) {
+        if (userInfo?.role === 'ADMIN') {
+          setSelectedMenu('회원관리');
+          sessionStorage.setItem('selectedMenu', '회원관리');
+        }
       }
-    }
-  }, []);
+  }, [isAuth]);
 
   const [loginData, setLoginData] = useState({
     username: '',
@@ -37,16 +33,12 @@ const Admin = ({ isAuth, setIsAuth, userInfo, setUserInfo, currentPage, setCurre
 
   useEffect(() => {
     sessionStorage.setItem('selectedMenu', selectedMenu);
-
-
   }, [selectedMenu]);
 
   useEffect(() => {
     if (isAuth) {
-      if (userInfo.username !== 'admin') {
-        setIsAuth(false);
+      if (userInfo.role === 'MEMBER') {
         navigate('/');
-
       } 
     }
   })
@@ -56,23 +48,19 @@ const Admin = ({ isAuth, setIsAuth, userInfo, setUserInfo, currentPage, setCurre
       ...prevData,
       [e.target.name]: e.target.value
     }));
-    //console.log(loginData);
   };
 
   // ⭐⭐⭐ 로그인 정보 서버에 보내기
   const loginBtnHandler = (e) => {
     e.preventDefault(); // 새로고침 방지
-    //console.log(loginData);
     axiosInstance.post('/adminLogin', loginData)
       .then((response) => {
-
-        //console.log(response.data);
         const jwt = response.headers.authorization;
-        const adminInfo = response.data.admin[0];
+        const userInfo = response.data.admin[0];
         sessionStorage.setItem('jwt', jwt);
-        sessionStorage.setItem('adminInfo', JSON.stringify(adminInfo));
-        setUserInfo(response.data.admin[0]);
-        setIsAuth(true)
+        sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
+        setUserInfo(userInfo);
+        setIsAuth(true);
 
         alert("관리자 로그인 완료");
         setSelectedMenu('회원관리');
@@ -88,17 +76,13 @@ const Admin = ({ isAuth, setIsAuth, userInfo, setUserInfo, currentPage, setCurre
       });
   };
 
-  //console.log(userInfo);
-
   const adminLogoutHandler = () => {
     sessionStorage.removeItem('jwt');
-    sessionStorage.removeItem('adminInfo');
+    sessionStorage.removeItem('userInfo');
     setUserInfo({ username: '', password: '' });
+    setIsAuth(false);
     setSelectedMenu('');
   }
-
-  //console.log(userInfo);
-  //console.log(userInfo.role);
 
   return (
     <>
@@ -107,12 +91,12 @@ const Admin = ({ isAuth, setIsAuth, userInfo, setUserInfo, currentPage, setCurre
         <div className='header'>
           <div>관리자 페이지</div>
           {
-            userInfo.role === "ADMIN" && (
+            userInfo?.role === "ADMIN" && (
               <button onClick={() => adminLogoutHandler()}>로그아웃</button>
             )}
         </div>
         {
-          userInfo.username === '' &&
+          userInfo?.username === ''|| userInfo?.username === undefined ?
           <div className='login-box'>
             <h1 className='title'>로그인</h1>
             <form>
@@ -127,6 +111,7 @@ const Admin = ({ isAuth, setIsAuth, userInfo, setUserInfo, currentPage, setCurre
               </div>
             </form>
           </div>
+          : null
         }
         {
           selectedMenu === '회원관리' &&
