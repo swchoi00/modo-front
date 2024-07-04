@@ -17,12 +17,12 @@ const MoimPhotoUpload = ({setMoimThumbnail})=>{
     setMoimThumbnail(file);
 
     const reader = new FileReader();
-    // console.log(file);
+    // //console.log(file);
 
     reader.readAsDataURL(file);
     reader.onloadend = () => {
       setImageUrl(reader.result); // 이미지 주소 저장
-      // console.log("이미지주소", reader.result);
+      // //console.log("이미지주소", reader.result);
     };
   };
 

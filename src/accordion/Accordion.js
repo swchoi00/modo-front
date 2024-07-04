@@ -41,17 +41,13 @@ const Accordion = ({ date, answerChk, title, content, answer, category, isOpen, 
                 <div>Q.</div>
                 {content}
               </div>
-              {/* {
+              {
                 answer &&
                 <div className='answer'>
                   <div>A.</div>
                   {answer}
                 </div>
-              } */}
-              <div className='answer'>
-                <div>A.</div>
-                관리자 댓글 Test입니다.
-              </div>
+              }
             </div>
           ) : (
             <div className="accordion-inner-content-FAQ">

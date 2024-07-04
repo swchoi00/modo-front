@@ -30,6 +30,7 @@ import InquiryWrite from './Inquiry/InquiryWrite';
 
 import Admin from './Admin/Admin';
 
+
 import MoimBoard from './Moim/MoimDetail/Moim-board';
 import MoimGallery from './Moim/MoimDetail/Moim-gallery';
 import MoimChat from './Moim/MoimDetail/Moim-chat';
@@ -41,6 +42,10 @@ import MoimDetailBoardCommDetail from './Moim/MoimDetailInnerComponent/MoimDetai
 import MyPageDetail from './MyPage/MyPage-detail';
 import SignUpPage from './SignUp/SignUp2';
 import SignUpSocial from './SignUp/SignUpSocial';
+import TermsUser from './HomeComponent/TermsUser';
+import axiosInstance from './axiosInstance';
+
+
 
 
 function App() {
@@ -88,6 +93,8 @@ function App() {
     `, 'color: #a472ff');
   }, []);
 
+ 
+
 
   // 유저 정보 바뀔 때 마다 sessrion에 저장된 값 업데이트
   useEffect(()=>{
@@ -102,9 +109,9 @@ function App() {
 
   }, []);
 
-  useEffect(() => {
-    console.log("Auth바뀜 : " + isAuth);
-  }, [isAuth]);
+  // useEffect(() => {
+  //   //console.log("Auth바뀜 : " + isAuth);
+  // }, [isAuth]);
 
   // 게시글 리스트 페이지네이션 용 
   const [currentPage, setCurrentPage] = useState(1);
@@ -112,12 +119,14 @@ function App() {
   // 모임 페이지 특정 위치 이동용
   const [moimPageRef, setMoimPageRef] = useState(false);
 
-  const isAdminPage = location.pathname.startsWith('/modoAdmin');
+  const isAdminPage = location.pathname.startsWith('/modoAdmin119');
   // 마이페이지에서 문의 관련 작업 할 때 사용
   const [inquiryList, setInquiryList] = useState(false);
   // 마이페이지에서 상세 페이지 작업 할 때 사용
   const [myPageDetail, setMyPageDetail] = useState({'title' : '', 'type' : ''});
 
+  // 메인화면 카테고리 값
+  const [categoryCheck, setCategoryCheck] = useState([]);
 
 
 
@@ -129,8 +138,9 @@ function App() {
 
       <div className='App-Body'>
         <Routes>
-          <Route path='/' element={<Main />} />
-          <Route path='/moim' element={<Moim isAuth={isAuth} userInfo={userInfo} setUserInfo={setUserInfo} />} />
+          <Route path='/' element={<Main isAuth={isAuth} setCategoryCheck={setCategoryCheck}/>} />
+          <Route path='/moim' element={<Moim isAuth={isAuth} userInfo={userInfo} setUserInfo={setUserInfo} 
+                 categoryCheck={categoryCheck} setCategoryCheck={setCategoryCheck}/>} />
           {/* ↓ 모임상세페이지 URL값 , 나중에 유저정보 보내줘야함*/}
           <Route path='/moim/:id/home' element={<MoimHome isAuth={isAuth} userInfo={userInfo} setUserInfo={setUserInfo}
             moimInfo={moimInfo} setMoimInfo={setMoimInfo} setMoimPageRef={setMoimPageRef} />} />
@@ -177,10 +187,11 @@ function App() {
 
           <Route path='/faq' element={<Faq userInfo={userInfo} isAuth={isAuth} currentPage={currentPage} setCurrentPage={setCurrentPage} />} />
 
-          <Route path='/modoAdmin' element={<Admin userInfo={userInfo} isAuth={isAuth} setIsAuth={setIsAuth} setUserInfo={setUserInfo}  currentPage={currentPage} setCurrentPage={setCurrentPage} />} />
+          <Route path='/modoAdmin119' element={<Admin userInfo={userInfo} isAuth={isAuth} setIsAuth={setIsAuth} setUserInfo={setUserInfo}  currentPage={currentPage} setCurrentPage={setCurrentPage} />} />
+          <Route path='/termsPage/:id' element={<TermsUser />} />
         </Routes>
       </div>
-      {!isAdminPage && <Footer />}
+      {!isAdminPage && <Footer/>}
 
       <MoblieTabBar pageNow={pageNow} isAdminPage={isAdminPage}/>
 

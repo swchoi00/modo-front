@@ -64,7 +64,13 @@
     font-weight: 800;
     margin-bottom: 0.625rem;
     cursor: pointer;
+    outline: none;
 }
+
+.Login .loginBtn:focus {
+    border: 2px solid #d0bfff;
+}
+
 
 .Login .findIdPwWrapper {
     display: flex;

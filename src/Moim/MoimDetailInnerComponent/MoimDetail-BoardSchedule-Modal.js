@@ -105,7 +105,7 @@ const scheduleSwitchHandler= (e) => {
   scheduleSwitch.current.blur(); // focus 해제 (스위치가 변경될때마다, css에서 따로 설정 불가능...)
   setAddScheduleInfo((data)=>({...data, scheduleEndDate: ''}));
 };
-// console.log(addScheduleInfo);
+// //console.log(addScheduleInfo);
 
 // 일정 추가 모달이 켜지고 꺼질때마다 
 // 사용자가 모임디테일페이지에서 날짜를 바꾸면 해당날짜로 일정 시작 날을 바꿔줌
@@ -145,7 +145,7 @@ const startDateCheckHandler = (date)=>{
   const dateString = new Date(date).toDateString();
   const countOnDate = markedDates[dateString] || 0; // 선택한 날짜에 일정이 몇개 있는지 확인 일정 없으면 0으로 리턴됨
   if (countOnDate >= 2) {
-    alert("해당 날짜에 더 이상 일정을 추가 할 수 없어요 🥲");
+    alert("해당 날짜에 더 이상 일정을 추가 할 수 없어요 ");
     setAddScheduleInfo((data)=>({...data, scheduleStartDate: null}));
   }else{
     setAddScheduleInfo((data)=>({...data, scheduleStartDate: date}));
@@ -257,10 +257,10 @@ const addMoimscheduleSubmitHandler= ()=>{
       });
 }
 
-// console.log(addScheduleInfo);
-// console.log(moimInfo.Id);
-// console.log(addScheduleSubmitCheck);
-// console.log(upDateScheduleInfo);
+// //console.log(addScheduleInfo);
+// //console.log(moimInfo.Id);
+// //console.log(addScheduleSubmitCheck);
+// //console.log(upDateScheduleInfo);
 
   return(
     <>

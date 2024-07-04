@@ -1,8 +1,8 @@
 let noticeMockData = [
   {
-      id: "10",
+      id: "8",
       member: { username: 'admin', nickname: '관리자' },
-      createDate: "2024-06-11",
+      createDate: "2024-07-11",
       title: "새로운 기능 업데이트와 관련된 내용을 안내해 드립니다.",
       content: `
       1. 사용자 프로필 수정 기능 추가
@@ -13,35 +13,37 @@ let noticeMockData = [
       `
   },
   {
-      id: "9",
+      id: "7",
       member: { username: 'admin', nickname: '관리자' },
-      createDate: "2024-06-10",
+      createDate: "2024-07-05",
       title: "회원 여러분의 건의사항을 반영하여 일부 기능을 개선하였습니다.",
       content: `
       1. 모임 검색 기능 향상
-      2. 알림 기능 최적화
+      2. 모임 사진 이슈
       3. 기타 소소한 개선
 
       앞으로도 많은 피드백 부탁드립니다.
       `
   },
   {
-      id: "8",
+      id: "6",
       member: { username: 'admin', nickname: '관리자' },
-      createDate: "2024-06-09",
+      createDate: "2024-06-20",
       title: "사이트 이용 중 불편사항을 접수받고 있습니다.",
       content: `
-      1. 문의 및 건의 사항 접수처 안내
-      2. 긴급 문의는 고객센터를 통해 접수 바랍니다.
-      3. 개선사항 반영 예정
+      1:1문의를 통해 문의 및 건의 사항을 접수 바랍니다.
+
+      빠른 시일 내에 개선사항을 반영하겠습니다.
 
       여러분의 의견을 소중히 반영하겠습니다.
+
+      감사합니다.
       `
   },
   {
-      id: "7",
+      id: "5",
       member: { username: 'admin', nickname: '관리자' },
-      createDate: "2024-06-08",
+      createDate: "2024-06-15",
       title: "서버 점검 일정을 안내해 드립니다.",
       content: `
       1. 점검 일시: 2024년 6월 15일 00:00 ~ 06:00
@@ -51,62 +53,39 @@ let noticeMockData = [
       이용에 불편을 드려 죄송합니다.
       `
   },
-  {
-      id: "6",
-      member: { username: 'admin', nickname: '관리자' },
-      createDate: "2024-06-07",
-      title: "새로운 모임 카테고리가 추가되었습니다.",
-      content: `
-      1. 운동 및 스포츠 모임
-      2. 문화 및 예술 모임
-      3. 자기계발 모임
 
-      많은 참여 부탁드립니다.
-      `
-  },
-  {
-      id: "5",
-      member: { username: 'admin', nickname: '관리자' },
-      createDate: "2024-06-06",
-      title: "회원 등급 시스템이 도입되었습니다.",
-      content: `
-      1. 일반 회원
-      2. 우수 회원
-      3. VIP 회원
-
-      등급별 혜택을 확인해 주세요.
-      `
-  },
   {
       id: "4",
       member: { username: 'admin', nickname: '관리자' },
-      createDate: "2024-06-05",
-      title: "사이트 이용 가이드가 업데이트되었습니다.",
+      createDate: "2024-06-01",
+      title: "모바일 앱 출시 예정을 전해드립니다.",
       content: `
-      1. 모임 생성 방법
-      2. 모임 참여 방법
-      3. 기타 유용한 팁
-
-      가이드를 통해 사이트를 더 잘 활용해 보세요.
-      `
-  },
-  {
-      id: "3",
-      member: { username: 'admin', nickname: '관리자' },
-      createDate: "2024-06-04",
-      title: "모바일 앱 출시 소식을 전해드립니다.",
-      content: `
-      1. 안드로이드 앱 출시
+      1. 안드로이드 앱 출시 예정
       2. iOS 앱 출시 예정
-      3. 모바일에서 더욱 편리하게 이용하세요.
+
+
+      모바일에서 더욱 편리하게 이용하세요.
 
       많은 다운로드 부탁드립니다.
       `
   },
   {
+    id: "3",
+    member: { username: 'admin', nickname: '관리자' },
+    createDate: "2024-05-27",
+    title: "새로운 모임 카테고리가 추가되었습니다.",
+    content: `
+    1. 운동 및 스포츠 모임
+    2. 한잔 모임
+    3. 글쓰기 모임
+
+    많은 참여 부탁드립니다.
+    `
+},
+  {
       id: "2",
       member: { username: 'admin', nickname: '관리자' },
-      createDate: "2024-06-03",
+      createDate: "2024-05-18",
       title: "사이트 개선사항을 안내해 드립니다.",
       content: `
       1. UI/UX 개선
@@ -119,10 +98,10 @@ let noticeMockData = [
   {
       id: "1",
       member: { username: 'admin', nickname: '관리자' },
-      createDate: "2024-06-02",
+      createDate: "2024-05-05",
       title: "사이트 오픈을 축하합니다.",
       content: `
-      1. 사이트 오픈일: 2024년 6월 1일
+      1. 사이트 오픈일: 2024년 5월 5일
       2. 다양한 모임을 생성하고 참여해 보세요.
       3. 많은 관심과 참여 부탁드립니다.
 

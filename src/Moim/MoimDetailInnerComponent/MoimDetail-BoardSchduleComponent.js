@@ -16,7 +16,7 @@ import MoimDetailBoardSheduleModal from "./MoimDetail-BoardSchedule-Modal";
 import axiosInstance from "../../axiosInstance";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGear } from '@fortawesome/free-solid-svg-icons';
+import { faCircle, faGear } from '@fortawesome/free-solid-svg-icons';
 
 const MoimDetailBoardSchduleComponent = ({moimInfo, moimMemberRole, isAuth, userInfo})=>{
 
@@ -68,13 +68,15 @@ const MoimDetailBoardSchduleComponent = ({moimInfo, moimMemberRole, isAuth, user
     const markCount = markedDates[dateString] || 0;
     if (view === 'month' && markCount > 0) {
       return (
-        <span role="img" aria-label="star" style={{ fontSize: 'xx-small' }}>
-          {markCount === 1 ? '🟣' : '🟣🟡'}
+        // color: markCount === 1? '' : 'sandybrown'
+        <span role="img" aria-label="star" style={{ fontSize: 'x-small'}}>
+          {markCount === 1 ? <FontAwesomeIcon icon={faCircle} style={{color:'#8D65C5'}}/> 
+          : <><FontAwesomeIcon icon={faCircle} style={{color:'#8D65C5'}}/> &nbsp;<FontAwesomeIcon icon={faCircle} style={{color:'#FCD53F'}}/></>
+          }
         </span>
       );
     }
   };
-
 
 
 
@@ -89,7 +91,7 @@ const MoimDetailBoardSchduleComponent = ({moimInfo, moimMemberRole, isAuth, user
     return remainingDays;
   };
 
-
+//console.log(moimScheduleList);
 
   // 달력에 찍은 날짜에 해당하는 스케쥴 가져오는 작업
   useEffect(() => {
@@ -225,7 +227,7 @@ const MoimDetailBoardSchduleComponent = ({moimInfo, moimMemberRole, isAuth, user
                 }      
               </div>
               <div className="moimDetail-calendar-schedule-body-contentBox">
-                {data?.scheduleEndDate === undefined ? // 일정이 하루인지 물어봄
+                {data?.scheduleEndDate === null ? // 일정이 하루인지 물어봄
                   <div className='moimDetail-moimContent-board-schedule-content-data'>
                     <span>일시</span><div>{moment(data.scheduleStartDate).format(dateFormat, 'ko')} &nbsp;{data.scheduleStartTime} ~ {data.scheduleEndTime}</div>
                   </div>

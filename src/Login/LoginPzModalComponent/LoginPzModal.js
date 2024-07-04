@@ -15,7 +15,7 @@ const LoginPzModal = ({ showLoginModal, setShowLoginModal}) => {
       >
         <Modal.Body>
           <div className='LoginPzModal-Box'>
-            <b>로그인 후 이용해주세요 😉</b>
+            <b>로그인 후 이용해주세요 </b>
             <div className='LoginPzModal-Body'>
               <div className='LoginPzModal-BtnBox'>
                 <button className='LoginPzModal-BtnStyle1' onClick={() => navigate('/login')}>로그인</button>

@@ -21,7 +21,7 @@ const MoimHome = ({isAuth, userInfo, setUserInfo, moimInfo, setMoimInfo, setMoim
   const moimId = Number(id);  // 파라미터로 받은 id를 숫자로 변경
   // const [moimCommAfter, setMoimCommAfter] = useState(false); // 모임 게시글 작성 후 페이지 이동을 위해 사용
   const moimMenuCk = '홈';
-  
+  const [moimImg, setMoimImg] = useState(); // 모임 사진 설정
   // 좋아요 상태 저장하는 스테이트
   const [likedMoims, setLikedMoims] = useState(false); // 초기값을 false로 설정
   // 로그인 유저와 모임장이 일치하는지 여부 (😡😡모임장, 매니저, 모임원 여부 있어야 할거 같은데😡😡)
@@ -40,7 +40,15 @@ const MoimHome = ({isAuth, userInfo, setUserInfo, moimInfo, setMoimInfo, setMoim
     axiosInstance.get(`/moimInfo/${id}`)
     .then((response) => {
       setMoimInfo(response.data); // 모임 정보 저장
-      console.log(response.data);
+
+      axiosInstance.get(`/getMoimThumbnail/${id}`, {
+        responseType: 'blob',
+      })
+      .then((response) => {
+        const imageUrl = URL.createObjectURL(response.data);
+        setMoimImg(imageUrl);
+      }).catch((error)=>{console.log(error);});
+
     })
     .catch((error) => {
         console.log(error);
@@ -143,7 +151,7 @@ useEffect(()=>{
 
 
   // 😡임시_캐러셀 이미지 추후 링크 통해서 대체해야함😡
-  const banner = [1, 2, 3, 4, 5];
+  const banner = [1];
   const [activeIndex, setActiveIndex] = useState(0);  // 부트스트랩 캐러셀 select된 번호 저장하는 스테이트
   const handleBanner = (selectedIndex) => { // onSelect될때마다 바뀐 selectIndex를 위에 스테이트에 저장해줌
     setActiveIndex(selectedIndex);
@@ -224,7 +232,7 @@ useEffect(()=>{
     }
   }
 
-
+//console.log(moimImg);
   return(
     <div className='MoimDetail-container' onClick={handleOutsideClick}>
 
@@ -240,7 +248,8 @@ useEffect(()=>{
                 {/* <div>{num}</div>😡임시😡 */}
                 <div className='moimDetail-thumbnail-img'
                   style={{
-                    backgroundImage: `url(https://raw.githubusercontent.com/Jella-o312/modo-image/main/moim-img/moim${num}.png)`, // ⭐보안 정책 때문에 컴퓨터 내부에 있는 파일로 테스트 불가
+                    // backgroundImage: `url(https://raw.githubusercontent.com/Jella-o312/modo-image/main/moim-img/moim${num}.png)`, 
+                    backgroundImage: `url(${moimImg})`,
                     backgroundRepeat: 'no-repeat',
                     backgroundSize: 'cover'
                   }}

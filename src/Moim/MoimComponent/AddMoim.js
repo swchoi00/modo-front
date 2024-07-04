@@ -1,4 +1,4 @@
-import { useState , useRef} from 'react';
+import { useState , useRef, useEffect} from 'react';
 import './AddMoim.css';
 import { MoimAdressCity, MoimAdressTown } from './MoimAddress';
 import { useNavigate } from 'react-router-dom';
@@ -9,6 +9,15 @@ const AddMoim = ({ userInfo }) =>{
 
   const navigate = useNavigate();
   const moimnameInputRef = useRef(null); // 모임이름 중복확인 후 focus이동을 위한 ref생성
+
+  useEffect(()=>{
+    if(userInfo.username === ''){
+      alert('로그인 후 이용해주세요');
+      navigate('/login');
+    }
+  },[userInfo]);
+
+
 
   // 생성 모임 정보 담아두는 스테이트
   const [addMoimInfo, setAddMoimInfo] = useState({
@@ -114,7 +123,6 @@ const createMoim = ()=>{
   formData.append('moimInfo', JSON.stringify(addMoimInfo)); // 모임 정보 
   formData.append('file', moimThumbnail);  // 모임 사진 
   formData.append('photoType', PhotoType.MAIN); // 사진 타입 (폴더 저장 경로)
-console.log(formData);
   axiosInstance.post('/createMoim', formData, {
     headers: {
       'Content-Type': 'multipart/form-data'
@@ -136,8 +144,8 @@ const addMoimSubmitCheck = Object.values(addMoimInfo).every(value => value !== '
 
 
 
-console.log(addMoimInfo);
-console.log(moimThumbnail);
+// //console.log(addMoimInfo);
+// //console.log(moimThumbnail);
 
   return(
     <div className="AddMoim-container">
@@ -165,8 +173,8 @@ console.log(moimThumbnail);
            : spaceCheck === false ? (<span className='AddMoim-check-Message AddMoim-check-MessageNo'>띄어쓰기만 입력하면 안돼요...</span>)
             // [1] 중복확인 필요 [2] 사용가능 [3] 사용불가
            : checkMoimName === 1 ? (<span className='AddMoim-check-Message'>중복확인 버튼을 눌러주세요</span>)
-           : checkMoimName === 2 ? (<span className='AddMoim-check-Message'>멋진 모임이름이에요😉</span>) 
-           : checkMoimName === 3 ?(<span className='AddMoim-check-Message AddMoim-check-MessageNo'>모임이름을 바꿔주세요 🥲</span>)
+           : checkMoimName === 2 ? (<span className='AddMoim-check-Message'>멋진 모임이름이에요</span>) 
+           : checkMoimName === 3 ?(<span className='AddMoim-check-Message AddMoim-check-MessageNo'>모임이름을 바꿔주세요 </span>)
            : null // 아무것도 입력하지 않은 초기 상태 화면 
          }
          

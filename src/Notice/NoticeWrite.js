@@ -4,7 +4,7 @@ import { useState } from 'react';
 import axiosInstance from '../axiosInstance';
 
 const NoticeWrite = ( {userInfo} ) => {
-  console.log('공지사항 작성 유저정보 : ', userInfo);
+  //console.log('공지사항 작성 유저정보 : ', userInfo);
     
   const navigate = useNavigate();
 
@@ -38,7 +38,7 @@ const noticeDataHandler = (e) => {
     }
 }
 
-console.log('공지사항 작성 : ', notice);
+//console.log('공지사항 작성 : ', notice);
   return (
     <div className="NoticeWrite">
       <h3 className='title'>글쓰기</h3>

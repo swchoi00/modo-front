@@ -241,9 +241,9 @@ const Community = ({ isAuth, currentPage, setCurrentPage }) => {
                             })
                         ) : (
                           search === true ?
-                            <div className="noData">검색 결과가 없어요 🥲</div>
+                            <div className="noData">검색 결과가 없어요 </div>
                             :
-                            <div className="noData">아직 게시글이 없어요 🥲</div>
+                            <div className="noData">아직 게시글이 없어요 </div>
                         )
                     }
                   </ul>
@@ -328,9 +328,9 @@ const Community = ({ isAuth, currentPage, setCurrentPage }) => {
                   </div>
                   : (
                     search === true ?
-                      <div className="noData">검색 결과가 없어요 🥲</div>
+                      <div className="noData">검색 결과가 없어요 </div>
                       :
-                      <div className="noData">아직 게시글이 없어요 🥲</div>
+                      <div className="noData">아직 게시글이 없어요 </div>
                   )
               }
 

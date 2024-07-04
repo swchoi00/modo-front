@@ -111,9 +111,9 @@ function SignUp() {
 
     const pwMsgElement = document.getElementById("pwMsg");
 
-    // console.log("ID:", id);
-    // console.log("Value:", value);
-    // console.log("pwMsgElement:", pwMsgElement);
+    // //console.log("ID:", id);
+    // //console.log("Value:", value);
+    // //console.log("pwMsgElement:", pwMsgElement);
 
     if (pwMsgElement) {
       if (id === "username") {
@@ -228,8 +228,8 @@ function SignUp() {
       alert("모도 회원가입 완료!");
 
       axiosInstance.post('/signup', memberData)
-        .then((response) => {
-          console.log(response.data);
+        .then(() => {
+          navigate('/login');
         }).catch((error) => {
           console.log(error);
         })
@@ -319,7 +319,7 @@ function SignUp() {
             <label className="AgreeTerms" htmlFor="infoTerms">
               <FontAwesomeIcon icon={faCheck} className="checkbox-icon" size='sm' />
               (필수) 개인정보 수집 및 이용 동의
-              <button className='showTerms' onClick={() => openModal('accessTerms')}>보기</button>
+              <button className='showTerms' onClick={() => openModal('infoTerms')}>보기</button>
             </label>
           </div>
 

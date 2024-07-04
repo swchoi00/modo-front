@@ -71,7 +71,7 @@ const MyPageDetailActivity = ({userInfo, pageType, isAuth, setUserInfo,currentPa
             :
             <div className='noResultBox'>
               <img src={sorryIcon} alt=""/>
-              <span>아직 참여 중인 모임이 없어요🥲</span>
+              <span>아직 참여 중인 모임이 없어요</span>
             </div>
           }
           </>
@@ -87,7 +87,7 @@ const MyPageDetailActivity = ({userInfo, pageType, isAuth, setUserInfo,currentPa
             :
             <div className='noResultBox'>
               <img src={sorryIcon} alt=""/>
-              <span>좋아요♡ 버튼을 누른 관심모임이 없어요🥲</span>
+              <span>좋아요♡ 버튼을 누른 관심모임이 없어요</span>
             </div>
           }
           </>
@@ -149,7 +149,7 @@ const MyPageDetailActivity = ({userInfo, pageType, isAuth, setUserInfo,currentPa
           :
             <div className='noResultBox'>
               <img src={sorryIcon} alt=""/>
-              <span>아직 작성한 커뮤니티 게시글이 없어요 🥲</span>
+              <span>아직 작성한 커뮤니티 게시글이 없어요 </span>
             </div>
           }
           </>
@@ -211,7 +211,7 @@ const MyPageDetailActivity = ({userInfo, pageType, isAuth, setUserInfo,currentPa
           : 
           <div className='noResultBox'>
             <img src={sorryIcon} alt=""/>
-            <span>아직 작성한 모임 게시글이 없어요 🥲</span>
+            <span>아직 작성한 모임 게시글이 없어요 </span>
           </div>
           }
           </>
