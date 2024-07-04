@@ -90,12 +90,13 @@ function MyPage({ isAuth, userInfo, setIsAuth, setUserInfo, setInquiryList, setM
           {/* 유저정보 */}
           <div className="userInfoBox">
             <div className="userInfoLeft">
-              <div className='userImg'
+              {/* <div className='userImg'
                   style={{
                     backgroundImage: `url(https://raw.githubusercontent.com/Jella-o312/modo-image/main/etc/face.svg)` 
                     // backgroundImage: `url(https://raw.githubusercontent.com/Jella-o312/modo-image/main/etc/userImgNone.svg)` 
                   }}
-              />
+              /> */}
+              <img className='userImg' src={userInfo?.memberImage} alt=""/>
               <div className="userNameBox">
                 <div>{userInfo.nickname}</div>
                 <span>{userInfo.username}</span>

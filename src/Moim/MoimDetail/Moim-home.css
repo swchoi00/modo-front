@@ -125,6 +125,10 @@
   align-items: center;
 }
 
+.moimDetail-moimInfo-text1-box{
+  padding-top: 0.5rem;
+}
+
 .moimDetail-moimInfo-text1-title{
   font-size: x-large;
   font-weight: 700;

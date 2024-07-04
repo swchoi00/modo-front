@@ -124,7 +124,6 @@ const SignUpSocial = ({setIsAuth, setUserInfo})=>{
   //     })
   // }
 
-  console.log(snsJoinUser);
 
   const snsSignUpHandler = () => {
     const config = {
@@ -133,8 +132,7 @@ const SignUpSocial = ({setIsAuth, setUserInfo})=>{
     }
   }
     axiosInstance.post('/oauth/join', snsJoinUser)
-    // axios.post(`${process.env.REACT_APP_SERVER_URL}/oauth/join`, snsJoinUser)  
-
+    
   
       .then((response) => {
         const jwt = response.headers.authorization;
@@ -142,7 +140,7 @@ const SignUpSocial = ({setIsAuth, setUserInfo})=>{
           const userInfo = response.data.member[0];
           sessionStorage.setItem('jwt', jwt);
           sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
-          setUserInfo(response.data.member[0]);
+          setUserInfo({ ...userInfo, 'memberImage': 'https://raw.githubusercontent.com/Jella-o312/modo-image/main/etc/userImgNone.svg' });
           setIsAuth(true);
           navigate('/');
         }

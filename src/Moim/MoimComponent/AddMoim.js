@@ -1,4 +1,4 @@
-import { useState , useRef} from 'react';
+import { useState , useRef, useEffect} from 'react';
 import './AddMoim.css';
 import { MoimAdressCity, MoimAdressTown } from './MoimAddress';
 import { useNavigate } from 'react-router-dom';
@@ -9,6 +9,15 @@ const AddMoim = ({ userInfo }) =>{
 
   const navigate = useNavigate();
   const moimnameInputRef = useRef(null); // 모임이름 중복확인 후 focus이동을 위한 ref생성
+
+  useEffect(()=>{
+    if(userInfo.username === ''){
+      alert('로그인 후 이용해주세요');
+      navigate('/login');
+    }
+  },[userInfo]);
+
+
 
   // 생성 모임 정보 담아두는 스테이트
   const [addMoimInfo, setAddMoimInfo] = useState({
@@ -114,7 +123,6 @@ const createMoim = ()=>{
   formData.append('moimInfo', JSON.stringify(addMoimInfo)); // 모임 정보 
   formData.append('file', moimThumbnail);  // 모임 사진 
   formData.append('photoType', PhotoType.MAIN); // 사진 타입 (폴더 저장 경로)
-console.log(formData);
   axiosInstance.post('/createMoim', formData, {
     headers: {
       'Content-Type': 'multipart/form-data'
@@ -136,8 +144,8 @@ const addMoimSubmitCheck = Object.values(addMoimInfo).every(value => value !== '
 
 
 
-console.log(addMoimInfo);
-console.log(moimThumbnail);
+// console.log(addMoimInfo);
+// console.log(moimThumbnail);
 
   return(
     <div className="AddMoim-container">

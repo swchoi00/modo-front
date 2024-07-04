@@ -40,13 +40,14 @@
 .main-registration-box{
   /* border: 1px solid salmon; */
   display: flex;
-  margin: 2rem 0 5rem ;
+  margin: 3rem 0;
 }
 
 .main-registration-moin, .main-registration-mentoring{
   /* border: 1px solid salmon; */
   display: flex;
   justify-content: center;
+  margin-top: 2rem;
 }
 
 .main-registration-moinBtn, .main-registration-mentoringBtn{
