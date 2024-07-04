@@ -119,7 +119,7 @@ function App() {
   // 모임 페이지 특정 위치 이동용
   const [moimPageRef, setMoimPageRef] = useState(false);
 
-  const isAdminPage = location.pathname.startsWith('/modoAdmin');
+  const isAdminPage = location.pathname.startsWith('/modoAdmin119');
   // 마이페이지에서 문의 관련 작업 할 때 사용
   const [inquiryList, setInquiryList] = useState(false);
   // 마이페이지에서 상세 페이지 작업 할 때 사용
@@ -187,7 +187,7 @@ function App() {
 
           <Route path='/faq' element={<Faq userInfo={userInfo} isAuth={isAuth} currentPage={currentPage} setCurrentPage={setCurrentPage} />} />
 
-          <Route path='/modoAdmin' element={<Admin userInfo={userInfo} isAuth={isAuth} setIsAuth={setIsAuth} setUserInfo={setUserInfo}  currentPage={currentPage} setCurrentPage={setCurrentPage} />} />
+          <Route path='/modoAdmin119' element={<Admin userInfo={userInfo} isAuth={isAuth} setIsAuth={setIsAuth} setUserInfo={setUserInfo}  currentPage={currentPage} setCurrentPage={setCurrentPage} />} />
           <Route path='/termsPage/:id' element={<TermsUser />} />
         </Routes>
       </div>
