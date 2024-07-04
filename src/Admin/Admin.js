@@ -56,17 +56,17 @@ const Admin = ({ isAuth, setIsAuth, userInfo, setUserInfo, currentPage, setCurre
       ...prevData,
       [e.target.name]: e.target.value
     }));
-    console.log(loginData);
+    //console.log(loginData);
   };
 
   // ⭐⭐⭐ 로그인 정보 서버에 보내기
   const loginBtnHandler = (e) => {
     e.preventDefault(); // 새로고침 방지
-    console.log(loginData);
+    //console.log(loginData);
     axiosInstance.post('/adminLogin', loginData)
       .then((response) => {
 
-        console.log(response.data);
+        //console.log(response.data);
         const jwt = response.headers.authorization;
         const adminInfo = response.data.admin[0];
         sessionStorage.setItem('jwt', jwt);
@@ -88,7 +88,7 @@ const Admin = ({ isAuth, setIsAuth, userInfo, setUserInfo, currentPage, setCurre
       });
   };
 
-  console.log(userInfo);
+  //console.log(userInfo);
 
   const adminLogoutHandler = () => {
     sessionStorage.removeItem('jwt');
@@ -97,8 +97,8 @@ const Admin = ({ isAuth, setIsAuth, userInfo, setUserInfo, currentPage, setCurre
     setSelectedMenu('');
   }
 
-  console.log(userInfo);
-  console.log(userInfo.role);
+  //console.log(userInfo);
+  //console.log(userInfo.role);
 
   return (
     <>

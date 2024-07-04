@@ -82,7 +82,7 @@ const MoimDetailBoardCommReply = ({isAuth, userInfo, id, no, setUpdateReplyCnt})
       }
       else {
         const updateCommReply = { ...postReply, moimMember: {id : moimMemberInfo.id} };
-        console.log(updateCommReply);
+        //console.log(updateCommReply);
         axiosInstance.post(`/moimReply/${id}`, updateCommReply)
           .then((response) => {
             alert(response.data);

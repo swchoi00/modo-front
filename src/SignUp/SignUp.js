@@ -111,9 +111,9 @@ function SignUp() {
 
     const pwMsgElement = document.getElementById("pwMsg");
 
-    // console.log("ID:", id);
-    // console.log("Value:", value);
-    // console.log("pwMsgElement:", pwMsgElement);
+    // //console.log("ID:", id);
+    // //console.log("Value:", value);
+    // //console.log("pwMsgElement:", pwMsgElement);
 
     if (pwMsgElement) {
       if (id === "username") {

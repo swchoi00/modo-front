@@ -29,7 +29,7 @@ const MoimGallery = ({isAuth, userInfo, moimInfo, setMoimInfo,currentPage ,setCu
   return(
     <div className='MoimDetail-container'> {/*  style={{overflowX: 'hidden'}} */}
       <MoimDetailHeader isAuth={isAuth} moimCategory = {moimInfo.category} moimName = {moimInfo.moimname} moimMenuCk={moimMenuCk} id={id}/>
-      <div style={{height: '20rem',display:'flex' ,justifyContent: 'center', alignItems: 'center'}}>😉 갤러리는 준비중이에요 😉</div>
+      <div style={{height: '20rem',display:'flex' ,justifyContent: 'center', alignItems: 'center'}}> 갤러리는 준비중이에요 </div>
     </div>
   )
 }

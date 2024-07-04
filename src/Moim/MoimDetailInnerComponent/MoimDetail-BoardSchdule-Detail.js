@@ -35,7 +35,7 @@ const MoimDetailBoardScheduleDetail = ({isAuth, userInfo, moimInfo, setMoimInfo}
           let moimMemberList = response.data;
           let matchingMember = moimMemberList?.find(memberInfo => memberInfo.member.id === userInfo?.id); // 모임 멤버 확인
           setMoimMemberInfo(matchingMember); //모임 멤버 객체 저장 (모임 멤버라면 값 들어가고 아니면 iundifind)
-          // console.log(matchingMember);
+          // //console.log(matchingMember);
       
           // 😡😡😡나중에 주소 바꿔줘야함
           if (page !== `http://localhost:3000/moim/${id}/home`) { // 모임 메인 화면이 아닌 페이지를 url로 들어올 경우 (모임 메인 화면은 비회원도 볼 수 있음)
@@ -45,7 +45,7 @@ const MoimDetailBoardScheduleDetail = ({isAuth, userInfo, moimInfo, setMoimInfo}
                   navigate(`/moim/${id}/home`);
                 }
             }else{ // 로그인 안한 상태
-              alert("로그인 후 이용해주세요😉");
+              alert("로그인 후 이용해주세요");
               navigate('/login');
             }
           }
@@ -235,7 +235,7 @@ const scheduleHandler = ()=>{
               moimMemberList?.length > 0 ?
             <div className='moimScheduleDetail-MemberBox-memberCount'>{moimScheduleInfo.joinedMember?.length}명</div>
             :
-            <div style={{width: '100%', paddingBottom: '1rem'}}>참여한 멤버가 없어요 🥲</div>
+            <div style={{width: '100%', paddingBottom: '1rem'}}>참여한 멤버가 없어요 </div>
             }
           </div>
 

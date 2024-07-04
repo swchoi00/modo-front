@@ -30,7 +30,7 @@ const MoimDetailHeader = ({ isAuth,moimCategory, moimName, moimMenuCk }) => {
                     console.log(error);
                 });
             }else{
-                alert("로그인 후 이용해주세요😉");
+                alert("로그인 후 이용해주세요");
                 navigate('/login');
             }
         }
@@ -50,7 +50,7 @@ const MoimDetailHeader = ({ isAuth,moimCategory, moimName, moimMenuCk }) => {
         //               navigate(`/moim/${id}/home`);
         //             }
         //         }else{ // 로그인 안한 상태
-        //           alert("로그인 후 이용해주세요😉");
+        //           alert("로그인 후 이용해주세요");
         //           navigate('/login');
         //         }
         //       }

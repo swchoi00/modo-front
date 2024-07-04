@@ -144,8 +144,8 @@ const addMoimSubmitCheck = Object.values(addMoimInfo).every(value => value !== '
 
 
 
-// console.log(addMoimInfo);
-// console.log(moimThumbnail);
+// //console.log(addMoimInfo);
+// //console.log(moimThumbnail);
 
   return(
     <div className="AddMoim-container">
@@ -173,8 +173,8 @@ const addMoimSubmitCheck = Object.values(addMoimInfo).every(value => value !== '
            : spaceCheck === false ? (<span className='AddMoim-check-Message AddMoim-check-MessageNo'>띄어쓰기만 입력하면 안돼요...</span>)
             // [1] 중복확인 필요 [2] 사용가능 [3] 사용불가
            : checkMoimName === 1 ? (<span className='AddMoim-check-Message'>중복확인 버튼을 눌러주세요</span>)
-           : checkMoimName === 2 ? (<span className='AddMoim-check-Message'>멋진 모임이름이에요😉</span>) 
-           : checkMoimName === 3 ?(<span className='AddMoim-check-Message AddMoim-check-MessageNo'>모임이름을 바꿔주세요 🥲</span>)
+           : checkMoimName === 2 ? (<span className='AddMoim-check-Message'>멋진 모임이름이에요</span>) 
+           : checkMoimName === 3 ?(<span className='AddMoim-check-Message AddMoim-check-MessageNo'>모임이름을 바꿔주세요 </span>)
            : null // 아무것도 입력하지 않은 초기 상태 화면 
          }
          

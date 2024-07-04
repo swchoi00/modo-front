@@ -44,12 +44,12 @@ const MoimDetailMoimInfoModal = ({showMoimInfoSettingModal, setShowMoimInfoSetti
   //   setMoimThumbnail(file);
     
   //   const reader = new FileReader();
-  //   // console.log(file);
+  //   // //console.log(file);
     
   //   reader.readAsDataURL(file);
   //   reader.onloadend = () => {
   //     setImageUrl(reader.result); // 이미지 주소 저장
-  //     // console.log("이미지주소", reader.result);
+  //     // //console.log("이미지주소", reader.result);
   //   };
   // };
   // // [임시] 드래그 하고 있을때 css 변경을 위한 핸들러
@@ -136,7 +136,7 @@ const MoimDetailMoimInfoModal = ({showMoimInfoSettingModal, setShowMoimInfoSetti
   // submit 버튼 활성화 여부 
   const updateCheck = moimInfo.introduction !== '' && moimInfo.city !== '' && moimInfo.town !== '' && moimInfo.category !== '';
   
-  console.log(moimInfo);
+  //console.log(moimInfo);
 
   const updateMoimInfo = ()=>{
     
@@ -154,8 +154,8 @@ const MoimDetailMoimInfoModal = ({showMoimInfoSettingModal, setShowMoimInfoSetti
   }
 
 
-// console.log(hashNum);
-// console.log(moimInfo.hashtag);
+// //console.log(hashNum);
+// //console.log(moimInfo.hashtag);
 
   return(
     <div>
@@ -317,7 +317,7 @@ const MoimDetailMoimInfoModal = ({showMoimInfoSettingModal, setShowMoimInfoSetti
                           </div>
                         }
                         <input //#해시태그 5개 까지만 입력 가능 '#해시태그를 등록해보세요. (최대 5개)'
-                          placeholder={hashNum > 4 ? '🥲더 이상 입력할 수 없어요(최대 5개)' : '#해시태그를 등록해보세요. (최대 5개)'}
+                          placeholder={hashNum > 4 ? '더 이상 입력할 수 없어요(최대 5개)' : '#해시태그를 등록해보세요. (최대 5개)'}
                           value={moimHashTag}
                           onChange={(e)=> setMoimHashTag(e.target.value)}
                           onKeyUp={addHashTaghandler}

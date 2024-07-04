@@ -17,7 +17,7 @@ function NaverLogin({ setIsAuth, setUserInfo }) {
       .then(response => {
         const jwt = response.headers.authorization;
         sessionStorage.getItem(jwt);
-        console.log(response.data);
+        //console.log(response.data);
         if (jwt) {
           if (jwt) {
             let userInfo = response.data.member[0];

@@ -151,7 +151,7 @@ useEffect(()=>{
 
 
   // 😡임시_캐러셀 이미지 추후 링크 통해서 대체해야함😡
-  const banner = [1, 2, 3, 4, 5];
+  const banner = [1];
   const [activeIndex, setActiveIndex] = useState(0);  // 부트스트랩 캐러셀 select된 번호 저장하는 스테이트
   const handleBanner = (selectedIndex) => { // onSelect될때마다 바뀐 selectIndex를 위에 스테이트에 저장해줌
     setActiveIndex(selectedIndex);
@@ -232,7 +232,7 @@ useEffect(()=>{
     }
   }
 
-console.log(moimImg);
+//console.log(moimImg);
   return(
     <div className='MoimDetail-container' onClick={handleOutsideClick}>
 

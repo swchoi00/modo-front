@@ -16,7 +16,7 @@ const MoimDetailHomeNoticeModal = ({moimNoticeModal, setMoimNoticeModal, id, set
     if(moimNoticeModal){
       axiosInstance.get(`/getMoimCommList/${id}`)
       .then((response) => {
-        console.log(response.data);
+        //console.log(response.data);
         setMoimCommList(response.data.filter(item => item.categories === "공지"));
         // 이미 체크해둔 공지가 있는지 확인
         let checkNotice = response.data.filter(item => item.noticeCheck === true); // noticeCheck가 true인 것만 필터링
@@ -126,7 +126,7 @@ const MoimDetailHomeNoticeModal = ({moimNoticeModal, setMoimNoticeModal, id, set
                 </div>
                 :
                 <div style={{padding: '7rem 0', backgroundColor: '#F2EEF8', color: 'gray', display: 'flex',justifyContent: 'center', alignItems: 'center', flexDirection: 'column', gap:'1rem'}}>
-                  <span>아직 공지 게시글이 없어요 🥲</span>
+                  <span>아직 공지 게시글이 없어요 </span>
                   <div style={{cursor: 'pointer', borderRadius: '0.3rem', backgroundColor: '#9087d3', padding: '0.3rem 0.8rem', color:'white'}}
                         onClick={() =>navigate(`/moim/${id}/write`)}
                   >글 쓰러 가기</div>

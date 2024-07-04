@@ -64,7 +64,7 @@ const AddComm = ({ userInfo }) => {
     }
   };
 
-  console.log(commInfo);
+  //console.log(commInfo);
 
   return (
     <div className="AddComm">

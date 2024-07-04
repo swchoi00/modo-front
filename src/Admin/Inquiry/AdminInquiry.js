@@ -40,7 +40,7 @@ function AdminInquiry({ selectedMenu, currentPage, setCurrentPage }) {
     getInquiryList();
   }, []);
 
-  console.log(inquiryList);
+  //console.log(inquiryList);
 
   useEffect(() => {
     if (inquiryList.length > 0 && checkList.length === inquiryList.length) {

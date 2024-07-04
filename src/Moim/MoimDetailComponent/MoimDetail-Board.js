@@ -134,7 +134,7 @@ const MoimDetailBoard = ({moimInfo, currentPage, setCurrentPage, moimMemberRole,
                       })}
                   </ul>
                   :
-                  <div style={{padding: '7rem 0', backgroundColor: '#F2EEF8', color: 'gray'}}>아직 게시글이 없어요 🥲</div>
+                  <div style={{padding: '7rem 0', backgroundColor: '#F2EEF8', color: 'gray'}}>아직 게시글이 없어요 </div>
                 }
               </div>
 

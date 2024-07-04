@@ -70,7 +70,7 @@ const ServiceCategories = ({setCategoryCheck}) =>{
       >
         <Modal.Body>
           <div className='LoginPzModal-Box'>
-            <b>멘토링 서비스는 준비중이에요 😢</b>
+            <b>멘토링 서비스는 준비중이에요 </b>
             <div className='LoginPzModal-Body'>
               <div className='LoginPzModal-BtnBox'>
                 <button className='LoginPzModal-BtnStyle1' onClick={()=>setShowAlert(false)}>확인</button>

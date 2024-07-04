@@ -145,7 +145,7 @@ const updateDescriptionHandler = (e)=>{
 
 // 모임 수정 서버 작업
 const editDesCriptionHandler = ()=>{
-console.log(imsiMoimInfo);
+//console.log(imsiMoimInfo);
   // 빈 값 넣기 방지
   let Descripton = imsiMoimInfo.description.trim(); // trim ->공백제거 (스페이스바)
   if(countDescription === 0 || Descripton.length === 0) { // 스페이스바만 넣어서 저장하는거 방지
@@ -158,7 +158,7 @@ console.log(imsiMoimInfo);
     return;
   }
   
-  console.log(imsiMoimInfo);
+  //console.log(imsiMoimInfo);
   axiosInstance.post('/updateMoimInfo', imsiMoimInfo)
   .then((response) => {
     setMoimInfo(imsiMoimInfo); 
@@ -175,7 +175,7 @@ const moimManagerHandler=(memberId, memberName, memberRole)=>{
   // 해당 멤버role이 member면 manager 값 넣고 이미 manager면 member값 넣기
   let setMemberRole = (memberRole === 'member' ? 'manager' : 'member'); 
   const confirmManager = window.confirm(memberName + "님을 매니저로 " + `${setMemberRole === 'manager' ? '지정' : '해제'}`);
-  // console.log(memberId);
+  // //console.log(memberId);
   
   if(confirmManager){
     axiosInstance.put('/updateMoimMemberRole', memberId)
@@ -276,7 +276,7 @@ const moimManagerHandler=(memberId, memberName, memberRole)=>{
                 </div>
                 ):( // 모임설명이 없는데 리더가 아닌 경우
                   <div style={{marginTop: '1rem', textAlign: 'center'}}>
-                    아직 모임 설명이 없어요 🥲
+                    아직 모임 설명이 없어요 
                   </div>
                 )
               )
@@ -350,7 +350,7 @@ const moimManagerHandler=(memberId, memberName, memberRole)=>{
           }
           {
             moimScheduleList?.length === 0 && // 모임 스케쥴 없을 때
-            <div className='moimDetail-moimContent-moimSchedule-non'>아직 모임 일정이 없어요 🥲</div>
+            <div className='moimDetail-moimContent-moimSchedule-non'>아직 모임 일정이 없어요 </div>
           }
         </div>
       </div>
@@ -381,7 +381,7 @@ const moimManagerHandler=(memberId, memberName, memberRole)=>{
               ))
             )
             :
-            <div className='moimDetail-moimContent-moimSchedule-non'>아직 대표 공지사항이 없어요 🥲</div>
+            <div className='moimDetail-moimContent-moimSchedule-non'>아직 대표 공지사항이 없어요 </div>
           }
         </div>
       </div>

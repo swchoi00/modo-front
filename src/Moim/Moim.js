@@ -260,7 +260,7 @@ const tryAddMoimHandler = ()=>{
       <div className='moim-sortTypeBox'>
         <div className='moim-title'>{filterData?.length === 0 ? '전체 모임' : '검색 모임'}</div>
         <div style={{display: 'flex'}}>
-          {
+          {/* {
             moimSortType.map((sort, i)=>(
               <button 
                 key={i}
@@ -268,7 +268,7 @@ const tryAddMoimHandler = ()=>{
                 onClick={()=> moimSortTypeHandler(sort)}
               >{sort}</button>
             ))
-          }
+          } */}
         </div>
       </div>
       
@@ -278,7 +278,7 @@ const tryAddMoimHandler = ()=>{
         :
         <div className='noResultBox'>
           <img src={sorryIcon} alt=""/>
-          <span>{moimList?.length === 0 ? "" : "검색한 "}모임이 존재하지 않아요 🥲<br/>새로 모임을 만들어 보는 건 어떨까요?</span>
+          <span>{moimList?.length === 0 ? "" : "검색한 "}모임이 존재하지 않아요<br/>새로 모임을 만들어 보는 건 어떨까요?</span>
           <button onClick={tryAddMoimHandler}>모임 만들러 가기</button>
         </div>
       }
