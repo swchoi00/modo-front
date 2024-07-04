@@ -14,16 +14,16 @@ const Notice = ({ currentPage, setCurrentPage }) => {
 
   useEffect(() => {
     axiosInstance.get("/getNoticeList")
-    .then((response) => {
+      .then((response) => {
         setNoticeList([
-            ...noticeMockData,
-            ...response.data
+          ...response.data,
+          ...noticeMockData
         ]);
-    })
-    .catch((error) => {
+      })
+      .catch((error) => {
         console.log(error);
-    })
-}, []);
+      })
+  }, []);
 
 
   return (
@@ -37,10 +37,10 @@ const Notice = ({ currentPage, setCurrentPage }) => {
             .slice((currentPage - 1) * page, currentPage * page)
             .map((data, i) => {
               return (
-                <Accordion.Item eventKey={i} key={data.id} className='accordion'>
+                <Accordion.Item eventKey={i} key={i} className='accordion'>
                   <Accordion.Header className='accordionBtn'>
-                    <div className='titleBox' style={{display:'flex', flexDirection: 'column', gap: '0.5rem'}}>
-                      <div className='createDate' style={{textAlign: 'left', color:'gray', fontSize: 'small'}}>{data.createDate}</div>
+                    <div className='titleBox' style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                      <div className='createDate' style={{ textAlign: 'left', color: 'gray', fontSize: 'small' }}>{data.createDate}</div>
                       <div className='notice-title'>{data.title}</div>
                     </div>
                   </Accordion.Header>

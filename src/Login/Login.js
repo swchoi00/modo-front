@@ -105,7 +105,7 @@ function Login( {userInfo, setUserInfo, setIsAuth} ) {
                         <span className='findPw' onClick={() => { alert("해당 서비스는 준비 중이에요🥲"); }}>비밀번호 찾기</span>
                         {/* <Link className='findPw' to={"/"}>비밀번호 찾기</Link> */}
                         <div className='divider'>│</div>
-                        <Link className='signUp' to={"/signUp"}>회원가입</Link>
+                        <Link className='signUp' to={"/signUpPage"}>회원가입</Link>
                     </div>
                 </div>
 
