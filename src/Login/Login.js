@@ -3,153 +3,177 @@ import './Login.css';
 import axiosInstance from '../axiosInstance';
 import { useEffect, useState } from 'react';
 
-function Login( {userInfo, setUserInfo, setIsAuth} ) {
+function Login({ userInfo, setUserInfo, setIsAuth }) {
 
-    const navigate = useNavigate();
-    const [loginBtn, setLoginBtn] = useState(false);
-    const [loginData, setLoginData] = useState({
-        username : '',
-        password : ''
+  const navigate = useNavigate();
+  const [loginBtn, setLoginBtn] = useState(false);
+  const [loginData, setLoginData] = useState({
+    username: '',
+    password: ''
+  });
+
+  useEffect(() => {
+    const jwt = sessionStorage.getItem('jwt');
+    if (jwt) {
+      setIsAuth(true);
+    }
+  })
+
+
+  const appleLoginHandler = () => {
+    alert('서비스 준비중입니다!');
+  }
+
+
+  const idPwHandler = (e) => {
+    const { id, value } = e.target;
+    const {key} = e;
+    
+    setLoginData({
+      ...loginData,
+      [id]: value,
     });
 
-    useEffect(() => {
-        const jwt = sessionStorage.getItem('jwt');
-        if(jwt) {
-            setIsAuth(true);
-        }
-    })
+
+    if (key === 'Enter') {
+      // alert('Enter 키가 입력되었습니다.');
+      LoginBtnHandler(e);
+    }
+  }
+
+  useEffect(() => {
+    if (loginData.username !== '' && loginData.password !== '') {
+      setLoginBtn(true);
+    } else {
+      setLoginBtn(false);
+    }
+  }, [loginData])
 
 
-    const appleLoginHandler = () => {
-        alert('서비스 준비중입니다!');
+  const LoginBtnHandler = (e) => {
+    e.preventDefault();
+
+    if (loginData.username === '' && loginData.password === '') {
+      alert("아이디 및 비밀번호를 입력해주세요");
+      return;
     }
 
+    axiosInstance.post('/login', loginData)
+      .then((response => {
 
-    const idPwHandler = (e) => {
-        const {id , value} = e.target;
-        setLoginData({
-            ...loginData,
-            [id] : value,
-        })
-
-    }
-
-    useEffect(()=>{
-        if(loginData.username !== '' && loginData.password !== ''){
-            setLoginBtn(true);
-        }else{
-            setLoginBtn(false);
-        }
-    },[loginData])
-
-
-    const LoginBtnHandler = (e) => {
-        e.preventDefault();
-
-        if(loginData.username === '' && loginData.password === ''){
-            alert("아이디 및 비밀번호를 입력해주세요");
-            return;
-        }
-
-        axiosInstance.post('/login', loginData)
-        .then((response => {
-            
-            const jwt = response.headers.authorization;
-            const userInfo = response.data.member[0];
-            alert('로그인 완료!')
-            sessionStorage.setItem('jwt', jwt);
-            sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
-            setUserInfo(response.data.member[0]);
-            setIsAuth(true);
-            navigate('/');
-
-            
-        }))
-        .catch((error => {
-            console.error(error);
-            alert('아이디 비밀번호를 확인하세요')
-        }));
-
+        const jwt = response.headers.authorization;
+        let userInfo = response.data.member[0];
         
-    }
+        //프로필 이미지 받아오기
+        if(userInfo.memberImage !== null){
+          axiosInstance.get(`/userProfilePhoto/${userInfo.id}`, {
+            responseType: 'blob',
+          })
+          .then((response) => {
+            const imageUrl = URL.createObjectURL(response.data);
+            setUserInfo({ ...userInfo, 'memberImage': imageUrl });
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+        }else{
+          setUserInfo({ ...userInfo, 'memberImage': 'https://raw.githubusercontent.com/Jella-o312/modo-image/main/etc/userImgNone.svg' });
+        }
+        
 
-    return (
-        <div className="Login">
-            <h3>로그인</h3>
-
-            <div className="loginForm">
-                <br></br>
-                <br></br>
-
-                <div className='inputWrapper'>아이디 (이메일)</div>
-                <div className='listContainer'>
-                    <input type='text' id='username' className='inputText' placeholder='이메일을 입력해주세요' onChange={idPwHandler} value={loginData.username}></input>
-                </div>
-
-                <div className='inputWrapper'>비밀번호</div>
-                <div className='listContainer'>
-                    <input type='password' id='password' className='inputText' placeholder='영문, 숫자, 특수문자 조합 8자 이상 입력해주세요' onChange={idPwHandler} value={loginData.password}></input>
-                </div>
-                <br></br>
-
-                <div className='loginBtnWrapper'>
-                    <button className='loginBtn' onClick={LoginBtnHandler} disabled={!loginBtn} 
-                            style={{backgroundColor: loginBtn? '#a472ff' : '#C2C2C2'}}>로그인하기</button>
-                </div>
-
-                <div className='findIdPwWrapper'>
-                    <div className='findIdPw'>
-                        <span className='findId' onClick={() => { alert("해당 서비스는 준비 중이에요🥲"); }}>아이디 찾기</span>
-                        {/* <Link className='findId' to={"/"}>아이디 찾기</Link> */}
-                        <div className='divider'>│</div>
-                        <span className='findPw' onClick={() => { alert("해당 서비스는 준비 중이에요🥲"); }}>비밀번호 찾기</span>
-                        {/* <Link className='findPw' to={"/"}>비밀번호 찾기</Link> */}
-                        <div className='divider'>│</div>
-                        <Link className='signUp' to={"/signUp"}>회원가입</Link>
-                    </div>
-                </div>
-
-                <div className='socialLoginBar' style={{width : '80%', borderBottom : '1px solid #c2c2c2'}}></div>
-
-                <div className='socialLogin'>
-                    <div className='naverLogin'>
-                        <button className='naverLoginBtn' 
-                        onClick={() => {
-                            window.location.href = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${process.env.REACT_APP_NAVER_CLIENT_ID}&state=${process.env.REACT_APP_NAVER_STATE}&redirect_uri=${process.env.REACT_APP_NAVER_REDIRECT_URI}`;
-                        }}>
-                            <img className='naverLoginImg' src="https://d2v80xjmx68n4w.cloudfront.net/assets/icon/icon_naver.png" alt="sns아이콘" />
-                        </button>
-                    </div>
+        alert('로그인 완료!')
+        sessionStorage.setItem('jwt', jwt);
+        sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
+        // setUserInfo(userInfo);
+        setIsAuth(true);
+        navigate('/');
+      }))
+      .catch((error => {
+        console.error(error);
+        alert('아이디 비밀번호를 확인하세요')
+      }));
 
 
-                    <div className='kakaoLogin'>
-                        <button className='kakaoLoginBtn'
-                        onClick={() => {
-                            window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_KAKAO_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT_URI}`;
-                        }}>
-                            <img className='kakaoLoginImg' src="https://d2v80xjmx68n4w.cloudfront.net/assets/icon/icon_kakao.png" alt="sns아이콘"></img>
-                        </button>
-                    </div>
+  }
 
-                    <div className='googleLogin'>
-                        <button className='googleLoginBtn'
-                        onClick={() => {
-                            window.location.href = `https://accounts.google.com/o/oauth2/auth?client_id=${process.env.REACT_APP_GOOGLE_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_GOOGLE_REDIRECT_URI}&response_type=token&scope=openid%20email%20profile`;
-                        }}>
-                            <img className='googleLoginImg' src="https://d2v80xjmx68n4w.cloudfront.net/assets/icon/icon_google.png" alt="sns아이콘" />
-                        </button>
-                    </div>
+  return (
+    <div className="Login">
+      <h3>로그인</h3>
 
-                    <div className='appleLogin'>
-                        <button className='appleLoginBtn' onClick={appleLoginHandler}>
-                            <img className='appleLoginImg' src="https://d2v80xjmx68n4w.cloudfront.net/assets/icon/icon_apple.png" alt="sns아이콘" />
-                        </button>
-                    </div>
-                </div>
+      <div className="loginForm">
+        <br></br>
+        <br></br>
 
-            </div>
+        <div className='inputWrapper'>아이디 (이메일)</div>
+        <div className='listContainer'>
+          <input type='text' id='username' className='inputText' placeholder='이메일을 입력해주세요' onChange={idPwHandler} value={loginData.username}></input>
         </div>
-    )
+
+        <div className='inputWrapper'>비밀번호</div>
+        <div className='listContainer'>
+          <input type='password' id='password' className='inputText' placeholder='영문, 숫자, 특수문자 조합 8자 이상 입력해주세요' 
+                 onChange={idPwHandler} onKeyDown={idPwHandler} value={loginData.password}></input>
+        </div>
+        <br></br>
+
+        <div className='loginBtnWrapper'>
+          <button className='loginBtn' onClick={LoginBtnHandler} disabled={!loginBtn}
+            style={{ backgroundColor: loginBtn ? '#a472ff' : '#C2C2C2' }}>로그인하기</button>
+        </div>
+
+        <div className='findIdPwWrapper'>
+          <div className='findIdPw'>
+            <span className='findId' onClick={() => { alert("해당 서비스는 준비 중이에요🥲"); }}>아이디 찾기</span>
+            {/* <Link className='findId' to={"/"}>아이디 찾기</Link> */}
+            <div className='divider'>│</div>
+            <span className='findPw' onClick={() => { alert("해당 서비스는 준비 중이에요🥲"); }}>비밀번호 찾기</span>
+            {/* <Link className='findPw' to={"/"}>비밀번호 찾기</Link> */}
+            <div className='divider'>│</div>
+            <Link className='signUp' to={"/signUpPage"}>회원가입</Link>
+          </div>
+        </div>
+
+        <div className='socialLoginBar' style={{ width: '80%', borderBottom: '1px solid #c2c2c2' }}></div>
+
+        <div className='socialLogin'>
+          <div className='naverLogin'>
+            <button className='naverLoginBtn'
+              onClick={() => {
+                window.location.href = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${process.env.REACT_APP_NAVER_CLIENT_ID}&state=${process.env.REACT_APP_NAVER_STATE}&redirect_uri=${process.env.REACT_APP_NAVER_REDIRECT_URI}`;
+              }}>
+              <img className='naverLoginImg' src="https://d2v80xjmx68n4w.cloudfront.net/assets/icon/icon_naver.png" alt="sns아이콘" />
+            </button>
+          </div>
+
+
+          <div className='kakaoLogin'>
+            <button className='kakaoLoginBtn'
+              onClick={() => {
+                window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_KAKAO_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT_URI}`;
+              }}>
+              <img className='kakaoLoginImg' src="https://d2v80xjmx68n4w.cloudfront.net/assets/icon/icon_kakao.png" alt="sns아이콘"></img>
+            </button>
+          </div>
+
+          <div className='googleLogin'>
+            <button className='googleLoginBtn'
+              onClick={() => {
+                window.location.href = `https://accounts.google.com/o/oauth2/auth?client_id=${process.env.REACT_APP_GOOGLE_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_GOOGLE_REDIRECT_URI}&response_type=token&scope=openid%20email%20profile`;
+              }}>
+              <img className='googleLoginImg' src="https://d2v80xjmx68n4w.cloudfront.net/assets/icon/icon_google.png" alt="sns아이콘" />
+            </button>
+          </div>
+
+          <div className='appleLogin'>
+            <button className='appleLoginBtn' onClick={appleLoginHandler}>
+              <img className='appleLoginImg' src="https://d2v80xjmx68n4w.cloudfront.net/assets/icon/icon_apple.png" alt="sns아이콘" />
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  )
 }
 
 export default Login;

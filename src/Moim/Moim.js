@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import LoginPzModal from '../Login/LoginPzModalComponent/LoginPzModal';
 
 
-const Moim = ({isAuth, userInfo,setUserInfo}) =>{
+const Moim = ({isAuth, userInfo,setUserInfo, categoryCheck, setCategoryCheck}) =>{
   const navigate = useNavigate();
   const [moimList, setMoimList] = useState([]); // 모임 리스트 
   const [filterMoimList, setFilterMoimList] = useState([]); // 필터링 된 모임 리스트
@@ -27,6 +27,15 @@ const Moim = ({isAuth, userInfo,setUserInfo}) =>{
   const [filterCity, setFilterCity] = useState(''); // 필터링 지역 설정을 위한 임시 저장소
   const [filterTown, setFilterTown] = useState(''); // city값에 따라 필터링된 town 목록 저장소
   const [mymoimOpen,setMymoimOpen] = useState(false); // 마이 소모임 보기 여부
+
+
+  useEffect(()=>{
+    if(categoryCheck?.length !== 0){
+      setFilterData([categoryCheck]);
+      setCategoryCheck([]);
+    }
+  },[]);
+
 
   // 모임 결과 보기용
   const moimSortTypeHandler = (sort) => {
@@ -269,7 +278,7 @@ const tryAddMoimHandler = ()=>{
         :
         <div className='noResultBox'>
           <img src={sorryIcon} alt=""/>
-          <span>검색한 모임이 존재하지 않아요 🥲<br/>새로 모임을 만들어 보는 건 어떨까요?</span>
+          <span>{moimList?.length === 0 ? "" : "검색한 "}모임이 존재하지 않아요 🥲<br/>새로 모임을 만들어 보는 건 어떨까요?</span>
           <button onClick={tryAddMoimHandler}>모임 만들러 가기</button>
         </div>
       }
