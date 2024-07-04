@@ -25,12 +25,12 @@ const Faq = ({ isAuth, currentPage, setCurrentPage }) => {
     axiosInstance.get("/getFAQList")
       .then((response) => {
         setQuestionsList([
+          ...response.data,
           ...faqMockData,
-          ...response.data
         ]);
         setFaqFilteredData([
+          ...response.data,
           ...faqMockData,
-          ...response.data
         ]);
       })
       .catch((error) => {
@@ -72,6 +72,7 @@ const Faq = ({ isAuth, currentPage, setCurrentPage }) => {
     } else {
       setFaqFilteredData(questionsList.filter(question => question.category === categoryBtn));
     }
+    setOpenIndex(null);
     setCurrentPage(1);
   }, [categoryBtn]);
 
