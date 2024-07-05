@@ -1,5 +1,10 @@
 .Login {
-    margin: 0;
+    margin: 0 !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
 }
 
 .Login h3{
@@ -183,5 +188,25 @@
     max-height: 100%;
     width: auto;
     height: auto;
+}
+
+
+@media screen and (max-width: 620px) {
+    .Login{
+        overflow-x: hidden;
+    }
+    .Login .loginForm {
+        box-shadow: none;
+    }
+    .Login .inputWrapper{
+        padding-left: 0.3rem;
+}
+
+    .SignUp .AgreeTerms, .SignUp .AgreeTerms button, .SignUp .inputWrapper button{
+        font-size: small !important;
+    }
+    .SignUp .AgreeTermsAll{
+        font-size: small !important;
+    }
 }
 

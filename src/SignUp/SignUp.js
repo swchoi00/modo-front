@@ -260,7 +260,7 @@ function SignUp() {
 
   return (
     <div className="SignUp">
-      <h3>모도에 온 것을 환영해요!</h3>
+      <h3>회원가입</h3>
 
       <div className="signUpForm">
 
@@ -298,7 +298,7 @@ function SignUp() {
         <div className='listContainerLast'>
           <div className='TermsContainer'>
             <input type='checkbox' id='agreeAll' checked={allChecked} onChange={handleAllCheck}></input>
-            <label className="AgreeTerms" htmlFor="agreeAll" style={{ fontSize: 'medium', fontWeight: '550' }}>
+            <label className="AgreeTermsAll AgreeTerms" htmlFor="agreeAll" style={{ fontSize: 'medium', fontWeight: '550' }}>
               <FontAwesomeIcon icon={faCheck} className="checkbox-icon" size='sm' />
               전체동의
             </label>

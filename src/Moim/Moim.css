@@ -1,4 +1,4 @@
-.Moim-container{
+.Moim-container {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -9,7 +9,7 @@
 
 /* ✅ 내 모임 ✅*/
 
-.moim-myMoim{
+.moim-myMoim {
   width: 100%;
   margin: 3rem 0 1.5rem;
   display: flex;
@@ -17,11 +17,11 @@
   align-items: center;
 }
 
-.moim-myMoim-title{
+.moim-myMoim-title {
   width: 1050px;
-	text-align: left;
-  color:  rgb(73, 73, 73);
-	font-size: larger;
+  text-align: left;
+  color: rgb(73, 73, 73);
+  font-size: larger;
   font-weight: 700;
   margin-bottom: 1rem;
   cursor: pointer;
@@ -30,20 +30,20 @@
 
 
 /* ✅ 모임 보기 정렬 ✅*/
-.moim-sortTypeBox{
-  margin-top:2.5rem;
+.moim-sortTypeBox {
+  margin-top: 2.5rem;
   width: 1050px;
   display: flex;
   justify-content: space-between;
 }
 
-.moim-title{
-  color:  rgb(73, 73, 73);
-	font-size: larger;
+.moim-title {
+  color: rgb(73, 73, 73);
+  font-size: larger;
   font-weight: 700;
 }
 
-.moim-sortType{
+.moim-sortType {
   /* margin-left: 0.2rem; */
   border: none;
   background-color: #6a60a900;
@@ -51,7 +51,7 @@
   color: #9a9a9a;
 }
 
-.moim-sort-check{
+.moim-sort-check {
   color: #9087d3;
   font-weight: 600;
 }
@@ -61,11 +61,11 @@
 
 /* ✅ 상단 필터 박스 ✅*/
 .moim-filterBox {
-width: 100%;
-background: linear-gradient(180deg, #6a60a9 0%, #9087d3 60%, transparent 60%);
-display: flex;
-flex-direction: column;
-align-items: center;
+  width: 100%;
+  background: linear-gradient(180deg, #6a60a9 0%, #9087d3 60%, transparent 60%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .moim-filterBox h3 {
@@ -73,7 +73,7 @@ align-items: center;
   margin: 1.8rem 0;
 }
 
-.moim-filterBox .filterBox{
+.moim-filterBox .filterBox {
   width: 1050px;
   box-shadow: 0px 0px 15px -4px rgba(0, 0, 0, 0.2);
   background-color: white;
@@ -86,7 +86,7 @@ align-items: center;
   align-items: center;
 }
 
-.moim-filterBox .searchBar{
+.moim-filterBox .searchBar {
   /* border: 1px solid red; */
   width: 100%;
   border-bottom: 3px solid #ccc;
@@ -96,34 +96,35 @@ align-items: center;
   padding: 0.7rem;
 }
 
-.moim-filterBox .searchBar input[type="text"]{
+.moim-filterBox .searchBar input[type="text"] {
   border: none;
   width: 100%;
 }
 
-.moim-filterBox .searchBar input[type="text"]:focus{
+.moim-filterBox .searchBar input[type="text"]:focus {
   border: none;
   outline: none;
 }
 
-.moim-filterBox .searchBar span{
+.moim-filterBox .searchBar span {
   cursor: pointer;
 }
 
 
-.moim-filterBox .searchFiltersBox{
+.moim-filterBox .searchFiltersBox {
   width: 100%;
   display: flex;
   justify-content: space-between;
 }
 
-.moim-filterBox .searchFilters{
+.moim-filterBox .searchFilters {
   display: flex;
   width: 100%;
   gap: 1rem;
 }
 
-.moim-filterBox .resetBtn, .moim-filterBox .resetBtn2  {
+.moim-filterBox .resetBtn,
+.moim-filterBox .resetBtn2 {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -133,7 +134,7 @@ align-items: center;
 }
 
 
-.moim-filterBox .filterTags{
+.moim-filterBox .filterTags {
   width: 100%;
   /* border: 1px solid #6a60a9; */
   display: flex;
@@ -141,7 +142,7 @@ align-items: center;
   flex-wrap: wrap;
 }
 
-.moim-filterBox .filterTag{
+.moim-filterBox .filterTag {
   background-color: #6a60a9;
   color: white;
   padding: 0.4rem 0.8rem;
@@ -151,7 +152,7 @@ align-items: center;
 
 
 /* ✅검색 모임 결과 없을 때✅ */
-.Moim-container .noResultBox{
+.Moim-container .noResultBox {
   /* box-shadow: 0px 0px 15px -4px rgba(0, 0, 0, 0.2); */
   width: 100%;
   display: flex;
@@ -161,15 +162,15 @@ align-items: center;
   align-items: center;
 }
 
-.Moim-container .noResultBox img{
+.Moim-container .noResultBox img {
   width: 10rem;
 }
 
-.Moim-container .noResultBox span{
+.Moim-container .noResultBox span {
   font-size: large;
 }
 
-.Moim-container .noResultBox button{
+.Moim-container .noResultBox button {
   width: fit-content;
   font-size: large;
   font-weight: 600;
@@ -185,81 +186,140 @@ align-items: center;
 
 
 
-@media screen and (max-width: 1090px){
-  .moim-filterBox .filterBox{
+@media screen and (max-width: 1090px) {
+  .moim-filterBox .filterBox {
     width: 100%;
   }
-  .moim-filterBox{
+
+  .moim-filterBox {
     padding: 0 2rem;
   }
 }
 
 
 
-@media screen and (max-width: 1060px){
-  .moim-sortTypeBox, .moim-myMoim-title{
+@media screen and (max-width: 1060px) {
+
+  .moim-sortTypeBox,
+  .moim-myMoim-title {
     width: 100%;
-    padding: 0 2rem; /*📌*/
+    padding: 0 2rem;
+    /*📌*/
   }
 }
 
-@media screen and (max-width: 700px){
-  .moim-filterBox .searchFilters{
+@media screen and (max-width: 700px) {
+  .moim-filterBox .searchFilters {
     display: flex;
     gap: 0.5rem;
   }
 }
 
 
-@media screen and (max-width: 620px){
-  .moim-filterBox .filterBox{
-    width: 100%;
-    padding: 1rem 5% 1.5rem;
-    gap: 1.2rem;
-  }
-}
-
-@media screen and (max-width: 620px){
-  .moim-filterBox{
-   padding: 0 1rem;
-  }
-  .moim-filterBox .filterBox{
-    border-radius: 1rem 1rem 0 0;
-    box-shadow: none;
-  }
-  .moim-filterBox{
-    background: linear-gradient(180deg, #6a60a9 0%, #9087d3 100%, transparent 100%);
-    /* box-shadow: 0px 4px 15px -4px rgba(0, 0, 0, 0.2); */
-  }
-  .moim-filterBox h3{
-    margin: 1.5rem 0 1rem;
-  }
-}
 
 
-@media screen and (max-width: 550px){
-  .moim-filterBox .filterBox{
-    padding-bottom: 0.7rem;;
+
+@media screen and (max-width: 620px) {
+  .moim-filterBox .filterBox {
+    padding-bottom: 0.7rem;
+    ;
   }
-  .moim-filterBox .resetBtn{
+
+  .moim-filterBox .resetBtn {
     display: none;
   }
-  .moim-filterBox .filterTags{
+
+  .moim-filterBox .filterTags {
     gap: 0.3rem;
   }
-  .moim-filterBox .filterTag{
+
+  .moim-filterBox .resetBtn2 {
+    width: auto;
+    margin-left: auto;
+}
+
+  .moim-filterBox .filterTag {
     padding: 0.3rem 0.5rem;
   }
-  .moim-myMoim{
+
+  .moim-myMoim {
     margin-top: 1.5rem;
   }
-  .moim-sortTypeBox{
-    margin-top: 1.5rem;
+
+  .moim-sortTypeBox {
+    margin-top: 0rem;
+  }
+
+  /* ✅검색 모임 결과 없을 때✅ */
+  .Moim-container .noResultBox {
+    /* box-shadow: 0px 0px 15px -4px rgba(0, 0, 0, 0.2); */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 5rem 0;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .Moim-container .noResultBox img {
+    width: 7rem;
+  }
+
+  .Moim-container .noResultBox span {
+    font-size: medium;
+  }
+
+  .Moim-container .noResultBox button {
+    font-size: medium;
+    font-weight: 500;
+  }
+
+  /* ✅모바일 검색 헤더✅ */
+  .moim-filterBox h3 {
+    /* display: none; */
+    margin: 0.8rem 0;
+    font-size: 150%;
+    font-weight: 500;
+  }
+
+  .moim-filterBox {
+    padding: 0;
+    /* background: #8F7BE0; */
+    /* background: #6a60a900; */
+  }
+
+  .moim-filterBox .filterBox {
+    /* border-top: 0.5rem solid rgb(235, 235, 235); */
+    border-bottom: 0.5rem solid rgb(235, 235, 235);
+    border-radius: 2rem 2rem 0 0;
+    box-shadow: none;
+    padding: 0.7rem 0.9rem 0.9rem 0.9rem; 
+    gap: 0.7rem;
+  }
+
+  .moim-filterBox .searchBar {
+    /* border: 1px solid #ccc;
+    border-radius: 0.5rem; */
+    border: none;
+    width: 100%;
+    /* border-bottom: 1px solid #ccc; */
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    padding: 0.6rem;
+}
+}
+
+@media screen and (max-width: 550px) {
+  .moim-filterBox h3 {
+    margin: 0.5rem 0;
+    font-size: 130%;
   }
 }
 
-@media screen and (min-width: 550px){
-  .moim-filterBox .resetBtn2{
+
+@media screen and (min-width: 550px) {
+  .moim-filterBox .resetBtn2 {
     display: none;
   }
 }

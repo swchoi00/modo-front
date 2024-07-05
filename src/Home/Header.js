@@ -4,22 +4,22 @@ import modoLogo from '../modo-logo.svg';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
-import { faSearch } from '@fortawesome/free-solid-svg-icons'; 
-import { faXmark } from '@fortawesome/free-solid-svg-icons'; 
-import {faPen} from '@fortawesome/free-solid-svg-icons'; 
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from 'react-router-dom';
 import face from '../HomeComponent/ReviewComponent/face.svg';
 import userIcon from '../Img/userIcon.svg';
 
-const Header = ( {isAuth, setIsAuth, userInfo, setUserInfo} ) =>{
+const Header = ({ isAuth, setIsAuth, userInfo, setUserInfo }) => {
 
   const navigate = useNavigate();
 
   //모바일 버거버튼 여부
-  const[isMenuOpen, setIsMenuOpen]= useState(false); 
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // 모바일 버거버튼여부 바꾸는 핸들러
-  const handleMenuOpen = () =>{
+  const handleMenuOpen = () => {
     setIsMenuOpen(!isMenuOpen)
   };
 
@@ -29,29 +29,29 @@ const Header = ( {isAuth, setIsAuth, userInfo, setUserInfo} ) =>{
     sessionStorage.removeItem('userInfo');
     sessionStorage.removeItem('myPage');
     setUserInfo({
-      username : '',
-      nickname : ''
+      username: '',
+      nickname: ''
     });
     setIsAuth(false);
     navigate('/');
   }
 
 
-  return(
+  return (
     <div className="HeaderContainer">
       <div id='HeaderDesktop'>
         <div className="header-logo">
-          <Link  to = {"/"}><img className="nav-logo" src={modoLogo} alt="홈화면으로 가기" /></Link>
+          <Link to={"/"}><img className="nav-logo" src={modoLogo} alt="홈화면으로 가기" /></Link>
         </div>
 
         <div className='nav-menu'>
-          <Link className='nav-aTag' to = {"/moim"} >소모임</Link>
-          <Link className='nav-aTag' to = {"/community"}>커뮤니티</Link>
-          <Link className='nav-aTag' to = {"/faq"}>FAQ</Link>
-          <Link className='nav-aTag' to = {"/notice"}>공지사항</Link>
+          <Link className='nav-aTag' to={"/moim"} >소모임</Link>
+          <Link className='nav-aTag' to={"/community"}>커뮤니티</Link>
+          <Link className='nav-aTag' to={"/faq"}>FAQ</Link>
+          <Link className='nav-aTag' to={"/notice"}>공지사항</Link>
         </div>
 
-        <div className='nav-searchBar nav-search-input'>        
+        <div className='nav-searchBar nav-search-input'>
           {/* <input className='nav-search-input' placeholder='관심사 검색하기'/>
           <span><FontAwesomeIcon icon={faSearch} style={{color:'#9c9c9c'}}/></span>    
            */}
@@ -59,19 +59,19 @@ const Header = ( {isAuth, setIsAuth, userInfo, setUserInfo} ) =>{
 
         <div className='nav-joinLogin'>
 
-          {isAuth ? 
-          <>
-          <Link className='nav-aTag' to={"/myPage"}>
-            <img src={userIcon} alt=""/>
-            {userInfo.nickname}님
-          </Link>
-          <button className='nav-logoutBtn' onClick={logoutHandler}>로그아웃</button>
-          </>
-          :  
-          <>
-          <Link className='nav-aTag' to = {"/signUpPage"}>회원가입</Link>
-          <Link className='nav-loginBtn' to = {"/login"}>로그인</Link>
-          </>
+          {isAuth ?
+            <>
+              <Link className='nav-aTag' to={"/myPage"}>
+                <img src={userIcon} alt="" />
+                {userInfo.nickname}님
+              </Link>
+              <button className='nav-logoutBtn' onClick={logoutHandler}>로그아웃</button>
+            </>
+            :
+            <>
+              <Link className='nav-aTag' to={"/signUpPage"}>회원가입</Link>
+              <Link className='nav-loginBtn' to={"/login"}>로그인</Link>
+            </>
           }
         </div>
       </div>
@@ -80,8 +80,8 @@ const Header = ( {isAuth, setIsAuth, userInfo, setUserInfo} ) =>{
 
 
       <div id='HeaderMobile'>
-        <div className="header-logo headerMoblie-logo"> 
-          <Link  to = {"/"}>
+        <div className="header-logo headerMoblie-logo">
+          <Link to={"/"}>
             <img className="nav-logo" src={modoLogo} alt="홈화면으로 가기" />
           </Link>
         </div>
@@ -89,53 +89,51 @@ const Header = ( {isAuth, setIsAuth, userInfo, setUserInfo} ) =>{
         {/* 모바일 메뉴 버튼 모양 */}
         <div className="headerMoblieBtn" onClick={handleMenuOpen}>
           {isMenuOpen ? (
-            <FontAwesomeIcon icon={faXmark} style={{color:'#575757', fontSize: 'x-large'}}/>
-            ) : (
-            <FontAwesomeIcon icon={faBars} style={{color:'#575757', fontSize: 'x-large'}}/>
+            <FontAwesomeIcon icon={faXmark} size='1x' style={{ color: '#575757' }} />
+          ) : (
+            <FontAwesomeIcon icon={faBars} size='1x' style={{ color: '#575757' }} />
           )}
         </div>
 
         {/* 모바일 사이드바 */}
         <div className={`headerSide-menu ${isMenuOpen ? 'headerSide-menu-open' : ''}`}>
           {
-            isAuth ? 
-            <div className='headerSide-menu-inner1-login'>
-              <div style={{marginBottom: '0.5rem'}} onClick={()=>navigate('/myPage')}> 
-                <img src={userInfo?.memberImage} alt='' style={{width:'7rem'}}/>
-                {/* <div><FontAwesomeIcon icon={faPen}/></div>                 */}
+            isAuth ?
+              <div className='headerSide-menu-inner1-login'>
+                <div style={{ marginBottom: '0.5rem'}} onClick={() => { navigate('/myPage'); setIsMenuOpen(false); }}>
+                  <img src={userInfo?.memberImage} alt='' />
+                  {/* <div><FontAwesomeIcon icon={faPen}/></div>*/}
+                </div>
+                <div>{userInfo.nickname} 님</div>
+                <span onClick={logoutHandler}>로그아웃</span>
               </div>
-              <div>{userInfo.nickname}님</div>
-            </div>
-          :
-            <div className='headerSide-menu-inner1'>
-              <h5>로그인 후 이용해주세요 :-)</h5>
-              <Link to = {"/login"} onClick={handleMenuOpen}><button>로그인</button></Link>
-              <p>아직 회원이 아니라면? <Link className='headerSide-join' to = {"/signUpPage"} onClick={handleMenuOpen}>회원가입 하러가기</Link></p>
-            </div>
+              :
+              <div className='headerSide-menu-inner1'>
+                <h5>로그인 후 이용해주세요 :-)</h5>
+                <Link to={"/login"} onClick={handleMenuOpen}><button>로그인</button></Link>
+                <p>아직 회원이 아니라면? <Link className='headerSide-join' to={"/signUpPage"} onClick={handleMenuOpen}>회원가입 하러가기</Link></p>
+              </div>
           }
-          
 
-          <hr/>
+
+          <hr />
 
           <div className='headerSide-menu-inner2' onClick={handleMenuOpen}> {/* 아래 메뉴 클릭했을때 사이드 메뉴바 들어가게 하기 위해서 */}
             {/* <Link to = {"/"}><FontAwesomeIcon icon={faSearch} style={{color:'#575757', fontSize: 'x-large'}}/></Link> */}
-            <Link to = {"/moim"}>소모임</Link>
+            <Link to={"/moim"}>소모임</Link>
             {/* <Link to = {"/"}>멘토링</Link> */}
-            <Link to = {"/community"}>커뮤니티</Link>
-            <Link to = {"/faq"}>FAQ</Link>
-            <Link to = {"/notice"}>공지사항</Link>
-            <Link to = {"/myPage"}>마이페이지</Link>
+            <Link to={"/community"}>커뮤니티</Link>
+            <Link to={"/faq"}>FAQ</Link>
+            <Link to={"/notice"}>공지사항</Link>
+            <Link to={"/myPage"}>마이페이지</Link>
           </div>
-          
-          {
-            isAuth &&
-            <button className='headerSide-login' onClick={logoutHandler}>로그아웃</button>
-          }
-          
+
+
+
         </div>
-      
+
       </div>
-        
+
     </div>
   );
 }

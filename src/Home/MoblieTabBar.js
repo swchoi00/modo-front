@@ -23,7 +23,7 @@ const MoblieTabBar = ({ pageNow, isAdminPage }) => {
 
       <Link className={`TabBar-box ${pageNow === '/community' ? 'tabBar-active' : ''}`} to={'/community'}>
         <span><FontAwesomeIcon className='TabBar-img' icon={faList} /></span>
-        <div className='TabBar-title'>자유게시판</div>
+        <div className='TabBar-title'>커뮤니티</div>
       </Link>
 
       <Link className={`TabBar-box ${pageNow === '/myPage' ? 'tabBar-active' : ''}`} to={'/myPage'}>

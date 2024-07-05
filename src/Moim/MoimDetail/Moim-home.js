@@ -232,7 +232,6 @@ useEffect(()=>{
     }
   }
 
-//console.log(moimImg);
   return(
     <div className='MoimDetail-container' onClick={handleOutsideClick}>
 
@@ -241,10 +240,10 @@ useEffect(()=>{
       
       <div className={`moimDetail-moimInfoBox ${moimMenuCk !== '홈' ? 'moimDetail-moimMenu-notShow' : ''}`}>
         <div className='moimDetail-moimInfo-imageBox'>
-          <Carousel className='moimDetail-moimInfo-carousel' activeIndex={activeIndex} onSelect={handleBanner} interval={null}>
+          <Carousel className='moimDetail-moimInfo-carousel' activeIndex={activeIndex} onSelect={handleBanner} interval={null}nextIcon={null} prevIcon={null} >
           {
             banner.map((num, i)=>(
-              <Carousel.Item key={i} className='moimDetail-moimInfo-carousel-item'>{/*😡추후에 클릭했을때 모달 띄워서 확대해서 볼 수 있게 해야하나😡*/}
+              <Carousel.Item key={i} className='moimDetail-moimInfo-carousel-item'>
                 {/* <div>{num}</div>😡임시😡 */}
                 <div className='moimDetail-thumbnail-img'
                   style={{
@@ -258,7 +257,7 @@ useEffect(()=>{
             ))
           }
           </Carousel>
-          <div className='moimDetail-moimInfo-image-num'><span></span>{activeIndex+1} / {banner.length}</div>
+          {/* <div className='moimDetail-moimInfo-image-num'><span></span>{activeIndex+1} / {banner.length}</div> */}
         </div>
         
         <div className='moimDetail-moimInfo-textBox'>          
@@ -318,7 +317,7 @@ useEffect(()=>{
               {/* 추후 프로필 사진 저장되어 있는 url div로 연결하기
               backgroundImage: `url(https://raw.githubusercontent.com/Jella-o312/modo-image/main/moim-img/${data.id}.png)` */}
             </div>
-            <div className='moimDetail-moimInfo-text3-leaderName'> 모임장 <span>{moimInfo.leadername}</span></div>
+            <div className='moimDetail-moimInfo-text3-leaderName'> 모임장 <span>{moimInfo?.leader?.nickname}</span></div>
           </div>
           { !moimMemberList?.some(data => data.member.id === userInfo.id) ? // moimMemberList안에 있는 member 객체 안에 있는id와 유저 id가 있는지 확인
             <div className='moimDetail-moimInfo-joinBtn-Box'>

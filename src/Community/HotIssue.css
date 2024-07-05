@@ -16,19 +16,6 @@
   padding-left: 30px;
 }
 
-@media screen and (max-width: 431px) {
-  .top5 .hot-icon {
-    width: 1.8rem; 
-    height: 0.5rem; 
-    margin-right: 10px; 
-  }
-
-  .top5 .postTitle {
-    font-size: 12px;
-    font-weight: 700;
-  }
-}
-
 @media screen and (max-width: 650px) {
   .top5 .hot-icon {
     width: 2.3rem; 
@@ -36,8 +23,21 @@
     margin-right: 10px; 
   }
 
+  .top5 .td {
+    width: 100%;
+  }
+
   .top5 .postTitle {
     font-size: 14px;
     font-weight: 700;
   }
 }
+
+@media screen and (max-width: 431px) {
+
+  .top5 .postTitle {
+    font-size: 12px;
+    font-weight: 700;
+  }
+}
+

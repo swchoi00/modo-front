@@ -159,6 +159,7 @@ const Community = ({ isAuth, currentPage, setCurrentPage }) => {
 
       <div className="banner">
         <div className="title">커뮤니티</div>
+        <div className="bannerMoblie">
         <div className='searchBar'>
           <input
             className='search-input'
@@ -170,11 +171,12 @@ const Community = ({ isAuth, currentPage, setCurrentPage }) => {
           <span>
             {
               search === false || searchKeyWord === '' ?
-                <FontAwesomeIcon icon={searchIcon} size='lg' style={{ color: '#9c9c9c' }} onClick={searchFilterHandler} />
+                <FontAwesomeIcon icon={searchIcon} size='lg' style={{ color: '#9c9c9c'}} onClick={searchFilterHandler} />
                 :
                 <FontAwesomeIcon icon={cancle} size="lg" style={{ color: '#9c9c9c' }} onClick={searchCancleHandler} />
             }
           </span>
+        </div>
         </div>
       </div>
 

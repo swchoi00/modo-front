@@ -45,14 +45,7 @@ pre{
     /* font-size: 13px; */
   }
   .App-Body{
-    font-size: 13px;
+    font-size: 12px;
   }
 }
 
-
-/* 왜 이거 설정 안되냐..ㅜㅜ */
-/* @media (max-width: 900px) {
-  .App-Body{
-    overflow-x: hidden;
-  }
-} */
