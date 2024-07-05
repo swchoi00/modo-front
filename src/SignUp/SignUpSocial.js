@@ -132,7 +132,7 @@ const SignUpSocial = ({setIsAuth, setUserInfo})=>{
 
   return (
     <div className="SignUp">
-      <h3>회원가입</h3>
+      <h3>이것만 하면 회원가입 끝이에요!</h3>
 
       <div className="signUpForm">
 

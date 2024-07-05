@@ -48,6 +48,7 @@
   justify-content: flex-end;
   padding-top: 15px;
   cursor: pointer;
+  gap: 0.5rem;
 }
 
 
@@ -115,6 +116,7 @@
   padding: 15px 0;
   border-bottom: 1px solid rgb(243, 242, 242);
   cursor: pointer;
+  width: 100%;
 }
 
 .Community .no {
@@ -223,7 +225,7 @@
   flex-direction: column;
 }
 
-.Community .card-body .contentBox .content{
+.Community .card-body .contentBox .content {
   display: -webkit-box;
   -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
@@ -233,7 +235,7 @@
   white-space: pre-wrap;
 }
 
-.Community .card-body .imgContentBox .imgContent{
+.Community .card-body .imgContentBox .imgContent {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -322,6 +324,10 @@
     width: 100%;
   }
 
+  .Community .tbl .td {
+    width: 100%;
+  }
+
   .Community .grid-comm {
     grid-template-columns: repeat(2, 20rem);
     width: 100%;
@@ -370,6 +376,7 @@
 
   .Community .tbl .td .postTitle {
     grid-area: title;
+    width: 100%;
   }
 
   .Community .tbl .td.category {
@@ -411,6 +418,57 @@
     width: 70%;
   }
 }
+
+
+@media screen and (max-width: 620px) {
+  /* 배너 */
+  .Community .banner {
+    background-image: none;
+    background: linear-gradient(180deg, #6a60a9 0%, #9087d3 60%, transparent 60%);
+    padding: 0;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .Community .title {
+    color: white;
+    font-size: 130%;
+    font-weight: 500;
+    margin: 6px 0;
+  }
+
+  .Community .bannerMoblie{
+    background-color: white;
+    border-bottom: 0.5rem solid rgb(235, 235, 235);
+    border-radius: 2rem 2rem 0 0;
+    padding: 0.5rem 0.5rem 0.2rem 0.5rem; 
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .Community .searchBar {
+    width: 90%;
+    height: 2.7rem;
+    line-height: 2.7rem;
+    background-color: white;
+    border-radius: 5px;
+    margin: 0;
+    font-size: larger;
+    display: flex;
+    justify-content: space-between;
+    padding-left: 0.3rem;
+  }
+
+  .Community .search-input {
+    margin: 0;
+    width: 94%;
+    height: auto !important;
+  }
+}
+
+
 
 @media screen and (max-width: 431px) {
 

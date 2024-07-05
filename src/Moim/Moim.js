@@ -132,6 +132,7 @@ const Moim = ({isAuth, userInfo,setUserInfo, categoryCheck, setCategoryCheck}) =
             setFilterData([...filterData, filterCity + " > " + option]);  // 그냥 새로 추가되는 경우
           }
           setFilterCity(''); // 임시 도시 저장 DB 삭제
+          setFilterTown('');
           break;
         }
     }
@@ -232,7 +233,7 @@ const tryAddMoimHandler = ()=>{
           </div>
           {
             filterData?.length !== 0 &&
-            <div className="resetBtn2" onClick={()=>setFilterData([])}>
+            <div className="resetBtn2" onClick={()=>{setFilterData([]); setFilterCity('');setFilterTown('');}}>
               <span style={{color:'#adadad'}}>초기화</span>
               <FontAwesomeIcon icon={faRotateRight}  style={{color:'#adadad'}}/>
             </div>     

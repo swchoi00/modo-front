@@ -188,7 +188,6 @@ const moimManagerHandler=(memberId, memberName, memberRole)=>{
 }
 
 
-
   return(
     <div className="moimDetail-moimContent-home">
       {/*⭐ 모임소개 ⭐*/}
@@ -315,7 +314,6 @@ const moimManagerHandler=(memberId, memberName, memberRole)=>{
                   :
                     <>{moment(data.scheduleStartDate).format(dateFormat, 'ko')} ~ {moment(data.scheduleEndDate).format(dateFormat, 'ko')} </>
                   }
-                    {/* {data.startDate} {data.startDay} {data.endDate!== '' && '~'} {data.endDate} {data.endDay} */}
                   </div>
                 </div>
                 {/* 임시 이미지 */}
@@ -324,7 +322,7 @@ const moimManagerHandler=(memberId, memberName, memberRole)=>{
                       style={{backgroundImage: `url(${imsiImg})`, backgroundSize: 'cover', backgroundPosition: 'center'}}
                   />
                   <div className='moimDetail-moimContent-home-schedule-content-info'>
-                    {data.scheduleEndDate === undefined ?
+                    {data.scheduleEndDate === null ?
                       <div className='moimDetail-moimContent-home-schedule-content-info-data'>
                         <span>일시</span><p>{moment(data.scheduleStartDate).format(dateFormat, 'ko')} &nbsp;{data.scheduleStartTime} ~ {data.scheduleEndTime}</p>
                       </div>
@@ -362,7 +360,7 @@ const moimManagerHandler=(memberId, memberName, memberRole)=>{
         <div className="moimDetail-moimContent-home-header">
           <h6>꼭 읽어주세요!</h6>
           { moimMemberRole !== 'notMember' && moimMemberRole !== 'leader' &&
-            <span onClick={() => {navigate('/moim/1/board'); setMoimPageRef('comm');}} style={{cursor:'pointer'}}>더 보기</span>
+            <span onClick={() => {navigate(`/moim/${moimInfo.id}/board`); setMoimPageRef('comm');}} style={{cursor:'pointer'}}>더 보기</span>
           }
           { moimMemberRole === 'leader' &&
             <FontAwesomeIcon icon={faPlus} size="lg" style={{color: "gray", cursor:'pointer'}} onClick={() =>setMoimNoticeModal(true)}/>

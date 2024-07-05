@@ -97,7 +97,7 @@ function Login({ userInfo, setUserInfo, setIsAuth }) {
   }
 
   return (
-    <div className="Login">
+    <div className="Login" >
       <h3>로그인</h3>
 
       <div className="loginForm">

@@ -167,7 +167,18 @@ const MoimDetailBoardSchduleComponent = ({moimInfo, moimMemberRole, isAuth, user
     }
   }
 
+  const customWeekdays = ['일', '월', '화', '수', '목', '금', '토'];
+  const formatShortWeekday = (locale, date) => {
+    return customWeekdays[date.getDay()];
+  };
 
+  const tileClassName = ({ date, view }) => {
+    if (view === 'month') {
+      const day = date.getDay();
+      if (day === 0) return 'sunday';
+      if (day === 6) return 'saturday';
+    }
+  };
 
 
   return(
@@ -177,6 +188,9 @@ const MoimDetailBoardSchduleComponent = ({moimInfo, moimMemberRole, isAuth, user
                 value={date} 
                 formatDay={(locale, date) => moment(date).format("D")}
                 tileContent={tileContent}
+                formatShortWeekday={formatShortWeekday}
+                calendarType="US"  
+                tileClassName={tileClassName}
       />
 
     </div>

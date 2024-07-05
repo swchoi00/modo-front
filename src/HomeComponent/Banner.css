@@ -30,7 +30,6 @@
   position: absolute;
   text-align: center;
   bottom: 10px;
-
   font-size: small;
   width: 3rem;
   padding: 0.1rem 0 0.2rem 0;
@@ -40,10 +39,21 @@
 }
 
 
-.banner-container .carousel-indicators button{
-  display: none;
+.banner-container .carousel-indicators{
+  bottom: -2rem;
 }
 
+.banner-container .carousel-indicators button {
+  background-color:  #c9c8cf; /* 인디케이터 색상 */
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+}
+
+.banner-container .carousel-indicators .active {
+  background-color: #8f77e6; /* 활성화된 인디케이터 색상 */
+}
 
 
 .banner-container .carousel-control-prev{
@@ -84,3 +94,18 @@
     width: 100vw; 
   }
 }
+
+@media screen and (min-width: 501px){
+  .banner-container .carousel-indicators {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 500px){
+	.banner-num{
+    display: none;
+  }
+}
+
+
+
