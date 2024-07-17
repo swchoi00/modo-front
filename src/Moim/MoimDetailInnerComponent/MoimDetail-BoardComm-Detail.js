@@ -203,7 +203,7 @@ const MoimDetailBoardCommDetail = ({ isAuth, userInfo,setMoimPageRef }) => {
               <div style={{ margin: '0 7px', color: '#e6e6e6' }}> | </div>
               <div>{comm.uploadDate}</div>
               <div style={{ margin: '0 7px', color: '#e6e6e6' }}> | </div>
-              <div><img src={comm.authoridImg} alt="face icon" style={{borderRadius:'5rem'}}/></div>
+              <div><img src={comm.authoridImg} alt="face icon" style={{borderRadius: '5rem', width:'auto', aspectRatio: '1/1'}}/></div>
               {/* <div><img src={userInfo.memberImage} alt="User Profile"/></div> */}
               <div>{comm.moimMember.member.nickname}</div>
             </div>

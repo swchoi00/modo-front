@@ -11,7 +11,7 @@ const HotIssue = ({ hotIssues, typeColors }) => {
           <li className="no">{issue.postno}</li>
           <li className="category" style={{ color: typeColors[issue.categories], fontWeight: 'bold' }}>[{issue.categories}]</li>
           <li className="title postTitle"><img src={hotImage} alt="hot" className="hot-icon"/>{issue.postname.length > 20 ? issue.postname.substring(0, 20) + "..." : issue.postname} [{issue.replies.length}]</li>
-          <li className="author">{issue.author}</li>
+          <li className="author">{issue.member.nickname}</li>
           <li className="date">{issue.uploadDate}</li>
           <li className="view">{issue.views}</li>
         </div>

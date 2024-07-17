@@ -36,6 +36,7 @@ const Community = ({ isAuth, currentPage, setCurrentPage }) => {
       .then((response) => {
         setComm(response.data);
         setFilteredData(response.data);
+        console.log(response.data);
       }).catch((error) => {
         console.log(error);
       })
@@ -235,7 +236,7 @@ const Community = ({ isAuth, currentPage, setCurrentPage }) => {
                                   <li className="no">{data.postno}</li>
                                   <li className="item category" style={{ color: typeColors[data.categories], fontWeight: 'bold' }}>[{data.categories}]</li>
                                   <li className="item postTitle">{data.postname.length > 20 ? data.postname.substring(0, 20) + "..." : data.postname} [{data.replies.length}]</li>
-                                  <li className="item author">{data.author}</li>
+                                  <li className="item author">{data.member.nickname}</li>
                                   <li className="item date">{data.uploadDate}</li>
                                   <li className="view">{data.views}</li>
                                 </div>

@@ -353,7 +353,7 @@ const MoimHome = ({ isAuth, userInfo, setUserInfo, moimInfo, setMoimInfo, setMoi
           <div className='moimDetail-moimInfo-text2-shortinfo'>{moimInfo.introduction}</div>
           <div className='moimDetail-moimInfo-text3-box'>
             <div className='moimDetail-moimInfo-text3-leaderImgBox'>
-              <img src={moimInfo.leaderImg} alt='' />
+              <img src={moimInfo.leaderImg} alt='' style={{borderRadius: '5rem', width:'auto', aspectRatio: '1/1'}}/>
               {/* <img src={face} alt=''/> */}
               {/* 추후 프로필 사진 저장되어 있는 url div로 연결하기
               backgroundImage: `url(https://raw.githubusercontent.com/Jella-o312/modo-image/main/moim-img/${data.id}.png)` */}
@@ -373,7 +373,7 @@ const MoimHome = ({ isAuth, userInfo, setUserInfo, moimInfo, setMoimInfo, setMoi
           </div>
           <div className='moimDetail-moimInfo-text3-box2'> {/* 모바일용 방장프로필 */}
             <div className='moimDetail-moimInfo-text3-leaderImgBox'>
-              <img src={face} alt='' />
+            <img src={moimInfo.leaderImg} alt='' style={{borderRadius: '5rem', width:'auto', aspectRatio: '1/1'}}/>
               {/* 추후 프로필 사진 저장되어 있는 url div로 연결하기
               backgroundImage: `url(https://raw.githubusercontent.com/Jella-o312/modo-image/main/moim-img/${data.id}.png)` */}
             </div>

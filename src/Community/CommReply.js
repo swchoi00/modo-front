@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const CommReply = ({ isAuth, userInfo, id, setUpdateReplyCnt }) => {
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [isUpdate, setIsUpdate] = useState(false);
   const [postReply, setPostReply] = useState({
     content: ''
   });
@@ -39,6 +40,46 @@ const CommReply = ({ isAuth, userInfo, id, setUpdateReplyCnt }) => {
       });
   }, [id]);
 
+  // 댓글 리스트 가져오기
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+
+        let commReplyDB = await axiosInstance.get(`/commReply/${id}/list`);
+        let replyList = commReplyDB.data;
+
+        // 이미지 URL을 가져오는 비동기 함수
+        const fetchMemberImage = async (memberList) => {
+          if (memberList.member && memberList.member.memberImage) {
+            try {
+              const imageResponse = await axiosInstance.get(`/userProfilePhoto/${memberList.member.id}`, {
+                responseType: 'blob',
+              });
+              const imageUrl = URL.createObjectURL(imageResponse.data);
+              return { ...memberList, memberImage: imageUrl };
+            } catch (error) {
+              console.log(error);
+              return memberList;
+            }
+          } else {
+            return { ...memberList, memberImage: 'https://raw.githubusercontent.com/Jella-o312/modo-image/main/etc/userImgNone.svg' };
+          }
+        };
+
+
+        const updatedMemberList = await Promise.all(replyList.map(fetchMemberImage));
+        setGetReply(updatedMemberList);
+
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, [id, isUpdate]);
+
+
+
   const handleReplySubmit = () => {
     if (isAuth) {
       if (!postReply.content.trim()) {
@@ -52,6 +93,7 @@ const CommReply = ({ isAuth, userInfo, id, setUpdateReplyCnt }) => {
             setPostReply({ ...postReply, content: '' });
             fetchNewReply(); // 댓글 추가 후 업데이트
             setUpdateReplyCnt(true);
+            setIsUpdate(!isUpdate);
           })
           .catch((error) => {
             console.log(error);
@@ -95,6 +137,7 @@ const CommReply = ({ isAuth, userInfo, id, setUpdateReplyCnt }) => {
           .then((response) => {
             alert(response.data);
             setUpdate(false);
+            setIsUpdate(!isUpdate);
             fetchNewReply(); // 수정 후 댓글 목록 업데이트
           })
           .catch((error) => {
@@ -108,6 +151,7 @@ const CommReply = ({ isAuth, userInfo, id, setUpdateReplyCnt }) => {
           axiosInstance.delete(`/commReply/${rno}`)
             .then((response) => {
               alert(response.data);
+              setIsUpdate(!isUpdate);
               fetchNewReply(); // 댓글 삭제 후 목록 업데이트
             })
             .catch((error) => {
@@ -166,7 +210,7 @@ const CommReply = ({ isAuth, userInfo, id, setUpdateReplyCnt }) => {
             <div className='getReply' key={i}>
               <div className='getReply-leftBox'>
                 <div className='nickName-date'>
-                  <img src="/static/media/face.786407e39b657bdecd13bdabee73e67b.svg" alt='프로필이미지' />
+                  <img src={reply.memberImage} alt='프로필이미지' style={{borderRadius: '5rem', width:'auto', aspectRatio: '1/1'}} />
                   <div className='nickName'>{reply.member.nickname}</div>
                   <div className='date'>| {reply.createDate}</div>
                 </div>

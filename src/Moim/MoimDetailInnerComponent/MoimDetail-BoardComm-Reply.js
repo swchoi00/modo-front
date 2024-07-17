@@ -200,7 +200,7 @@ const MoimDetailBoardCommReply = ({ isAuth, userInfo, id, no, setUpdateReplyCnt 
             <div className='getReply' key={i}>
               <div className='getReply-leftBox' style={{ width: '100%' }}>
                 <div className='nickName-date'>
-                  <img src={reply.memberImage} alt='프로필이미지' style={{borderRadius:'5rem', aspectRatio: '1/1'}}/>
+                  <img src={reply.memberImage} alt='프로필이미지' style={{borderRadius: '5rem', width:'auto', aspectRatio: '1/1'}}/>
                   <div className='nickName'>{reply.moimMember?.member?.nickname}</div>
                   <div className='date'>| {reply.createDate.split(' ')[0]}</div> {/* 원래 이거 {reply.createDate} */}
                 </div>
