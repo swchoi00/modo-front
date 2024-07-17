@@ -86,7 +86,7 @@ const handleMoimLikeBtn = (moimId, e) => {
                     <div key={idx} className="itembox" style={{cursor: 'pointer'}} onClick={()=>navigate(`/moim/${moim.id}/home`)}>
                       <div className='imgBox'>
                         <div className='img'
-                          style={{backgroundImage: `url(https://raw.githubusercontent.com/Jella-o312/modo-image/main/moim-img/moim${idx}.png)`}}
+                          style={{backgroundImage: `url(${moim.moimImg})`}}
                         />
                         <div className='categoryBox'>
                           <span className='category'>{moim.category}</span>

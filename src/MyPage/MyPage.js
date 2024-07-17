@@ -35,9 +35,9 @@ function MyPage({ isAuth, userInfo, setIsAuth, setUserInfo, setInquiryList, setM
       });
   
       // 내가 쓴 게시글 가져오기 (userInfo.id 로 하는게 아니라 닉네임으로 구분)
-      axiosInstance.get("/comm_getList")
+      axiosInstance.get("/getCommList")
         .then((response) => {
-          let myComm = response.data.filter(comm => comm.author === userInfo.nickname);
+          let myComm = response.data.filter(comm => comm.member.id === userInfo.id);
           setActivityData(activityData =>({...activityData, 'comm' : myComm.length})); // 내 모임 수 업데이트
         }).catch((error) => {
           console.log(error);

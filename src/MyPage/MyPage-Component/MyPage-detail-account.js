@@ -13,10 +13,11 @@ const MyPageDetailAccount = ({ userInfo, setUserInfo, setIsAuth }) => {
   const [isUpdate, setIsUpdate] = useState(false);
   const [imageUrl, setImageUrl] = useState(null);// [미리보기용] 이미지 주소 저장 경로 
   const [uploadImg, setUploadImg] = useState(null); // 모임 사진파일 저장하는 스테이트
-  const [profileImgUrl,setProfileImgUrl] = useState(userInfo?.memberImage);
+  const [profileImgUrl, setProfileImgUrl] = useState(userInfo?.memberImage);
   // const PhotoType = {MAIN: 'main', SCHEDULE: 'schedule', GALLERY: 'gallery'}; // 사진타입 정리(나중에 저장할 때 사용);
 
   const [nickNameUpdate, setNickNameUpdate] = useState(false); // 닉네임 수정 버튼 상태 
+  const [profileTextUpdate, setProfileTextUpdate] = useState(false); // 상태메시지 수정 버튼 상태 
   const [passwordUpdate, setPasswordUpdate] = useState(false); // 비밀번호 수정 버튼 상태
   const [deleteComfirm, setDeleteConfirm] = useState(false); // 삭제 컨펌 모달
 
@@ -36,27 +37,27 @@ const MyPageDetailAccount = ({ userInfo, setUserInfo, setIsAuth }) => {
 
   // [이미지] 프로필 이미지 업데이트 할 때 핸들러
   const saveImgHandler = () => {
-    if(uploadImg){
+    if (uploadImg) {
       const formData = new FormData();
       formData.append('file', uploadImg);
-      axiosInstance.post(`/userProfilePhoto/${userInfo.id}`, formData,{
-        headers:{'Content-Type': 'multipart/form-data'}
-      }).then(()=>{
+      axiosInstance.post(`/userProfilePhoto/${userInfo.id}`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      }).then(() => {
         axiosInstance.get(`/userProfilePhoto/${userInfo.id}`, {
           responseType: 'blob',
         })
-        .then((response) => {
-          const imageUrl = URL.createObjectURL(response.data);
-          setUserInfo({ ...userInfo, 'memberImage': imageUrl });
-          setProfileImgUrl(imageUrl);
-        })
+          .then((response) => {
+            const imageUrl = URL.createObjectURL(response.data);
+            setUserInfo({ ...userInfo, 'memberImage': imageUrl });
+            setProfileImgUrl(imageUrl);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      })
         .catch((error) => {
           console.log(error);
-        });
-      })
-      .catch((error)=>{
-        console.log(error);
-      })
+        })
     }
     setIsUpdate(false);
   }
@@ -91,6 +92,7 @@ const MyPageDetailAccount = ({ userInfo, setUserInfo, setIsAuth }) => {
     setNicknameOk(false)
     setUpdateData({ ...updateData, nickname: '' });
   }
+
 
   // 닉네임 입력 핸들러
   const incknameChangeHandler = (e) => {
@@ -134,7 +136,7 @@ const MyPageDetailAccount = ({ userInfo, setUserInfo, setIsAuth }) => {
       alert("*닉네임 중복확인 후 저장해주세요");
       return;
     } else {
-      let updateUserInfo = { id: userInfo.id, nickname: updateData.nickname, username: userInfo.username };
+      let updateUserInfo = { id: userInfo.id, nickname: updateData.nickname, username: userInfo.username, profileText: userInfo.profileText };
       axiosInstance.post('/updateInfo', updateUserInfo)
         .then((response) => {
           setNickNameUpdate(false);
@@ -227,23 +229,44 @@ const MyPageDetailAccount = ({ userInfo, setUserInfo, setIsAuth }) => {
   }
 
 
- // 회원 탈퇴 핸들러 (상운)
- const deleteAccountHandler = () => {
-  axiosInstance.delete(`deleteAccount/${userInfo.id}`)
-    .then((response) => {
-      alert(response.data); // 서버에서 회원 탈퇴 완료 메세지 보내주기
-      sessionStorage.removeItem('jwt');
-      sessionStorage.removeItem('userInfo');
-      sessionStorage.removeItem('myPage');
-      setUserInfo({ username: '', nickname: '' });
-      setIsAuth(false);
-      navigate('/');
-    })
-    .catch((error) => {
-      console.log(error);
-    })
-}
+  // 회원 탈퇴 핸들러 (상운)
+  const deleteAccountHandler = () => {
+    axiosInstance.delete(`deleteAccount/${userInfo.id}`)
+      .then((response) => {
+        alert(response.data); // 서버에서 회원 탈퇴 완료 메세지 보내주기
+        sessionStorage.removeItem('jwt');
+        sessionStorage.removeItem('userInfo');
+        sessionStorage.removeItem('myPage');
+        setUserInfo({ username: '', nickname: '' });
+        setIsAuth(false);
+        navigate('/');
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  }
 
+  // 상태 메세지
+  const [profileText, setProfileText] = useState(userInfo.profileText === null ? '-' : userInfo.profileText);
+  // 업데이트 할 상태 메세지 데이터
+  const [profileTextData, setProfileTextData] = useState(profileText);
+
+
+
+  const submitProfileText = () => {
+    let updateData = profileTextData.trim().length !== 0 ? profileTextData : '-';
+
+    let updateUserInfo = { id: userInfo.id, nickname: userInfo.nickname, username: userInfo.username, profileText: updateData };
+    axiosInstance.post('/updateInfo', updateUserInfo)
+      .then((response) => {
+        setProfileText(updateData);
+        setProfileTextData(updateData);
+        setProfileTextUpdate(false);
+        setUserInfo({ ...userInfo, 'profileText': updateData });
+      }).catch((error) => {
+        console.log(error);
+      });
+  }
 
 
   return (
@@ -251,7 +274,7 @@ const MyPageDetailAccount = ({ userInfo, setUserInfo, setIsAuth }) => {
       <div className='profileImg'>
         {/* 업데이트 중 상태가 아니면 프로필 이미지 업로드 (회원 가입 시 기존이미지 다 똑같이 들어가게 만들기)*/}
         <label className='imgBox' style={{ backgroundImage: isUpdate ? `url(${imageUrl})` : `url(${profileImgUrl})` }}>
-        {/* <label className='imgBox' style={{ backgroundImage: isUpdate ? `url(${imageUrl})` : `src(${userInfo})` }}> */}
+          {/* <label className='imgBox' style={{ backgroundImage: isUpdate ? `url(${imageUrl})` : `src(${userInfo})` }}> */}
           <span hidden={isUpdate}><FontAwesomeIcon icon={faCamera} size='1x' style={{ color: '#A29EBE' }} /></span>
           <input type="file" accept='image/*' onChange={onChangeImage} hidden />
         </label>
@@ -289,6 +312,32 @@ const MyPageDetailAccount = ({ userInfo, setUserInfo, setIsAuth }) => {
               :
               <span className='titleValue'>{userInfo.nickname}</span>
           }
+        </div>
+
+        <div className='nicknameBox'>
+          <div className='title'>
+            <h5>상태 메세지</h5>
+            {
+              profileTextUpdate ?
+                <div>
+                  <span className='updateBtn' onClick={submitProfileText}>저장</span>
+                  <span className='cancleBtn' onClick={() => { setProfileTextUpdate(false); setProfileTextData(profileText); }}>취소</span>
+                </div>
+                :
+                <span className='updateBtn' onClick={() => setProfileTextUpdate(true)}>수정</span>
+            }
+          </div>
+          {
+            profileTextUpdate ?
+              <div>
+                <div className='updateInput'>
+                  <input placeholder={profileTextData} id="profileText" onChange={(e) => setProfileTextData(e.target.value)} />
+                </div>
+              </div>
+              :
+              <span className='titleValue'>{profileText}</span>
+          }
+
         </div>
 
         <div className='nicknameBox'>

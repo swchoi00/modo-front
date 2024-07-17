@@ -14,19 +14,58 @@ const MoimDetailBoardScheduleReply = ({no, moimMemberInfo, setReplyCnt, particip
   const [replyText, setReplyText] = useState();
   const [replyList, setReplyList] = useState();
   const scrollRef = useRef(); // 댓글 작성 후 스크롤용
+  const [update, setUpdate] = useState(false);
 
   
+  // // 스케쥴 댓글리스트 가져오기 핸들러
+  // useEffect(()=>{
+  //   axiosInstance.get(`/moimScheduleReply/${no}`)
+  //   .then((response)=>{
+
+  //     console.log(response.data);
+  //     setReplyList(response.data);  // 댓글 리스트 저장
+  //     setReplyCnt(response.data.length);
+  //   }).catch((error)=>{
+  //     console.log(error);
+  //   })
+  // },[setReplyList, no])
+
   // 스케쥴 댓글리스트 가져오기 핸들러
-  useEffect(()=>{
-    axiosInstance.get(`/moimScheduleReply/${no}`)
-    .then((response)=>{
-      setReplyList(response.data);  // 댓글 리스트 저장
-      setReplyCnt(response.data.length);
-      // scrollToBottom(); // 댓글 로드 후 스크롤을 아래로 이동
-    }).catch((error)=>{
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      // 모임 스케쥴 정보 가져오기
+      const scheduleResponse = await axiosInstance.get(`/moimScheduleReply/${no}`);
+      let replyListDB = scheduleResponse.data;
+
+      // 이미지 URL을 가져오는 비동기 함수
+      const fetchMemberImage = async (memberList) => {
+        if (memberList.moimMember.member && memberList.moimMember.member.memberImage) {
+          try {
+            const imageResponse = await axiosInstance.get(`/userProfilePhoto/${memberList.moimMember.member.id}`, {
+              responseType: 'blob',
+            });
+            const imageUrl = URL.createObjectURL(imageResponse.data);
+            return { ...memberList, memberImage: imageUrl };
+          } catch (error) {
+            console.log(error);
+            return memberList;
+          }
+        } else {
+          return { ...memberList, memberImage: 'https://raw.githubusercontent.com/Jella-o312/modo-image/main/etc/userImgNone.svg' };
+        }
+      };
+
+      const updatedReplyList = await Promise.all(replyListDB.map(fetchMemberImage));
+
+      setReplyList(updatedReplyList);
+
+    } catch (error) {
       console.log(error);
-    })
-  },[setReplyList, no])
+    }
+  };
+  fetchData();
+}, [setReplyList, no, update]);
 
 
   // 댓글 쓸 때 마다 제일 아래로 고정되게
@@ -55,11 +94,14 @@ const MoimDetailBoardScheduleReply = ({no, moimMemberInfo, setReplyCnt, particip
         setReplyList(response.data); // 댓글 리스트 업데이트
         setReplyCnt(response.data.length);
         setReplyText('');
+        setUpdate(!update);
       }).catch((error)=>{
         console.log(error);
       })
     }
   }
+
+  
 
 //⭐⭐ 댓글 삭제 핸들러 (댓글 번호만 보내기)
 const deleteHandler=(rno)=>{
@@ -82,7 +124,7 @@ const deleteHandler=(rno)=>{
             <div className='replyBox' key={i}>
               <div className='replyHeader'>
                 <div className='memberInfo'>
-                  <div className='moimDetail-moimContent-home-member-content-img-modal' style={{backgroundImage: `url(${face})`, width: '2rem'}}>
+                  <div className='moimDetail-moimContent-home-member-content-img-modal' style={{backgroundImage: `url(${data.memberImage})`, width: '2rem'}}>
                     {data.moimMember.memberRole === 'leader' && <img className='moimDetail-moimLeaderIcon' src={leaderIcon} alt=''/>}
                     {data.moimMember.memberRole === 'manager' && <img className='moimDetail-moimManagerIcon' src={managerIcon} alt=''/>}
                   </div>

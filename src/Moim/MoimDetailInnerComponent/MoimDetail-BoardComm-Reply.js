@@ -4,46 +4,47 @@ import { faDongSign, faThumbsUp as likedIcon } from '@fortawesome/free-solid-svg
 import { faThumbsUp as unLikedIcon } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const MoimDetailBoardCommReply = ({isAuth, userInfo, id, no, setUpdateReplyCnt})=>{
-  const [postReply, setPostReply] = useState({content: '', moimCommNo : no});
+const MoimDetailBoardCommReply = ({ isAuth, userInfo, id, no, setUpdateReplyCnt }) => {
+  const [postReply, setPostReply] = useState({ content: '', moimCommNo: no });
   const [getReply, setGetReply] = useState([]);
   const [update, setUpdate] = useState(false);
   const [moimMemberInfo, setMoimMemberInfo] = useState(); // 모임 멤버 정보
   const [moimMemberRole, setMoimMemberRole] = useState(null); // 모임장, 매니저, 모임원 여부
-  const [moimMemberList,setMoimMemberList] = useState(null); // 모임멤버 리스트
-   
+  const [moimMemberList, setMoimMemberList] = useState(null); // 모임멤버 리스트
+  const [replyUpdate, setReplyUpdate] = useState(false);
+
   //모임 멤버 가져오는거
-    useEffect(()=>{
-      axiosInstance.get(`/getMoimMemberList/${id}`)
-      .then((response)=>{
+  useEffect(() => {
+    axiosInstance.get(`/getMoimMemberList/${id}`)
+      .then((response) => {
         setMoimMemberList(response.data);
-      }).catch((error)=>{
+      }).catch((error) => {
         console.log(error);
       }
-    )
-    },[id,setMoimMemberList]);
-  
-  
-    // 모임 role확인
-    useEffect(()=>{
-      const matchingMember = moimMemberList?.find(memberInfo => memberInfo.member.id === userInfo.id);
-      if(!matchingMember){ //로그인 안하거나, 회원이 아닌 경우
-        setMoimMemberRole('notMember');
-        return;
-      }
-  
-      setMoimMemberInfo(matchingMember); // 모임 멤버 엔티티 저장
-  
-      switch(matchingMember.memberRole) {
-        case 'leader' : setMoimMemberRole('leader'); break;
-        case 'manager' : setMoimMemberRole('manager'); break;
-        case 'member' : setMoimMemberRole('member'); break;
-        default:  break;
-      }
-    },[isAuth, userInfo, moimMemberList]);
-  
+      )
+  }, [id, setMoimMemberList]);
 
-  
+
+  // 모임 role확인
+  useEffect(() => {
+    const matchingMember = moimMemberList?.find(memberInfo => memberInfo.member.id === userInfo.id);
+    if (!matchingMember) { //로그인 안하거나, 회원이 아닌 경우
+      setMoimMemberRole('notMember');
+      return;
+    }
+
+    setMoimMemberInfo(matchingMember); // 모임 멤버 엔티티 저장
+
+    switch (matchingMember.memberRole) {
+      case 'leader': setMoimMemberRole('leader'); break;
+      case 'manager': setMoimMemberRole('manager'); break;
+      case 'member': setMoimMemberRole('member'); break;
+      default: break;
+    }
+  }, [isAuth, userInfo, moimMemberList]);
+
+
+
   const changeHandler = (e) => {
     const { value } = e.target;
 
@@ -59,19 +60,59 @@ const MoimDetailBoardCommReply = ({isAuth, userInfo, id, no, setUpdateReplyCnt})
     }
   }
 
-  
-  
-  useEffect(() => {
-    axiosInstance.get(`/moimReply/${no}/list`)
-      .then((response) => {
-        setGetReply(response.data);
-        setUpdateReplyCnt(response.data.length);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [no]);
 
+
+  // useEffect(() => {
+  //   axiosInstance.get(`/moimReply/${no}/list`)
+  //     .then((response) => {
+  //       setGetReply(response.data);
+  //       setUpdateReplyCnt(response.data.length);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, [no]);
+
+
+  // 댓글 리스트 가져오기
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+
+        let moimCommReplyDB = await axiosInstance.get(`/moimReply/${no}/list`);
+        let replyList = moimCommReplyDB.data;
+
+        // 이미지 URL을 가져오는 비동기 함수
+        const fetchMemberImage = async (memberList) => {
+          if (memberList.moimMember.member && memberList.moimMember.member.memberImage) {
+            try {
+              const imageResponse = await axiosInstance.get(`/userProfilePhoto/${memberList.moimMember.member.id}`, {
+                responseType: 'blob',
+              });
+              const imageUrl = URL.createObjectURL(imageResponse.data);
+              return { ...memberList, memberImage: imageUrl };
+            } catch (error) {
+              console.log(error);
+              return memberList;
+            }
+          } else {
+            return { ...memberList, memberImage: 'https://raw.githubusercontent.com/Jella-o312/modo-image/main/etc/userImgNone.svg' };
+          }
+        };
+
+        // 모든 멤버의 이미지를 병렬로 가져옴
+        const updatedMemberList = await Promise.all(replyList.map(fetchMemberImage));
+        // 정렬된 데이터를 상태에 저장
+        setGetReply(updatedMemberList);
+        setUpdateReplyCnt(updatedMemberList.length);
+
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, [no,replyUpdate]);
 
 
 
@@ -81,7 +122,7 @@ const MoimDetailBoardCommReply = ({isAuth, userInfo, id, no, setUpdateReplyCnt})
         alert("댓글을 작성해주세요.");
       }
       else {
-        const updateCommReply = { ...postReply, moimMember: {id : moimMemberInfo.id} };
+        const updateCommReply = { ...postReply, moimMember: { id: moimMemberInfo.id } };
         //console.log(updateCommReply);
         axiosInstance.post(`/moimReply/${id}`, updateCommReply)
           .then((response) => {
@@ -89,6 +130,7 @@ const MoimDetailBoardCommReply = ({isAuth, userInfo, id, no, setUpdateReplyCnt})
             setPostReply({ ...postReply, content: '' });
             fetchNewReply(); // 댓글 추가 후 업데이트
             // setUpdateReplyCnt(true);
+            setReplyUpdate(!replyUpdate);
           })
           .catch((error) => {
             console.log(error);
@@ -138,14 +180,14 @@ const MoimDetailBoardCommReply = ({isAuth, userInfo, id, no, setUpdateReplyCnt})
 
 
 
-  return(
+  return (
     <div className='CommReply'>
       <div className='postReply'>
         <div className='replyTittle'>댓글</div>
         <div className='writeReply'>
           <textarea
             className='replyInput'
-            style={{borderRadius: '0.5rem'}}
+            style={{ borderRadius: '0.5rem' }}
             value={postReply.content}
             onChange={changeHandler}
           />
@@ -156,9 +198,9 @@ const MoimDetailBoardCommReply = ({isAuth, userInfo, id, no, setUpdateReplyCnt})
         {
           getReply.map((reply, i) => (
             <div className='getReply' key={i}>
-              <div className='getReply-leftBox' style={{width: '100%'}}>
+              <div className='getReply-leftBox' style={{ width: '100%' }}>
                 <div className='nickName-date'>
-                  <img src="/static/media/face.786407e39b657bdecd13bdabee73e67b.svg" alt='프로필이미지' />
+                  <img src={reply.memberImage} alt='프로필이미지' style={{borderRadius: '5rem', width:'auto', aspectRatio: '1/1'}}/>
                   <div className='nickName'>{reply.moimMember?.member?.nickname}</div>
                   <div className='date'>| {reply.createDate.split(' ')[0]}</div> {/* 원래 이거 {reply.createDate} */}
                 </div>
@@ -167,18 +209,18 @@ const MoimDetailBoardCommReply = ({isAuth, userInfo, id, no, setUpdateReplyCnt})
                     <textarea
                       defaultValue={reply.content}
                       className='Content'
-                 
+
                       onChange={changeHandler}
                     />
                   ) : (
-                    <div className='Content'><pre style={{wordWrap: 'break-word', whiteSpace: 'pre-wrap'}}>{reply.content}</pre></div>
+                    <div className='Content'><pre style={{ wordWrap: 'break-word', whiteSpace: 'pre-wrap' }}>{reply.content}</pre></div>
                   )
                 }
                 <div className='reply-update-delete'>
                   {userInfo?.nickname === reply?.moimMember?.member.nickname ? (
                     update === reply.rno ? (
                       <>
-                        <button className='delete' onClick={() => handleUpdate(reply)}>수정완료</button>
+                        <button className='delete' onClick={() => {handleUpdate(reply); setReplyUpdate(!replyUpdate);}}>수정완료</button>
                         <button className='update' onClick={() => handleCancle()}>취소</button>
                       </>
                     ) : (
@@ -192,6 +234,7 @@ const MoimDetailBoardCommReply = ({isAuth, userInfo, id, no, setUpdateReplyCnt})
                               .then((response) => {
                                 alert(response.data);
                                 fetchNewReply(); // 댓글 삭제 후 목록 업데이트
+                                setReplyUpdate(!replyUpdate);
                               })
                               .catch((error) => {
                                 console.log(error);
@@ -220,7 +263,7 @@ const MoimDetailBoardCommReply = ({isAuth, userInfo, id, no, setUpdateReplyCnt})
             </div>
           ))}
       </div>
-      </div>
+    </div>
   )
 }
 

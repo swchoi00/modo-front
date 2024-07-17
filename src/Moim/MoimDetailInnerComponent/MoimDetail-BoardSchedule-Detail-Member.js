@@ -46,28 +46,54 @@ useEffect(() => {
 
 // 스케쥴, 참여 멤버 가져오기
 useEffect(() => {
-  axiosInstance.get(`/getMoimScheduleDetail/${no}`)
-    .then((response) => {
-      setMoimScheduleInfo(response.data); // 모임 스케쥴 정보 저장
+  const fetchData = async () => {
+    try {
+      // 모임 스케쥴 정보 가져오기
+      const scheduleResponse = await axiosInstance.get(`/getMoimScheduleDetail/${no}`);
+      setMoimScheduleInfo(scheduleResponse.data);
+
       // 모임 스케쥴 참여 멤버 가져오기
-      axiosInstance.get(`/getMoimSheduleMemberList/${no}`)
-        .then((response) => {
-          // memberRole을 기준으로 정렬 (leader -> manager -> member)
-          const sortedMembers = response.data.sort((a, b) => {
-            if (a.memberRole === 'leader') return -1;
-            if (a.memberRole === 'manager' && b.memberRole !== 'leader') return -1;
-            return 1;
-          });
-          // 정렬된 데이터를 상태에 저장
-          setMoimMemberList(sortedMembers);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    })
-    .catch((error) => {
+      const memberResponse = await axiosInstance.get(`/getMoimSheduleMemberList/${no}`);
+      let memberList = memberResponse.data;
+
+      // 이미지 URL을 가져오는 비동기 함수
+      const fetchMemberImage = async (memberList) => {
+        if (memberList.member && memberList.member.memberImage) {
+          try {
+            const imageResponse = await axiosInstance.get(`/userProfilePhoto/${memberList.member.id}`, {
+              responseType: 'blob',
+            });
+            const imageUrl = URL.createObjectURL(imageResponse.data);
+            console.log(imageUrl);
+            return { ...memberList, memberImage: imageUrl };
+          } catch (error) {
+            console.log(error);
+            return memberList;
+          }
+        } else {
+          return { ...memberList, memberImage: 'https://raw.githubusercontent.com/Jella-o312/modo-image/main/etc/userImgNone.svg' };
+        }
+      };
+
+      // 모든 멤버의 이미지를 병렬로 가져옴
+      const updatedMemberList = await Promise.all(memberList.map(fetchMemberImage));
+
+      // memberRole을 기준으로 정렬 (leader -> manager -> member)
+      const sortedMembers = updatedMemberList.sort((a, b) => {
+        if (a.memberRole === 'leader') return -1;
+        if (a.memberRole === 'manager' && b.memberRole !== 'leader') return -1;
+        return 1;
+      });
+
+      // 정렬된 데이터를 상태에 저장
+      setMoimMemberList(sortedMembers);
+
+    } catch (error) {
       console.log(error);
-    });
+    }
+  };
+
+  fetchData();
 }, [no]);
 
 
@@ -90,14 +116,14 @@ const backBtnHandler = ()=>{
       {
             moimMemberList?.map((data,i)=>(
               <div className='moimDetail-moimContent-home-member-content-modal' key={i} style={{paddingLeft: '0.3rem'}}>
-                  <div className='moimDetail-moimContent-home-member-content-img-modal' style={{backgroundImage: `url(${face})`}}>
+                  <div className='moimDetail-moimContent-home-member-content-img-modal' style={{backgroundImage: `url(${data.memberImage})`}}>
                     {data.memberRole === 'leader' && <img className='moimDetail-moimLeaderIcon' src={leaderIcon} alt=''/>}
                     {data.memberRole === 'manager' && <img className='moimDetail-moimManagerIcon' src={managerIcon} alt=''/>}
                   </div>
                   <div className='moimDetail-moimContent-home-member-content-text'>
                     {/* <div>{data.member.nickname}</div> //나중에 바꿔야함 */} 
                     <div>{data.member.nickname}</div>
-                    <span>{data.profileText}프로필 상태 글</span>
+                    <span>{data.member.profileText === null ? '-' : data.member.profileText}</span>
                   </div>
                 </div>
             ))

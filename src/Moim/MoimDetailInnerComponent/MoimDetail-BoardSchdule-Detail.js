@@ -28,19 +28,18 @@ const MoimDetailBoardScheduleDetail = ({isAuth, userInfo, moimInfo, setMoimInfo}
 
   // 🔒보안관련 (로그인 안했거나, 모임멤버 아닌경우 페이지 침입방지)
   useEffect(() => {
+    let userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+    console.log(userInfo);
     axiosInstance.get(`/getMoimMemberList/${id}`)
         .then((response) => {
           let page = window.location.href;
-          let userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
           let moimMemberList = response.data;
           let matchingMember = moimMemberList?.find(memberInfo => memberInfo.member.id === userInfo?.id); // 모임 멤버 확인
           setMoimMemberInfo(matchingMember); //모임 멤버 객체 저장 (모임 멤버라면 값 들어가고 아니면 iundifind)
-          // //console.log(matchingMember);
-      
           // 😡😡😡나중에 주소 바꿔줘야함
           if (page !== `http://localhost:3000/moim/${id}/home`) { // 모임 메인 화면이 아닌 페이지를 url로 들어올 경우 (모임 메인 화면은 비회원도 볼 수 있음)
             if(userInfo){ //로그인 상태
-                if(!matchingMember){ //모임멤버 아닌 경우
+                if(matchingMember === undefined){ //모임멤버 아닌 경우
                   alert("모임 가입 후 이용해주세요");
                   navigate(`/moim/${id}/home`);
                 }
@@ -52,7 +51,7 @@ const MoimDetailBoardScheduleDetail = ({isAuth, userInfo, moimInfo, setMoimInfo}
         }).catch((error) => {
             console.log(error);
         });
-}, [id,isAuth]);
+}, []);
 
   // 모임정보 받아오는 effect
   useEffect(()=>{
@@ -66,31 +65,82 @@ const MoimDetailBoardScheduleDetail = ({isAuth, userInfo, moimInfo, setMoimInfo}
   },[id,setMoimInfo]);
 
 
-// 스케쥴, 참여 멤버 가져오기
-  useEffect(() => {
-    axiosInstance.get(`/getMoimScheduleDetail/${no}`)
-      .then((response) => {
-        setMoimScheduleInfo(response.data); // 모임 스케쥴 정보 저장
-        // 모임 스케쥴 참여 멤버 가져오기
-        axiosInstance.get(`/getMoimSheduleMemberList/${no}`)
-          .then((response) => {
-            // memberRole을 기준으로 정렬 (leader -> manager -> member)
-            const sortedMembers = response.data.sort((a, b) => {
-              if (a.memberRole === 'leader') return -1;
-              if (a.memberRole === 'manager' && b.memberRole !== 'leader') return -1;
-              return 1;
+// // 스케쥴, 참여 멤버 가져오기
+//   useEffect(() => {
+//     axiosInstance.get(`/getMoimScheduleDetail/${no}`)
+//       .then((response) => {
+//         setMoimScheduleInfo(response.data); // 모임 스케쥴 정보 저장
+//         // 모임 스케쥴 참여 멤버 가져오기
+//         axiosInstance.get(`/getMoimSheduleMemberList/${no}`)
+//           .then((response) => {
+//             // memberRole을 기준으로 정렬 (leader -> manager -> member)
+//             const sortedMembers = response.data.sort((a, b) => {
+//               if (a.memberRole === 'leader') return -1;
+//               if (a.memberRole === 'manager' && b.memberRole !== 'leader') return -1;
+//               return 1;
+//             });
+//             // 정렬된 데이터를 상태에 저장
+//             setMoimMemberList(sortedMembers);
+//           })
+//           .catch((error) => {
+//             console.log(error);
+//           });
+//       })
+//       .catch((error) => {
+//         console.log(error);
+//       });
+//   }, [no, setMoimScheduleInfo, participationBtn]);
+
+
+  // 스케쥴, 참여 멤버 가져오기
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      // 모임 스케쥴 정보 가져오기
+      const scheduleResponse = await axiosInstance.get(`/getMoimScheduleDetail/${no}`);
+      setMoimScheduleInfo(scheduleResponse.data);
+
+      // 모임 스케쥴 참여 멤버 가져오기
+      const memberResponse = await axiosInstance.get(`/getMoimSheduleMemberList/${no}`);
+      let memberList = memberResponse.data;
+
+      // 이미지 URL을 가져오는 비동기 함수
+      const fetchMemberImage = async (memberList) => {
+        if (memberList.member && memberList.member.memberImage) {
+          try {
+            const imageResponse = await axiosInstance.get(`/userProfilePhoto/${memberList.member.id}`, {
+              responseType: 'blob',
             });
-            // 정렬된 데이터를 상태에 저장
-            setMoimMemberList(sortedMembers);
-          })
-          .catch((error) => {
+            const imageUrl = URL.createObjectURL(imageResponse.data);
+            return { ...memberList, memberImage: imageUrl };
+          } catch (error) {
             console.log(error);
-          });
-      })
-      .catch((error) => {
-        console.log(error);
+            return memberList;
+          }
+        } else {
+          return { ...memberList, memberImage: 'https://raw.githubusercontent.com/Jella-o312/modo-image/main/etc/userImgNone.svg' };
+        }
+      };
+
+      // 모든 멤버의 이미지를 병렬로 가져옴
+      const updatedMemberList = await Promise.all(memberList.map(fetchMemberImage));
+
+      // memberRole을 기준으로 정렬 (leader -> manager -> member)
+      const sortedMembers = updatedMemberList.sort((a, b) => {
+        if (a.memberRole === 'leader') return -1;
+        if (a.memberRole === 'manager' && b.memberRole !== 'leader') return -1;
+        return 1;
       });
-  }, [no, setMoimScheduleInfo, participationBtn]);
+
+      // 정렬된 데이터를 상태에 저장
+      setMoimMemberList(sortedMembers);
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  fetchData();
+}, [no, setMoimScheduleInfo, participationBtn]);
   
 
 
@@ -224,7 +274,7 @@ const scheduleHandler = ()=>{
           
             {
               moimMemberList?.slice(0, 5).map((data, i) => (
-                  <div className='moimScheduleDetail-MemberBox-memberIcon' key={i}style={{backgroundImage: `url(${face})`}}>
+                  <div className='moimScheduleDetail-MemberBox-memberIcon' key={i}style={{backgroundImage: `url(${data.memberImage})`}}>
                     {data.memberRole === 'leader' && <img className='moimDetail-moimLeaderIcon' src={leaderIcon} alt=''/>}
                     {data.memberRole === 'manager' && <img className='moimDetail-moimManagerIcon' src={managerIcon} alt=''/>}
                   </div>
