@@ -20,7 +20,6 @@ const MyPageDetailSchedule = ({ userInfo, setMyPageDetail, pageType }) => {
     axiosInstance.get(`/joinScheduleList/${id}`)
       .then((response) => {
         let allSchedules = response.data;
-
         axiosInstance.get(`/getUserIdMoimMemberList/${id}`)
           .then((response) => {
             let memberIds = response.data;
@@ -75,7 +74,6 @@ const MyPageDetailSchedule = ({ userInfo, setMyPageDetail, pageType }) => {
     return dday;
   };
 
-
   return (
     <div id="myPageSchedule">
       <div className='categoryBox'>
@@ -98,7 +96,7 @@ const MyPageDetailSchedule = ({ userInfo, setMyPageDetail, pageType }) => {
                   <div className="schedulePhoto" style={{ backgroundImage: `url(${imsiImg})` }} />
                   <div className="scheduleContent">
                     <div className='scheduleName'>{data.scheduleName}</div>
-                    {data?.scheduleEndDate === undefined ? 
+                    {data?.scheduleEndDate === null ? 
                       <div className='moimDetail-moimContent-board-schedule-content-data'>
                         <span>일시</span><div>{moment(data.scheduleStartDate).format(dateFormat, 'ko')} &nbsp;{data.scheduleStartTime} ~ {data.scheduleEndTime}</div>
                       </div>

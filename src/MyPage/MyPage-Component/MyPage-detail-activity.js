@@ -21,9 +21,27 @@ const MyPageDetailActivity = ({userInfo, pageType, isAuth, setUserInfo,currentPa
   useEffect (()=>{
     // 모임 리스트 받아서 내 모임 찾기 , 관심 모임 찾기
     axiosInstance.get("/moimList")
-    .then((response) => {
-      setMyMoimData(response.data.filter(moim =>moim.members.some(data => data.member.id === userInfo.id)));
-      setLikeMoimData(response.data.filter(moim => userInfo?.likedMoim.includes(moim.id)));
+    .then(async (response) => {
+      let moimList = response.data;
+
+      // 이미지 URL을 가져오는 비동기 함수
+      const fetchMoimImage = async (moim) => {
+        try {
+          const imageResponse = await axiosInstance.get(`/getMoimThumbnail/${moim.id}`, {
+            responseType: 'blob',
+          });
+          const imageUrl = URL.createObjectURL(imageResponse.data);
+          return { ...moim, moimImg: imageUrl };
+        } catch (error) {
+          console.log(error);
+          return moim;
+        }
+      };
+
+      // 모든 모임의 이미지를 병렬로 가져옴
+      const updatedMoimList = await Promise.all(moimList.map(fetchMoimImage));
+      setMyMoimData(updatedMoimList.filter(moim =>moim.members.some(data => data.member.id === userInfo.id)));
+      setLikeMoimData(updatedMoimList.filter(moim => userInfo?.likedMoim.includes(moim.id)));
     })
     .catch((error) => {
         console.log(error);
@@ -46,6 +64,7 @@ const MyPageDetailActivity = ({userInfo, pageType, isAuth, setUserInfo,currentPa
       console.log(error);
     })
   },[userInfo,pageTypeNow]);
+
 
 
 

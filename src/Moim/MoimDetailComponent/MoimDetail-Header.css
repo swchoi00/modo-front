@@ -73,7 +73,7 @@
 @media screen and (max-width: 875px){
   .moimDetail-headerContainer{
     position: sticky;
-    top: 3.3rem;
+    top: 2.5rem;
     z-index: 10;
    }
 
