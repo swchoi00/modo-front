@@ -68,25 +68,66 @@ const MoimDetailBoardCommDetail = ({ isAuth, userInfo,setMoimPageRef }) => {
 
 
   // 게시글 가져오기
-  useEffect(() => {
+  // useEffect(() => {
+  //   axiosInstance.get(`/getMoimCommDetail/${no}`)
+  //     .then((response) => {
+  //       setComm(response.data);
+  //       setUpdateMoimComm(response.data);
+
+  //       // 게시물 내용에서 이미지 URL 추출
+  //       const content = response.data.content;
+  //       const tempDiv = document.createElement('div');
+  //       tempDiv.innerHTML = content;
+  //       const imgs = tempDiv.getElementsByTagName('img');
+  //       const imgUrls = Array.from(imgs).map(img => img.src);
+  //       setUploadedImages(imgUrls);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, [no, setComm]);
+
+   // 게시글 가져오기
+   useEffect(() => {
     axiosInstance.get(`/getMoimCommDetail/${no}`)
       .then((response) => {
-        setComm(response.data);
-        setUpdateMoimComm(response.data);
-
+        let moimCommDB = response.data;
         // 게시물 내용에서 이미지 URL 추출
-        const content = response.data.content;
+        const content = moimCommDB.content;
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = content;
         const imgs = tempDiv.getElementsByTagName('img');
         const imgUrls = Array.from(imgs).map(img => img.src);
         setUploadedImages(imgUrls);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+
+
+        if (moimCommDB.moimMember.member.memberImage !== null) {
+          axiosInstance.get(`/userProfilePhoto/${moimCommDB.moimMember.member.id}`, {
+            responseType: 'blob',
+          })
+            .then((response) => {
+              const imageUrl = URL.createObjectURL(response.data);
+              moimCommDB = ({ ...moimCommDB, authoridImg: imageUrl });
+              setComm(moimCommDB);
+          setUpdateMoimComm(moimCommDB);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        } else {
+          moimCommDB = ({ ...moimCommDB, authoridImg: 'https://raw.githubusercontent.com/Jella-o312/modo-image/main/etc/userImgNone.svg' });
+          setComm(moimCommDB);
+          setUpdateMoimComm(moimCommDB);
+        }
+
+
+
+      }).catch((error)=>console.log(error));
   }, [no, setComm]);
 
+
+
+  
   const moimCommDetailHandler = (e) => {
     let menu = e.target.textContent;
 
@@ -141,7 +182,6 @@ const MoimDetailBoardCommDetail = ({ isAuth, userInfo,setMoimPageRef }) => {
     }
   }
 
-  //console.log(commReply);
 
 
   return (
@@ -163,7 +203,8 @@ const MoimDetailBoardCommDetail = ({ isAuth, userInfo,setMoimPageRef }) => {
               <div style={{ margin: '0 7px', color: '#e6e6e6' }}> | </div>
               <div>{comm.uploadDate}</div>
               <div style={{ margin: '0 7px', color: '#e6e6e6' }}> | </div>
-              <div><img src="/static/media/face.786407e39b657bdecd13bdabee73e67b.svg" alt="face icon" /></div>
+              <div><img src={comm.authoridImg} alt="face icon" style={{borderRadius:'5rem'}}/></div>
+              {/* <div><img src={userInfo.memberImage} alt="User Profile"/></div> */}
               <div>{comm.moimMember.member.nickname}</div>
             </div>
             <div className='view-reply'>

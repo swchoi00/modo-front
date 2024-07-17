@@ -401,14 +401,14 @@ const moimManagerHandler=(memberId, memberName, memberRole)=>{
             // imsiMemberData.slice(0, 4).map((data, i) => (
             moimMemberList?.map((data, i) => (
               <div className='moimDetail-moimContent-home-member-content' key={i}>
-                <div className='moimDetail-moimContent-home-member-content-img' style={{backgroundImage: `url(${face})`}}>
+                <div className='moimDetail-moimContent-home-member-content-img' style={{backgroundImage: `url(${data.memberImage})`}}>
                   {data.memberRole === 'leader' && <img className='moimDetail-moimLeaderIcon' src={leaderIcon} alt=''/>}
                   {data.memberRole === 'manager' && <img className='moimDetail-moimManagerIcon' src={managerIcon} alt=''/>}
                   {/* <img className='moimDetail-moimMember-img' src={face} alt=''/> */}
                 </div>
                 <div className='moimDetail-moimContent-home-member-content-text'>
                   <div>{data.member.nickname}</div>
-                  <span>임시 프로필 상태 글</span>
+                  <span>{data.member.profileText === null ? '-' : data.member.profileText}</span>
                 </div>
 
                 {// 여긴 모바일 일때만 보임
@@ -457,13 +457,13 @@ const moimManagerHandler=(memberId, memberName, memberRole)=>{
           {
             moimMemberList?.map((data,i)=>(
               <div className='moimDetail-moimContent-home-member-content-modal' key={i}>
-                  <div className='moimDetail-moimContent-home-member-content-img-modal' style={{backgroundImage: `url(${face})`}}>
+                  <div className='moimDetail-moimContent-home-member-content-img-modal' style={{backgroundImage: `url(${data.memberImage})`}}>
                     {data.memberRole === 'leader' && <img className='moimDetail-moimLeaderIcon' src={leaderIcon} alt=''/>}
                     {data.memberRole === 'manager' && <img className='moimDetail-moimManagerIcon' src={managerIcon} alt=''/>}
                   </div>
                   <div className='moimDetail-moimContent-home-member-content-text'>
                     <div>{data.member.nickname}</div>
-                    <span>{data.profileText}프로필 상태 글</span>
+                    <span>{data.member.profileText === null ? '-' : data.member.profileText}</span>
                   </div>
                   
                   {

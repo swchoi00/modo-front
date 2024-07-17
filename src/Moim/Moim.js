@@ -43,22 +43,57 @@ const Moim = ({isAuth, userInfo,setUserInfo, categoryCheck, setCategoryCheck}) =
   }
   
 
-  //모임 리스트 받아오는 이펙트
-  useEffect (()=>{
-    axiosInstance.get("/moimList")
-    .then((response) => {
-      setMoimList(response.data);
-      setFilterMoimList(response.data);
-      if(isAuth){
-        setMyMoim(response.data.filter(moim =>moim.members.some(data => data.member.id === userInfo.id)));
-      }
-    })
-    .catch((error) => {
-        console.log(error);
-    });
-  },[isAuth]);
+  // //모임 리스트 받아오는 이펙트
+  // useEffect (()=>{
+  //   axiosInstance.get("/moimList")
+  //   .then((response) => {
+  //     setMoimList(response.data);
+  //     setFilterMoimList(response.data);
+  //     if(isAuth){
+  //       setMyMoim(response.data.filter(moim =>moim.members.some(data => data.member.id === userInfo.id)));
+  //     }
+  //   })
+  //   .catch((error) => {
+  //       console.log(error);
+  //   });
+  // },[isAuth]);
 
+  useEffect(() => {
+    axiosInstance.get("/moimList")
+      .then(async (response) => {
+        let moimList = response.data;
   
+        // 이미지 URL을 가져오는 비동기 함수
+        const fetchMoimImage = async (moim) => {
+          try {
+            const imageResponse = await axiosInstance.get(`/getMoimThumbnail/${moim.id}`, {
+              responseType: 'blob',
+            });
+            const imageUrl = URL.createObjectURL(imageResponse.data);
+            return { ...moim, moimImg: imageUrl };
+          } catch (error) {
+            console.log(error);
+            return moim;
+          }
+        };
+  
+        // 모든 모임의 이미지를 병렬로 가져옴
+        const updatedMoimList = await Promise.all(moimList.map(fetchMoimImage));
+        setMoimList(updatedMoimList);
+        setFilterMoimList(updatedMoimList);
+  
+        if (isAuth) {
+          setMyMoim(updatedMoimList.filter(moim => 
+            moim.members.some(data => data.member.id === userInfo.id)
+          ));
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [isAuth, userInfo.id]);
+
+
 
   // 필터 데이터에 값이 추가될 때마다 filterMoimList 값 업데이트
   useEffect(() => {

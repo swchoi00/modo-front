@@ -63,7 +63,7 @@ function Login({ userInfo, setUserInfo, setIsAuth }) {
 
         const jwt = response.headers.authorization;
         let userInfo = response.data.member[0];
-        
+        // setUserInfo(userInfo);
         //프로필 이미지 받아오기
         if(userInfo.memberImage !== null){
           axiosInstance.get(`/userProfilePhoto/${userInfo.id}`, {

@@ -21,6 +21,7 @@ const CommDetail = ({ isAuth, userInfo }) => {
   useEffect(() => {
     axiosInstance.get(`/comm/${id}`)
       .then((response) => {
+        console.log(response.data);
         setComm(response.data);
         setUpdateComm(response.data);
          // 게시물 내용에서 이미지 URL 추출
@@ -35,6 +36,46 @@ const CommDetail = ({ isAuth, userInfo }) => {
         console.log(error);
       });
   }, [id]);
+
+
+// 게시글 가져오기
+// useEffect(() => {
+//   axiosInstance.get(`/comm/${id}`)
+//     .then((response) => {
+//       let commDB = response.data;
+//       // 게시물 내용에서 이미지 URL 추출
+//       const content = commDB.content;
+//       const tempDiv = document.createElement('div');
+//       tempDiv.innerHTML = content;
+//       const imgs = tempDiv.getElementsByTagName('img');
+//       const imgUrls = Array.from(imgs).map(img => img.src);
+//       setUploadedImages(imgUrls);
+
+
+//       if (commDB.member.memberImage !== null) {
+//         axiosInstance.get(`/userProfilePhoto/${commDB.moimMember.member.id}`, {
+//           responseType: 'blob',
+//         })
+//           .then((response) => {
+//             const imageUrl = URL.createObjectURL(response.data);
+//             commDB = ({ ...commDB, authoridImg: imageUrl });
+//             setComm(commDB);
+//         setUpdateMoimComm(commDB);
+//           })
+//           .catch((error) => {
+//             console.log(error);
+//           });
+//       } else {
+//         commDB = ({ ...commDB, authoridImg: 'https://raw.githubusercontent.com/Jella-o312/modo-image/main/etc/userImgNone.svg' });
+//         setComm(commDB);
+//         setUpdateMoimComm(commDB);
+//       }
+
+
+
+//     }).catch((error)=>console.log(error));
+// }, [no, setComm]);
+
 
   useEffect(() => {
     if (updateReplyCnt) {

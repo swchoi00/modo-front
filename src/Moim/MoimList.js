@@ -73,13 +73,13 @@ const MoimList = ({isAuth, moimList, userInfo,setUserInfo}) =>{
           const isLiked = likedMoims.includes(data.id); //🔥엔티티값이 다름 (member.likedMoim은 String, data.id는 숫자)🔥
 
            // ⭐각 항목마다 랜덤 숫자 생성
-           const imageNumber = getRandomImageNumber();
+          //  const imageNumber = getRandomImageNumber();
           return (
             <div className='moim-content-box' key={data.id} onClick={()=>navigate(`/moim/${data.id}/home`)}>
               <div className='moim-content-box-img'
                 style={{
-                  backgroundImage: `url(https://raw.githubusercontent.com/Jella-o312/modo-image/main/moim-img/moim${imageNumber}.png)` 
-                  // backgroundImage: `url(${data.moimPhoto.moimPhotoUrl})`
+                  // backgroundImage: `url(https://raw.githubusercontent.com/Jella-o312/modo-image/main/moim-img/moim${imageNumber}.png)` 
+                  backgroundImage: `url(${data.moimImg})`
                   , opacity: '0.85'
                 }}>
                 <div className='moim-content-box-categoryBack'>
